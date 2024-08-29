@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { UserProfile } from '../../models/users';
 
 @Component({
   selector: 'app-channel-create',
@@ -15,6 +16,9 @@ export class ChannelCreateComponent implements OnInit {
     name: '',
     description: '',
   };
+
+  keywords: UserProfile[] = [];
+  contents: UserProfile[] = [];
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService
@@ -22,12 +26,32 @@ export class ChannelCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getAllUsers();
+    this.keywords = this.userService.allUsers;
     if (isPlatformBrowser(this.platformId)) {
       this.closeCard();
       this.nextForm();
     }
   }
 
+  setUserSearchBar() {
+    const inputBox = <HTMLInputElement>document.getElementById('input-box');
+    inputBox?.addEventListener('keyup', () => {
+      let result: any[] = [];
+      let input = inputBox.value;
+      if (input.length) {
+        result = this.keywords.filter((keyword) => {
+          return keyword.name.firstName
+            .toLowerCase()
+            .includes(input.toLowerCase());
+        });
+      }
+      this.display(result);
+    });
+  }
+
+  display(result: any[]) {
+    this.contents = result;
+  }
   closeCard() {
     const cardClose = document.getElementById('card-close');
     cardClose?.addEventListener('click', () => {

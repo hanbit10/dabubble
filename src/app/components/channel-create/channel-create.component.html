@@ -43,19 +43,23 @@
               <input type="text" id="input-box" placeholder="Search anything" autocomplete="off">
             </div>
           </div>
-          <!-- 
+
           @if(contents.length > 0) {
           <div id="result-box" class="result-box">
             <ul>
               @for(content of contents; track content) {
-              <li (click)="saveToChosen(content)">
+              <!-- <li (click)="saveToChosen(content)">
                 <img class="content-profile" src={{content.avatar}} alt="">
+                {{content.name.firstName}}
+              </li> -->
+              <li>
+                <!-- <img class="content-profile" src={{content.avatar}} alt=""> -->
                 {{content.name.firstName}}
               </li>
               }
             </ul>
           </div>
-          } -->
+          }
         </div>
         <div class="button-container">
           <div id="next-form" class="button">Weiter</div>
