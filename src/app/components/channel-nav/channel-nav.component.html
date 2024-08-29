@@ -1,2 +1,7 @@
 <div>channel <button (click)="createChannel()">add channel</button></div>
 <div [routerLink]="['channels']">link to channel</div>
+@for(user of this.userService.allUsers; track user) {
+<div>
+  {{user.name.firstName}}
+</div>
+}

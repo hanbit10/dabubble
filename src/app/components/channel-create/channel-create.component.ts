@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-channel-create',
@@ -14,9 +15,13 @@ export class ChannelCreateComponent implements OnInit {
     name: '',
     description: '',
   };
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public userService: UserService
+  ) {}
 
   ngOnInit(): void {
+    this.userService.getAllUsers();
     if (isPlatformBrowser(this.platformId)) {
       this.closeCard();
       this.nextForm();

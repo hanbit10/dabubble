@@ -4,6 +4,7 @@ import {
   collection,
   Firestore,
   getDocs,
+  onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
 
@@ -30,6 +31,7 @@ export class UserService {
     profileImage: '',
     uid: '',
   };
+  allUsers: UserProfile[] = [];
   constructor() {}
 
   async addUser() {
@@ -39,15 +41,20 @@ export class UserService {
   }
 
   async getAllUsers() {
-    let allUsers: UserProfile[] = [];
+    // const docRef = collection(this.firestore, 'users');
+    // const querySnapshot = await getDocs(docRef);
+    // querySnapshot.forEach((doc) => {
+    //   const userData = doc.data() as UserProfile;
+    //   this.allUsers.push(userData);
+    // });
     const docRef = collection(this.firestore, 'users');
-    const querySnapshot = await getDocs(docRef);
-    querySnapshot.forEach((doc) => {
-      const userData = doc.data() as UserProfile;
-      allUsers.push(userData);
+    const querySnapshots = onSnapshot(docRef, (querySnapshot) => {
+      this.allUsers = [];
+      querySnapshot.forEach((doc) => {
+        const userData = doc.data() as UserProfile;
+        this.allUsers.push(userData);
+      });
     });
-
-    console.log(allUsers);
-    return allUsers;
+    console.log(this.allUsers);
   }
 }
