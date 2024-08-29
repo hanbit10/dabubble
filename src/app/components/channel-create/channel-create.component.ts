@@ -19,6 +19,7 @@ export class ChannelCreateComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.closeCard();
+      this.nextForm();
     }
   }
 
@@ -38,5 +39,27 @@ export class ChannelCreateComponent implements OnInit {
   createChannel(channelForm: NgForm) {
     if (channelForm.valid) {
     }
+  }
+
+  nextForm() {
+    const nextForm = document.getElementById('next-form');
+    const firstForm = document.getElementById('first-form');
+    const secondForm = document.getElementById('second-form');
+    const channelSubmit = <HTMLButtonElement>(
+      document.getElementById('channel-submit')
+    );
+    const cardTitle = document.getElementById('card-title');
+    const cardDescription = document.getElementById('card-description');
+
+    nextForm?.addEventListener('click', () => {
+      firstForm?.classList.add('hidden');
+      secondForm?.classList.remove('hidden');
+      nextForm.classList.add('d-none');
+      channelSubmit.classList.remove('d-none');
+      if (cardTitle && cardDescription) {
+        cardTitle.innerHTML = 'Leute hinzufügen';
+        cardDescription.innerHTML = '';
+      }
+    });
   }
 }
