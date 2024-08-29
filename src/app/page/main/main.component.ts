@@ -15,6 +15,7 @@ import { ChannelNavComponent } from '../../components/channel-nav/channel-nav.co
 import { ChannelCreateComponent } from '../../components/channel-create/channel-create.component';
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
 import { UserService } from '../../services/user.service';
+import { UserProfile } from '../../models/users';
 
 @Component({
   selector: 'app-main',
@@ -41,7 +42,12 @@ export class MainComponent implements OnInit {
     private route: ActivatedRoute,
     public userService: UserService
   ) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const allUsers: Promise<UserProfile[]> = this.userService.getAllUsers();
+    allUsers.then((users) => {
+      console.log('users', users);
+    });
+  }
 
   addUser() {
     this.userService.addUser();
