@@ -16,4 +16,6 @@ import {
 export class ChannelService {
   firestore: Firestore = inject(Firestore);
   constructor() {}
+
+  async createNewChannel() {}
 }
