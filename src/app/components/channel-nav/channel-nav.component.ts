@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class ChannelNavComponent {
   createChannel() {
-    const createChannel = document.getElementById('create-channel');
+    const createChannel = document.getElementById('channel-create');
     if (createChannel) {
       createChannel.classList.remove('hidden');
     }

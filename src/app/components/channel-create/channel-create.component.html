@@ -1,1 +1,75 @@
-<p>channel-create works!</p>
+<div class="container">
+  <div class="content">
+    <div class="card-title">
+      <h2 id="card-title">Channel erstellen</h2>
+      <div class="card-close" id="card-close"></div>
+    </div>
+    <div id="card-description" class="card-description">Channels dienen deinem Team zur Kommunikation. Am besten sollten
+      sie themenbezogen
+      sein #marketing zum Beispiel.
+    </div>
+
+    <section class="input-section">
+      <!-- <form id="channel-form" class="channel-form" (ngSubmit)="createChannel(channelForm)" #channelForm="ngForm">
+        <div id="first-form" class="first-form">
+          <label for="channel-name">Channel-Name</label>
+          <div class="input-container" tabindex="0">
+            <input id="channel-name" name="channel-name" type="text" placeholder="z.B. Kooperationsprojekte"
+              [(ngModel)]="newChannel.name" autocomplete="off">
+          </div>
+          <label for="channel-description">Beschreibung (optional)</label>
+          <div class="input-container">
+
+            <input id="channel-description" name="channel-description" type="text"
+              placeholder="Enter Channel Description" [(ngModel)]="newChannel.description" autocomplete="off">
+          </div>
+
+        </div>
+        <div id="second-form" class="second-form hidden">
+          <div class="radio-container">
+            <input class="chose-button" id="chose-all" type="radio" name="chose-user">
+            <label class="btn1" for="chose-all"></label>
+            <div>Alle Mitglieder von OfficeTeam hinzufügen</div>
+          </div>
+          <div class="radio-container">
+            <input class="chose-button" id="chose-users" type="radio" name="chose-user">
+            <label class="btn1" for="chose-users"></label>
+            <div>Bestimmte Leute hinzufügen</div>
+          </div>
+          <div id="input-container" class="input-container hidden">
+            <div class="search-bar">
+              @if(chosen){
+              @for(chosed of chosen; track chosed) {
+              <div class="chosed-user">
+                <img class="chosed-profile" src={{chosed.avatar}} alt="">
+                {{chosed.name.firstName}}
+                <div class="chosed-close" (click)="removeFromChosen(chosed)"></div>
+              </div>
+              }
+              }
+              <input type="text" id="input-box" placeholder="Search anything" autocomplete="off">
+            </div>
+          </div>
+
+          @if(contents.length > 0) {
+          <div id="result-box" class="result-box">
+            <ul>
+              @for(content of contents; track content) {
+              <li (click)="saveToChosen(content)">
+                <img class="content-profile" src={{content.avatar}} alt="">
+                {{content.name.firstName}}
+              </li>
+              }
+            </ul>
+          </div>
+          }
+        </div>
+        <div class="button-container">
+          <div id="next-form" class="button">Weiter</div>
+          <button id="channel-submit" class="button d-none" type="submit">Erstellen</button>
+        </div>
+
+      </form> -->
+    </section>
+  </div>
+</div>

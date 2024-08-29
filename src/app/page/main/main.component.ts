@@ -11,6 +11,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from '../../components/header/header.component';
+import { ChannelNavComponent } from '../../components/channel-nav/channel-nav.component';
+import { ChannelCreateComponent } from '../../components/channel-create/channel-create.component';
+import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
 
 @Component({
   selector: 'app-main',
@@ -24,6 +27,9 @@ import { HeaderComponent } from '../../components/header/header.component';
     MatSidenavModule,
     MatToolbarModule,
     HeaderComponent,
+    ChannelNavComponent,
+    ChannelCreateComponent,
+    DirectNavComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
