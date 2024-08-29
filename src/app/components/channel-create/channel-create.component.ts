@@ -50,7 +50,6 @@ export class ChannelCreateComponent implements OnInit {
     );
     const cardTitle = document.getElementById('card-title');
     const cardDescription = document.getElementById('card-description');
-
     nextForm?.addEventListener('click', () => {
       firstForm?.classList.add('hidden');
       secondForm?.classList.remove('hidden');
