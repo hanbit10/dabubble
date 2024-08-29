@@ -10,6 +10,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-main',
@@ -22,6 +23,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatButtonModule,
     MatSidenavModule,
     MatToolbarModule,
+    HeaderComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
