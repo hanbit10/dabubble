@@ -7,14 +7,16 @@
           <div class="logo-container">
             <h2>This is logo contianer</h2>
             Hello lets check if nunito worked
-            <h3>Lets check again</h3>
+            <h3>Lets check</h3>
           </div>
           <ul class="menu-item">
-            <!-- <app-direct-message></app-direct-message>
-            <app-test-channel></app-test-channel> -->
+
+
             <button mat-icon-button (click)="drawer.toggle()">
               <mat-icon class="menu-icon">menu</mat-icon>
             </button>
+            <app-channel-nav></app-channel-nav>
+            <app-direct-nav></app-direct-nav>
           </ul>
         </div>
       </section>
@@ -26,4 +28,4 @@
   </mat-drawer-container>
 
 </div>
-<!-- <app-create-channel id="create-channel" class="hidden"></app-create-channel> -->
+<app-channel-create id="channel-create" class="hidden"></app-channel-create>
