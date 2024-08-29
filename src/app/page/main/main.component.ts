@@ -14,6 +14,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ChannelNavComponent } from '../../components/channel-nav/channel-nav.component';
 import { ChannelCreateComponent } from '../../components/channel-create/channel-create.component';
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-main',
@@ -35,6 +36,14 @@ import { DirectNavComponent } from '../../components/direct-nav/direct-nav.compo
   styleUrl: './main.component.scss',
 })
 export class MainComponent implements OnInit {
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public userService: UserService
+  ) {}
   ngOnInit(): void {}
+
+  addUser() {
+    this.userService.addUser();
+  }
 }
