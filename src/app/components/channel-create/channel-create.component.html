@@ -10,7 +10,7 @@
     </div>
 
     <section class="input-section">
-      <!-- <form id="channel-form" class="channel-form" (ngSubmit)="createChannel(channelForm)" #channelForm="ngForm">
+      <form id="channel-form" class="channel-form" (ngSubmit)="createChannel(channelForm)" #channelForm="ngForm">
         <div id="first-form" class="first-form">
           <label for="channel-name">Channel-Name</label>
           <div class="input-container" tabindex="0">
@@ -19,13 +19,11 @@
           </div>
           <label for="channel-description">Beschreibung (optional)</label>
           <div class="input-container">
-
             <input id="channel-description" name="channel-description" type="text"
               placeholder="Enter Channel Description" [(ngModel)]="newChannel.description" autocomplete="off">
           </div>
-
         </div>
-        <div id="second-form" class="second-form hidden">
+        <!-- <div id="second-form" class="second-form hidden">
           <div class="radio-container">
             <input class="chose-button" id="chose-all" type="radio" name="chose-user">
             <label class="btn1" for="chose-all"></label>
@@ -63,13 +61,12 @@
             </ul>
           </div>
           }
-        </div>
+        </div> -->
         <div class="button-container">
           <div id="next-form" class="button">Weiter</div>
           <button id="channel-submit" class="button d-none" type="submit">Erstellen</button>
         </div>
-
-      </form> -->
+      </form>
     </section>
   </div>
 </div>

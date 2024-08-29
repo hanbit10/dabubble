@@ -1,14 +1,19 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-channel-create',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './channel-create.component.html',
   styleUrl: './channel-create.component.scss',
 })
 export class ChannelCreateComponent implements OnInit {
+  newChannel: any = {
+    name: '',
+    description: '',
+  };
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
@@ -29,4 +34,9 @@ export class ChannelCreateComponent implements OnInit {
   }
 
   resetCard() {}
+
+  createChannel(channelForm: NgForm) {
+    if (channelForm.valid) {
+    }
+  }
 }
