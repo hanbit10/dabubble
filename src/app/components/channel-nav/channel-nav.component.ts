@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-channel-nav',
@@ -8,7 +9,11 @@ import { RouterModule } from '@angular/router';
   templateUrl: './channel-nav.component.html',
   styleUrl: './channel-nav.component.scss',
 })
-export class ChannelNavComponent {
+export class ChannelNavComponent implements OnInit {
+  constructor(public userService: UserService) {}
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
+  }
   createChannel() {
     const createChannel = document.getElementById('channel-create');
     if (createChannel) {
