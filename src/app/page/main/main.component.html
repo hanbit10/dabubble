@@ -1,0 +1,29 @@
+<div class="container">
+  <app-header></app-header>
+  <mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer mode="side" [opened]="true">
+      <section class="sidenav-container">
+        <div class="sidenav">
+          <div class="logo-container">
+            <h2>This is logo contianer</h2>
+            Hello lets check if nunito worked
+            <h3>Lets check again</h3>
+          </div>
+          <ul class="menu-item">
+            <!-- <app-direct-message></app-direct-message>
+            <app-test-channel></app-test-channel> -->
+            <button mat-icon-button (click)="drawer.toggle()">
+              <mat-icon class="menu-icon">menu</mat-icon>
+            </button>
+          </ul>
+        </div>
+      </section>
+    </mat-drawer>
+    <div class="router-container">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-drawer-container>
+
+</div>
+<!-- <app-create-channel id="create-channel" class="hidden"></app-create-channel> -->
