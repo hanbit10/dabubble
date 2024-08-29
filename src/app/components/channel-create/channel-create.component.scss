@@ -46,9 +46,9 @@
   background-position: center;
   background-size: 40px 40px;
   cursor: pointer;
-  &:hover {
-    // background-image: url("./../../../assets/img/icons/material-symbols/close-hover.svg");
-  }
+  // &:hover {
+  //   // background-image: url("./../../../assets/img/icons/material-symbols/close-hover.svg");
+  // }
 }
 
 .input-section {
@@ -137,9 +137,9 @@
     background-position: center;
     background-size: 20px 20px;
     cursor: pointer;
-    &:hover {
-      // background-image: url("./../../../assets/img/icons/material-symbols/close-hover.svg");
-    }
+    // &:hover {
+    //   // background-image: url("./../../../assets/img/icons/material-symbols/close-hover.svg");
+    // }
   }
 }
 
@@ -237,9 +237,9 @@
   cursor: pointer;
 }
 
-.chose-button:checked + label.btn1 {
-  // background-image: url("./../../../assets/img/icons/material-symbols/radio-button-checked.svg");
-}
+// .chose-button:checked + label.btn1 {
+//   // background-image: url("./../../../assets/img/icons/material-symbols/radio-button-checked.svg");
+// }
 
 .content-profile {
   width: 100%;

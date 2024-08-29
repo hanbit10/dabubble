@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-direct-nav',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './direct-nav.component.html',
-  styleUrl: './direct-nav.component.scss'
+  styleUrl: './direct-nav.component.scss',
 })
-export class DirectNavComponent {
-
-}
+export class DirectNavComponent {}

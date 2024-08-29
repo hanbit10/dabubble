@@ -36,7 +36,5 @@ import { DirectNavComponent } from '../../components/direct-nav/direct-nav.compo
 })
 export class MainComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) {}
-  ngOnInit(): void {
-    throw new Error('Method not implemented.');
-  }
+  ngOnInit(): void {}
 }

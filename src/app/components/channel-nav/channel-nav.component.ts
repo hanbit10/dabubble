@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-channel-nav',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './channel-nav.component.html',
   styleUrl: './channel-nav.component.scss',
 })
