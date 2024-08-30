@@ -15,12 +15,16 @@
         <input class="login-input" type="email" placeholder="beispielname@email.com">
         <input class="login-input" type="password" placeholder="Passwort">
         <span>Passwort vergessen?</span>
-        <div class="line"></div>
-        <span>ODER</span>
-        <div class="line"></div>
+        <div class="divide-login">
+            <div class="line"></div>
+            <span>ODER</span>
+            <div class="line"></div>
+        </div>
         <input class="login-input" type="text" placeholder="Anmelden mit Google">
-        <button>Anmelden</button>
-        <button>Gäste-Login</button>
+        <div class="buttoncontainer">
+            <button>Anmelden</button>
+            <button [routerLink]="['/main']">Gäste-Login</button>
+        </div>
     </main>
     <footer>
         <span>Impressum</span>
