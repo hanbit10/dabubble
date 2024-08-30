@@ -1,1 +1,34 @@
-<p>login works!</p>
+<div class="log-in">
+    <header>
+        <div class="logocontainer">
+            <img src="/assets/img/logo/da-bubble-logo.svg" alt="logo">
+            <span>DABubble</span>
+        </div>
+        <div class="header-end">
+            <span>Neu bei DABubble?</span>
+            <span>Konto erstellen</span>
+        </div>
+    </header>
+    <main>
+        <h1>Anmeldung</h1>
+        <p>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
+        <input class="login-input" type="email" placeholder="beispielname@email.com">
+        <input class="login-input" type="password" placeholder="Passwort">
+        <span>Passwort vergessen?</span>
+        <div class="divide-login">
+            <div class="line"></div>
+            <span>ODER</span>
+            <div class="line"></div>
+        </div>
+        <input class="login-input" type="text" placeholder="Anmelden mit Google">
+        <div class="buttoncontainer">
+            <button>Anmelden</button>
+            <button [routerLink]="['/main']">Gäste-Login</button>
+        </div>
+    </main>
+    <footer>
+        <span>Impressum</span>
+        <span>Datenschutz</span>
+    </footer>
+
+</div>
