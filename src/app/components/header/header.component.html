@@ -1,18 +1,35 @@
 <div class="container">
-  <div class="content">
+  <div class="header-content">
     <section class="logo-section">
-      <div class="logo">
-        <img src="./assets/img/logo/da-bubble-logo.svg" alt="" />
-      </div>
+      <img src="./assets/img/logo/dabubble-logo&text.svg" alt="" />
     </section>
+
     <section class="search-section">
-      <div class="search-bar">
-        <input class="search-input" type="serach" placeholder="code learning durchsuchen" />
-        <!-- <mat-icon class="search-icon">search</mat-icon> -->
+      <div class="searchbar">
+        <input class="search-input" type="search" placeholder="Code learning durchsuchen" />
+        <img class="search-icon" src="./assets/img/icons/material-symbols/search-grey.svg" alt="search">
       </div>
     </section>
-    <section>
-      <div>Show Portfolio</div>
+
+    <section class="profile-section">
+      <span>Frederik Beck</span>
+      <div class="profile-pic">
+        <img src="./assets/img/profile/man1.svg" alt="profile pic">
+        <div class="online-status"></div>
+      </div>
+
+      <img (click)="openMenu()" src="./assets/img/icons/material-symbols/arrow_down.svg" alt="arrow down">
     </section>
   </div>
+</div>
+
+<div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'overlay-closed'">
+  <div class="profile-menu" (click)="$event.stopPropagation()">
+    <button (click)="openProfile()" class="profile-menu-button">Profil</button>
+    <button routerLink="" class="profile-menu-button">Log out</button>
+  </div>
+</div>
+
+<div (click)="closeProfile()" [class]="profileOpen ? 'overlay' : 'overlay-closed'">
+  <app-profile-main (click)="$event.stopPropagation()" [profileOpen]="profileOpen" (close)="closeProfile()"></app-profile-main>
 </div>
