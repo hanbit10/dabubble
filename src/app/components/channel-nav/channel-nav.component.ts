@@ -26,8 +26,6 @@ export class ChannelNavComponent implements OnInit {
   }
   createChannel() {
     const createChannel = document.getElementById('channel-create');
-    if (createChannel) {
-      createChannel.classList.remove('hidden');
-    }
+    createChannel?.classList.remove('hidden');
   }
 }
