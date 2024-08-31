@@ -12,23 +12,34 @@
     <main>
         <h1>Anmeldung</h1>
         <p>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
-        <input class="login-input" type="email" placeholder="beispielname@email.com">
-        <input class="login-input" type="password" placeholder="Passwort">
+        <div class="input-wrapper">
+            <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
+            <input class="login-input" type="email" placeholder="beispielname@email.com">
+        </div>
+        <div class="input-wrapper">
+            <img src="/assets/img/icons/lock.svg" alt="" class="input-icon">
+            <input class="login-input" type="password" placeholder="Passwort">
+        </div>       
         <span>Passwort vergessen?</span>
         <div class="divide-login">
             <div class="line"></div>
             <span>ODER</span>
             <div class="line"></div>
         </div>
-        <input class="login-input" type="text" placeholder="Anmelden mit Google">
+        <div class="input-wrapper google-input">
+            <div class="google-wrapper">
+                <img src="/assets/img/icons/google.png" alt="google">
+                <span>Anmelden mit Google</span>
+            </div>
+            <input class="login-input g-input" type="text">
+        </div>         
         <div class="buttoncontainer">
-            <button>Anmelden</button>
-            <button [routerLink]="['/main']">Gäste-Login</button>
+            <button class="button-primary">Anmelden</button>
+            <button class="button-secondary" [routerLink]="['/main']">Gäste-Login</button>
         </div>
     </main>
     <footer>
         <span>Impressum</span>
         <span>Datenschutz</span>
     </footer>
-
 </div>

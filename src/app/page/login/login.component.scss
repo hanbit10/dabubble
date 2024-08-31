@@ -2,31 +2,26 @@
 
 * {
     box-sizing: border-box;
+    transition: all 75ms ease-in-out;
 }
 
 .log-in {
-    display: flex;
+    @include dFlex($ai:center,$jc: space-between);    
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
     height: 100vh;
-    background-color: #ECEEFE;
-    padding: 75px 75px 48px 75px;
+    background-color: $bgColor;
+    padding: 48px 75px;
 
 }
 
 
 header {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @include dFlex($ai:center,$jc: space-between);
 }
 
 .logocontainer {
-    display: flex;
-    align-items: center;
+    @include dFlex($ai:center); 
     gap: 16px;
     >img {
         height: 70px;
@@ -38,28 +33,24 @@ header {
 }
 
 .header-end {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
+    @include dFlex($ai:flex-end,$g: 10px); 
+    flex-direction: column;    
     >span:last-child {
-        color: #797EF3;
+        color: $purple2;
     }
 }
 
 main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    @include dFlex($ai:center,$jc: space-between); 
+    flex-direction: column;    
     flex-grow: 1;
-    padding: 50px 53px;
+    padding: 35px 45px;
     background-color: white;
     border-radius: 30px;
     box-shadow: 0px 2px 10px 0px #00000014;
-    max-width: 606px;
-    
-    
+    max-width: 550px;
+    max-height: 1000px;
+
     >h1 {
         color: #444DF2;
         font-weight: 700;
@@ -69,19 +60,91 @@ main {
     }
     >p {
         text-align: center;
-        font-size: 20px;
+        font-size: 18px;
         margin:0;
+    }
+    >span {
+        color: $purple2;
     }
 
 }
 
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-icon {
+    position:absolute;
+    left: 24px;
+    top: 13px;
+    height: 24px;
+    filter: opacity(0.7);
+}
+
 .login-input {
+    @include font($fs:16px,$lh:16px);
     border: none;
     width: 100%;
     border-radius: 100px;
-    padding: 18px 32px;
-    background-color: #ECEEFE;
+    padding: 14px 32px 14px 66px;
+    background-color: $bgColor;
+    &:hover:not(.g-input) {
+        cursor: pointer;
+        outline: 1px solid $textGray;
+    }    
+    &:focus {
+        outline: 1px solid $purple3;
+    }
 }
+
+.google-input {
+    &:hover {      
+        cursor: pointer;  
+        .google-wrapper {
+            >span {
+                font-weight: 700;
+            }
+        }
+        .g-input {        
+            cursor: pointer;    
+            outline: 1px solid $purple3;            
+        }   
+    }
+}
+
+.divide-login {
+    @include dFlex($ai: flex-end,$g: 15px);
+    width: 100%; 
+    >span {
+        font-size: 18px;
+        line-height: 18px;
+    }
+    >div {
+        position: relative;
+        top: -3px;
+        background-color: $lightPurple;
+        height: 1px;
+        flex-grow: 1;
+    }   
+}
+
+.google-wrapper {
+    @include dFlex($g: 16px);
+    @include font($fs:16px,$lh:16px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);    
+    >img {
+        height: 32px;
+    }
+    >span {
+        color:$purple1;
+    }    
+}
+
+
 
 footer {    
     display: flex;
@@ -95,5 +158,5 @@ footer {
 
 .buttoncontainer {
     display: flex;
-    gap: 30px;
+    gap: 30px;    
 }

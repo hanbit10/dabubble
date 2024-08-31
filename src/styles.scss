@@ -123,6 +123,7 @@ h3 {
   border: 1px solid $purple2;
   border-radius: 25px;
   padding: 12px 25px 12px 25px;
+  background-color: white;
   @include font();
 
   &:hover{
