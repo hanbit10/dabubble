@@ -53,6 +53,28 @@ $dabubble-theme: mat.define-light-theme(
   src: url("./assets/fonts/nunito-v26-latin-700.woff2");
 }
 
+$bgColor: rgb(236, 239, 254);
+$lightPurple: rgb(173, 176, 217);
+$textGray: rgb(104, 104, 104);
+$purple1: rgb(68, 77, 242);
+$purple2: rgb(121, 127, 243);
+$purple3: rgb(83, 90, 241);
+$onlineGreen: rgb(146, 200, 62);
+$rosaError: rgb(237, 30, 121);
+
+@mixin dFlex($jc: center, $ai: center, $g: 0){
+  display: flex;
+  justify-content: $jc;
+  align-items: $ai;
+  gap: $g;
+}
+
+@mixin font($ff: Nunito700, $fs: 18px, $lh: 24.55px){
+  font-family: $ff;
+  font-size: $fs;
+  line-height: $lh;
+}
+
 html,
 body {
   height: 100%;
@@ -74,4 +96,52 @@ h3 {
 
 .hidden {
   display: none;
+}
+
+.button-primary{
+  background-color: $purple1;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 25px 12px 25px;
+  @include dFlex($g: 10px);
+  @include font();
+
+  &:hover{
+    cursor: pointer;
+    background-color: $purple2;
+  }
+
+  &:disabled{
+    cursor: default;
+    background-color: $textGray;
+  }
+}
+
+.button-secondary{
+  color: $purple1;
+  border: 1px solid $purple2;
+  border-radius: 25px;
+  padding: 12px 25px 12px 25px;
+  background-color: white;
+  @include font();
+
+  &:hover{
+    cursor: pointer;
+    background-color: $purple3;
+    color: white;
+    border: 1px solid $purple3;
+  }
+
+  &:active{
+    background-color: $purple1;
+    border: 1px solid $purple1;
+  }
+
+  &:disabled{
+    cursor: default;
+    border: 1px solid $textGray;
+    color: $textGray;
+    background-color: unset;
+  }
 }
