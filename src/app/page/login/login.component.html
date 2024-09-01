@@ -7,11 +7,12 @@
         <div class="header-end">
             <span>Neu bei DABubble?</span>            
             <div class="hidden-button">
-                <span>Konto erstellen</span>
+                <span (click)="this.logService.currentState = 'create-account'">Konto erstellen</span>
             </div>
         </div>
     </header>
-    <app-log-in-card></app-log-in-card>
+    <app-log-in-card *ngIf="this.logService.currentState === 'log-in'"></app-log-in-card>
+    <app-create-account-card *ngIf="this.logService.currentState === 'create-account'"></app-create-account-card>
     <footer>
         <div class="hidden-button">
             <span>Impressum</span>

@@ -1,1 +1,17 @@
-<p>create-account-card works!</p>
+<main>
+    <h1>Konto erstellen</h1>
+    <p>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</p>
+    <div class="input-wrapper">
+        <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
+        <input class="login-input" type="email" placeholder="beispielname@email.com">
+    </div>
+    <div class="input-wrapper">
+        <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
+        <input class="login-input" type="email" placeholder="beispielname@email.com">
+    </div>
+    <div class="input-wrapper">
+        <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
+        <input class="login-input" type="email" placeholder="beispielname@email.com">
+    </div>
+    <button class="button-primary" (click)="this.logService.currentState='log-in'">zurück</button>
+</main>
