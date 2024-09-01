@@ -1,64 +1,158 @@
+@import './../../../styles.scss';
+
 .container {
-  position: relative;
   width: 100vw;
-  height: 115px;
+  background-color: $bgColor;
+  @include dFlex();
 }
 
-.content {
-  width: 100vw;
-  height: 115px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.header-content {
+  max-width: 1920px;
+  width: 100%;
+  padding-block: 10px;
+  padding-inline: 20px;
+  @include dFlex($jc: space-between, $g: 20px);
 }
 
 .logo-section {
-  height: 70px;
+  max-width: 370px;
   width: 100%;
-  max-width: 450px;
-  margin-left: 30px;
-}
+  padding-left: 25px;
+  box-sizing: border-box;
+  @include dFlex($jc: flex-start, $g: 16px);
 
-.search-section {
-  height: 70px;
-  width: 100%;
-  max-width: 989px;
-  .search-input {
-    padding-left: 20px;
-    padding-right: 20px;
-    height: 70px;
-    width: 100%;
-    max-width: 920px;
-    border: unset;
-    //border: 1px solid rgba(0, 0, 0, .2);
-    border-radius: 50px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3),
-      -4px -4px 10px rgba(255, 255, 255, 0.7);
+  >span {
+    @include font($lh: 24px);
   }
 }
 
-.search-bar input::placeholder {
-  font-family: Nunito;
-  font-size: 25px;
-  font-weight: 400;
-  line-height: 32.74px;
+.search-section {
+  height: 50px;
+  width: 100%;
+  max-width: 689px;
 }
 
-.search-input:focus {
-  outline: none;
+.searchbar {
+  height: 100%;
+  background-color: white;
+  padding-right: 45px;
+  border-radius: 42px;
+  @include dFlex($jc: space-between, $g: 10px);
+
+  input[type='search']::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background-image: url('./../../../assets/img/icons/material-symbols/search-close.svg');
+    object-fit: cover;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
-.search-bar {
-  position: relative;
+.search-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 42px;
+  padding-left: 45px;
+  @include font($ff: NunitoRegular, $fs: 18px, $lh: 32.74px);
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .search-icon {
-  height: 3rem;
-  position: absolute;
-  top: 1.5rem;
-  right: 3rem;
   &:hover {
     cursor: pointer;
+  }
+}
+
+.profile-section {
+  width: 485px;
+  @include dFlex($jc: flex-end, $g: 12px);
+
+  >span {
+    @include font($ff: Nunito700, $fs: 22px, $lh: 22px);
+    text-align: end;
+  }
+
+  >img {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.profile-pic {
+  position: relative;
+  height: 70px;
+
+  >img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
+}
+
+.online-status {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16.67px;
+  height: 16.67px;
+  border: 2px solid $bgColor;
+  border-radius: 50%;
+  background-color: $onlineGreen;
+  box-sizing: border-box;
+}
+
+.overlay{
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9966;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transition: opacity 125ms ease-in-out;
+}
+
+.overlay-closed{
+  opacity: 0;
+}
+
+.profile-menu {
+  position: absolute;
+  z-index: 9977;
+  right: 20px;
+  top: 85px;
+  background-color: white;
+  border-radius: 30px 0 30px 30px;
+  padding: 30px;
+  @include dFlex($g: 15px);
+  flex-direction: column;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transition: opacity 125ms ease-in-out;
+}
+
+.profile-menu-button {
+  width: 100%;
+  border-radius: 100px;
+  padding: 10px 70px 10px 70px;
+  background-color: white;
+  border: none;
+  @include font($ff: Nunito600, $fs: 20px, $lh: 24px);
+
+  &:hover {
+    cursor: pointer;
+    background-color: $bgColor;
+    color: $purple3;
   }
 }
