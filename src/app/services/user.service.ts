@@ -4,10 +4,10 @@ import {
   collection,
   Firestore,
   getDocs,
-  onSnapshot,
   setDoc,
   updateDoc,
   doc,
+  onSnapshot,
 } from '@angular/fire/firestore';
 
 import { UserProfile } from '../models/users';
@@ -33,7 +33,7 @@ export class UserService {
     profileImage: '',
     uid: '',
   };
-  allUsers: UserProfile[] = [];
+  allUsersOnSnapshot: UserProfile[] = [];
   constructor() {}
 
   async addUser() {
@@ -43,27 +43,29 @@ export class UserService {
   }
 
   async getAllUsers() {
-    // const docRef = collection(this.firestore, 'users');
-    // const querySnapshot = await getDocs(docRef);
-    // querySnapshot.forEach((doc) => {
-    //   const userData = doc.data() as UserProfile;
-    //   this.allUsers.push(userData);
-    // });
+    let allUsers: UserProfile[] = [];
     const docRef = collection(this.firestore, 'users');
-    const querySnapshots = onSnapshot(docRef, (querySnapshot) => {
-      this.allUsers = [];
-      querySnapshot.forEach((doc) => {
-        const userData = doc.data() as UserProfile;
-        this.allUsers.push(userData);
-      });
+    const querySnapshot = await getDocs(docRef);
+    querySnapshot.forEach((doc) => {
+      const userData = doc.data() as UserProfile;
+      allUsers.push(userData);
     });
-    console.log(this.allUsers);
+    return allUsers;
   }
 
-  async updateUser(user: {}, userId: string){
+  async getAllUsersOnSnapshot() {
+    const docRef = collection(this.firestore, 'users');
+    const querySnapshot = onSnapshot(docRef, (querySnapshot) => {
+      this.allUsersOnSnapshot = [];
+      querySnapshot.forEach((doc) => {
+        const userData = doc.data() as UserProfile;
+        this.allUsersOnSnapshot.push(userData);
+      });
+    });
+  }
+
+  async updateUser(user: {}, userId: string) {
     const userRef = doc(collection(this.firestore, 'users'), userId);
     await updateDoc(userRef, user);
   }
-
-
 }

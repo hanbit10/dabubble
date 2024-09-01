@@ -22,7 +22,7 @@ export class ChannelNavComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
   constructor(public userService: UserService) {}
   async ngOnInit(): Promise<void> {
-    this.userService.getAllUsers();
+    this.userService.getAllUsersOnSnapshot();
   }
   createChannel() {
     const createChannel = document.getElementById('channel-create');

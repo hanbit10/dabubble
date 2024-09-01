@@ -26,7 +26,7 @@ export class ChannelCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getAllUsers();
-    this.keywords = this.userService.allUsers;
+    this.keywords = this.userService.allUsersOnSnapshot;
     if (isPlatformBrowser(this.platformId)) {
       this.closeCard();
       this.nextForm();
