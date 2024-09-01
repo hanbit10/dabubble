@@ -132,14 +132,14 @@
   .chosed-close {
     width: 30px;
     height: 30px;
-    // background-image: url("./../../../assets/img/icons/material-symbols/close.svg");
+    background-image: url("./../../../assets/img/icons/material-symbols/close.svg");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 20px 20px;
     cursor: pointer;
-    // &:hover {
-    //   // background-image: url("./../../../assets/img/icons/material-symbols/close-hover.svg");
-    // }
+    &:hover {
+      background-image: url("./../../../assets/img/icons/material-symbols/close-hover.svg");
+    }
   }
 }
 
@@ -220,26 +220,6 @@
     background-color: #797ef3;
   }
 }
-
-.chose-button {
-  display: none;
-}
-
-.chose-button + label.btn1 {
-  margin: 0;
-  display: block;
-  width: 20px;
-  height: 20px;
-  // background-image: url("./../../../assets/img/icons/material-symbols/radio-button.svg");
-  border-radius: 50%;
-  margin-right: 10px;
-
-  cursor: pointer;
-}
-
-// .chose-button:checked + label.btn1 {
-//   // background-image: url("./../../../assets/img/icons/material-symbols/radio-button-checked.svg");
-// }
 
 .content-profile {
   width: 100%;

@@ -24,17 +24,17 @@
           </div>
         </div>
         <div id="second-form" class="second-form hidden">
-          <div id="input-container" class="input-container hidden">
+          <div id="input-container" class="input-container">
             <div class="search-bar">
-              <!-- @if(chosen){
+              @if(chosen){
               @for(chosed of chosen; track chosed) {
               <div class="chosed-user">
-                <img class="chosed-profile" src={{chosed.avatar}} alt="">
+                <img class="chosed-profile" src={{chosed.profileImage}} alt="">
                 {{chosed.name.firstName}}
                 <div class="chosed-close" (click)="removeFromChosen(chosed)"></div>
               </div>
               }
-              } -->
+              }
               <input type="text" id="input-box" placeholder="Search anything" autocomplete="off">
             </div>
           </div>
@@ -43,12 +43,8 @@
           <div id="result-box" class="result-box">
             <ul>
               @for(content of contents; track content) {
-              <!-- <li (click)="saveToChosen(content)">
-                <img class="content-profile" src={{content.avatar}} alt="">
-                {{content.name.firstName}}
-              </li> -->
-              <li>
-                <!-- <img class="content-profile" src={{content.avatar}} alt=""> -->
+              <li (click)="saveToChosen(content)">
+                <img class="content-profile" src={{content.profileImage}} alt="">
                 {{content.name.firstName}}
               </li>
               }

@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-channel-create',
@@ -19,18 +20,36 @@ export class ChannelCreateComponent implements OnInit {
 
   keywords: UserProfile[] = [];
   contents: UserProfile[] = [];
+  chosen: UserProfile[] = [];
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    public userService: UserService
+    public userService: UserService,
+    public channelService: ChannelService
   ) {}
 
-  ngOnInit(): void {
-    this.userService.getAllUsers();
-    this.keywords = this.userService.allUsersOnSnapshot;
+  async ngOnInit(): Promise<void> {
+    this.keywords = await this.userService.getAllUsers();
+    console.log('keywords', this.keywords);
     if (isPlatformBrowser(this.platformId)) {
       this.closeCard();
       this.nextForm();
+      this.setUserSearchBar();
     }
+  }
+
+  saveToChosen(content: any) {
+    const inputBox = <HTMLInputElement>document.getElementById('input-box');
+    let index = this.keywords.indexOf(content);
+    this.chosen.push(content);
+    this.keywords.splice(index, 1);
+    this.contents = [];
+    inputBox.value = '';
+  }
+
+  removeFromChosen(chosed: any) {
+    let index = this.chosen.indexOf(chosed);
+    this.keywords.push(chosed);
+    this.chosen.splice(index, 1);
   }
 
   setUserSearchBar() {
@@ -45,6 +64,7 @@ export class ChannelCreateComponent implements OnInit {
             .includes(input.toLowerCase());
         });
       }
+      console.log(result);
       this.display(result);
     });
   }
@@ -67,6 +87,8 @@ export class ChannelCreateComponent implements OnInit {
 
   createChannel(channelForm: NgForm) {
     if (channelForm.valid) {
+      console.log('creating a new channel', this.newChannel);
+      this.channelService.createNewChannel(this.newChannel, this.chosen);
     }
   }
 
