@@ -11,9 +11,7 @@
     height: 100vh;
     background-color: $bgColor;
     padding: 48px 75px;
-
 }
-
 
 header {
     width: 100%;
@@ -38,6 +36,13 @@ header {
     >span:last-child {
         color: $purple2;
     }
+}
+
+app-log-in-card, app-create-account-card {
+    display:flex;
+    max-width: 550px;
+    max-height: 1000px;
+    flex-grow: 1;
 }
 
 main {
