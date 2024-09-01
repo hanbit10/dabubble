@@ -20,7 +20,7 @@ export class ChannelCreateComponent implements OnInit {
 
   keywords: UserProfile[] = [];
   contents: UserProfile[] = [];
-  chosen: UserProfile[] = [];
+  selectedUsers: UserProfile[] = [];
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
@@ -40,16 +40,16 @@ export class ChannelCreateComponent implements OnInit {
   saveToChosen(content: any) {
     const inputBox = <HTMLInputElement>document.getElementById('input-box');
     let index = this.keywords.indexOf(content);
-    this.chosen.push(content);
+    this.selectedUsers.push(content);
     this.keywords.splice(index, 1);
     this.contents = [];
     inputBox.value = '';
   }
 
   removeFromChosen(chosed: any) {
-    let index = this.chosen.indexOf(chosed);
+    let index = this.selectedUsers.indexOf(chosed);
     this.keywords.push(chosed);
-    this.chosen.splice(index, 1);
+    this.selectedUsers.splice(index, 1);
   }
 
   setUserSearchBar() {
@@ -72,6 +72,12 @@ export class ChannelCreateComponent implements OnInit {
   display(result: any[]) {
     this.contents = result;
   }
+
+  close() {
+    this.selectedUsers = [];
+    this.contents = [];
+    this.resetCard();
+  }
   closeCard() {
     const cardClose = document.getElementById('card-close');
     cardClose?.addEventListener('click', () => {
@@ -79,16 +85,43 @@ export class ChannelCreateComponent implements OnInit {
       createChannel?.classList.add('hidden');
     });
   }
-  close() {
-    this.resetCard();
+
+  resetCard() {
+    this.resetInputValues();
+    this.resetForm();
   }
 
-  resetCard() {}
+  resetInputValues() {
+    const inputBox = <HTMLInputElement>document.getElementById('input-box');
+    const channelDescription = <HTMLInputElement>(
+      document.getElementById('channel-description')
+    );
+    const channelName = <HTMLInputElement>(
+      document.getElementById('channel-name')
+    );
+    inputBox.value = '';
+    channelName.value = '';
+    channelDescription.value = '';
+  }
+
+  resetForm() {
+    const firstForm = document.getElementById('first-form');
+    const secondForm = document.getElementById('second-form');
+    const nextForm = document.getElementById('next-form');
+    const channelSubmit = document.getElementById('channel-submit');
+    firstForm?.classList.remove('hidden');
+    secondForm?.classList.add('hidden');
+    nextForm?.classList.remove('hidden');
+    channelSubmit?.classList.add('hidden');
+  }
 
   createChannel(channelForm: NgForm) {
     if (channelForm.valid) {
       console.log('creating a new channel', this.newChannel);
-      this.channelService.createNewChannel(this.newChannel, this.chosen);
+      this.channelService.createNewChannel(this.newChannel, this.selectedUsers);
+      const createChannel = document.getElementById('channel-create');
+      createChannel?.classList.add('hidden');
+      this.close();
     }
   }
 
@@ -104,8 +137,8 @@ export class ChannelCreateComponent implements OnInit {
     nextForm?.addEventListener('click', () => {
       firstForm?.classList.add('hidden');
       secondForm?.classList.remove('hidden');
-      nextForm.classList.add('d-none');
-      channelSubmit.classList.remove('d-none');
+      nextForm.classList.add('hidden');
+      channelSubmit.classList.remove('hidden');
       if (cardTitle && cardDescription) {
         cardTitle.innerHTML = 'Leute hinzufügen';
         cardDescription.innerHTML = '';

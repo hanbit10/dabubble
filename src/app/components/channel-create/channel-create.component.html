@@ -8,7 +8,6 @@
       sie themenbezogen
       sein #marketing zum Beispiel.
     </div>
-
     <section class="input-section">
       <form id="channel-form" class="channel-form" (ngSubmit)="createChannel(channelForm)" #channelForm="ngForm">
         <div id="first-form" class="first-form">
@@ -24,10 +23,13 @@
           </div>
         </div>
         <div id="second-form" class="second-form hidden">
+          <div class="channel-new-name">
+            <div class="channel-hashtag">#</div> &nbsp; {{newChannel.name}}
+          </div>
           <div id="input-container" class="input-container">
             <div class="search-bar">
-              @if(chosen){
-              @for(chosed of chosen; track chosed) {
+              @if(selectedUsers){
+              @for(chosed of selectedUsers; track chosed) {
               <div class="chosed-user">
                 <img class="chosed-profile" src={{chosed.profileImage}} alt="">
                 {{chosed.name.firstName}}
@@ -35,10 +37,9 @@
               </div>
               }
               }
-              <input type="text" id="input-box" placeholder="Search anything" autocomplete="off">
+              <input type="text" id="input-box" placeholder="Name eingeben" autocomplete="off">
             </div>
           </div>
-
           @if(contents.length > 0) {
           <div id="result-box" class="result-box">
             <ul>
@@ -54,7 +55,7 @@
         </div>
         <div class="button-container">
           <div id="next-form" class="button">Weiter</div>
-          <button id="channel-submit" class="button d-none" type="submit">Erstellen</button>
+          <button id="channel-submit" class="button hidden" type="submit">Erstellen</button>
         </div>
       </form>
     </section>

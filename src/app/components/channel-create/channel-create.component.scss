@@ -1,3 +1,5 @@
+@import "./../../../../src/styles.scss";
+
 .container {
   width: 100vw;
   height: 100vh;
@@ -55,6 +57,16 @@
   width: 100%;
 }
 
+.channel-new-name {
+  color: $purple2;
+  @include dFlex(flex-start, center, 0);
+}
+
+.channel-hashtag {
+  color: $purple2;
+  font-weight: bold;
+}
+
 .channel-form {
   display: flex;
   flex-direction: column;
@@ -73,6 +85,7 @@
     border-radius: 40px;
     border: 1px solid #adb0d9;
     padding: 12px 20px 12px 20px;
+    margin-top: 20px;
     font-family: "Nunito" !important;
   }
   .input-container:hover {
@@ -232,9 +245,5 @@
 }
 
 .hidden {
-  display: none;
-}
-
-.d-none {
   display: none;
 }
