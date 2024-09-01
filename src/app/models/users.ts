@@ -13,8 +13,9 @@ export interface UserProfile {
   color?: string;
   displayName?: string;
   email: string;
+  mainUser: boolean;
   name: Name;
   password: string;
   profileImage?: string;
-  uid?: string;
+  uid: string;
 }

@@ -1,23 +1,11 @@
-@import './../../styles.scss';
-
-.overlay{
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9966;
-    background-color: rgba(0, 0, 0, 0.2);
-    opacity: 1;
-    transition: opacity 125ms ease-in-out;
-    @include dFlex();
-  }
+@import './../../../styles.scss';
 
 section{
     position: absolute;
+    top: 85px;
+    right: 20px;
     background-color: white;
-    border-radius: 30px;
+    border-radius: 30px 0 30px 30px;
     padding: 45px 40px 45px 40px;
     @include dFlex($g: 38px);
     flex-direction: column;
@@ -31,12 +19,12 @@ section{
     >div{
         width: 40px;
         height: 40px;
-        background-image: url('./../../assets/img/icons/material-symbols/close.svg');
+        background-image: url('./../../../assets/img/icons/material-symbols/close.svg');
         object-fit: cover;
 
         &:hover{
             cursor: pointer;
-            background-image: url('./../../assets/img/icons/material-symbols/close-hover.svg');
+            background-image: url('./../../../assets/img/icons/material-symbols/close-hover.svg');
         }
     }
 }
@@ -53,10 +41,13 @@ section{
     @include dFlex($g: 15px);
     flex-direction: column;
 
-    >span{
+    .profile-name-section-top{
         width: 100%;
-        text-align: start;
-        @include font($ff: Nunito700, $fs: 26px, $lh: 30px);
+        @include dFlex($jc: space-between);
+
+        >span{
+            @include font($ff: Nunito700, $fs: 26px, $lh: 30px);
+        }
     }
 
     .profile-name-section-bottom{
@@ -66,13 +57,13 @@ section{
         >div{
             width: 16px;
             height: 16px;
-            background-color: $textGray;
+            background-color: $onlineGreen;
             border-radius: 50%;
         }
 
         >span{
             @include font($ff: NunitoRegular, $fs: 20px, $lh: 27.28px);
-            color: $textGray;
+            color: $onlineGreen;
         }
     }
 }
@@ -100,4 +91,40 @@ section{
     .mail-adress{
         @include font($ff: NunitoRegular, $fs: 18px, $lh: 21.6px);
     }
+}
+
+.profile-edit-section{
+    width: 100%;
+    @include dFlex($ai: flex-start, $g: 16px);
+    flex-direction: column;
+}
+
+.edit-container{
+    width: 100%;
+    @include dFlex($ai: flex-start, $g: 7px);
+    flex-direction: column;
+}
+
+.edit-title{
+    @include dFlex($g: 20px);
+    @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
+
+    >img{
+        width: 30px;
+        height: 30px;
+        object-fit: cover;
+    }
+}
+
+.edit-inputfield{
+    width: 100%;
+    border: 1px solid $lightPurple;
+    border-radius: 30px;
+    padding: 15px 20px 15px 20px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.edit-button-container{
+    @include dFlex($g: 32px);
 }

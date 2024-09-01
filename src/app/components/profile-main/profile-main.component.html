@@ -9,7 +9,7 @@
 
     <div class="profile-name-section">
         <div class="profile-name-section-top">
-            <span>Frederik Beck</span>
+            <span>{{currentUser.name.firstName}} {{currentUser.name.lastName}}</span>
             <button (click)="openEditProfile()" class="profile-edit-button">Bearbeiten</button>
         </div>
         <div class="profile-name-section-bottom">
@@ -22,7 +22,7 @@
         <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
         <div>
             <span class="mail-title">E-Mail-Adresse</span><br>
-            <span class="mail-adress">fred.beck&#64;email.com</span>
+            <span class="mail-adress">{{currentUser.email}}</span>
         </div>
     </div>
 </section>
@@ -44,7 +44,7 @@
                 <img src="./assets/img/icons/material-symbols/account-circle.svg" alt="email">
                 <span class="mail-title">Vollständiger Name</span><br>
             </div>
-            <input class="edit-inputfield" type="text" placeholder="Frederik Beck">
+            <input [(ngModel)]="newName" class="edit-inputfield" type="text" placeholder="{{currentUser.name.firstName}} {{currentUser.name.lastName}}">
         </div>
 
         <div class="edit-container">
@@ -52,13 +52,13 @@
                 <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
                 <span class="mail-title">E-Mail-Adresse</span><br>
             </div>
-            <input class="edit-inputfield" type="email" placeholder="fred.beck@email.com">
+            <input [(ngModel)]="newMail" class="edit-inputfield" type="email" placeholder="{{currentUser.email}}">
         </div>
     </div>
 
     <div class="edit-button-container">
         <button class="button-secondary" (click)="closeEditProfile()">Abbrechen</button>
-        <button class="button-primary">Speichern</button>
+        <button class="button-primary" (click)="safeEditProfile()">Speichern</button>
     </div>
 
 </section>
