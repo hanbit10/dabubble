@@ -49,6 +49,11 @@ $dabubble-theme: mat.define-light-theme(
 }
 
 @font-face {
+  font-family: Nunito600;
+  src: url("./assets/fonts/nunito-v26-latin-600.woff2");
+}
+
+@font-face {
   font-family: Nunito700;
   src: url("./assets/fonts/nunito-v26-latin-700.woff2");
 }
@@ -125,6 +130,7 @@ h3 {
   padding: 12px 25px 12px 25px;
   background-color: white;
   @include font();
+  background-color: unset;
 
   &:hover{
     cursor: pointer;

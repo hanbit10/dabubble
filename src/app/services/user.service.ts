@@ -5,6 +5,8 @@ import {
   Firestore,
   getDocs,
   setDoc,
+  updateDoc,
+  doc,
 } from '@angular/fire/firestore';
 
 import { UserProfile } from '../models/users';
@@ -50,4 +52,11 @@ export class UserService {
     console.log(allUsers);
     return allUsers;
   }
+
+  async updateUser(user: {}, userId: string){
+    const userRef = doc(collection(this.firestore, 'users'), userId);
+    await updateDoc(userRef, user);
+  }
+
+
 }

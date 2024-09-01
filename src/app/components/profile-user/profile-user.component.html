@@ -1,0 +1,31 @@
+<div class="overlay">
+    <section>
+        <div class="profile-head">
+            <span>Profil</span>
+            <div (click)="closeProfile()"></div>
+        </div>
+
+        <img class="profile-pic" src="./assets/img/profile/woman1.svg" alt="profile pic">
+
+        <div class="profile-name-section">
+            <span>Sofia Müller</span>
+            <div class="profile-name-section-bottom">
+                <div></div>
+                <span>Abwesend</span>
+            </div>
+        </div>
+
+        <div class="profile-mail-section">
+            <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
+            <div>
+                <span class="mail-title">E-Mail-Adresse</span><br>
+                <span class="mail-adress">sofia.muel&#64;email.com</span>
+            </div>
+        </div>
+
+        <button class="button-primary" (click)="newMessage()">
+            <img src="./assets/img/icons/material-symbols/button_comment.svg" alt="comment">
+            Nachricht
+        </button>
+    </section>
+</div>
