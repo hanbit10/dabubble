@@ -11,37 +11,7 @@
             </div>
         </div>
     </header>
-    <main>
-        <h1>Anmeldung</h1>
-        <p>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
-        <div class="input-wrapper">
-            <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
-            <input class="login-input" type="email" placeholder="beispielname@email.com">
-        </div>
-        <div class="input-wrapper">
-            <img src="/assets/img/icons/lock.svg" alt="" class="input-icon">
-            <input class="login-input" type="password" placeholder="Passwort">
-        </div>     
-        <div class="hidden-button password">
-            <span>Passwort vergessen?</span>
-        </div>  
-        <div class="divide-login">
-            <div class="line"></div>
-            <span>ODER</span>
-            <div class="line"></div>
-        </div>
-        <div class="input-wrapper google-input">
-            <div class="google-wrapper">
-                <img src="/assets/img/icons/google.png" alt="google">
-                <span>Anmelden mit Google</span>
-            </div>
-            <input class="login-input g-input" type="text">
-        </div>         
-        <div class="buttoncontainer">
-            <button class="button-primary">Anmelden</button>
-            <button class="button-secondary" [routerLink]="['/main']">Gäste-Login</button>
-        </div>
-    </main>
+    <app-log-in-card></app-log-in-card>
     <footer>
         <div class="hidden-button">
             <span>Impressum</span>
