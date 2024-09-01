@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './profile-main.component.html',
-  styleUrl: './profile-main.component.scss'
+  styleUrl: './profile-main.component.scss',
 })
 export class ProfileMainComponent implements OnInit {
   @Input() profileOpen = true;
@@ -16,25 +16,22 @@ export class ProfileMainComponent implements OnInit {
   allUsers: UserProfile[] = [];
   currentUser: UserProfile = {
     email: '',
-    mainUser: false,
-    name: {
-      firstName: '',
-      lastName: ''
-    },
+    active: false,
+    name: '',
     password: '',
-    uid: ''
+    uid: '',
   };
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
   editProfile = false;
-  @Input()newMail = '';
-  @Input()newName = '';
+  @Input() newMail = '';
+  @Input() newName = '';
 
   async ngOnInit() {
     this.allUsers = await this.userService.getAllUsers();
 
     let filteredUser = this.allUsers.find((user) => {
-      return user.mainUser === true;
+      // return user.mainUser === true;
     });
 
     if (filteredUser) {
@@ -54,18 +51,18 @@ export class ProfileMainComponent implements OnInit {
     this.editProfile = false;
   }
 
-  safeEditProfile(){
+  safeEditProfile() {
     if (this.newMail == '') {
       this.currentUser.email = this.currentUser.email;
-    }else{
+    } else {
       this.currentUser.email = this.newMail;
     }
     if (this.newName == '') {
       this.currentUser.name = this.currentUser.name;
-    }else{
+    } else {
       // Neuer Name: this.currentUser.name = this.newName;
     }
-    this.userService.updateUser(this.currentUser, this.currentUser.uid)
+    this.userService.updateUser(this.currentUser, this.currentUser.uid);
     this.newMail = '';
     this.editProfile = false;
   }

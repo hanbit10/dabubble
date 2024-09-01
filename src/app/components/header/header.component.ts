@@ -19,22 +19,19 @@ export class HeaderComponent implements OnInit {
   allUsers: UserProfile[] = [];
   currentUser: UserProfile = {
     email: '',
-    mainUser: false,
-    name: {
-      firstName: '',
-      lastName: ''
-    },
+    active: false,
+    name: '',
     password: '',
-    uid: ''
+    uid: '',
   };
 
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService) {}
 
-  async ngOnInit(){
+  async ngOnInit() {
     this.allUsers = await this.userService.getAllUsers();
 
     let filteredUser = this.allUsers.find((user) => {
-      return user.mainUser === true;
+      // return user.mainUser === true;
     });
 
     if (filteredUser) {
@@ -42,24 +39,24 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  openMenu(){
+  openMenu() {
     this.menuOpen = true;
   }
 
-  closeMenu(){
+  closeMenu() {
     this.menuOpen = false;
   }
 
-  openProfile(){
+  openProfile() {
     this.profileOpen = true;
   }
 
-  closeProfile(){
+  closeProfile() {
     this.profileOpen = false;
   }
 
-  logoutMainUser(){
-    this.currentUser.mainUser = false;
+  logoutMainUser() {
+    // this.currentUser.mainUser = false;
     this.userService.updateUser(this.currentUser, this.currentUser.uid);
   }
- }
+}
