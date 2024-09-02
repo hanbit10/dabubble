@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile-main',
@@ -22,21 +23,24 @@ export class ProfileMainComponent implements OnInit {
     uid: '',
   };
 
-  constructor(private userService: UserService) {}
+  private usersSubscription!: Subscription;
+
+  constructor(private userService: UserService) { }
   editProfile = false;
   @Input() newMail = '';
   @Input() newName = '';
 
   async ngOnInit() {
-    this.allUsers = await this.userService.getAllUsers();
+    this.usersSubscription = this.userService.users$.subscribe(users => {
+      this.allUsers = users;
 
-    let filteredUser = this.allUsers.find((user) => {
-      return user.uid === 'AVMklDakbn3jph5hNNyf';
+      let filteredUser = this.allUsers.find((user) => {
+        return user.uid === 'AVMklDakbn3jph5hNNyf';
+      });
+      if (filteredUser) {
+        this.currentUser = filteredUser;
+      }
     });
-
-    if (filteredUser) {
-      this.currentUser = filteredUser;
-    }
   }
 
   onClose() {
@@ -53,20 +57,24 @@ export class ProfileMainComponent implements OnInit {
     this.newName = '';
   }
 
-  safeEditProfile() {
-    if (this.newMail == '') {
-      this.currentUser.email = this.currentUser.email;
-    } else {
-      this.currentUser.email = this.newMail;
+  safeEditProfile(ngform: NgForm) {
+    if (ngform.valid) {
+      if (this.newMail == '') {
+        this.currentUser.email = this.currentUser.email;
+      } else {
+        this.currentUser.email = this.newMail;
+      }
+
+      if (this.newName == '') {
+        this.currentUser.name = this.currentUser.name;
+      } else {
+        this.currentUser.name = this.newName;
+      }
+
+      this.userService.updateUser(this.currentUser, this.currentUser.uid);
+      this.newMail = '';
+      this.newName = '';
+      this.editProfile = false;
     }
-    if (this.newName == '') {
-      this.currentUser.name = this.currentUser.name;
-    } else {
-      this.currentUser.name = this.newName;
-    }
-    this.userService.updateUser(this.currentUser, this.currentUser.uid);
-    this.newMail = '';
-    this.newName = '';
-    this.editProfile = false;
   }
 }

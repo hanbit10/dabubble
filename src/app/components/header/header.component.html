@@ -15,7 +15,7 @@
       <span>{{currentUser.name}}</span>
       <div class="profile-pic">
         <img src="./assets/img/profile/man1.svg" alt="profile pic">
-        <div class="online-status"></div>
+        <div class="online-status" [class]="currentUser.active ? 'active' : 'absent'"></div>
       </div>
 
       <img (click)="openMenu()" src="./assets/img/icons/material-symbols/arrow_down.svg" alt="arrow down">

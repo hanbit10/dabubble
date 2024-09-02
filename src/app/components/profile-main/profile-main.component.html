@@ -12,10 +12,20 @@
             <span>{{currentUser.name}}</span>
             <button (click)="openEditProfile()" class="profile-edit-button">Bearbeiten</button>
         </div>
-        <div class="profile-name-section-bottom">
+
+        @if(currentUser.active){
+        <div class="profile-name-section-bottom active">
             <div></div>
             <span>Aktiv</span>
         </div>
+        }
+        @if(!currentUser.active){
+        <div class="profile-name-section-bottom absent">
+            <div></div>
+            <span>Abwesend</span>
+        </div>
+        }
+
     </div>
 
     <div class="profile-mail-section">
@@ -38,28 +48,36 @@
 
     <img class="profile-pic" src="./assets/img/profile/man1.svg" alt="profile pic">
 
-    <div class="profile-edit-section">
-        <div class="edit-container">
-            <div class="edit-title">
-                <img src="./assets/img/icons/material-symbols/account-circle.svg" alt="email">
-                <span class="mail-title">Vollständiger Name</span><br>
+    <form (ngSubmit)="safeEditProfile(contactForm)" #contactForm="ngForm">
+        <div class="profile-edit-section">
+            <div class="edit-container">
+                <div class="edit-title">
+                    <img src="./assets/img/icons/material-symbols/account-circle.svg" alt="email">
+                    <span class="mail-title">Vollständiger Name</span><br>
+                </div>
+                <input [(ngModel)]="newName" class="edit-inputfield" type="text" name="fullname" minlength="2"
+                    placeholder="{{currentUser.name}}">
             </div>
-            <input [(ngModel)]="newName" class="edit-inputfield" type="text" placeholder="{{currentUser.name}}">
+
+            <div class="edit-container">
+                <div class="edit-title">
+                    <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
+                    <span class="mail-title">E-Mail-Adresse</span><br>
+                </div>
+                <input #email="ngModel" [(ngModel)]="newMail" class="edit-inputfield" type="email" name="email"
+                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="{{currentUser.email}}">
+
+                <span class="email-invalid"
+                    [class.email-invalid-visible]="(email.invalid && contactForm.submitted)">*Diese E-Mail-Adresse ist
+                    leider ungültig.</span>
+            </div>
         </div>
 
-        <div class="edit-container">
-            <div class="edit-title">
-                <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
-                <span class="mail-title">E-Mail-Adresse</span><br>
-            </div>
-            <input [(ngModel)]="newMail" class="edit-inputfield" type="email" placeholder="{{currentUser.email}}">
+        <div class="edit-button-container">
+            <button class="button-secondary" (click)="closeEditProfile()">Abbrechen</button>
+            <input type="submit" name="submit" value="Speichern" class="button-primary">
         </div>
-    </div>
-
-    <div class="edit-button-container">
-        <button class="button-secondary" (click)="closeEditProfile()">Abbrechen</button>
-        <button class="button-primary" (click)="safeEditProfile()">Speichern</button>
-    </div>
+    </form>
 
 </section>
 }

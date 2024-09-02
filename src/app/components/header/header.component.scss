@@ -106,8 +106,15 @@
   height: 16.67px;
   border: 2px solid $bgColor;
   border-radius: 50%;
-  background-color: $onlineGreen;
   box-sizing: border-box;
+}
+
+.active{
+  background-color: $onlineGreen;
+}
+
+.absent{
+  background-color: $textGray;
 }
 
 .overlay{

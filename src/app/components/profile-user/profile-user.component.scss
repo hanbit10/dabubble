@@ -19,7 +19,7 @@ section{
     background-color: white;
     border-radius: 30px;
     padding: 45px 40px 45px 40px;
-    @include dFlex($g: 38px);
+    @include dFlex($g: 32px);
     flex-direction: column;
 }
 
