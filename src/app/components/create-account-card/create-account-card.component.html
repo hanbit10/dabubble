@@ -1,17 +1,35 @@
 <main>
+    <div class="arrow-wrapper" (click)="this.logService.currentState='log-in'"><img src="/assets/img/icons/go-back.svg" alt="go-back"></div>
     <h1>Konto erstellen</h1>
     <p>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</p>
     <div class="input-wrapper">
-        <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
-        <input class="login-input" type="email" placeholder="beispielname@email.com">
+        <img src="/assets/img/icons/user.svg" alt="" class="input-icon">
+        <input class="login-input" type="email" placeholder="Vorname und Nachname">
     </div>
     <div class="input-wrapper">
         <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
         <input class="login-input" type="email" placeholder="beispielname@email.com">
     </div>
     <div class="input-wrapper">
-        <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
-        <input class="login-input" type="email" placeholder="beispielname@email.com">
+        <img src="/assets/img/icons/lock.svg" alt="" class="input-icon">
+        <input class="login-input" type="email" placeholder="Passwort">
     </div>
-    <button class="button-primary" (click)="this.logService.currentState='log-in'">zurück</button>
+    <div class="policy-container">
+        <div class="checkbox-container">
+          <input            
+            type="checkbox"
+            id="box"
+            name="acceptPolicy"
+            required
+          />
+          <span class="checkmark"></span>
+        </div>
+        <label for="box">
+          <span>Ich stimme der </span>
+          <div class="hidden-button password"><a>Datenschutzerklärung</a></div>
+          <span> zu.</span>
+        </label>
+      </div>
+    <button class="button-primary" (click)="this.logService.currentState='create-avatar'">Weiter</button>
 </main>
+

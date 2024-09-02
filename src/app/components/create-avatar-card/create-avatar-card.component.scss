@@ -1,0 +1,65 @@
+@import "../../../styles.scss";
+
+@import "../../../app/page/login/login.component.scss";
+
+
+h1 {
+    padding-left: 50px;
+}
+
+h2 {
+    font-size: 32px;
+    margin-top: 0;
+}
+
+main {
+    >button {
+        align-self: flex-end;
+    }
+    >span {
+        color: black;
+        align-self: flex-start;
+    }
+}
+
+.main-pic-container {
+    margin: 10px 0px;
+    border-radius: 50%;
+    >img {
+        border-radius: 50%;
+    }
+}
+
+.own-pic-container {
+    @include dFlex($g:24px);
+    align-self: flex-start;    
+    margin: 10px 0px
+}
+
+.avatar-container {
+    @include dFlex($g:12px);    
+    margin: 10px 0px;
+}
+
+.avatar-pic-bucket {
+    @include dFlex();
+    height: 67px;
+    width: 67px;
+    border-radius: 50%;    
+}
+
+.avatar-pic-bucket, .main-pic-container {
+    &:hover {
+        cursor: pointer;
+        >img {
+            outline: 3px solid #E6E6E6;
+        }
+    }
+}
+
+.avatar-pic {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+}
+

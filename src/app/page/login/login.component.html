@@ -5,14 +5,15 @@
             <span>DABubble</span>
         </div>
         <div class="header-end">
-            <span>Neu bei DABubble?</span>            
-            <div class="hidden-button">
+            <span *ngIf="this.logService.currentState === 'log-in'">Neu bei DABubble?</span>            
+            <div *ngIf="this.logService.currentState === 'log-in'" class="hidden-button">
                 <span (click)="this.logService.currentState = 'create-account'">Konto erstellen</span>
             </div>
         </div>
     </header>
     <app-log-in-card *ngIf="this.logService.currentState === 'log-in'"></app-log-in-card>
     <app-create-account-card *ngIf="this.logService.currentState === 'create-account'"></app-create-account-card>
+    <app-create-avatar-card *ngIf="this.logService.currentState === 'create-avatar'"></app-create-avatar-card>
     <footer>
         <div class="hidden-button">
             <span>Impressum</span>
