@@ -8,7 +8,6 @@ import {
   updateDoc,
   doc,
   onSnapshot,
-  onSnapshot,
 } from '@angular/fire/firestore';
 import { UserProfile } from '../models/users';
 import { BehaviorSubject } from 'rxjs';
@@ -38,12 +37,11 @@ export class UserService {
   users: UserProfile[] = [];
   unsubUsers;
   private usersSubject = new BehaviorSubject<UserProfile[]>([]);
+  allUsersOnSnapshot: UserProfile[] = [];
 
   constructor() {
     this.unsubUsers = this.subUsersList();
   }
-  allUsersOnSnapshot: UserProfile[] = [];
-  constructor() {}
 
   async addUser() {
     const docRef = collection(this.firestore, 'users');
