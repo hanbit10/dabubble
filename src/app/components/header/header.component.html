@@ -31,6 +31,5 @@
 </div>
 
 <div (click)="closeProfile()" [class]="profileOpen ? 'overlay' : 'overlay-closed'">
-  <app-profile-main (click)="$event.stopPropagation()" [profileOpen]="profileOpen"
-    (close)="closeProfile()"></app-profile-main>
+  <app-profile-main (click)="$event.stopPropagation()" [profileOpen]="profileOpen" (close)="closeProfile()"></app-profile-main>
 </div>

@@ -31,7 +31,7 @@ export class ProfileMainComponent implements OnInit {
     this.allUsers = await this.userService.getAllUsers();
 
     let filteredUser = this.allUsers.find((user) => {
-      // return user.mainUser === true;
+      return user.uid === 'AVMklDakbn3jph5hNNyf';
     });
 
     if (filteredUser) {
@@ -49,6 +49,8 @@ export class ProfileMainComponent implements OnInit {
 
   closeEditProfile() {
     this.editProfile = false;
+    this.newMail = '';
+    this.newName = '';
   }
 
   safeEditProfile() {
@@ -60,10 +62,11 @@ export class ProfileMainComponent implements OnInit {
     if (this.newName == '') {
       this.currentUser.name = this.currentUser.name;
     } else {
-      // Neuer Name: this.currentUser.name = this.newName;
+      this.currentUser.name = this.newName;
     }
     this.userService.updateUser(this.currentUser, this.currentUser.uid);
     this.newMail = '';
+    this.newName = '';
     this.editProfile = false;
   }
 }
