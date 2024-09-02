@@ -59,9 +59,7 @@ export class ChannelCreateComponent implements OnInit {
       let input = inputBox.value;
       if (input.length) {
         result = this.keywords.filter((keyword) => {
-          return keyword.name.firstName
-            .toLowerCase()
-            .includes(input.toLowerCase());
+          return keyword.name?.toLowerCase().includes(input.toLowerCase());
         });
       }
       console.log(result);

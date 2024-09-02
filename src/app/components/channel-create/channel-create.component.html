@@ -32,7 +32,7 @@
               @for(chosed of selectedUsers; track chosed) {
               <div class="chosed-user">
                 <img class="chosed-profile" src={{chosed.profileImage}} alt="">
-                {{chosed.name.firstName}}
+                {{chosed.name}}
                 <div class="chosed-close" (click)="removeFromChosen(chosed)"></div>
               </div>
               }
@@ -46,7 +46,7 @@
               @for(content of contents; track content) {
               <li (click)="saveToChosen(content)">
                 <img class="content-profile" src={{content.profileImage}} alt="">
-                {{content.name.firstName}}
+                {{content.name}}
               </li>
               }
             </ul>

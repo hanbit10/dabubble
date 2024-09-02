@@ -2,6 +2,6 @@
 <div [routerLink]="['channels']">link to channel</div>
 @for(user of this.userService.allUsersOnSnapshot; track user) {
 <div>
-  {{user.name.firstName}}
+  {{user.name}}
 </div>
 }

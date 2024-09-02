@@ -22,17 +22,11 @@ export class ChannelService {
       city: 'Köln',
       street: 'straße 22332',
     },
-    color: '#000000',
-    displayName: 'Hanbit',
     email: 'chanbit10@gmail.com',
-    name: {
-      firstName: 'Hanbit',
-      lastName: 'Chang',
-    },
+    name: 'Hanbit Chang',
     password: 'test123',
     profileImage: '',
     uid: 'id123123',
-    mainUser: false,
   };
   constructor() {}
 
@@ -43,7 +37,7 @@ export class ChannelService {
       usersIds: [this.currentUser.uid],
       users: [
         {
-          displayName: this.currentUser.name.firstName,
+          displayName: this.currentUser.name,
         },
       ],
     };
