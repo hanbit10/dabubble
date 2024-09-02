@@ -16,7 +16,7 @@
 .content {
   width: 100%;
   max-width: 792px;
-  height: 512px;
+  height: fit-content;
   background-color: white;
   border-radius: 30px;
   padding: 40px;
@@ -79,23 +79,26 @@
   }
 
   .input-container {
+    @include dFlex(flex-start, center, 0);
     width: 100%;
     max-width: 752px;
-    height: fit-content;
+    height: 32px;
     border-radius: 40px;
-    border: 1px solid #adb0d9;
+    border: 1px solid $purple2;
     padding: 12px 20px 12px 20px;
     margin-top: 20px;
+    margin-bottom: 20px;
     font-family: "Nunito" !important;
   }
   .input-container:hover {
-    border: 1px solid #535af1 !important;
+    border: 1px solid $purple1 !important;
   }
   .input-container:focus {
-    border: 1px solid #535af1 !important;
+    border: 1px solid $purple1 !important;
   }
 
   input {
+    font-size: 18px;
     border: none;
     outline: none;
     width: 100%;
@@ -110,7 +113,7 @@
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus {
     font-family: "Nunito" !important;
-    border: 1px solid #535af1 !important;
+    border: 1px solid $purple1 !important;
   }
 }
 
@@ -121,9 +124,10 @@
   align-items: center;
 
   .chosed-user {
+    font-family: NunitoRegular, sans-serif;
     width: 100%;
     max-width: fit-content;
-    height: 40px;
+    height: 24px;
     padding: 8px 10px;
     margin-right: 8px;
     background-color: #eceefe;
@@ -162,7 +166,7 @@
   margin-left: 20px;
   width: 400px;
   height: 300px;
-  border: 1px solid #adb0d9;
+  border: 1px solid $lightPurple;
   border-top-right-radius: 20px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -204,7 +208,6 @@
 }
 
 .button-container {
-  margin-top: 20px;
   width: 100%;
   height: fit-content;
   display: flex;
@@ -221,7 +224,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #444df2;
+  background-color: $purple1;
 
   color: white;
   border-radius: 25px;
@@ -230,7 +233,7 @@
 
   cursor: pointer;
   &:hover {
-    background-color: #797ef3;
+    background-color: $purple2;
   }
 }
 
