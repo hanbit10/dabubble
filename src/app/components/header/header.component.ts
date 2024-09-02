@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -25,18 +26,22 @@ export class HeaderComponent implements OnInit {
     uid: '',
   };
 
-  constructor(private userService: UserService) {}
+  private usersSubscription!: Subscription;
+  @ViewChild(ProfileMainComponent) profileMainComponent!: ProfileMainComponent;
+
+  constructor(private userService: UserService) { }
 
   async ngOnInit() {
-    this.allUsers = await this.userService.getAllUsers();
+    this.usersSubscription = this.userService.users$.subscribe(users => {
+      this.allUsers = users;
 
-    let filteredUser = this.allUsers.find((user) => {
-      // return user.mainUser === true;
+      let filteredUser = this.allUsers.find((user) => {
+        return user.uid === 'AVMklDakbn3jph5hNNyf';
+      });
+      if (filteredUser) {
+        this.currentUser = filteredUser;
+      }
     });
-
-    if (filteredUser) {
-      this.currentUser = filteredUser;
-    }
   }
 
   openMenu() {
@@ -53,10 +58,12 @@ export class HeaderComponent implements OnInit {
 
   closeProfile() {
     this.profileOpen = false;
+    this.profileMainComponent.editProfile = false;
+    this.profileMainComponent.closeEditProfile();
   }
 
   logoutMainUser() {
-    // this.currentUser.mainUser = false;
+    this.currentUser.active = false;
     this.userService.updateUser(this.currentUser, this.currentUser.uid);
   }
 }

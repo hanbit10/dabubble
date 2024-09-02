@@ -8,9 +8,10 @@ import {
   updateDoc,
   doc,
   onSnapshot,
+  onSnapshot,
 } from '@angular/fire/firestore';
-
 import { UserProfile } from '../models/users';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,14 @@ export class UserService {
     profileImage: '',
     uid: '',
   };
+
+  users: UserProfile[] = [];
+  unsubUsers;
+  private usersSubject = new BehaviorSubject<UserProfile[]>([]);
+
+  constructor() {
+    this.unsubUsers = this.subUsersList();
+  }
   allUsersOnSnapshot: UserProfile[] = [];
   constructor() {}
 
@@ -67,5 +76,35 @@ export class UserService {
   async updateUser(user: {}, userId: string) {
     const userRef = doc(collection(this.firestore, 'users'), userId);
     await updateDoc(userRef, user);
+  }
+
+  get users$() {
+    return this.usersSubject.asObservable();
+  }
+
+  subUsersList() {
+    const docRef = collection(this.firestore, 'users');
+    return onSnapshot(docRef, (list) => {
+      this.users = [];
+      list.forEach((user) => {
+        this.users.push(this.setUserObject(user.data()));
+      });
+      this.usersSubject.next(this.users);
+    });
+  }
+
+  setUserObject(obj: any): UserProfile {
+    return {
+      address: {
+        city: obj.address.city,
+        street: obj.address.street,
+      },
+      email: obj.email,
+      name: obj.name,
+      active: obj.active,
+      password: obj.password,
+      profileImage: obj.profileImage,
+      uid: obj.uid,
+    };
   }
 }
