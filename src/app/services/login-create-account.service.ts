@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LoginCreateAccountService {
-currentState: string = 'log-in';
+currentState: string = 'create-avatar';
   constructor() { }
 
 }

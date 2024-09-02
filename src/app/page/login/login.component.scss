@@ -1,187 +1,201 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 * {
-    box-sizing: border-box;
-    transition: all 75ms ease-in-out;
+  box-sizing: border-box;
+  transition: all 75ms ease-in-out;
 }
 
 .log-in {
-    @include dFlex($ai:center,$jc: space-between);    
-    flex-direction: column;
-    height: 100vh;
-    background-color: $bgColor;
-    padding: 48px 75px;
+  @include dFlex($ai: center, $jc: space-between);
+  flex-direction: column;
+  height: 100vh;
+  background-color: $bgColor;
+  padding: 48px 75px;
 }
 
 header {
-    width: 100%;
-    @include dFlex($ai:center,$jc: space-between);
+  width: 100%;
+  @include dFlex($ai: center, $jc: space-between);
 }
 
 .logocontainer {
-    @include dFlex($ai:center); 
-    gap: 16px;
-    >img {
-        height: 70px;
-    }
-    >span {
-        font-size: 24px;
-        font-weight: 700;
-    }
+  @include dFlex($ai: center);
+  gap: 16px;
+  > img {
+    height: 70px;
+  }
+  > span {
+    font-size: 24px;
+    font-weight: 700;
+  }
 }
 
 .header-end {
-    @include dFlex($ai:flex-end,$g: 10px); 
-    flex-direction: column;    
-    >span:last-child {
-        color: $purple2;
-    }
+  @include dFlex($ai: flex-end, $g: 10px);
+  flex-direction: column;
+  > span:last-child {
+    color: $purple2;
+  }
 }
 
-app-log-in-card, app-create-account-card {
-    display:flex;
-    max-width: 550px;
-    max-height: 1000px;
-    flex-grow: 1;
+app-log-in-card,
+app-create-account-card,
+app-create-avatar-card {
+  display: flex;
+  max-width: 580px;
+  max-height: 1000px;
+  flex-grow: 1;
 }
 
 main {
-    @include dFlex($ai:center,$jc: space-between); 
-    flex-direction: column;    
-    flex-grow: 1;
-    padding: 35px 45px;
-    background-color: white;
-    border-radius: 30px;
-    box-shadow: 0px 2px 10px 0px #00000014;
-    max-width: 550px;
-    max-height: 1000px;
+  @include dFlex($ai: center, $jc: space-between);
+  position: relative;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 35px 45px;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0px 2px 10px 0px #00000014;
+  max-width: 580px;
+  max-height: 1000px;
 
-    >h1 {
-        color: #444DF2;
-        font-weight: 700;
-        font-size: 46px;
-        margin: 0;
-        
-    }
-    >p {
-        text-align: center;
-        font-size: 18px;
-        margin:0;
-    }
-    >span {
-        color: $purple2;
-    }
+  > h1 {
+    color: #444df2;
+    font-weight: 700;
+    font-size: 46px;
+    margin: 0;
+  }
+  > p {
+    text-align: center;
+    font-size: 18px;
+    margin: 0;
+  }
+  > span {
+    color: $purple2;
+  }
+}
 
+.arrow-wrapper {
+  position: absolute;
+  @include dFlex();
+  left: 35px;
+  top: 45px;
+  border-radius: 50%;
+  &:hover {
+    cursor: pointer;
+    background-color: $bgColor;
+    > img {
+      filter: invert(23%) sepia(70%) saturate(5554%) hue-rotate(238deg)
+        brightness(102%) contrast(90%);
+    }
+  }
 }
 
 .input-wrapper {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .input-icon {
-    position:absolute;
-    left: 24px;
-    top: 13px;
-    height: 24px;
-    filter: opacity(0.7);
+  position: absolute;
+  left: 24px;
+  top: 13px;
+  height: 24px;
+  filter: opacity(0.7);
 }
 
 .login-input {
-    @include font($fs:16px,$lh:16px);
-    border: none;
-    width: 100%;
-    border-radius: 100px;
-    padding: 14px 32px 14px 66px;
-    background-color: $bgColor;
-    &:hover:not(.g-input) {
-        cursor: pointer;
-        outline: 1px solid $textGray;
-    }    
-    &:focus {
-        outline: 1px solid $purple3;
-    }
+  @include font($fs: 16px, $lh: 16px);
+  border: none;
+  width: 100%;
+  border-radius: 100px;
+  padding: 14px 32px 14px 66px;
+  background-color: $bgColor;
+  &:hover:not(.g-input) {
+    cursor: pointer;
+    outline: 1px solid $textGray;
+  }
+  &:focus {
+    outline: 1px solid $purple3;
+  }
 }
 
 .hidden-button {
-    color: $purple2;
-    padding: 8px;
-    border-radius: 25px;
-    &:hover:not(.password) {
-        cursor: pointer;       
-        color: $purple3;        
-        outline: 1px solid $lightPurple;
-    }
+  color: $purple2;
+  padding: 8px;
+  border-radius: 25px;
+  &:hover:not(.password) {
+    cursor: pointer;
+    color: $purple3;
+    outline: 1px solid $lightPurple;
+  }
 }
 
 .password:hover {
-    cursor: pointer;
-    background-color: $bgColor;
-    color: $purple3; 
+  cursor: pointer;
+  background-color: $bgColor;
+  color: $purple3;
 }
 
-
-
 .divide-login {
-    @include dFlex($ai: flex-end,$g: 15px);
-    width: 100%; 
-    >span {
-        font-size: 18px;
-        line-height: 18px;
-    }
-    >div {
-        position: relative;
-        top: -3px;
-        background-color: $lightPurple;
-        height: 1px;
-        flex-grow: 1;
-    }   
+  @include dFlex($ai: flex-end, $g: 15px);
+  width: 100%;
+  > span {
+    font-size: 18px;
+    line-height: 18px;
+  }
+  > div {
+    position: relative;
+    top: -3px;
+    background-color: $lightPurple;
+    height: 1px;
+    flex-grow: 1;
+  }
 }
 
 .google-wrapper {
-    @include dFlex($g: 16px);
-    @include font($fs:16px,$lh:16px);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);    
-    >img {
-        height: 32px;
-    }
-    >span {
-        color:$purple2;
-        font-weight: 400;
-    }    
+  @include dFlex($g: 16px);
+  @include font($fs: 16px, $lh: 16px);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  > img {
+    height: 32px;
+  }
+  > span {
+    color: $purple2;
+    font-weight: 400;
+  }
 }
 
 .google-input {
-    &:hover {      
-        cursor: pointer;  
-        .google-wrapper {
-            >span {
-                font-weight: 700;
-                color: $purple3;
-            }
-        }
-        .g-input {        
-            cursor: pointer;    
-            outline: 1px solid $purple3;            
-        }   
+  &:hover {
+    cursor: pointer;
+    .google-wrapper {
+      > span {
+        font-weight: 700;
+        color: $purple3;
+      }
     }
+    .g-input {
+      cursor: pointer;
+      outline: 1px solid $purple3;
+    }
+  }
 }
 
-footer {    
-    display: flex;
-    gap: 16px;
-    margin-top: 35px;
-    >span {
-        color: #797EF3;
-        font-size: 18px;        
-    }
+footer {
+  display: flex;
+  gap: 16px;
+  margin-top: 35px;
+  > span {
+    color: #797ef3;
+    font-size: 18px;
+  }
 }
 
 .buttoncontainer {
-    display: flex;
-    gap: 30px;    
+  display: flex;
+  gap: 30px;
 }
-

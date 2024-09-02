@@ -1,7 +1,80 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
-@import '../../../app/page/login/login.component.scss';
+@import "../../../app/page/login/login.component.scss";
 
 button {
-    align-self: flex-end;
+  align-self: flex-end;
 }
+
+.policy-container {
+    @include dFlex();
+    align-self: flex-start;
+    >label {
+        >div {
+            display: inline-block;
+            padding: 4px 4px;
+        }
+        >a {
+            color: $purple2;
+        }
+    }
+}
+
+.checkbox-container {
+    @include dFlex();
+    cursor: pointer;
+    font-size: 14px;  
+    position: relative;
+    left: -5px;
+    z-index: 0;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: transparent;
+  
+    &:hover {
+      background-color: $bgColor;    
+      .checkmark {
+        border: 2px solid $purple3;
+      }
+    }
+  
+    input {
+      position: absolute;        
+      cursor: pointer;
+      height: 28px;
+      min-width: 28px;
+      appearance: none;
+      z-index: 2;
+  
+      &:checked + .checkmark {      
+        &:after {
+          display: block;    
+        }  
+      }    
+    }
+  
+    .checkmark {
+      position: relative;    
+      height: 18px;
+      min-width: 18px;
+      border: 2px solid $purple2;
+      background-color: transparent;
+      transition: border-color 75ms ease-in-out;
+      z-index: 1;
+  
+      &:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 5px;
+        top: 1px;
+        width: 3px;
+        height: 8px;
+        border: solid $purple2;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        z-index: 1;
+      }   
+    }  
+  }
