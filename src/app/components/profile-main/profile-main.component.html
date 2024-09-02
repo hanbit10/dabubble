@@ -9,7 +9,7 @@
 
     <div class="profile-name-section">
         <div class="profile-name-section-top">
-            <span>{{currentUser.name.firstName}} {{currentUser.name.lastName}}</span>
+            <span>{{currentUser.name}}</span>
             <button (click)="openEditProfile()" class="profile-edit-button">Bearbeiten</button>
         </div>
         <div class="profile-name-section-bottom">
@@ -44,7 +44,7 @@
                 <img src="./assets/img/icons/material-symbols/account-circle.svg" alt="email">
                 <span class="mail-title">Vollständiger Name</span><br>
             </div>
-            <input [(ngModel)]="newName" class="edit-inputfield" type="text" placeholder="{{currentUser.name.firstName}} {{currentUser.name.lastName}}">
+            <input [(ngModel)]="newName" class="edit-inputfield" type="text" placeholder="{{currentUser.name}}">
         </div>
 
         <div class="edit-container">

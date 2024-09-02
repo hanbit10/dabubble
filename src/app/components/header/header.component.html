@@ -12,7 +12,7 @@
     </section>
 
     <section class="profile-section">
-      <span>{{currentUser.name.firstName}} {{currentUser.name.lastName}}</span>
+      <span>{{currentUser.name}}</span>
       <div class="profile-pic">
         <img src="./assets/img/profile/man1.svg" alt="profile pic">
         <div class="online-status"></div>
@@ -31,5 +31,6 @@
 </div>
 
 <div (click)="closeProfile()" [class]="profileOpen ? 'overlay' : 'overlay-closed'">
-  <app-profile-main (click)="$event.stopPropagation()" [profileOpen]="profileOpen" (close)="closeProfile()"></app-profile-main>
+  <app-profile-main (click)="$event.stopPropagation()" [profileOpen]="profileOpen"
+    (close)="closeProfile()"></app-profile-main>
 </div>
