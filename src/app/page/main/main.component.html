@@ -1,30 +1,36 @@
-<div class="container">
+<div class="main-page">
+
   <app-header></app-header>
-  <mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer mode="side" [opened]="true">
-      <section class="sidenav-container">
-        <div class="sidenav">
-          <div class="logo-container">
-            <h2>This is logo contianer</h2>
-            Hello lets check if nunito worked
-            <h3>Lets check</h3>
-          </div>
-          <ul class="menu-item">
-            <button mat-icon-button (click)="drawer.toggle()">
-              <mat-icon class="menu-icon">menu</mat-icon>
-            </button>
-            <button (click)="addUser()">Add User</button>
-            <app-channel-nav></app-channel-nav>
-            <app-direct-nav></app-direct-nav>
-          </ul>
+
+  <div class="main-container">
+
+    <div class="main-menu container">
+      <div class="menu-header">
+        <div class="menu-header-logo">
+          <img src="./assets/img/logo/workspace_logo.svg" alt="logo">
+          <h2>Devspace</h2>
         </div>
-      </section>
-    </mat-drawer>
-    <div class="router-container">
+        <div [routerLink]="['newMessage']" class="menu-header-message"></div>
+      </div>
+
+      <div class="menu-nav">
+        <!-- <button mat-icon-button (click)="drawer.toggle()">
+          <mat-icon class="menu-icon">menu</mat-icon>
+        </button>
+        <button (click)="addUser()">Add User</button>-->
+        <app-channel-nav></app-channel-nav>
+        <app-direct-nav></app-direct-nav>
+      </div>
+    </div>
+
+
+    <div class="router-container container">
       <router-outlet></router-outlet>
     </div>
 
-  </mat-drawer-container>
+  </div>
 
 </div>
+
+
 <app-channel-create id="channel-create" class="hidden"></app-channel-create>
