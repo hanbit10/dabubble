@@ -1,30 +1,14 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use "@angular/material" as mat;
-// Plus imports for other components in your app.
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
 @include mat.core();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
 $dabubble-primary: mat.define-palette(mat.$indigo-palette);
-$dabubble-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
-// The warn palette is optional (defaults to red).
-$dabubble-warn: mat.define-palette(mat.$red-palette);
-
-// Create the theme object. A theme consists of configurations for individual
-// theming systems such as "color" or "typography".
 $dabubble-theme: mat.define-light-theme(
   (
     color: (
       primary: $dabubble-primary,
-      accent: $dabubble-accent,
-      warn: $dabubble-warn,
+      accent: $dabubble-primary,
     ),
     typography: mat.define-typography-config(),
     density: 0,
@@ -67,14 +51,14 @@ $purple3: rgb(83, 90, 241);
 $onlineGreen: rgb(146, 200, 62);
 $rosaError: rgb(237, 30, 121);
 
-@mixin dFlex($jc: center, $ai: center, $g: 0){
+@mixin dFlex($jc: center, $ai: center, $g: 0) {
   display: flex;
   justify-content: $jc;
   align-items: $ai;
   gap: $g;
 }
 
-@mixin font($ff: Nunito700, $fs: 18px, $lh: 24.55px){
+@mixin font($ff: Nunito700, $fs: 18px, $lh: 24.55px) {
   font-family: $ff;
   font-size: $fs;
   line-height: $lh;
@@ -103,7 +87,7 @@ h3 {
   display: none;
 }
 
-.button-primary{
+.button-primary {
   background-color: $purple1;
   color: white;
   border: none;
@@ -112,18 +96,18 @@ h3 {
   @include dFlex($g: 10px);
   @include font();
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     background-color: $purple2;
   }
 
-  &:disabled{
+  &:disabled {
     cursor: default;
     background-color: $textGray;
   }
 }
 
-.button-secondary{
+.button-secondary {
   color: $purple1;
   border: 1px solid $purple2;
   border-radius: 25px;
@@ -132,19 +116,19 @@ h3 {
   @include font();
   background-color: unset;
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     background-color: $purple3;
     color: white;
     border: 1px solid $purple3;
   }
 
-  &:active{
+  &:active {
     background-color: $purple1;
     border: 1px solid $purple1;
   }
 
-  &:disabled{
+  &:disabled {
     cursor: default;
     border: 1px solid $textGray;
     color: $textGray;
