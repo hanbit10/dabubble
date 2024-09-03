@@ -37,6 +37,7 @@ export class UserService {
   users: UserProfile[] = [];
   unsubUsers;
   private usersSubject = new BehaviorSubject<UserProfile[]>([]);
+  allUsersOnSnapshot: UserProfile[] = [];
 
   constructor() {
     this.unsubUsers = this.subUsersList();
@@ -56,9 +57,18 @@ export class UserService {
       const userData = doc.data() as UserProfile;
       allUsers.push(userData);
     });
-
-    console.log(allUsers);
     return allUsers;
+  }
+
+  async getAllUsersOnSnapshot() {
+    const docRef = collection(this.firestore, 'users');
+    const querySnapshot = onSnapshot(docRef, (querySnapshot) => {
+      this.allUsersOnSnapshot = [];
+      querySnapshot.forEach((doc) => {
+        const userData = doc.data() as UserProfile;
+        this.allUsersOnSnapshot.push(userData);
+      });
+    });
   }
 
   async updateUser(user: {}, userId: string) {
@@ -74,9 +84,9 @@ export class UserService {
     const docRef = collection(this.firestore, 'users');
     return onSnapshot(docRef, (list) => {
       this.users = [];
-      list.forEach(user => {
+      list.forEach((user) => {
         this.users.push(this.setUserObject(user.data()));
-      })
+      });
       this.usersSubject.next(this.users);
     });
   }
@@ -93,6 +103,6 @@ export class UserService {
       password: obj.password,
       profileImage: obj.profileImage,
       uid: obj.uid,
-    }
+    };
   }
 }
