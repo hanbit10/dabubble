@@ -22,4 +22,8 @@ avatars:Array<string> = [
   '/assets/img/profile/woman2.svg',
 ]
 
+chooseAvatar(path:string) {
+  this.logService.profileAvatar = path;
+}
+
 }

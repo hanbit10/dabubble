@@ -1,15 +1,24 @@
 <main>
-    <div class="arrow-wrapper" (click)="this.logService.currentState='create-account'"><img src="/assets/img/icons/go-back.svg" alt="go-back"></div>
-    <h1>Wähle deinen Avatar</h1>
-    <div class="main-pic-container"><img src="/assets/img/icons/profile-big.svg" alt="" id="main-img"></div>
-    <h2>Frederik Beck</h2>
-    <span>Aus der Liste wählen</span>
-    <div class="avatar-container">
-        <div class="avatar-pic-bucket" *ngFor="let avatar of avatars"><img src="{{ avatar }}" alt="avatar-pic" class="avatar-pic"></div>
+  <div
+    class="arrow-wrapper"
+    (click)="this.logService.currentState = 'create-account'"
+  >
+    <img src="/assets/img/icons/go-back.svg" alt="go-back" />
+  </div>
+  <h1>Wähle deinen Avatar</h1>
+  <div class="main-pic-container">
+    <img [src]="this.logService.profileAvatar" alt="" id="main-img" />
+  </div>
+  <h2>Frederik Beck</h2>
+  <span>Aus der Liste wählen</span>
+  <div class="avatar-container">
+    <div class="avatar-pic-bucket" *ngFor="let avatar of avatars" (click)="this.chooseAvatar(avatar)">
+      <img src="{{ avatar }}" alt="avatar-pic" class="avatar-pic" />
     </div>
-    <div class="own-pic-container">
-        <span>eigenes Bild verwenden</span>
-        <button class="button-secondary"> Datei hochladen</button>        
-    </div>
-    <button class="button-primary">Weiter</button>    
+  </div>
+  <div class="own-pic-container">
+    <span>eigenes Bild verwenden</span>
+    <button class="button-secondary">Datei hochladen</button>
+  </div>
+  <button class="button-primary">Weiter</button>
 </main>
