@@ -18,7 +18,7 @@ profile: UserProfile = {
   profileImage : '/assets/img/icons/profile-big.svg',
   uid : ''
 }
-  constructor() { }
+  constructor() {}  
 
 logUser() {
   console.log(this.profile);
