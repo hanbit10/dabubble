@@ -4,6 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ChannelService } from '../../services/channel.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-channel-create',
@@ -17,7 +18,7 @@ export class ChannelCreateComponent implements OnInit {
     name: '',
     description: '',
   };
-
+  private usersSubscription!: Subscription;
   keywords: UserProfile[] = [];
   contents: UserProfile[] = [];
   selectedUsers: UserProfile[] = [];
@@ -28,8 +29,9 @@ export class ChannelCreateComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.keywords = await this.userService.getAllUsers();
-    console.log('keywords', this.keywords);
+    this.usersSubscription = this.userService.users$.subscribe((users) => {
+      this.keywords = users;
+    });
     if (isPlatformBrowser(this.platformId)) {
       this.closeCard();
       this.nextForm();

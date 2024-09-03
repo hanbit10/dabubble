@@ -10,6 +10,7 @@ import {
   onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-channel-nav',
@@ -20,9 +21,15 @@ import {
 })
 export class ChannelNavComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
+  public usersSubscription!: Subscription;
+  allUsers: any[] = [];
   constructor(public userService: UserService) {}
-  async ngOnInit(): Promise<void> {
-    this.userService.getAllUsersOnSnapshot();
+  async ngOnInit() {
+    // this.userService.getAllUsersOnSnapshot();
+    this.usersSubscription = this.userService.users$.subscribe((users) => {
+      this.allUsers = users;
+      console.log('this is all users', this.allUsers);
+    });
   }
   createChannel() {
     const createChannel = document.getElementById('channel-create');
