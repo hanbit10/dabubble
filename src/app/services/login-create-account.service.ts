@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
+import { UserProfile } from '../models/users';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginCreateAccountService {
 currentState: string = 'log-in';
-name: string = '';
-mail: string = '';
-passwort: string = '';
-profileAvatar: string = '/assets/img/icons/profile-big.svg';
+profile: UserProfile = {
+  address : {
+    street: '',
+    city: ''
+  },
+  email : '',
+  active: false,
+  name : '',
+  password : '',
+  profileImage : '/assets/img/icons/profile-big.svg',
+  uid : ''
+}
   constructor() { }
 
 logUser() {
-  console.log(this.name,this.mail,this.passwort);
+  console.log(this.profile);
   this.currentState='create-avatar';
 }
 }

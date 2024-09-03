@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginCreateAccountService } from '../../services/login-create-account.service';
 import { NgFor } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-create-avatar-card',
@@ -11,7 +12,7 @@ import { NgFor } from '@angular/common';
 })
 export class CreateAvatarCardComponent {
 
-  constructor (public logService: LoginCreateAccountService){}
+  constructor (public logService: LoginCreateAccountService, private dataBase: UserService){}
 
 avatars:Array<string> = [
   '/assets/img/profile/man1.svg',
@@ -23,7 +24,11 @@ avatars:Array<string> = [
 ]
 
 chooseAvatar(path:string) {
-  this.logService.profileAvatar = path;
+  this.logService.profile.profileImage = path;
+}
+
+createUser() {
+
 }
 
 }

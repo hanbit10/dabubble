@@ -4,15 +4,15 @@
     <p>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</p>
     <div class="input-wrapper">
         <img src="/assets/img/icons/user.svg" alt="" class="input-icon">
-        <input [(ngModel)]="this.logService.name" class="login-input" type="email" placeholder="Vorname und Nachname">
+        <input [(ngModel)]="this.logService.profile.name" class="login-input" type="email" placeholder="Vorname und Nachname">
     </div>
     <div class="input-wrapper">
         <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
-        <input [(ngModel)]="this.logService.mail" class="login-input" type="email" placeholder="beispielname@email.com">
+        <input [(ngModel)]="this.logService.profile.email" class="login-input" type="email" placeholder="beispielname@email.com">
     </div>
     <div class="input-wrapper">
         <img src="/assets/img/icons/lock.svg" alt="" class="input-icon">
-        <input [(ngModel)]="this.logService.passwort" class="login-input" type="email" placeholder="Passwort">
+        <input [(ngModel)]="this.logService.profile.password" class="login-input" type="email" placeholder="Passwort">
     </div>
     <div class="policy-container">
         <div class="checkbox-container">
