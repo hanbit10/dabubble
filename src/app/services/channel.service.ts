@@ -12,6 +12,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { UserProfile } from '../models/users';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -28,7 +29,11 @@ export class ChannelService {
     profileImage: '',
     uid: 'id123123',
   };
-  constructor() {}
+  private channelSubject = new BehaviorSubject<any[]>([]);
+  channels: any[] = [];
+  constructor() {
+    this.subChannelList();
+  }
 
   async createNewChannel(newChannel: any, chosen: UserProfile[]) {
     let data = {
@@ -45,7 +50,7 @@ export class ChannelService {
     chosen.forEach((user: any) => {
       data.usersIds.push(user.uid);
       data.users.push({
-        displayName: user.name.firstName,
+        displayName: user.name,
       });
     });
 
@@ -54,5 +59,19 @@ export class ChannelService {
     const uid = querySnapshot.id;
     await setDoc(querySnapshot, { ...data, uid });
     alert('channel created');
+  }
+
+  get channels$() {
+    return this.channelSubject.asObservable();
+  }
+  subChannelList() {
+    const docRef = collection(this.firestore, 'channels');
+    return onSnapshot(docRef, (list) => {
+      this.channels = [];
+      list.forEach((doc) => {
+        this.channels.push(doc.data());
+      });
+      this.channelSubject.next(this.channels);
+    });
   }
 }
