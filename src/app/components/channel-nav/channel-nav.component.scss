@@ -89,7 +89,7 @@ table {
     tr {
       width: 100%;
       background-color: white;
-      border-radius: 20px;
+
       cursor: pointer;
       margin-top: 12px;
       td {
@@ -98,8 +98,14 @@ table {
         height: 35px;
       }
 
-      &:hover {
-        background-color: rgba(129, 129, 129, 0.04);
+      &:hover td {
+        border-radius: 20px;
+        background-color: $bgColor;
+        color: $purple1;
+      }
+
+      &:hover .tag {
+        background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.png");
       }
     }
 
@@ -108,6 +114,18 @@ table {
       font-size: 14px;
       font-weight: 500;
       text-align: start;
+    }
+
+    tr:last-child {
+      &:hover td {
+        border-radius: 20px;
+        background-color: white;
+        color: $purple1;
+      }
+
+      &:hover .add-circle {
+        background-image: url("./../../../assets/img/icons/material-symbols/add-circle-hover.png");
+      }
     }
   }
 }
@@ -120,9 +138,6 @@ table {
   background-position: center;
   background-size: 22px 22px;
   margin-right: 8px;
-  &:hover {
-    background-image: url("./../../../assets/img/icons/material-symbols/add-circle-hover.png");
-  }
 }
 
 .tag {
@@ -133,9 +148,6 @@ table {
   background-position: center;
   background-size: 22px 22px;
   margin-right: 8px;
-  &:hover {
-    background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.png");
-  }
 }
 
 .bold {
