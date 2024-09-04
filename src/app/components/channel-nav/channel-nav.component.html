@@ -1,2 +1,34 @@
-<div>channel <button (click)="createChannel()">add channel</button></div>
-<div [routerLink]="['channels']">link to channel</div>
+<section>
+  <div class="channel-head">
+    <div class="channel-head-left">
+      <div class="dropdown-icon"></div>
+      <div class="channel-head-title">
+        <div class="workspace-icon"></div>
+        <h3>Channels</h3>
+      </div>
+    </div>
+    <div (click)="createChannel()" class="add-icon"></div>
+  </div>
+
+  <div class="dropdown-container">
+    @for(channel of allChannels; track channel) {
+    <div [routerLink]="['channels']">
+      # {{ channel.name }}
+    </div>
+    }
+    <div class="channel-container">
+      <div [routerLink]="['channels']" class="channel">
+        <div class="tag-icon"></div>
+        <span>link to channel</span>
+      </div>
+    </div>
+
+    <div (click)="createChannel()" class="add-channel">
+      <div class="add-circle-icon"></div>
+      <span>Channel hinzufügen</span>
+    </div>
+
+  </div>
+
+
+</section>

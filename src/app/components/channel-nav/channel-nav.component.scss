@@ -1,0 +1,144 @@
+@import './../../../styles.scss';
+
+section {
+    width: 100%;
+}
+
+.channel-head {
+    width: 100%;
+    @include dFlex($jc: space-between);
+    padding: 3px 0 3px 0;
+}
+
+.channel-head-left {
+    @include dFlex($g: 15px);
+    padding: 5px 10px 5px 0px;
+
+    &:hover {
+        cursor: pointer;
+
+        .dropdown-icon {
+            background-image: url('./../../../assets/img/icons/material-symbols/arrow-drop-down-hover.svg');
+        }
+
+        .workspace-icon {
+            background-image: url('./../../../assets/img/icons/material-symbols/workspaces-hover.svg');
+        }
+
+        .channel-head-title {
+            >h3 {
+                color: $purple3;
+            }
+        }
+    }
+}
+
+.channel-head-title {
+    @include dFlex($g: 10px);
+
+    >h3 {
+        margin: 0;
+    }
+}
+
+.dropdown-icon {
+    background-image: url('./../../../assets/img/icons/material-symbols/arrow-drop-down.svg');
+    width: 30px;
+    height: 30px;
+}
+
+.workspace-icon {
+    background-image: url('./../../../assets/img/icons/material-symbols/workspaces.svg');
+    width: 24px;
+    height: 24px;
+}
+
+.add-icon {
+    background-image: url('./../../../assets/img/icons/material-symbols/add.svg');
+    width: 30px;
+    height: 30px;
+
+    &:hover {
+        cursor: pointer;
+        background-image: url('./../../../assets/img/icons/material-symbols/add-hover.svg');
+    }
+}
+
+.add-circle-icon {
+    background-image: url('./../../../assets/img/icons/material-symbols/add_circle.svg');
+    width: 24px;
+    height: 24px;
+}
+
+.tag-icon{
+    background-image: url('./../../../assets/img/icons/material-symbols/tag.svg');
+    width: 24px;
+    height: 24px;
+}
+
+.channel-container{
+    @include dFlex($ai: flex-start, $g: 13px);
+    flex-direction: column;
+    padding-inline: 25px;
+}
+
+.channel{
+    @include dFlex($jc: flex-start, $g: 10px);
+    padding: 4px 20px 4px 20px;
+    @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+    border-radius: 20px;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:hover{
+        cursor: pointer;
+        background-color: $bgColor;
+
+        .tag-icon{
+            background-image: url('./../../../assets/img/icons/material-symbols/tag-hover.svg');
+        }
+    }
+
+    &:active{
+        cursor: pointer;
+        @include font($ff: Nunito700, $fs: 18px, $lh: 24.55px);
+        color: $purple3;
+
+        .tag-icon{
+            background-image: url('./../../../assets/img/icons/material-symbols/tag-active.svg');
+        }
+    }
+}
+
+.add-channel {
+    @include dFlex($jc: flex-start, $g: 10px);
+    padding: 4px 10px 4px 10px;
+
+    >span{
+        @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        >span{
+            color: $purple3;
+        }
+
+        .add-circle-icon {
+            background-image: url('./../../../assets/img/icons/material-symbols/add_circle-hover.svg');
+        }
+    }
+
+    &:active{
+        cursor: pointer;
+
+        >span{
+            color: black;
+        }
+
+        .add-circle-icon {
+            background-image: url('./../../../assets/img/icons/material-symbols/add_circle-active.svg');
+        }
+    }
+}

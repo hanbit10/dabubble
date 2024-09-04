@@ -1,1 +1,6 @@
-<div [routerLink]="['users']">link to direct-chat</div>
+
+@for(user of allUsers; track user) {
+    <div [routerLink]="['users']">
+      {{ user.name }}
+    </div>
+    }
