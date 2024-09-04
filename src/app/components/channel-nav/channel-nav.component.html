@@ -2,9 +2,12 @@
   <div class="dropdown-left">
     <div id="dropdown-icon" class="dropdown-icon-channel rotate-down">
     </div>
-    <div class="dropdown-text-channel">
-      Channels
+
+    <div class="dropdown-title">
+      <div class="workspace-icon"></div>
+      <span>Channels</span>
     </div>
+
   </div>
   <button class="add-channel" (click)="createChannel()"></button>
 </button>
@@ -19,7 +22,7 @@
             <div class="tag"></div> {{ channel.name }}
           </td>
         </tr>
-        }
+        } 
         <tr (click)="createChannel()">
           <td>
             <div class="add-circle"></div> Channel hinzufügen

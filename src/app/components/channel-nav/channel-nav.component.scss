@@ -11,6 +11,8 @@
   text-align: left;
   cursor: pointer;
   outline: none;
+  padding: 0;
+
   &:hover {
     color: #535af1;
   }
@@ -27,15 +29,22 @@
 }
 
 .dropdown-left {
-  @include dFlex(flex-start, center, 0);
+  @include dFlex(flex-start, center, 15px);
 }
 
-.dropdown-text-channel {
+.dropdown-title {
+  @include dFlex($g: 10px);
+
+  >span {
+      @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
+  }
+}
+
+.workspace-icon {
   background-image: url("./../../../assets/img/icons/material-symbols/workspaces.svg");
-  background-repeat: no-repeat;
-  background-position: 10px 10px;
-  background-size: 24px 24px;
-  padding: 10px 10px 10px 40px;
+  width: 24px;
+  height: 24px;
+  background-size: cover;
 }
 
 .dropdown-icon-channel {
@@ -53,7 +62,7 @@
   background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down-hover.svg");
 }
 
-.dropdown-btn:hover .dropdown-text-channel {
+.dropdown-btn:hover .workspace-icon {
   background-image: url("./../../../assets/img/icons/material-symbols/workspaces-hover.svg");
 }
 
@@ -92,7 +101,7 @@ table {
       margin-top: 12px;
       td {
         @include dFlex(flex-start, center, 0);
-        padding-left: 40px;
+        padding-left: 30px;
         height: 35px;
       }
 

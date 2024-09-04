@@ -10,8 +10,9 @@
 
 .main-container {
   width: 100%;
-  height: calc(100% - 80px);
-  @include dFlex($ai: start, $g: 20px);
+  max-width: 1920px;
+  height: calc(100% - 90px);
+  @include dFlex($jc: start, $ai: start, $g: 20px);
   padding: 0 20px 20px 20px;
   box-sizing: border-box;
 }
@@ -26,7 +27,7 @@
 }
 
 .main-menu {
-  max-width: 370px;
+  max-width: 350px;
   @include dFlex($jc: flex-start, $g: 15px);
   flex-direction: column;
 }
@@ -66,8 +67,6 @@
   width: 100%;
   @include dFlex($ai: flex-start, $jc: flex-start, $g: 20px);
   flex-direction: column;
+  overflow: scroll;
 }
 
-.router-container {
-  max-width: 1000px;
-}

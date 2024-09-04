@@ -11,10 +11,11 @@
   padding-block: 15px;
   padding-inline: 20px;
   @include dFlex($jc: space-between, $g: 20px);
+  box-sizing: border-box;
 }
 
 .logo-section {
-  max-width: 370px;
+  max-width: 350px;
   width: 100%;
   padding-left: 25px;
   box-sizing: border-box;
@@ -76,7 +77,8 @@
 }
 
 .profile-section {
-  width: 485px;
+  max-width: 350px;
+  width: 100%;
   @include dFlex($jc: flex-end, $g: 12px);
 
   >span {

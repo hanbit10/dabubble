@@ -1,6 +1,35 @@
-
-@for(user of allUsers; track user) {
-    <div [routerLink]="['users']">
-      {{ user.name }}
+<button (click)="dropdown = !dropdown" id="dropdown-btn" class="dropdown-btn">
+  <div class="dropdown-left">
+    <div id="dropdown-icon" [class]="dropdown ? 'rotate-down' : 'dropdown-icon'"></div>
+    
+    <div class="dropdown-title">
+      <div class="contact-icon"></div>
+      <span>Direktnachrichten</span>
     </div>
-    }
+    
+  </div>
+</button>
+
+
+@if(dropdown) {
+<div id="dropdown-container" class="dropdown-container">
+  <div class="dropdown-content">
+    <table class="channel-table">
+      <tbody>
+        @for(user of allUsers; track user) {
+        <tr [routerLink]="['users']">
+          <td>
+            <div class="profile-pic">
+              <img src="" alt="">
+              <div></div>
+            </div>
+            {{ user.name }}
+          </td>
+        </tr>
+        }
+
+      </tbody>
+    </table>
+  </div>
+</div>
+} 
