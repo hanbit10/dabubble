@@ -5,7 +5,7 @@ import { UserProfile } from '../models/users';
   providedIn: 'root'
 })
 export class LoginCreateAccountService {
-currentState: string = 'log-in';
+currentState: string = 'create-account';
 profile: UserProfile = {
   address : {
     street: '',
@@ -20,7 +20,7 @@ profile: UserProfile = {
 }
   constructor() {}  
 
-logUser() {
+captureUser() {
   console.log(this.profile);
   this.currentState='create-avatar';
 }
