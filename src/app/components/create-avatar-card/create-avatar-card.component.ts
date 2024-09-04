@@ -14,21 +14,20 @@ export class CreateAvatarCardComponent {
 
   constructor (public logService: LoginCreateAccountService, private dataBase: UserService){}
 
-avatars:Array<string> = [
-  '/assets/img/profile/man1.svg',
-  '/assets/img/profile/man2.svg',
-  '/assets/img/profile/man3.svg',
-  '/assets/img/profile/man4.svg',
-  '/assets/img/profile/woman1.svg',
-  '/assets/img/profile/woman2.svg',
-]
+  avatars:Array<string> = [
+    '/assets/img/profile/man1.svg',
+    '/assets/img/profile/man2.svg',
+    '/assets/img/profile/man3.svg',
+    '/assets/img/profile/man4.svg',
+    '/assets/img/profile/woman1.svg',
+    '/assets/img/profile/woman2.svg',
+  ]
 
-chooseAvatar(path:string) {
-  this.logService.profile.profileImage = path;
-}
+  chooseAvatar(path:string) {
+    this.logService.profile.profileImage = path;
+  }
 
-createUser() {
-
-}
-
+  createUser() {  
+    this.logService.currentState = 'log-in';
+  }
 }

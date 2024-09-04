@@ -11,11 +11,15 @@ import { NgIf } from '@angular/common';
   styleUrl: './create-account-card.component.scss'
 })
 export class CreateAccountCardComponent {
+acceptPolicy = false;
+  constructor (public logService: LoginCreateAccountService) {}
 
-  constructor (public logService: LoginCreateAccountService){}
-
-onSubmit(ngForm: NgForm) {
-}
+  onSubmit(ngForm: NgForm) {
+    ngForm.control.markAllAsTouched();
+    if (ngForm.submitted && ngForm.form.valid) {
+      this.logService.captureUser();
+    }
+  }
 
 
 }

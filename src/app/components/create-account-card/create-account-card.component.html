@@ -24,7 +24,11 @@
           required
         />
       </div>
-      <div class="alert-wrapper"><span *ngIf="name.invalid && name.touched">* Bitte gib einen Namen ein.</span></div>
+      <div class="alert-wrapper">
+        <span *ngIf="name.invalid && name.touched"
+          >* Bitte gib einen Namen ein.</span
+        >
+      </div>
       <div class="input-wrapper">
         <img src="/assets/img/icons/mail.svg" alt="" class="input-icon" />
         <input
@@ -38,7 +42,11 @@
           required
         />
       </div>
-      <div class="alert-wrapper"><span *ngIf="mail.invalid && mail.touched">* Die E-Mail-Adresse ist leider ungültig.</span></div>
+      <div class="alert-wrapper">
+        <span *ngIf="mail.invalid && mail.touched"
+          >* Die E-Mail-Adresse ist leider ungültig.</span
+        >
+      </div>
       <div class="input-wrapper">
         <img src="/assets/img/icons/lock.svg" alt="" class="input-icon" />
         <input
@@ -51,11 +59,21 @@
           required
         />
       </div>
-      <div class="alert-wrapper"><span *ngIf="password.invalid && password.touched">* Bitte gib ein Passwort ein.</span></div>
+      <div class="alert-wrapper">
+        <span *ngIf="password.invalid && password.touched"
+          >* Bitte gib ein Passwort ein.</span
+        >
+      </div>
     </div>
     <div class="policy-container">
       <div class="checkbox-container">
-        <input type="checkbox" id="box" name="acceptPolicy" required />
+        <input
+          [(ngModel)]="acceptPolicy"
+          type="checkbox"  
+          id="box"        
+          name="acceptPolicy"          
+          required
+        />
         <span class="checkmark"></span>
       </div>
       <label for="box">
@@ -64,7 +82,12 @@
         <span> zu.</span>
       </label>
     </div>
-    <button class="button-primary" (click)="this.logService.logUser()">
+    <button
+      class="button-primary"
+      [disabled]="contactForm.invalid"
+      value="Submit"
+      type="submit"
+    >
       Weiter
     </button>
   </form>

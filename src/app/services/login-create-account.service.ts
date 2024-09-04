@@ -20,7 +20,7 @@ profile: UserProfile = {
 }
   constructor() {}  
 
-logUser() {
+captureUser() {
   console.log(this.profile);
   this.currentState='create-avatar';
 }
