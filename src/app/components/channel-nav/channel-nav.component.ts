@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -11,6 +11,7 @@ import {
   setDoc,
 } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 import { ChannelService } from '../../services/channel.service';
 
 @Component({
@@ -29,6 +30,7 @@ export class ChannelNavComponent implements OnInit {
   filtering: boolean = true;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
     public channelService: ChannelService
   ) {}
@@ -38,15 +40,33 @@ export class ChannelNavComponent implements OnInit {
       this.allUsers = users;
       console.log('this is all users', this.allUsers);
     });
-
     this.channelSubscription = this.channelService.channels$.subscribe(
       (channels) => {
         this.allChannels = channels;
       }
     );
+    this.toogleDirectMessage();
   }
   createChannel() {
     const createChannel = document.getElementById('channel-create');
     createChannel?.classList.remove('hidden');
+  }
+
+  toogleDirectMessage() {
+    if (isPlatformBrowser(this.platformId)) {
+      const dropdownIcon = document.getElementById('dropdown-icon');
+      const dropdownBtn = document.getElementById('dropdown-btn');
+      if (dropdownBtn) {
+        console.log(this.filtering);
+        dropdownBtn.addEventListener('click', (event) => {
+          if (dropdownIcon && this.filtering) {
+            dropdownIcon.classList.add('rotate-down');
+          }
+          if (dropdownIcon && !this.filtering) {
+            dropdownIcon.classList.remove('rotate-down');
+          }
+        });
+      }
+    }
   }
 }

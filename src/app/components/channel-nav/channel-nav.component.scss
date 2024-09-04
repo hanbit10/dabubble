@@ -1,10 +1,11 @@
+@import "./../../../styles.scss";
+
 .dropdown-btn {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 20px;
   color: #000000;
-  display: flex;
-  align-items: center;
+  @include dFlex(space-between, center, 0);
   border: none;
   background: none;
   width: 100%;
@@ -24,6 +25,10 @@
 .dropdown-content {
   display: column;
   justify-content: center;
+}
+
+.dropdown-left {
+  @include dFlex(flex-start, center, 0);
 }
 
 .dropdown-text-channel {
@@ -60,12 +65,13 @@
 
 .add-channel {
   border: none;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   background-image: url("../../../assets/img/icons/material-symbols/add.svg");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 24px 24px;
+  background-size: 26px 26px;
+  margin-right: 30px;
   cursor: pointer;
   &:hover {
     background-image: url("../../../assets/img/icons/material-symbols/add-hover.svg");
@@ -82,18 +88,14 @@ table {
     height: fit-content;
     tr {
       width: 100%;
-      background-color: aquamarine;
+      background-color: white;
       border-radius: 20px;
       cursor: pointer;
       margin-top: 12px;
       td {
-        height: 60px;
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
+        @include dFlex(flex-start, center, 0);
+        padding-left: 40px;
+        height: 35px;
       }
 
       &:hover {
@@ -108,4 +110,21 @@ table {
       text-align: start;
     }
   }
+}
+
+.add-circle {
+  width: 22px;
+  height: 22px;
+  background-image: url("./../../../assets/img/icons/material-symbols/add-circle.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 22px;
+  &:hover {
+    background-image: url("./../../../assets/img/icons/material-symbols/add-circle-hover.png");
+  }
+}
+
+.bold {
+  font-weight: bold;
+  margin-right: 8px;
 }
