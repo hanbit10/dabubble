@@ -5,7 +5,7 @@ import { UserProfile } from '../models/users';
   providedIn: 'root'
 })
 export class LoginCreateAccountService {
-currentState: string = 'log-in';
+currentState: string = 'create-account';
 profile: UserProfile = {
   address : {
     street: '',
