@@ -10,7 +10,7 @@
 
 .main-container {
   width: 100%;
-  height: calc(100% - 90px);
+  height: calc(100% - 80px);
   @include dFlex($ai: start, $g: 20px);
   padding: 0 20px 20px 20px;
   box-sizing: border-box;
@@ -26,8 +26,8 @@
 }
 
 .main-menu {
-  max-width: 400px;
-  @include dFlex($jc: flex-start, $g: 25px);
+  max-width: 370px;
+  @include dFlex($jc: flex-start, $g: 15px);
   flex-direction: column;
 }
 
@@ -37,6 +37,15 @@
 
   .menu-header-logo {
     @include dFlex($g: 15px);
+
+    >img{
+      height: 50px;
+      width: 50px;
+    }
+
+    >h2{
+      margin: 0;
+    }
   }
 
   .menu-header-message {
@@ -45,7 +54,6 @@
     background-repeat: no-repeat;
     width: 40px;
     height: 40px;
-    padding: 8px;
 
     &:hover{
       cursor: pointer;

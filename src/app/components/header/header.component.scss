@@ -8,7 +8,7 @@
 .header-content {
   max-width: 1920px;
   width: 100%;
-  padding-block: 10px;
+  padding-block: 15px;
   padding-inline: 20px;
   @include dFlex($jc: space-between, $g: 20px);
 }
@@ -19,6 +19,11 @@
   padding-left: 25px;
   box-sizing: border-box;
   @include dFlex($jc: flex-start, $g: 16px);
+
+  >img{
+    height: 60px;
+    width: auto;
+  }
 
   >span {
     @include font($lh: 24px);
@@ -88,11 +93,11 @@
 
 .profile-pic {
   position: relative;
-  height: 70px;
+  height: 60px;
 
   >img {
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
   }
 }

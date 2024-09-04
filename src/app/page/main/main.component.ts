@@ -45,10 +45,8 @@ export class MainComponent implements OnInit {
     public userService: UserService
   ) {}
   ngOnInit(): void {
-    const allUsers: Promise<UserProfile[]> = this.userService.getAllUsers();
-    allUsers.then((users) => {
-      console.log('users', users);
-    });
+    // const allUsers: Promise<UserProfile[]> = this.userService.getAllUsers();
+    // console.log('users', allUsers);
   }
 
   addUser() {

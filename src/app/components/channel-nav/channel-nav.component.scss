@@ -1,144 +1,154 @@
-@import './../../../styles.scss';
+@import "./../../../styles.scss";
 
-section {
-    width: 100%;
+.dropdown-btn {
+  text-decoration: none;
+  font-size: 20px;
+  color: #000000;
+  @include dFlex(space-between, center, 0);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    color: #535af1;
+  }
 }
 
-.channel-head {
-    width: 100%;
-    @include dFlex($jc: space-between);
-    padding: 3px 0 3px 0;
+.dropdown-container {
+  background-color: #ffffff;
+  padding-left: 8px;
 }
 
-.channel-head-left {
-    @include dFlex($g: 15px);
-    padding: 5px 10px 5px 0px;
-
-    &:hover {
-        cursor: pointer;
-
-        .dropdown-icon {
-            background-image: url('./../../../assets/img/icons/material-symbols/arrow-drop-down-hover.svg');
-        }
-
-        .workspace-icon {
-            background-image: url('./../../../assets/img/icons/material-symbols/workspaces-hover.svg');
-        }
-
-        .channel-head-title {
-            >h3 {
-                color: $purple3;
-            }
-        }
-    }
+.dropdown-content {
+  display: column;
+  justify-content: center;
 }
 
-.channel-head-title {
-    @include dFlex($g: 10px);
-
-    >h3 {
-        margin: 0;
-    }
+.dropdown-left {
+  @include dFlex(flex-start, center, 0);
 }
 
-.dropdown-icon {
-    background-image: url('./../../../assets/img/icons/material-symbols/arrow-drop-down.svg');
-    width: 30px;
-    height: 30px;
+.dropdown-text-channel {
+  background-image: url("./../../../assets/img/icons/material-symbols/workspaces.svg");
+  background-repeat: no-repeat;
+  background-position: 10px 10px;
+  background-size: 24px 24px;
+  padding: 10px 10px 10px 40px;
 }
 
-.workspace-icon {
-    background-image: url('./../../../assets/img/icons/material-symbols/workspaces.svg');
-    width: 24px;
-    height: 24px;
+.dropdown-icon-channel {
+  width: 24px;
+  height: 24px;
+  background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 24px 24px;
+  rotate: -90deg;
+  transition: 0.125s ease-in-out;
 }
 
-.add-icon {
-    background-image: url('./../../../assets/img/icons/material-symbols/add.svg');
-    width: 30px;
-    height: 30px;
-
-    &:hover {
-        cursor: pointer;
-        background-image: url('./../../../assets/img/icons/material-symbols/add-hover.svg');
-    }
+.dropdown-btn:hover .dropdown-icon-channel {
+  background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down-hover.svg");
 }
 
-.add-circle-icon {
-    background-image: url('./../../../assets/img/icons/material-symbols/add_circle.svg');
-    width: 24px;
-    height: 24px;
+.dropdown-btn:hover .dropdown-text-channel {
+  background-image: url("./../../../assets/img/icons/material-symbols/workspaces-hover.svg");
 }
 
-.tag-icon{
-    background-image: url('./../../../assets/img/icons/material-symbols/tag.svg');
-    width: 24px;
-    height: 24px;
-}
-
-.channel-container{
-    @include dFlex($ai: flex-start, $g: 13px);
-    flex-direction: column;
-    padding-inline: 25px;
-}
-
-.channel{
-    @include dFlex($jc: flex-start, $g: 10px);
-    padding: 4px 20px 4px 20px;
-    @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
-    border-radius: 20px;
-    width: 100%;
-    box-sizing: border-box;
-
-    &:hover{
-        cursor: pointer;
-        background-color: $bgColor;
-
-        .tag-icon{
-            background-image: url('./../../../assets/img/icons/material-symbols/tag-hover.svg');
-        }
-    }
-
-    &:active{
-        cursor: pointer;
-        @include font($ff: Nunito700, $fs: 18px, $lh: 24.55px);
-        color: $purple3;
-
-        .tag-icon{
-            background-image: url('./../../../assets/img/icons/material-symbols/tag-active.svg');
-        }
-    }
+.rotate-down {
+  rotate: 0deg;
+  transition: 0.125s ease-in-out;
 }
 
 .add-channel {
-    @include dFlex($jc: flex-start, $g: 10px);
-    padding: 4px 10px 4px 10px;
+  background-color: unset;
+  border: none;
+  width: 30px;
+  height: 30px;
+  background-image: url("../../../assets/img/icons/material-symbols/add.svg");
 
-    >span{
-        @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+  cursor: pointer;
+
+  &:hover {
+    background-image: url("../../../assets/img/icons/material-symbols/add-hover.svg");
+  }
+}
+
+table {
+  width: 100%;
+  height: fit-content;
+
+  border-collapse: collapse;
+  tbody {
+    width: 100%;
+    height: fit-content;
+    tr {
+      width: 100%;
+      background-color: white;
+
+      cursor: pointer;
+      margin-top: 12px;
+      td {
+        @include dFlex(flex-start, center, 0);
+        padding-left: 40px;
+        height: 35px;
+      }
+
+      &:hover td {
+        border-radius: 20px;
+        background-color: $bgColor;
+        color: $purple1;
+      }
+
+      &:hover .tag {
+        background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.svg");
+      }
     }
 
-    &:hover {
-        cursor: pointer;
-
-        >span{
-            color: $purple3;
-        }
-
-        .add-circle-icon {
-            background-image: url('./../../../assets/img/icons/material-symbols/add_circle-hover.svg');
-        }
+    th {
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 14px;
+      font-weight: 500;
+      text-align: start;
     }
 
-    &:active{
-        cursor: pointer;
+    tr:last-child {
+      &:hover td {
+        border-radius: 20px;
+        background-color: white;
+        color: $purple1;
+      }
 
-        >span{
-            color: black;
-        }
-
-        .add-circle-icon {
-            background-image: url('./../../../assets/img/icons/material-symbols/add_circle-active.svg');
-        }
+      &:hover .add-circle {
+        background-image: url("./../../../assets/img/icons/material-symbols/add_circle-hover.svg");
+      }
     }
+  }
+}
+
+.add-circle {
+  width: 22px;
+  height: 22px;
+  background-image: url("./../../../assets/img/icons/material-symbols/add_circle.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 22px;
+  margin-right: 8px;
+}
+
+.tag {
+  width: 22px;
+  height: 22px;
+  background-image: url("./../../../assets/img/icons/material-symbols/tag.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 22px;
+  margin-right: 8px;
+}
+
+.bold {
+  font-weight: bold;
+  margin-right: 8px;
 }
