@@ -26,6 +26,7 @@ export class ChannelNavComponent implements OnInit {
   private channelSubscription!: Subscription;
   allUsers: any[] = [];
   allChannels: any[] = [];
+  filtering: boolean = true;
 
   constructor(
     public userService: UserService,
