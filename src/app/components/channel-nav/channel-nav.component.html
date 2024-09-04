@@ -17,7 +17,7 @@
         @for(channel of allChannels; track channel) {
         <tr [routerLink]="['channels']">
           <td>
-            <div class="bold">#</div> {{ channel.name }}
+            <div class="tag"></div> {{ channel.name }}
           </td>
         </tr>
         }

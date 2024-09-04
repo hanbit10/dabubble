@@ -119,8 +119,22 @@ table {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 22px 22px;
+  margin-right: 8px;
   &:hover {
     background-image: url("./../../../assets/img/icons/material-symbols/add-circle-hover.png");
+  }
+}
+
+.tag {
+  width: 22px;
+  height: 22px;
+  background-image: url("./../../../assets/img/icons/material-symbols/tag.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 22px;
+  margin-right: 8px;
+  &:hover {
+    background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.png");
   }
 }
 
