@@ -4,11 +4,12 @@ import { ChannelHeaderComponent } from './channel-header/channel-header.componen
 import { ActivatedRoute } from '@angular/router';
 import { concatMapTo, map, Subscription } from 'rxjs';
 import { Channel } from '../../models/channels';
+import { ChannelProfileComponent } from './channel-profile/channel-profile.component';
 
 @Component({
   selector: 'app-channel-chat',
   standalone: true,
-  imports: [ChannelHeaderComponent],
+  imports: [ChannelHeaderComponent, ChannelProfileComponent],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
 })

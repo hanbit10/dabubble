@@ -7,6 +7,18 @@ mat-drawer-container {
   position: relative;
   width: 100vw;
   height: calc(100svh - 148px);
+
+  .mat-drawer.mat-drawer-side {
+    z-index: 1 !important;
+  }
+
+  .mat-drawer-content {
+    z-index: auto !important;
+  }
+
+  .mat-drawer-container {
+    z-index: auto !important;
+  }
 }
 
 mat-drawer {
