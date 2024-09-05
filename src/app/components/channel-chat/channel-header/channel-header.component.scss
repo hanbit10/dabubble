@@ -1,8 +1,49 @@
-.tag {
-  width: 32px;
-  height: 32px;
-  background-image: url("./../../../../assets/img/icons/material-symbols/tag.png");
+@import "./../../../../styles.scss";
+
+.container {
+  @include dFlex(space-between, center, 0);
+
+  .container-left {
+    @include dFlex(flex-start, center, 0);
+    // padding: 10px 8px 10px 8px;
+    border-radius: 40px;
+    cursor: pointer;
+    &:hover {
+      background-color: $bgColor;
+      color: $purple1;
+      font-weight: bold;
+    }
+
+    &:hover {
+      .tag {
+        background-image: url("./../../../../assets/img/icons/material-symbols/tag-hover.svg");
+      }
+
+      .arrow-drop-down {
+        background-image: url("./../../../../assets/img/icons/material-symbols/keyboard-arrow-down-hover.svg");
+      }
+    }
+  }
+
+  .container-right {
+    @include dFlex(flex-end, center, 0);
+  }
+}
+
+.arrow-drop-down {
+  width: 30px;
+  height: 30px;
+  background-image: url("./../../../../assets/img/icons/material-symbols/keyboard-arrow-down.svg");
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: 32px 32px;
+  background-position: cover;
+  background-size: 30px 30px;
+}
+
+.tag {
+  width: 30px;
+  height: 30px;
+  background-image: url("./../../../../assets/img/icons/material-symbols/tag.svg");
+  background-repeat: no-repeat;
+  background-position: cover;
+  background-size: 30px 30px;
 }

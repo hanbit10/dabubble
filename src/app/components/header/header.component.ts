@@ -29,10 +29,10 @@ export class HeaderComponent implements OnInit {
   private usersSubscription!: Subscription;
   @ViewChild(ProfileMainComponent) profileMainComponent!: ProfileMainComponent;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   async ngOnInit() {
-    this.usersSubscription = this.userService.users$.subscribe(users => {
+    this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
 
       let filteredUser = this.allUsers.find((user) => {

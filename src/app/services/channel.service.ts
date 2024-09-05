@@ -10,6 +10,7 @@ import {
   Timestamp,
   where,
 } from '@angular/fire/firestore';
+import { Channel } from '../models/channels';
 
 import { UserProfile } from '../models/users';
 import { BehaviorSubject } from 'rxjs';

@@ -3,6 +3,7 @@ import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
 import { ActivatedRoute } from '@angular/router';
 import { concatMapTo, map, Subscription } from 'rxjs';
+import { Channel } from '../../models/channels';
 
 @Component({
   selector: 'app-channel-chat',
@@ -15,7 +16,7 @@ export class ChannelChatComponent implements OnInit {
   private channelSubscription!: Subscription;
   channelId: string = '';
   allChannels: any[] = [];
-  currentChannel: any = '';
+  currentChannel: Channel = {} as Channel;
   constructor(
     public channelService: ChannelService,
     private route: ActivatedRoute
