@@ -37,4 +37,6 @@ export class ChannelHeaderComponent implements OnInit {
       }
     });
   }
+
+  openProfile() {}
 }

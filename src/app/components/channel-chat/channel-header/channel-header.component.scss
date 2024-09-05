@@ -5,7 +5,6 @@
 
   .container-left {
     @include dFlex(flex-start, center, 0);
-    // padding: 10px 8px 10px 8px;
     border-radius: 40px;
     cursor: pointer;
     &:hover {
@@ -27,6 +26,13 @@
 
   .container-right {
     @include dFlex(flex-end, center, 0);
+    border-radius: 40px;
+    cursor: pointer;
+    &:hover {
+      background-color: $bgColor;
+      color: $purple1;
+      font-weight: bold;
+    }
   }
 }
 
