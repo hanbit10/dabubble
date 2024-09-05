@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
 import { ActivatedRoute } from '@angular/router';
-import { concatMapTo, Subscription } from 'rxjs';
+import { concatMapTo, map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-channel-chat',
@@ -15,6 +15,7 @@ export class ChannelChatComponent implements OnInit {
   private channelSubscription!: Subscription;
   channelId: string = '';
   allChannels: any[] = [];
+  currentChannel: any = '';
   constructor(
     public channelService: ChannelService,
     private route: ActivatedRoute
@@ -25,13 +26,21 @@ export class ChannelChatComponent implements OnInit {
       if (id) {
         this.channelId = id;
         console.log('channel id', this.channelId);
+        this.channelSubscription = this.channelService.channels$
+          .pipe(
+            map((channels) =>
+              channels.find((channel) => channel.uid === this.channelId)
+            )
+          )
+          .subscribe((currentChannel) => {
+            if (currentChannel) {
+              this.currentChannel = currentChannel;
+              console.log('currentChannel', this.currentChannel);
+            } else {
+              console.log('Channel not found');
+            }
+          });
       }
     });
-
-    this.channelSubscription = this.channelService.channels$.subscribe(
-      (channels) => {
-        this.allChannels = channels;
-      }
-    );
   }
 }

@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './channel-header.component.scss',
 })
 export class ChannelHeaderComponent implements OnInit {
-  @Input() item = '';
+  @Input() getCurrentChannel: any = '';
   constructor() {}
   ngOnInit(): void {}
 }
