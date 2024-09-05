@@ -27,7 +27,18 @@ export class CreateAvatarCardComponent {
     this.logService.profile.profileImage = path;
   }
 
-  createUser() {  
-    this.logService.currentState = 'log-in';
+  async createUser() {  
+    try {
+      await this.dataBase.addUser(this.logService.profile);
+      setTimeout(() => {
+        this.logService.currentState = 'log-in';
+        document.body.style.overflowX = 'unset';
+        this.logService.userCreated = false;
+      },1500);
+      document.body.style.overflowX = 'hidden';
+      this.logService.userCreated = true;
+    } catch(error) {
+      console.error("Fehler beim Anlegen des Benutzers:", error);
+    }
   }
 }

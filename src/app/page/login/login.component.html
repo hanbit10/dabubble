@@ -1,25 +1,38 @@
 <div class="log-in">
-    <header>
-        <div class="logocontainer">
-            <img src="/assets/img/logo/da-bubble-logo.svg" alt="logo">
-            <span>DABubble</span>
-        </div>
-        <div class="header-end">
-            <span *ngIf="this.logService.currentState === 'log-in'">Neu bei DABubble?</span>            
-            <div *ngIf="this.logService.currentState === 'log-in'" class="hidden-button">
-                <span (click)="this.logService.currentState = 'create-account'">Konto erstellen</span>
-            </div>
-        </div>
-    </header>
-    <app-log-in-card *ngIf="this.logService.currentState === 'log-in'"></app-log-in-card>
-    <app-create-account-card *ngIf="this.logService.currentState === 'create-account'"></app-create-account-card>
-    <app-create-avatar-card *ngIf="this.logService.currentState === 'create-avatar'"></app-create-avatar-card>
-    <footer>
-        <div class="hidden-button">
-            <span>Impressum</span>
-        </div>
-        <div class="hidden-button">
-            <span>Datenschutz</span>
-        </div>        
-    </footer>
+  <header>
+    <div class="logocontainer">
+      <img src="/assets/img/logo/da-bubble-logo.svg" alt="logo" />
+      <span>DABubble</span>
+    </div>
+    <div class="header-end">
+      <span *ngIf="this.logService.currentState === 'log-in'"
+        >Neu bei DABubble?</span
+      >
+      <div
+        *ngIf="this.logService.currentState === 'log-in'"
+        (click)="this.logService.currentState = 'create-account'"
+        class="hidden-button"
+      >
+        <span>Konto erstellen</span>
+      </div>
+    </div>
+  </header>
+  <app-log-in-card
+    *ngIf="this.logService.currentState === 'log-in'"
+  ></app-log-in-card>
+  <app-create-account-card
+    *ngIf="this.logService.currentState === 'create-account'"
+  ></app-create-account-card>
+  <app-create-avatar-card
+    *ngIf="this.logService.currentState === 'create-avatar'"
+  ></app-create-avatar-card>
+  <footer>
+    <div class="hidden-button">
+      <span>Impressum</span>
+    </div>
+    <div class="hidden-button">
+      <span>Datenschutz</span>
+    </div>
+  </footer>
+  <div *ngIf="this.logService.userCreated" class="created-account"><h2>Konto erfolgreich erstellt!</h2></div>
 </div>
