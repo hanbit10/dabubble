@@ -14,7 +14,7 @@
     <table class="channel-table">
       <tbody>
         @for(channel of allChannels; track channel) {
-        <tr [routerLink]="['channels']">
+        <tr [routerLink]="['channels', channel.uid]">
           <td>
             <div class="tag"></div> {{ channel.name }}
           </td>
