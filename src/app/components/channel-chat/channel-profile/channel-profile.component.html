@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="content">
+    <div class="content-tab">
+      <h2>Mitglieder</h2>
+      <div class="card-close" (click)="close()"></div>
+    </div>
+    @for(users of filteredUsers; track users) {
+    <img src="{{users.profileImage}}">
+    {{users.name}}
+    }
+    <section class="container-add-users">
+      <div class="add-member"></div>
+      <div class="add-users">Mitglieder hinzufügen</div>
+    </section>
+  </div>
+  <div class="content-add-users">
+
+  </div>
+</div>
