@@ -1,0 +1,129 @@
+@import "./../../../styles.scss";
+
+.dropdown-btn {
+    text-decoration: none;
+    font-size: 20px;
+    color: #000000;
+    @include dFlex(space-between, center, 0);
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+
+    &:hover {
+        color: #535af1;
+    }
+}
+
+.dropdown-left {
+    @include dFlex(flex-start, center, 15px);
+}
+
+.dropdown-title {
+    @include dFlex($g: 10px);
+
+    >span {
+        @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
+    }
+}
+
+.contact-icon {
+    background-image: url("./../../../assets/img/icons/material-symbols/account-circle.svg");
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+}
+
+.dropdown-icon {
+    width: 24px;
+    height: 24px;
+    background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    rotate: -90deg;
+    transition: 0.125s ease-in-out;
+}
+
+.dropdown-btn:hover .dropdown-icon {
+    background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down-hover.svg");
+}
+
+.dropdown-btn:hover .rotate-down {
+    background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down-hover.svg");
+}
+
+.dropdown-btn:hover .contact-icon {
+    background-image: url("./../../../assets/img/icons/material-symbols/account-circle-hover.svg");
+}
+
+.rotate-down {
+    width: 24px;
+    height: 24px;
+    background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px 24px;
+    rotate: 0deg;
+    transition: 0.125s ease-in-out;
+}
+
+.dropdown-contacts {
+    @include dFlex($ai: flex-start, $g: 13px);
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.contact-container {
+    width: 100%;
+    @include dFlex($g: 15px, $jc: flex-start);
+    padding: 4px 40px 4px 40px;
+    border-radius: 35px;
+    box-sizing: border-box;
+    @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
+
+    &:hover{
+        cursor: pointer;
+        background-color: $bgColor;
+    }
+
+    &:active{
+        color: $purple3;
+        @include font($ff: Nunito700, $fs: 16px, $lh: 20px);
+    }
+}
+
+.profile-pic {
+    position: relative;
+    height: 50px;
+    width: 50px;
+
+    >img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+}
+
+.online-status {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 14px;
+    height: 14px;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: $onlineGreen;
+}
+
+.active {
+    background-color: $onlineGreen;
+}
+
+.absent {
+    background-color: $textGray;
+}

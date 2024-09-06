@@ -4,6 +4,7 @@ import {
   Router,
   RouterModule,
   RouterOutlet,
+  RouterLink
 } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
@@ -23,6 +24,7 @@ import { UserProfile } from '../../models/users';
   imports: [
     RouterOutlet,
     RouterModule,
+    RouterLink,
     MatIconModule,
     MatDividerModule,
     MatButtonModule,

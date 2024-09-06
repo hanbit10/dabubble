@@ -1,7 +1,6 @@
 @import "./../../../styles.scss";
 
 .dropdown-btn {
-  padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 20px;
   color: #000000;
@@ -12,31 +11,71 @@
   text-align: left;
   cursor: pointer;
   outline: none;
+  padding: 0;
+
   &:hover {
     color: #535af1;
   }
 }
 
 .dropdown-container {
-  background-color: #ffffff;
-  padding-left: 8px;
+  @include dFlex($g: 20px, $ai: flex-start);
+  flex-direction: column;
+  padding-block: 20px;
 }
 
-.dropdown-content {
-  display: column;
-  justify-content: center;
+.channel-container {
+  width: 100%;
+  @include dFlex($g: 13px);
+  flex-direction: column;
+}
+
+.channel{
+  width: 100%;
+  @include dFlex($g: 10px, $jc: flex-start);
+  padding: 4px 40px 4px 40px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
+
+  &:hover{
+    cursor: pointer;
+    background-color: $bgColor;
+
+    .tag {
+      background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.svg");
+    }
+  }
+
+  &:active{
+    cursor: pointer;
+    background-color: $bgColor;
+    @include font($ff: Nunito700, $fs: 16px, $lh: 20px);
+    color: $purple3;
+
+    .tag {
+      background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.svg");
+    }
+  }
 }
 
 .dropdown-left {
-  @include dFlex(flex-start, center, 0);
+  @include dFlex(flex-start, center, 15px);
 }
 
-.dropdown-text-channel {
+.dropdown-title {
+  @include dFlex($g: 10px);
+
+  >span {
+      @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
+  }
+}
+
+.workspace-icon {
   background-image: url("./../../../assets/img/icons/material-symbols/workspaces.svg");
-  background-repeat: no-repeat;
-  background-position: 10px 10px;
-  background-size: 24px 24px;
-  padding: 10px 10px 10px 40px;
+  width: 24px;
+  height: 24px;
+  background-size: cover;
 }
 
 .dropdown-icon-channel {
@@ -54,7 +93,7 @@
   background-image: url("../../../assets/img/icons/material-symbols/arrow-drop-down-hover.svg");
 }
 
-.dropdown-btn:hover .dropdown-text-channel {
+.dropdown-btn:hover .workspace-icon {
   background-image: url("./../../../assets/img/icons/material-symbols/workspaces-hover.svg");
 }
 
@@ -64,93 +103,54 @@
 }
 
 .add-channel {
+  background-color: unset;
   border: none;
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
   background-image: url("../../../assets/img/icons/material-symbols/add.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 26px 26px;
-  margin-right: 30px;
+
   cursor: pointer;
+
   &:hover {
     background-image: url("../../../assets/img/icons/material-symbols/add-hover.svg");
   }
 }
 
-table {
-  width: 100%;
-  height: fit-content;
-
-  border-collapse: collapse;
-  tbody {
-    width: 100%;
-    height: fit-content;
-    tr {
-      width: 100%;
-      background-color: white;
-
-      cursor: pointer;
-      margin-top: 12px;
-      td {
-        @include dFlex(flex-start, center, 0);
-        padding-left: 40px;
-        height: 35px;
-      }
-
-      &:hover td {
-        border-radius: 20px;
-        background-color: $bgColor;
-        color: $purple1;
-      }
-
-      &:hover .tag {
-        background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.png");
-      }
-    }
-
-    th {
-      color: rgba(0, 0, 0, 0.4);
-      font-size: 14px;
-      font-weight: 500;
-      text-align: start;
-    }
-
-    tr:last-child {
-      &:hover td {
-        border-radius: 20px;
-        background-color: white;
-        color: $purple1;
-      }
-
-      &:hover .add-circle {
-        background-image: url("./../../../assets/img/icons/material-symbols/add-circle-hover.png");
-      }
-    }
-  }
-}
-
-.add-circle {
-  width: 22px;
-  height: 22px;
-  background-image: url("./../../../assets/img/icons/material-symbols/add-circle.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 22px 22px;
-  margin-right: 8px;
-}
-
 .tag {
-  width: 22px;
-  height: 22px;
-  background-image: url("./../../../assets/img/icons/material-symbols/tag.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 22px 22px;
-  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+  background-image: url("./../../../assets/img/icons/material-symbols/tag.svg");
 }
 
 .bold {
   font-weight: bold;
   margin-right: 8px;
+}
+
+.add-channel-dropdown{
+  @include dFlex($g: 10px, $jc: flex-start);
+  width: 100%;
+  padding: 4px 40px 4px 40px;
+  @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
+
+  &:hover{
+    cursor: pointer;
+    color: $purple3;
+
+    .add-circle {
+      background-image: url("./../../../assets/img/icons/material-symbols/add_circle-hover.svg");
+    }
+  }
+
+  &:active{
+    .add-circle {
+      background-image: url("./../../../assets/img/icons/material-symbols/add_circle-active.svg");
+    }
+  }
+}
+
+.add-circle {
+  width: 24px;
+  height: 24px;
+  background-image: url("./../../../assets/img/icons/material-symbols/add_circle.svg");
 }

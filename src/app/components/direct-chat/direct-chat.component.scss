@@ -1,0 +1,39 @@
+@import './../../../styles.scss';
+
+.contact-container {
+    width: 200px;
+    @include dFlex($g: 15px, $jc: flex-start);
+    padding: 4px;
+    border-radius: 35px;
+    box-sizing: border-box;
+    @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
+
+    &:hover {
+        cursor: pointer;
+        background-color: $bgColor;
+    }
+
+    >img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+}
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9966;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: opacity 125ms ease-in-out;
+    @include dFlex();
+}
+
+app-profile-user{
+    @include dFlex();
+}
