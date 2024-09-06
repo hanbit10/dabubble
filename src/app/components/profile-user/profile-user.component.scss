@@ -1,19 +1,5 @@
 @import './../../../styles.scss';
 
-.overlay{
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9966;
-    background-color: rgba(0, 0, 0, 0.2);
-    opacity: 1;
-    transition: opacity 125ms ease-in-out;
-    @include dFlex();
-  }
-
 section{
     position: absolute;
     background-color: white;
