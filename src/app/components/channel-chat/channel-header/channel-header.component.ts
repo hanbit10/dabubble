@@ -38,5 +38,8 @@ export class ChannelHeaderComponent implements OnInit {
     });
   }
 
-  openProfile() {}
+  openProfile() {
+    const channelProfile = document.getElementById('channel-profile');
+    channelProfile?.classList.remove('hidden');
+  }
 }

@@ -80,7 +80,6 @@ export class ChannelCreateComponent implements OnInit {
   }
   closeCard() {
     const cardClose = document.querySelector('.card-close');
-
     cardClose?.addEventListener('click', () => {
       const createChannel = document.getElementById('channel-create');
       createChannel?.classList.add('hidden');
