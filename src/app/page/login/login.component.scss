@@ -1,5 +1,10 @@
 @import "../../../styles.scss";
 
+@keyframes slidein-right {
+  from {right: -480px}
+  to {right: 100px}
+}
+
 * {
   box-sizing: border-box;
   transition: all 75ms ease-in-out;
@@ -7,6 +12,7 @@
 
 .log-in {
   @include dFlex($ai: center, $jc: space-between);
+  position: relative;
   flex-direction: column;
   height: 100vh;
   background-color: $bgColor;
@@ -198,4 +204,20 @@ footer {
 .buttoncontainer {
   display: flex;
   gap: 30px;
+}
+
+.created-account {
+  position: absolute;
+  @include dFlex();
+  right: 100px;
+  bottom: 48px;
+  width: 480px;
+  height: 130px;
+  border-radius: 30px 30px 0px 30px;
+  background-color: $purple1;
+  >h2 {
+    color: white;
+    font-size: 32px;
+  }
+  animation: slidein-right 200ms ease-in-out;
 }

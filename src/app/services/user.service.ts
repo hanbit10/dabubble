@@ -16,23 +16,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  firestore: Firestore = inject(Firestore);
-  data = {
-    address: {
-      city: 'Köln',
-      street: 'straße 2',
-    },
-    color: '#000000',
-    displayName: 'Tester',
-    email: 'test@gmail.com',
-    name: {
-      firstName: 'tester',
-      lastName: 'testing',
-    },
-    password: 'test123',
-    profileImage: '',
-    uid: '',
-  };
+  firestore: Firestore = inject(Firestore);  
 
   users: UserProfile[] = [];
   unsubUsers;
@@ -43,10 +27,10 @@ export class UserService {
     this.unsubUsers = this.subUsersList();
   }
 
-  async addUser() {
+  async addUser(obj: {}) {
     const docRef = collection(this.firestore, 'users');
-    const querySnapshot = await addDoc(docRef, this.data);
-    await setDoc(querySnapshot, { ...this.data, uid: querySnapshot.id });
+    const querySnapshot = await addDoc(docRef, obj);
+    await setDoc(querySnapshot, { ...obj, uid: querySnapshot.id });
   }
 
   async getAllUsers() {

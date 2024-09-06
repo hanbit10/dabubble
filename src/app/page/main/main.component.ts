@@ -42,12 +42,31 @@ export class MainComponent implements OnInit {
     private route: ActivatedRoute,
     public userService: UserService
   ) {}
+
+  data = {
+    address: {
+      city: 'Köln',
+      street: 'straße 2',
+    },
+    color: '#000000',
+    displayName: 'Tester',
+    email: 'test@gmail.com',
+    name: {
+      firstName: 'tester',
+      lastName: 'testing',
+    },
+    password: 'test123',
+    profileImage: '',
+    uid: '',
+  };
+  
   ngOnInit(): void {
     // const allUsers: Promise<UserProfile[]> = this.userService.getAllUsers();
     // console.log('users', allUsers);
   }
 
+
   addUser() {
-    this.userService.addUser();
+    this.userService.addUser(this.data);
   }
 }
