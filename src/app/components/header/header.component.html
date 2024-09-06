@@ -14,7 +14,7 @@
     <section class="profile-section">
       <span>{{currentUser.name}}</span>
       <div class="profile-pic">
-        <img src="./assets/img/profile/man1.svg" alt="profile pic">
+        <img src="{{currentUser.profileImage}}" alt="profile pic">
         <div class="online-status" [class]="currentUser.active ? 'active' : 'absent'"></div>
       </div>
 

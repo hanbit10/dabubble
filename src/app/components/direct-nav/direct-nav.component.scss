@@ -18,16 +18,6 @@
     }
 }
 
-.dropdown-container {
-    background-color: #ffffff;
-    padding-left: 8px;
-}
-
-.dropdown-content {
-    display: column;
-    justify-content: center;
-}
-
 .dropdown-left {
     @include dFlex(flex-start, center, 15px);
 }
@@ -81,57 +71,59 @@
     transition: 0.125s ease-in-out;
 }
 
-table {
+.dropdown-contacts {
+    @include dFlex($ai: flex-start, $g: 13px);
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.contact-container {
     width: 100%;
-    height: fit-content;
+    @include dFlex($g: 15px, $jc: flex-start);
+    padding: 4px 40px 4px 40px;
+    border-radius: 35px;
+    box-sizing: border-box;
+    @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
 
-    border-collapse: collapse;
-
-    tbody {
-        width: 100%;
-        height: fit-content;
-
-        tr {
-            width: 100%;
-            background-color: white;
-
-            cursor: pointer;
-            margin-top: 12px;
-
-            td {
-                @include dFlex(flex-start, center, 0);
-                padding-left: 30px;
-                height: 35px;
-            }
-
-            &:hover td {
-                border-radius: 20px;
-                background-color: $bgColor;
-                color: $purple1;
-            }
-
-            &:hover .tag {
-                background-image: url("./../../../assets/img/icons/material-symbols/tag-hover.svg");
-            }
-        }
-
-        th {
-            color: rgba(0, 0, 0, 0.4);
-            font-size: 14px;
-            font-weight: 500;
-            text-align: start;
-        }
-
-        tr:last-child {
-            &:hover td {
-                border-radius: 20px;
-                background-color: white;
-                color: $purple1;
-            }
-
-            &:hover .add-circle {
-                background-image: url("./../../../assets/img/icons/material-symbols/add_circle-hover.svg");
-            }
-        }
+    &:hover{
+        cursor: pointer;
+        background-color: $bgColor;
     }
+
+    &:active{
+        color: $purple3;
+        @include font($ff: Nunito700, $fs: 16px, $lh: 20px);
+    }
+}
+
+.profile-pic {
+    position: relative;
+    height: 50px;
+    width: 50px;
+
+    >img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+}
+
+.online-status {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 14px;
+    height: 14px;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-sizing: border-box;
+    background-color: $onlineGreen;
+}
+
+.active {
+    background-color: $onlineGreen;
+}
+
+.absent {
+    background-color: $textGray;
 }

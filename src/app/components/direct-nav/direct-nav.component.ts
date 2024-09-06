@@ -3,6 +3,7 @@ import { Firestore } from '@angular/fire/firestore';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
+import { UserProfile } from '../../models/users';
 
 @Component({
   selector: 'app-direct-nav',
@@ -14,7 +15,7 @@ import { Subscription } from 'rxjs';
 export class DirectNavComponent {
   firestore: Firestore = inject(Firestore);
   public usersSubscription!: Subscription;
-  allUsers: any[] = [];
+  allUsers: UserProfile[] = [];
   dropdown: boolean = true;
 
   constructor(public userService: UserService) {}
@@ -22,12 +23,8 @@ export class DirectNavComponent {
   async ngOnInit() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
-      console.log('this is all users', this.allUsers);
     });
   }
 
-
-  
-  
 
 }
