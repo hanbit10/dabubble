@@ -8,6 +8,8 @@ export class LoginCreateAccountService {
 
 currentState: string = 'log-in';
 userCreated:boolean = false;
+loginMail: string = '';
+loginPassword: string = '';
 
 profile: UserProfile = {
   address : {
@@ -21,6 +23,7 @@ profile: UserProfile = {
   profileImage : '/assets/img/icons/profile-big.svg',
   uid : ''
 }
+
   constructor() {}  
 
 captureUser() {
