@@ -1,8 +1,17 @@
-<div class="container">
+<div id="channel-profile-container" class="container">
   <div class="content">
+    <div class="content-tab">
+      <h2>Mitglieder</h2>
+      <div class="card-close" (click)="close()"></div>
+    </div>
+
     @for(users of filteredUsers; track users) {
     <img src="{{users.profileImage}}">
     {{users.name}}
     }
+    <section class="add-users-container">
+      <div class="add-member"></div>
+      <div class="add-users">Mitglieder hinzufügen</div>
+    </section>
   </div>
 </div>

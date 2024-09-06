@@ -37,4 +37,12 @@ export class ChannelProfileComponent implements OnInit {
       }
     });
   }
+
+  close() {
+    const cardClose = document.querySelector('.card-close');
+    cardClose?.addEventListener('click', () => {
+      const container = document.querySelector('#channel-profile-container');
+      container?.classList.add('hidden');
+    });
+  }
 }
