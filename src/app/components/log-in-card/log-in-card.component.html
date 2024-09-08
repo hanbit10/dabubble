@@ -3,11 +3,11 @@
     <p>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</p>
     <div class="input-wrapper">
         <img src="/assets/img/icons/mail.svg" alt="" class="input-icon">
-        <input class="login-input" type="email" placeholder="beispielname@email.com">
+        <input class="login-input" type="email" [(ngModel)]="this.logService.loginMail" placeholder="beispielname@email.com" >
     </div>
     <div class="input-wrapper">
         <img src="/assets/img/icons/lock.svg" alt="" class="input-icon">
-        <input class="login-input" type="password" placeholder="Passwort">
+        <input class="login-input" type="password" [(ngModel)]="this.logService.loginPassword" placeholder="Passwort">
     </div>     
     <div class="hidden-button password">
         <span>Passwort vergessen?</span>
@@ -25,7 +25,7 @@
         <input class="login-input g-input" type="text">
     </div>         
     <div class="buttoncontainer">
-        <button class="button-primary">Anmelden</button>
-        <button class="button-secondary" [routerLink]="['/main']">Gäste-Login</button>
+        <button class="button-primary" (click)="userLogin()">Anmelden</button>
+        <button class="button-secondary" (click)="guestLogin()">Gäste-Login</button>
     </div>
 </main>
