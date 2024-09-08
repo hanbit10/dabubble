@@ -19,7 +19,7 @@ export const routes: Routes = [
         path: 'users',
         component: DirectChatComponent,
       },
-      { path: 'channels', component: ChannelChatComponent },
+      { path: 'channels/:id', component: ChannelChatComponent },
       { path: 'newMessage', component: NewMessageComponent },
     ],
   },
