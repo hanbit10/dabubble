@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
 
   {
-    path: 'main',
+    path: 'main/:id',
     component: MainComponent,
     children: [
       {
