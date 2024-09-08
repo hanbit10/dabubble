@@ -43,4 +43,8 @@ export class LogInCardComponent {
       this.router.navigate([`/main/${user.uid}`]);
     }
   }
+
+  guestLogin() {
+    this.router.navigate([`/main/guest`]);
+  }
 }
