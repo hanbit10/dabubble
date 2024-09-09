@@ -1,0 +1,37 @@
+@import './../../styles.scss';
+
+@mixin profileImg($w: 70px, $h: 70px) {
+    width: $w;
+    height: $h;
+    border-radius: 50%;
+}
+
+.active {
+    background-color: $onlineGreen;
+}
+
+.absent {
+    background-color: $textGray;
+}
+
+.active-text {
+    color: $onlineGreen;
+}
+
+.absent-text {
+    color: $textGray;
+}
+
+.overlay-userProfile {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9966;
+    background-color: rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    transition: opacity 125ms ease-in-out;
+    @include dFlex();
+}

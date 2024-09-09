@@ -1,6 +1,6 @@
 import { Component, inject, Inject } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { RouterModule } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
@@ -8,7 +8,7 @@ import { UserProfile } from '../../models/users';
 @Component({
   selector: 'app-direct-nav',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterLink, RouterModule],
   templateUrl: './direct-nav.component.html',
   styleUrl: './direct-nav.component.scss',
 })

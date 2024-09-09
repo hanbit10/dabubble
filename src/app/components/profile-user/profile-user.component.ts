@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { UserProfile } from '../../models/users';
+
+
+
 
 @Component({
   selector: 'app-profile-user',
@@ -7,11 +11,20 @@ import { Component } from '@angular/core';
   templateUrl: './profile-user.component.html',
   styleUrl: './profile-user.component.scss'
 })
-export class ProfileUserComponent {
-  
+export class ProfileUserComponent implements OnInit {
+  @Input() user: UserProfile = {
+    uid: ''
+  };
+  @Output() close = new EventEmitter<void>();
 
-  closeProfile(){
+  constructor(){}
 
+  ngOnInit(): void {
+    
+  }
+
+  onClose() {
+    this.close.emit();
   }
 
   newMessage(){

@@ -14,15 +14,15 @@
         </div>
 
         @if(currentUser.active){
-        <div class="profile-name-section-bottom active">
-            <div></div>
-            <span>Aktiv</span>
+        <div class="profile-name-section-bottom">
+            <div class="active"></div>
+            <span class="active-text">Aktiv</span>
         </div>
         }
         @if(!currentUser.active){
-        <div class="profile-name-section-bottom absent">
-            <div></div>
-            <span>Abwesend</span>
+        <div class="profile-name-section-bottom">
+            <div class="absent"></div>
+            <span class="absent-text">Abwesend</span>
         </div>
         }
 

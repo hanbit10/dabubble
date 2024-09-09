@@ -1,4 +1,5 @@
 @import './../../../styles.scss';
+@import './../../scss/main-style.scss';
 
 section {
     position: absolute;
@@ -60,22 +61,6 @@ section {
             height: 16px;
             border-radius: 50%;
         }
-    }
-}
-
-.active {
-    color: $onlineGreen;
-
-    >div {
-        background-color: $onlineGreen;
-    }
-}
-
-.absent {
-    color: $textGray;
-
-    >div {
-        background-color: $textGray;
     }
 }
 

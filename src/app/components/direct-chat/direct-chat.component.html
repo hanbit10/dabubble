@@ -1,13 +1,12 @@
-<p>direct-chat works!</p>
-
 
 <div class="contact-container" (click)="openProfile()">
-    <img src="{{currentUser.profileImage}}" alt="profile pic">
-    {{ currentUser.name }}
+    <img src="{{user.profileImage}}" alt="profile pic">
+    {{ user.name }}
 </div>
 
+
 @if (profileIsOpen) {
-<div (click)="closeProfile()" class="overlay">
-    <app-profile-user (click)="$event.stopPropagation()"></app-profile-user>
+<div (click)="closeProfile()" class="overlay-userProfile">
+    <app-profile-user (click)="$event.stopPropagation()" [user]="user" (close)="closeProfile()"></app-profile-user>
 </div>
 }

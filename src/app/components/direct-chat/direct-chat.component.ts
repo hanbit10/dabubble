@@ -1,9 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-direct-chat',
@@ -16,24 +18,35 @@ export class DirectChatComponent {
   firestore: Firestore = inject(Firestore);
   public usersSubscription!: Subscription;
   allUsers: UserProfile[] = [];
-  currentUser: UserProfile = {
+  user: UserProfile = {
     uid: '',
   };
+  userId = '';
   profileIsOpen: boolean = false;
 
-  constructor(public userService: UserService) {}
+  private routeSub: Subscription = new Subscription;
+
+  constructor(public userService: UserService, private route: ActivatedRoute) {}
 
   async ngOnInit() {
-    this.usersSubscription = this.userService.users$.subscribe(users => {
-      this.allUsers = users;
-
-      let filteredUser = this.allUsers.find((user) => {
-        return user.uid === 'AVMklDakbn3jph5hNNyf';
+    this.routeSub = this.route.params.subscribe(params => {
+      this.userId = params['id'];  
+      
+      this.usersSubscription = this.userService.users$.subscribe(users => {
+        this.allUsers = users;
+  
+        let filteredUser = this.allUsers.find((user) => {
+          return user.uid === this.userId;
+        });
+        if (filteredUser) {
+          this.user = filteredUser;
+        }
       });
-      if (filteredUser) {
-        this.currentUser = filteredUser;
-      }
     });
+  }
+
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
   }
 
   openProfile(){
