@@ -1,63 +1,73 @@
-@import './../../styles.scss';
+@import "./../../styles.scss";
 
 @mixin profileImg($w: 70px, $h: 70px) {
-    width: $w;
-    height: $h;
-    border-radius: 50%;
+  width: $w;
+  height: $h;
+  border-radius: 50%;
 }
 
-.chat-header{
-    position: absolute;
-    top: 90px;
-    left: 390px;
-    right: 20px;
-    padding: 20px 45px 20px 45px;
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+@mixin icons($img: 20px, $bgImg: 20px, $bg: white) {
+  width: $img;
+  height: $img;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: $bgImg $bgImg;
+  background-color: $bg;
 }
 
-.chat-container{
-    padding-top: 96px;
+.chat-header {
+  position: absolute;
+  top: 90px;
+  left: 390px;
+  right: 20px;
+  padding: 20px 45px 20px 45px;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.08);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
 }
 
-.sendMessage-container{
-    position: absolute;
-    left: 390px;
-    right: 20px;
-    bottom: 20px;
-    margin: 32px 30px 32px 30px; 
-    padding: 20px;
-    border: 1px solid $lightPurple;
-    border-radius: 20px;
+.chat-container {
+  padding-top: 96px;
+}
+
+.sendMessage-container {
+  position: absolute;
+  left: 390px;
+  right: 20px;
+  bottom: 20px;
+  margin: 32px 30px 32px 30px;
+  padding: 20px;
+  border: 1px solid $lightPurple;
+  border-radius: 20px;
 }
 
 .active {
-    background-color: $onlineGreen;
+  background-color: $onlineGreen;
 }
 
 .absent {
-    background-color: $textGray;
+  background-color: $textGray;
 }
 
 .active-text {
-    color: $onlineGreen;
+  color: $onlineGreen;
 }
 
 .absent-text {
-    color: $textGray;
+  color: $textGray;
 }
 
 .overlay-userProfile {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9966;
-    background-color: rgba(0, 0, 0, 0.2);
-    opacity: 1;
-    transition: opacity 125ms ease-in-out;
-    @include dFlex();
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9966;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 1;
+  transition: opacity 125ms ease-in-out;
+  @include dFlex();
 }

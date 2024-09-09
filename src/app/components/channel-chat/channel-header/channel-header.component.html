@@ -8,9 +8,9 @@
     <section class="user-profile">
       @for(users of filteredUsers; track users) {
       <img src="{{users.profileImage}}">
-      {{users.name}}
       }
-      {{filteredUsers.length}}
+      <h3 class="user-number"> {{filteredUsers.length}}</h3>
+      <div class="person-add"></div>
     </section>
   </div>
 </div>
