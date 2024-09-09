@@ -25,6 +25,7 @@ export class ChannelChatComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
+      console.log('This is paramMap', paramMap);
       if (id) {
         this.channelId = id;
         console.log('channel id', this.channelId);
@@ -43,6 +44,11 @@ export class ChannelChatComponent implements OnInit {
             }
           });
       }
+    });
+
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      console.log('This is paramMap', paramMap);
     });
   }
 }
