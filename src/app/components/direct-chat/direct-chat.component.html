@@ -1,7 +1,16 @@
+<header class="chat-header">
+    <div class="contact-container" (click)="openProfile()">
+        <img src="{{user.profileImage}}" alt="profile pic">
+        {{ user.name }}
+    </div>
+</header>
 
-<div class="contact-container" (click)="openProfile()">
-    <img src="{{user.profileImage}}" alt="profile pic">
-    {{ user.name }}
+<section class="chat-container">
+    hier ist der Chat Verlauf
+</section>
+
+<div class="sendMessage-container">
+    send message Komponente?
 </div>
 
 
