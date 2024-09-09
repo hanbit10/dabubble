@@ -4,13 +4,13 @@
     <h2>{{currentChannel.name}}</h2>
     <div class="arrow-drop-down"></div>
   </div>
-  <div class="container-right" (click)="openProfile()">
-    <section class="user-profile">
+  <div class="container-right">
+    <section class="user-profile" (click)="openProfile()">
       @for(users of filteredUsers; track users) {
       <img src="{{users.profileImage}}">
       }
       <h3 class="user-number"> {{filteredUsers.length}}</h3>
-      <div class="person-add"></div>
     </section>
+    <div class="person-add"></div>
   </div>
 </div>

@@ -27,20 +27,21 @@
 
   .container-right {
     @include dFlex(flex-end, center, 0);
-    border-radius: 40px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $bgColor;
-      color: $purple1;
-      font-weight: bold;
-    }
   }
 }
 
 .user-profile {
   width: fit-content;
   @include dFlex(flex-start, center, 0);
+  border-radius: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $bgColor;
+    color: $purple1;
+    font-weight: bold;
+  }
+
   img {
     @include profileImg(40px, 40px);
     border: 2px solid white;
@@ -69,6 +70,7 @@
 
 .person-add {
   @include icons(40px, 24px, $bgColor);
+  margin-left: 10px;
   cursor: pointer;
   background-image: url("./../../../../assets/img/icons/material-symbols/person-add.svg");
   &:hover {
