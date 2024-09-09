@@ -44,6 +44,7 @@
 
   img {
     @include profileImg(50px, 50px);
+    margin-right: 12px;
   }
 }
 
@@ -66,27 +67,23 @@
 
 .container-add-users {
   @include dFlex(flex-start, center);
-  margin-top: 20px;
+  margin-top: 10px;
   cursor: pointer;
   border-radius: 40px;
-  padding: 10px 20px 10px 20px;
+  padding: 6px 20px 6px 20px;
   &:hover {
     background-color: $bgColor;
   }
 }
 
 .add-member {
-  width: 24px;
-  height: 24px;
+  @include icons(50px, 32px, $bgColor);
   background-image: url("./../../../../assets/img/icons/material-symbols/add-member.svg");
-  background-repeat: no-repeat;
-  background-position: cover;
-  background-size: 24px 24px;
   cursor: pointer;
   &:hover {
     background-image: url("./../../../../assets/img/icons/material-symbols/add-member-hover.svg");
   }
-  margin-right: 15px;
+  margin-right: 12px;
 }
 
 .hidden {
