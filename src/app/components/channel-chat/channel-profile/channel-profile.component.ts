@@ -45,4 +45,10 @@ export class ChannelProfileComponent implements OnInit {
       channelProfile?.classList.add('hidden');
     });
   }
+  openAddUser() {
+    const channelProfile = document.getElementById('channel-profile');
+    channelProfile?.classList.add('hidden');
+    const addUser = document.getElementById('channel-add-user');
+    addUser?.classList.remove('hidden');
+  }
 }

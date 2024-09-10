@@ -42,4 +42,9 @@ export class ChannelHeaderComponent implements OnInit {
     const channelProfile = document.getElementById('channel-profile');
     channelProfile?.classList.remove('hidden');
   }
+
+  openAddUser() {
+    const addUser = document.getElementById('channel-add-user');
+    addUser?.classList.remove('hidden');
+  }
 }
