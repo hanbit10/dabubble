@@ -22,12 +22,15 @@ export class ChannelAddUserComponent implements OnInit {
   }
   filteredUsers: UserProfile[] = [];
   selectedUsers: UserProfile[] = [];
+  keywords: UserProfile[] = [];
+  contents: UserProfile[] = [];
   constructor(public userService: UserService) {}
   ngOnInit(): void {
     this._items.subscribe((currChannel) => {
       if (currChannel) {
         this.usersSubscription = this.userService.users$.subscribe((users) => {
           if (users) {
+            this.keywords = users;
             this.filteredUsers = users.filter((user) => {
               return (currChannel.usersIds || []).includes(user.uid);
             });
@@ -43,5 +46,30 @@ export class ChannelAddUserComponent implements OnInit {
       const channelProfile = document.getElementById('channel-add-user');
       channelProfile?.classList.add('hidden');
     });
+  }
+
+  saveToChosen(content: any) {
+    const inputBox = <HTMLInputElement>(
+      document.getElementById('input-box-channel')
+    );
+    let index = this.keywords.indexOf(content);
+    this.selectedUsers.push(content);
+    this.keywords.splice(index, 1);
+    this.contents = [];
+    inputBox.value = '';
+  }
+
+  setUserSearchBar($event: KeyboardEvent) {
+    const inputBox = <HTMLInputElement>(
+      document.getElementById('input-box-channel')
+    );
+    let result: any[] = [];
+    let input = inputBox.value;
+    if (input.length) {
+      result = this.keywords.filter((keyword) => {
+        return keyword.name?.toLowerCase().includes(input.toLowerCase());
+      });
+    }
+    this.contents = result;
   }
 }
