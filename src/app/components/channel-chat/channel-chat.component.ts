@@ -44,5 +44,10 @@ export class ChannelChatComponent implements OnInit {
           });
       }
     });
+
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      console.log('This is paramMap', paramMap);
+    });
   }
 }
