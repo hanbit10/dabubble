@@ -15,8 +15,10 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
   styleUrl: './log-in-card.component.scss',
 })
 export class LogInCardComponent {
+
   googleAuth = new GoogleAuthProvider();
   users: UserProfile[] = [];
+
   constructor(
     public logService: LoginCreateAccountService,
     public dataBase: UserService,
@@ -33,16 +35,21 @@ export class LogInCardComponent {
     }
   }
 
+  findUserIndex(searchMail: string) {
+    return this.users.findIndex(
+      (index) => index.email === searchMail
+    );
+  }
+
   userLogin() {
     let user: UserProfile;
     let userIndex: number;
     if (this.logService.loginMail && this.logService.loginPassword) {
-      userIndex = this.users.findIndex(
-        (i) => i.email === this.logService.loginMail
-      );
+      userIndex = this.findUserIndex(this.logService.loginMail);
       user = this.users[userIndex];
       console.log(user);
       if (this.logService.loginPassword === user.password) {
+        
         this.router.navigate([`/main/${user.uid}`]);
       }
     }
@@ -54,36 +61,35 @@ export class LogInCardComponent {
 
   googleLogin() {
     const auth = getAuth();
+    signInWithPopup(auth, this.googleAuth)
+    .then((result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      if (credential) {
+        const token = credential.accessToken;
+      }    
+      const user = result.user;      
+      this.setGoogleUser(user);         
+    }).catch((error) => {    
+      console.log(error);  
+    });  
+  } 
 
-  signInWithPopup(auth, this.googleAuth)
-  .then((result) => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    const credential = GoogleAuthProvider.credentialFromResult(result);
-    if (credential) {
-      const token = credential.accessToken;
+  async setGoogleUser(user: Object) {
+    const userMail: string = (user as { email: string }).email;
+    let userIndex: number = this.findUserIndex(userMail);
+    let profile: UserProfile = this.logService.profile;
+    if (userIndex === -1) {
+      profile.active = true;
+      profile.email = userMail;
+      profile.name = (user as { displayName: string }).displayName;
+      profile.profileImage = '/assets/img/profile/man1.svg';
+      await this.dataBase.addUser(profile);
+      await this.loadUsers();
+      userIndex = this.findUserIndex(userMail);          
+    } else {
+      this.users[userIndex].active = true;      
     }
-    // The signed-in user info.
-    const user = result.user;
-    console.log(user);
-    this.router.navigate([`/main/${user.uid}`]);
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });  
-  }
-
- 
-
-  setGoogleUser() {
-
+    this.router.navigate([`/main/${this.users[userIndex].uid}`]);
   }
 
 }
