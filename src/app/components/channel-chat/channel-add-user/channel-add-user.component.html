@@ -4,7 +4,22 @@
       <h2>Leute hinzufügen</h2>
       <div class="card-close-add-user" (click)="close()"></div>
     </div>
-    {{currentChannel.name}}
-    This is channel user
+    <div id="input-container" class="input-container">
+      <div class="search-bar">
+        @if(selectedUsers){
+        @for(chosed of selectedUsers; track chosed) {
+        <div class="chosed-user">
+          <img class="chosed-profile" src={{chosed.profileImage}} alt="">
+          {{chosed.name}}
+          <div class="chosed-close"></div>
+        </div>
+        }
+        }
+        <input type="text" id="input-box" placeholder="Name eingeben" autocomplete="off">
+      </div>
+    </div>
+    <div class="button-container">
+      <button class="button-primary" type="submit">hinzufügen</button>
+    </div>
   </div>
 </div>

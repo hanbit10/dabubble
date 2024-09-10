@@ -21,6 +21,7 @@ export class ChannelAddUserComponent implements OnInit {
     return this._items.getValue();
   }
   filteredUsers: UserProfile[] = [];
+  selectedUsers: UserProfile[] = [];
   constructor(public userService: UserService) {}
   ngOnInit(): void {
     this._items.subscribe((currChannel) => {

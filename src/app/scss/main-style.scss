@@ -75,3 +75,41 @@
 .content-tab {
   @include dFlex(space-between, center);
 }
+
+.input-container {
+  @include dFlex(flex-start, center, 0);
+  width: 100%;
+  max-width: 752px;
+  height: 32px;
+  border-radius: 40px;
+  border: 1px solid $purple2;
+  padding: 12px 20px 12px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Nunito" !important;
+}
+.input-container:hover {
+  border: 1px solid $purple1 !important;
+}
+.input-container:focus {
+  border: 1px solid $purple1 !important;
+}
+
+input {
+  font-size: 18px;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+  border: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  font-family: "Nunito" !important;
+  border: 1px solid $purple1 !important;
+}

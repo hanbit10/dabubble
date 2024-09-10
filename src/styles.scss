@@ -64,6 +64,14 @@ h3 {
   display: none;
 }
 
+.button-container {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .button-primary {
   background-color: $purple1;
   color: white;
