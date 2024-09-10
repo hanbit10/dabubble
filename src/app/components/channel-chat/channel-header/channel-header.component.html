@@ -1,10 +1,10 @@
 <div class="container">
-  <div class="container-left">
+  <div class="content-left">
     <div class="tag"></div>
     <h2>{{currentChannel.name}}</h2>
     <div class="arrow-drop-down"></div>
   </div>
-  <div class="container-right">
+  <div class="content-right">
     <section class="user-profile" (click)="openProfile()">
       @for(users of filteredUsers; track users) {
       <img src="{{users.profileImage}}">

@@ -71,3 +71,7 @@
   transition: opacity 125ms ease-in-out;
   @include dFlex();
 }
+
+.content-tab {
+  @include dFlex(space-between, center);
+}
