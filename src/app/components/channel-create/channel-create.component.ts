@@ -33,9 +33,7 @@ export class ChannelCreateComponent implements OnInit {
       this.keywords = users;
     });
     if (isPlatformBrowser(this.platformId)) {
-      this.closeCard();
       this.nextForm();
-      this.setUserSearchBar();
     }
   }
 
@@ -54,36 +52,23 @@ export class ChannelCreateComponent implements OnInit {
     this.selectedUsers.splice(index, 1);
   }
 
-  setUserSearchBar() {
+  setUserSearchBar($event: KeyboardEvent) {
     const inputBox = <HTMLInputElement>document.getElementById('input-box');
-    inputBox?.addEventListener('keyup', () => {
-      let result: any[] = [];
-      let input = inputBox.value;
-      if (input.length) {
-        result = this.keywords.filter((keyword) => {
-          return keyword.name?.toLowerCase().includes(input.toLowerCase());
-        });
-      }
-      console.log(result);
-      this.display(result);
-    });
-  }
-
-  display(result: any[]) {
+    let result: any[] = [];
+    let input = inputBox.value;
+    if (input.length) {
+      result = this.keywords.filter((keyword) => {
+        return keyword.name?.toLowerCase().includes(input.toLowerCase());
+      });
+    }
     this.contents = result;
   }
-
   close() {
     this.selectedUsers = [];
     this.contents = [];
     this.resetCard();
-  }
-  closeCard() {
-    const cardClose = document.querySelector('.card-close');
-    cardClose?.addEventListener('click', () => {
-      const createChannel = document.getElementById('channel-create');
-      createChannel?.classList.add('hidden');
-    });
+    const createChannel = document.getElementById('channel-create');
+    createChannel?.classList.add('hidden');
   }
 
   resetCard() {
@@ -99,6 +84,8 @@ export class ChannelCreateComponent implements OnInit {
     const channelName = <HTMLInputElement>(
       document.getElementById('channel-name')
     );
+    const cardTitle = <HTMLElement>document.getElementById('card-title');
+    cardTitle.innerText = 'Channel erstellen';
     inputBox.value = '';
     channelName.value = '';
     channelDescription.value = '';
