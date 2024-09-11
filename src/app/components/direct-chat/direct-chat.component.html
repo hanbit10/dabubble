@@ -1,21 +1,24 @@
-<header class="chat-header">
-    <div class="contact-container" (click)="openProfile()">
-        <img src="{{user.profileImage}}" alt="profile pic">
-        {{ user.name }}
+<section class="message-container">
+    <header class="chat-header">
+        <div class="contact-container" (click)="openProfile()">
+            <img src="{{user.profileImage}}" alt="profile pic">
+            {{ user.name }}
+        </div>
+    </header>
+
+    <section class="chat-container">
+        hier ist der Chat Verlauf
+        <app-message-left></app-message-left>
+    </section>
+
+    <div class="sendMessage-container">
+        send message Komponente?
     </div>
-</header>
 
-<section class="chat-container">
-    hier ist der Chat Verlauf
+
+    @if (profileIsOpen) {
+    <div (click)="closeProfile()" class="overlay-userProfile">
+        <app-profile-user (click)="$event.stopPropagation()" [user]="user" (close)="closeProfile()"></app-profile-user>
+    </div>
+    }
 </section>
-
-<div class="sendMessage-container">
-    send message Komponente?
-</div>
-
-
-@if (profileIsOpen) {
-<div (click)="closeProfile()" class="overlay-userProfile">
-    <app-profile-user (click)="$event.stopPropagation()" [user]="user" (close)="closeProfile()"></app-profile-user>
-</div>
-}

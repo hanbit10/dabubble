@@ -2,9 +2,20 @@
 
   <app-header></app-header>
 
+  <div class="navigation-bar" (click)="toggleMenu()">
+    @if (menuOpen) {
+    <div class="navbar-open-icon"></div>
+    <span class="navbar-text">Workspace-Menü schließen</span>
+    }
+    @if (!menuOpen) {
+    <div class="navbar-closed-icon"></div>
+    <span class="navbar-text">Workspace-Menü öffnen</span>
+    }
+  </div>
+
   <div class="main-container">
 
-    <div class="main-menu container">
+    <div [class]="menuOpen? 'main-menu container' : 'hidden'">
       <div class="menu-header">
         <div class="menu-header-logo">
           <img src="./assets/img/logo/workspace_logo.svg" alt="logo">
@@ -23,14 +34,14 @@
       </div>
     </div>
 
-
-    <div class="router-container container">
+    <div class="container">
       <router-outlet></router-outlet>
     </div>
 
   </div>
 
 </div>
+
 
 
 <app-channel-create id="channel-create" class="hidden"></app-channel-create>

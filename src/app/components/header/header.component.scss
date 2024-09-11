@@ -133,12 +133,12 @@
   right: 0;
   z-index: 9966;
   background-color: rgba(0, 0, 0, 0.2);
-  opacity: 1;
-  transition: opacity 125ms ease-in-out;
+  animation: open 75ms ease-in;
 }
 
-.overlay-closed{
-  opacity: 0;
+@keyframes open {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .profile-menu {

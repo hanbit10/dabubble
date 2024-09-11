@@ -1,22 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router,
-  RouterModule,
-  RouterOutlet,
-  RouterLink
-} from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { RouterModule, RouterOutlet, RouterLink } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { ChannelNavComponent } from '../../components/channel-nav/channel-nav.component';
 import { ChannelCreateComponent } from '../../components/channel-create/channel-create.component';
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
-import { UserService } from '../../services/user.service';
-import { UserProfile } from '../../models/users';
 
 @Component({
   selector: 'app-main',
@@ -25,11 +12,6 @@ import { UserProfile } from '../../models/users';
     RouterOutlet,
     RouterModule,
     RouterLink,
-    MatIconModule,
-    MatDividerModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatToolbarModule,
     HeaderComponent,
     ChannelNavComponent,
     ChannelCreateComponent,
@@ -39,36 +21,20 @@ import { UserProfile } from '../../models/users';
   styleUrl: './main.component.scss',
 })
 export class MainComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public userService: UserService
-  ) {}
+  menuOpen = true;
 
-  data = {
-    address: {
-      city: 'Köln',
-      street: 'straße 2',
-    },
-    color: '#000000',
-    displayName: 'Tester',
-    email: 'test@gmail.com',
-    name: {
-      firstName: 'tester',
-      lastName: 'testing',
-    },
-    password: 'test123',
-    profileImage: '',
-    uid: '',
-  };
-  
+  constructor() {}
+
   ngOnInit(): void {
-    // const allUsers: Promise<UserProfile[]> = this.userService.getAllUsers();
-    // console.log('users', allUsers);
+
   }
 
-
-  addUser() {
-    this.userService.addUser(this.data);
+  toggleMenu(){
+    if (this.menuOpen) {
+      this.menuOpen = false;
+    }else{
+      this.menuOpen = true;
+    }
   }
+
 }

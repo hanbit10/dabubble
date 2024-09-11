@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -25,22 +25,28 @@ export class HeaderComponent implements OnInit {
     password: '',
     uid: '',
   };
+  userId = '';
 
+  private routeSub: Subscription = new Subscription;
   private usersSubscription!: Subscription;
   @ViewChild(ProfileMainComponent) profileMainComponent!: ProfileMainComponent;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private route: ActivatedRoute) {}
 
   async ngOnInit() {
-    this.usersSubscription = this.userService.users$.subscribe((users) => {
-      this.allUsers = users;
-
-      let filteredUser = this.allUsers.find((user) => {
-        return user.uid === 'AVMklDakbn3jph5hNNyf';
+    this.routeSub = this.route.params.subscribe(params => {
+      this.userId = params['id'];  
+      
+      this.usersSubscription = this.userService.users$.subscribe(users => {
+        this.allUsers = users;
+  
+        let filteredUser = this.allUsers.find((user) => {
+          return user.uid === this.userId;
+        });
+        if (filteredUser) {
+          this.currentUser = filteredUser;
+        }
       });
-      if (filteredUser) {
-        this.currentUser = filteredUser;
-      }
     });
   }
 
