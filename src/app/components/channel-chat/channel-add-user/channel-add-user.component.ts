@@ -3,6 +3,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { Channel } from '../../../models/channels';
 import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../models/users';
+import { UtilityService } from '../../../services/utility.service';
 
 @Component({
   selector: 'app-channel-add-user',
@@ -24,7 +25,10 @@ export class ChannelAddUserComponent implements OnInit {
   selectedUsers: UserProfile[] = [];
   keywords: UserProfile[] = [];
   contents: UserProfile[] = [];
-  constructor(public userService: UserService) {}
+  constructor(
+    public userService: UserService,
+    public utilityService: UtilityService
+  ) {}
   ngOnInit(): void {
     this._items.subscribe((currChannel) => {
       if (currChannel) {
@@ -41,11 +45,7 @@ export class ChannelAddUserComponent implements OnInit {
   }
 
   close() {
-    const cardClose = document.querySelector('.card-close-add-user');
-    cardClose?.addEventListener('click', () => {
-      const channelProfile = document.getElementById('channel-add-user');
-      channelProfile?.classList.add('hidden');
-    });
+    this.utilityService.close('channel-add-user');
   }
 
   saveToChosen(content: any) {

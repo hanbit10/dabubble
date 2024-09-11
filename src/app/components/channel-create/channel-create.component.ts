@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ChannelService } from '../../services/channel.service';
 import { Subscription } from 'rxjs';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-channel-create',
@@ -25,7 +26,8 @@ export class ChannelCreateComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
-    public channelService: ChannelService
+    public channelService: ChannelService,
+    public utilityService: UtilityService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -67,8 +69,7 @@ export class ChannelCreateComponent implements OnInit {
     this.selectedUsers = [];
     this.contents = [];
     this.resetCard();
-    const createChannel = document.getElementById('channel-create');
-    createChannel?.classList.add('hidden');
+    this.utilityService.close('channel-create');
   }
 
   resetCard() {

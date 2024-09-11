@@ -3,6 +3,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 import { Channel } from '../../../models/channels';
 import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../models/users';
+import { UtilityService } from '../../../services/utility.service';
 
 @Component({
   selector: 'app-channel-profile',
@@ -23,7 +24,10 @@ export class ChannelProfileComponent implements OnInit {
   get currentChannel(): Channel {
     return this._items.getValue();
   }
-  constructor(public userService: UserService) {}
+  constructor(
+    public userService: UserService,
+    public utilityService: UtilityService
+  ) {}
   ngOnInit(): void {
     this._items.subscribe((currChannel) => {
       if (currChannel) {
@@ -39,12 +43,9 @@ export class ChannelProfileComponent implements OnInit {
   }
 
   close() {
-    const cardClose = document.querySelector('.card-close');
-    cardClose?.addEventListener('click', () => {
-      const channelProfile = document.getElementById('channel-profile');
-      channelProfile?.classList.add('hidden');
-    });
+    this.utilityService.close('channel-profile');
   }
+
   openAddUser() {
     const channelProfile = document.getElementById('channel-profile');
     channelProfile?.classList.add('hidden');
