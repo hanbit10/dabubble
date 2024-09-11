@@ -17,7 +17,7 @@ export const appConfig: ApplicationConfig = {
         apiKey: 'AIzaSyD6OgtifkKQS_VvwVo5dBJiZvODtkVWT88',
         authDomain: 'dabubble-8ac86.firebaseapp.com',
         messagingSenderId: '337899266017',
-        measurementId: 'G-Q5C2333R0G',
+        measurementId: 'G-Q5C2333R0G',        
       })
     ),
     provideFirestore(() => getFirestore()), provideAnimationsAsync(),

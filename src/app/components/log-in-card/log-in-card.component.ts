@@ -2,15 +2,16 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { LoginCreateAccountService } from '../../services/login-create-account.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { UserProfile } from '../../models/users';
 import { Router } from '@angular/router';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-log-in-card',
   standalone: true,
-  imports: [RouterLink, FormsModule, ],
+  imports: [RouterLink, FormsModule, NgIf, FormsModule],
   templateUrl: './log-in-card.component.html',
   styleUrl: './log-in-card.component.scss',
 })
@@ -18,6 +19,8 @@ export class LogInCardComponent {
 
   googleAuth = new GoogleAuthProvider();
   users: UserProfile[] = [];
+  userNotFound: boolean = false;
+  wrongPassword: boolean = false;
 
   constructor(
     public logService: LoginCreateAccountService,
@@ -41,18 +44,32 @@ export class LogInCardComponent {
     );
   }
 
-  userLogin() {
+  userLogin(ngForm: NgForm) {
     let user: UserProfile;
     let userIndex: number;
-    if (this.logService.loginMail && this.logService.loginPassword) {
+    ngForm.control.markAllAsTouched();
+    if (ngForm.submitted && ngForm.form.valid) {
       userIndex = this.findUserIndex(this.logService.loginMail);
       user = this.users[userIndex];
-      console.log(user);
-      if (this.logService.loginPassword === user.password) {
-        
-        this.router.navigate([`/main/${user.uid}`]);
-      }
+      console.log(user); 
+      this.validateInput(user);
     }
+  } 
+
+  async validateInput(user: UserProfile) {
+    if (user === undefined) {
+      this.userNotFound = true 
+     } else {
+      this.userNotFound = false;           
+      if (this.logService.loginPassword === user.password) {
+        user.active = true;
+        await this.dataBase.updateUser(user, user.uid);         
+        this.wrongPassword = false;
+        this.router.navigate([`/main/${user.uid}`]);
+      } else {
+        this.wrongPassword = true;  
+      }
+     }
   }
 
   guestLogin() {

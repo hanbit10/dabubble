@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { LoginCreateAccountService } from '../../services/login-create-account.service';
 import { NgFor } from '@angular/common';
 import { UserService } from '../../services/user.service';
+import { getStorage, ref } from "firebase/storage";
 
 @Component({
   selector: 'app-create-avatar-card',
@@ -11,6 +12,9 @@ import { UserService } from '../../services/user.service';
   styleUrl: './create-avatar-card.component.scss'
 })
 export class CreateAvatarCardComponent {
+
+storage = getStorage();
+avatarsRef = ref(this.storage, 'avatars');
 
   constructor (public logService: LoginCreateAccountService, private dataBase: UserService){}
 
