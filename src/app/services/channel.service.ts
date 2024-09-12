@@ -65,6 +65,7 @@ export class ChannelService {
   get channels$() {
     return this.channelSubject.asObservable();
   }
+
   subChannelList() {
     const docRef = collection(this.firestore, 'channels');
     return onSnapshot(docRef, (list) => {
@@ -75,4 +76,6 @@ export class ChannelService {
       this.channelSubject.next(this.channels);
     });
   }
+
+  async addUser(currChannelID: string, selectedUsers: UserProfile[]) {}
 }

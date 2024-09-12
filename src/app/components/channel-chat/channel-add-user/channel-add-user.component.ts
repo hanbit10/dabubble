@@ -4,6 +4,7 @@ import { Channel } from '../../../models/channels';
 import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../models/users';
 import { UtilityService } from '../../../services/utility.service';
+import { ChannelService } from '../../../services/channel.service';
 
 @Component({
   selector: 'app-channel-add-user',
@@ -27,7 +28,8 @@ export class ChannelAddUserComponent implements OnInit {
   contents: UserProfile[] = [];
   constructor(
     public userService: UserService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    public channelService: ChannelService
   ) {}
   ngOnInit(): void {
     this._items.subscribe((currChannel) => {
@@ -71,5 +73,12 @@ export class ChannelAddUserComponent implements OnInit {
       });
     }
     this.contents = result;
+  }
+
+  addUser() {
+    if (this.selectedUsers.length) {
+      console.log(this.currentChannel.uid);
+      this.channelService.addUser(this.currentChannel.uid, this.selectedUsers);
+    }
   }
 }
