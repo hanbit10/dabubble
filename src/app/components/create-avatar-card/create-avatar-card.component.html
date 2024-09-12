@@ -1,34 +1,42 @@
 <main>
   <div
     class="arrow-wrapper"
-    (click)="this.logService.currentState = 'create-account'"
+    (click)="logService.currentState = 'create-account'"
   >
     <img src="/assets/img/icons/go-back.svg" alt="go-back" />
   </div>
   <h1>Wähle deinen Avatar</h1>
   <div class="main-pic-container">
-    <img [src]="this.logService.profile.profileImage" alt="" id="main-img" />
+    <img [src]="logService.profile.profileImage" alt="" id="main-img" />
   </div>
-  <h2>Frederik Beck</h2>
+  <h2>{{ logService.profile.name }}</h2>
   <span>Aus der Liste wählen</span>
   <div class="avatar-container">
     <div
       class="avatar-pic-bucket"
       *ngFor="let avatar of avatars"
-      (click)="this.chooseAvatar(avatar)"
+      (click)="chooseAvatar(avatar)"
     >
       <img src="{{ avatar }}" alt="avatar-pic" class="avatar-pic" />
     </div>
   </div>
   <div class="own-pic-container">
     <span>eigenes Bild verwenden</span>
-    <button class="button-secondary">Datei hochladen</button>
+    <label for="upload">
+      <div class="button-secondary">Datei hochladen</div>
+      <input
+        class="upload-input"
+        id="upload"
+        type="file"
+        accept="image/*"
+        (change)="onSelect($event)"
+      />
+    </label>
   </div>
   <button
     class="button-primary"
     [disabled]="
-      this.logService.profile.profileImage ===
-      '/assets/img/icons/profile-big.svg'
+      logService.profile.profileImage === '/assets/img/icons/profile-big.svg'
     "
     (click)="this.createUser()"
   >

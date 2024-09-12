@@ -28,6 +28,7 @@ main {
     >img {
         border-radius: 50%;
         height: 169px;
+        width: 169px;
     }
 }
 
@@ -62,5 +63,9 @@ main {
     height: 64px;
     width: 64px;
     border-radius: 50%;
+}
+
+.upload-input {
+    display: none;
 }
 
