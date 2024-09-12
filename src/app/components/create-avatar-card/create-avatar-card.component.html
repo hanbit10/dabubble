@@ -22,13 +22,21 @@
   </div>
   <div class="own-pic-container">
     <span>eigenes Bild verwenden</span>
-    <button class="button-secondary">Datei hochladen</button>
+    <label for="upload">
+      <div class="button-secondary">Datei hochladen</div>
+      <input
+        class="upload-input"
+        id="upload"
+        type="file"
+        accept="image/*"
+        (change)="onSelect($event)"
+      />
+    </label>
   </div>
   <button
     class="button-primary"
     [disabled]="
-      logService.profile.profileImage ===
-      '/assets/img/icons/profile-big.svg'
+      logService.profile.profileImage === '/assets/img/icons/profile-big.svg'
     "
     (click)="this.createUser()"
   >
