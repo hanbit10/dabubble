@@ -3,6 +3,7 @@ import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-profile-main',
@@ -22,26 +23,33 @@ export class ProfileMainComponent implements OnInit {
     password: '',
     uid: '',
   };
+  userId = '';
 
+  private routeSub: Subscription = new Subscription;
   private usersSubscription!: Subscription;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private route: ActivatedRoute) { }
   editProfile = false;
   @Input() newMail = '';
   @Input() newName = '';
 
   async ngOnInit() {
-    this.usersSubscription = this.userService.users$.subscribe(users => {
-      this.allUsers = users;
+    this.routeSub = this.route.params.subscribe(params => {
+      this.userId = params['id']; 
 
-      let filteredUser = this.allUsers.find((user) => {
-        return user.uid === 'AVMklDakbn3jph5hNNyf';
-      });
-      if (filteredUser) {
-        this.currentUser = filteredUser;
-      }
+      this.usersSubscription = this.userService.users$.subscribe(users => {
+        this.allUsers = users;
+  
+        let filteredUser = this.allUsers.find((user) => {
+          return user.uid === this.userId;
+        });
+        if (filteredUser) {
+          this.currentUser = filteredUser;
+        }
+      }); 
     });
   }
+  
 
   onClose() {
     this.close.emit();

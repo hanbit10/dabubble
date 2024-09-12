@@ -12,7 +12,7 @@
   width: 100%;
   max-width: 1920px;
   height: calc(100% - 90px);
-  @include dFlex($jc: start, $ai: start, $g: 20px);
+  @include dFlex($jc: start, $ai: start);
   padding: 0 20px 20px 20px;
   box-sizing: border-box;
 }
@@ -22,14 +22,25 @@
   height: 100%;
   background-color: white;
   border-radius: 30px;
-  padding: 32px 30px 32px 30px;
   box-sizing: border-box;
+}
+
+@keyframes open {
+  0% {
+    width: 0px; 
+  }
+  100% {
+    width: 350px;
+  }
 }
 
 .main-menu {
   max-width: 350px;
   @include dFlex($jc: flex-start, $g: 15px);
   flex-direction: column;
+  padding: 32px 30px 32px 30px;
+  animation: open 75ms ease-in-out;
+  margin-right: 20px;
 }
 
 .menu-header {
@@ -68,4 +79,48 @@
   @include dFlex($ai: flex-start, $jc: flex-start, $g: 20px);
   flex-direction: column;
   overflow: scroll;
+}
+
+.navigation-bar{
+  position: absolute;
+  z-index: 999;
+  bottom: 100px;
+  left: 0;
+  padding: 24px 8px 24px 8px;
+  border-radius: 0 30px 30px 0;
+  background-color: white;
+  box-shadow: 4px 4px 7px 0 rgba(0, 0, 0, 0.2);
+  @include dFlex($g: 10px);
+  flex-direction: column;
+
+  &:hover{
+    cursor: pointer;
+    color: $purple3;
+
+    .navbar-open-icon{
+      background-image: url('./../../../assets/img/icons/material-symbols/navbar-open-hover.svg');
+    }
+
+    .navbar-closed-icon{
+      background-image: url('./../../../assets/img/icons/material-symbols/navbar-closed-hover.svg');
+    }
+  }
+}
+
+.navbar-open-icon{
+  width: 32px;
+  height: 32px;
+  background-image: url('./../../../assets/img/icons/material-symbols/navbar-open.svg');
+}
+
+.navbar-closed-icon{
+  width: 32px;
+  height: 32px;
+  background-image: url('./../../../assets/img/icons/material-symbols/navbar-closed.svg');
+}
+
+.navbar-text{
+  writing-mode: vertical-rl;
+  transform: rotateZ(180deg);
+  @include font($ff: Nunito500, $fs: 18px, $lh: 20px);
 }

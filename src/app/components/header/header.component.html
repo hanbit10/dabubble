@@ -23,13 +23,13 @@
   </div>
 </div>
 
-<div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'overlay-closed'">
+<div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
   <div class="profile-menu" (click)="$event.stopPropagation()">
     <button (click)="openProfile()" class="profile-menu-button">Profil</button>
     <button routerLink="" (click)="logoutMainUser()" class="profile-menu-button">Log out</button>
   </div>
 </div>
 
-<div (click)="closeProfile()" [class]="profileOpen ? 'overlay' : 'overlay-closed'">
+<div (click)="closeProfile()" [class]="profileOpen ? 'overlay' : 'hidden'">
   <app-profile-main (click)="$event.stopPropagation()" [profileOpen]="profileOpen" (close)="closeProfile()"></app-profile-main>
 </div>

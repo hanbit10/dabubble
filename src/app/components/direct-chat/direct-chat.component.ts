@@ -5,12 +5,12 @@ import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { ActivatedRoute } from '@angular/router';
-
+import { MessageLeftComponent } from '../message-left/message-left.component';
 
 @Component({
   selector: 'app-direct-chat',
   standalone: true,
-  imports: [ProfileUserComponent],
+  imports: [ProfileUserComponent, MessageLeftComponent],
   templateUrl: './direct-chat.component.html',
   styleUrl: './direct-chat.component.scss'
 })
