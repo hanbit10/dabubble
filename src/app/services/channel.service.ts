@@ -1,13 +1,16 @@
 import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
+  arrayUnion,
   collection,
+  doc,
   Firestore,
   getDocs,
   onSnapshot,
   query,
   setDoc,
   Timestamp,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { Channel } from '../models/channels';
@@ -19,17 +22,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ChannelService {
   firestore: Firestore = inject(Firestore);
-  currentUser: UserProfile = {
-    address: {
-      city: 'Köln',
-      street: 'straße 22332',
-    },
-    email: 'chanbit10@gmail.com',
-    name: 'Hanbit Chang',
-    password: 'test123',
-    profileImage: '',
-    uid: 'id123123',
-  };
   private channelSubject = new BehaviorSubject<any[]>([]);
   channels: any[] = [];
   constructor() {
@@ -37,22 +29,15 @@ export class ChannelService {
   }
 
   async createNewChannel(newChannel: any, chosen: UserProfile[]) {
-    let data = {
+    let data: Channel = {
       name: newChannel.name,
       description: newChannel.description,
-      usersIds: [this.currentUser.uid],
-      users: [
-        {
-          displayName: this.currentUser.name,
-        },
-      ],
+      usersIds: [],
+      uid: '',
     };
 
     chosen.forEach((user: any) => {
       data.usersIds.push(user.uid);
-      data.users.push({
-        displayName: user.name,
-      });
     });
 
     const ref = collection(this.firestore, 'channels');
@@ -78,9 +63,11 @@ export class ChannelService {
   }
 
   async addUser(currChannelID: string, selectedUsers: UserProfile[]) {
-    const docRef = collection(this.firestore, 'channels');
-    const q = query(docRef, where('uid', '==', currChannelID));
-    const querySnapshot = await getDocs(q);
-    console.log(querySnapshot);
+    const docRef = doc(this.firestore, 'channels', currChannelID);
+    selectedUsers.forEach(async (user) => {
+      await updateDoc(docRef, {
+        usersIds: arrayUnion(user.uid),
+      });
+    });
   }
 }
