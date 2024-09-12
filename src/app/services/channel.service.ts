@@ -77,5 +77,10 @@ export class ChannelService {
     });
   }
 
-  async addUser(currChannelID: string, selectedUsers: UserProfile[]) {}
+  async addUser(currChannelID: string, selectedUsers: UserProfile[]) {
+    const docRef = collection(this.firestore, 'channels');
+    const q = query(docRef, where('uid', '==', currChannelID));
+    const querySnapshot = await getDocs(q);
+    console.log(querySnapshot);
+  }
 }
