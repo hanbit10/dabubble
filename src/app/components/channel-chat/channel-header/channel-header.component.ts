@@ -45,7 +45,6 @@ export class ChannelHeaderComponent implements OnInit {
               this.channel = currChannel;
               this.usersSubscription = this.userService.users$
                 .pipe(
-                  tap((users) => console.log('All Users:', users)), // Log users to see if they contain expected IDs
                   map((users) =>
                     users.filter((user) =>
                       currChannel.usersIds.includes(user.uid)
@@ -54,7 +53,6 @@ export class ChannelHeaderComponent implements OnInit {
                 )
                 .subscribe((filteredUsers) => {
                   if (filteredUsers) {
-                    console.log('Filtered Users:', filteredUsers); // Log filtered users
                     this.filteredUsers = filteredUsers;
                   }
                   this.changeDetectorRef.detectChanges();
