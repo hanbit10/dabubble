@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserProfile } from '../../models/users';
-import { MessageUserService } from '../../services/message-user.service';
+import { ProfileService } from '../../services/profile.service';
 
 
 
@@ -17,15 +17,15 @@ export class ProfileUserComponent implements OnInit {
   };
   profileIsOpen = false;
 
-  constructor(public messageUserService: MessageUserService){}
+  constructor(public profileService: ProfileService){}
 
   ngOnInit(): void {
-    this.profileIsOpen = this.messageUserService.profileIsOpen;
-    this.user = this.messageUserService.messageUser;
+    this.profileIsOpen = this.profileService.profileIsOpen;
+    this.user = this.profileService.profileUser;
   }
 
   closeProfile() {
-    this.messageUserService.profileIsOpen = false;
+    this.profileService.closeProfile();
   }
 
   newMessage(){

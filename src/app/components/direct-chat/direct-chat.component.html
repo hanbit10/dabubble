@@ -14,10 +14,21 @@
             <div class="line"></div>
         </div>
 
-        <app-message-left></app-message-left>
+        <app-message-left [userName]="'Saskia Richter'"></app-message-left>
+        <app-message-left [userName]="'Noah Braun'"></app-message-left>
+
+        <div class="date-line">
+            <div class="line"></div>
+            <span class="message-date">heute</span>
+            <div class="line"></div>
+        </div>
+
+        <app-message-right [userName]="'Frederick Beck'"></app-message-right>
     </section>
 
     <div class="sendMessage-container">
-        send message Komponente?
+        <div class="sendMessage-component">
+            send message Komponente?
+        </div>
     </div>
 </section>

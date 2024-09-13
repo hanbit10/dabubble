@@ -116,15 +116,7 @@
   box-sizing: border-box;
 }
 
-.active{
-  background-color: $onlineGreen;
-}
-
-.absent{
-  background-color: $textGray;
-}
-
-.overlay{
+.overlay {
   width: 100vw;
   height: 100vh;
   position: absolute;

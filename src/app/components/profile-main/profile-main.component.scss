@@ -1,7 +1,19 @@
 @import './../../../styles.scss';
 @import './../../scss/main-style.scss';
 
-section {
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9966;
+    background-color: rgba(0, 0, 0, 0.2);
+    animation: open 75ms ease-in;
+}
+
+.profile-main {
     position: absolute;
     top: 85px;
     right: 20px;
@@ -89,7 +101,7 @@ section {
     }
 }
 
-form{
+form {
     width: 100%;
     @include dFlex($g: 18px);
     flex-direction: column;
@@ -127,13 +139,13 @@ form{
     outline: none;
 }
 
-.email-invalid{
+.email-invalid {
     @include font($ff: NunitoRegular, $fs: 14px, $lh: 14px);
     color: $rosaError;
     opacity: 0;
 }
 
-.email-invalid-visible{
+.email-invalid-visible {
     @include font($ff: NunitoRegular, $fs: 14px, $lh: 14px);
     color: $rosaError;
     opacity: 1;

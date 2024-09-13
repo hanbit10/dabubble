@@ -1,0 +1,23 @@
+@import './../../../styles.scss';
+@import './../../scss/main-style.scss';
+
+section{
+    justify-content: flex-end !important;
+
+    >img{
+        @include profileImg();
+    }
+}
+
+.message-text{
+    background-color: $purple2 !important;
+    color: white !important;
+}
+
+.message-info{
+    align-items: flex-end !important;
+}
+
+.message-text{
+    border-top-left-radius: 30px;
+}

@@ -6,11 +6,12 @@ import { Subscription } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class MessageUserService {
+export class ProfileService {
 
   profileIsOpen: boolean = false;
+  mainProfileIsOpen: boolean = false;
 
-  messageUser: UserProfile = {
+  profileUser: UserProfile = {
     address : {
       street: '',
       city: ''
@@ -28,20 +29,33 @@ export class MessageUserService {
 
   constructor(public userService: UserService) { }
 
-  searchUser(name: string){
+  searchUser(nameOfUser: string){
     this.usersSubscription = this.userService.users$.subscribe(users => {
       this.allUsers = users;
-
+      
       let filteredUser = this.allUsers.find((user) => {
-        return user.name === name;
+        return user.name === nameOfUser;
       });
       if (filteredUser) {
-        this.messageUser = filteredUser;
+        this.profileUser = filteredUser;
       }
     });
+
   }
 
   openProfile(){
     this.profileIsOpen = true;
+  }
+
+  closeProfile(){
+    this.profileIsOpen = false;
+  }
+
+  openMainProfile(){
+    this.mainProfileIsOpen = true;
+  }
+
+  closeMainProfiel(){
+    this.mainProfileIsOpen = false;
   }
 }

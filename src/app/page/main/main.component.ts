@@ -4,7 +4,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ChannelNavComponent } from '../../components/channel-nav/channel-nav.component';
 import { ChannelCreateComponent } from '../../components/channel-create/channel-create.component';
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
-import { MessageUserService } from '../../services/message-user.service';
+import { ProfileService } from '../../services/profile.service';
 import { ProfileUserComponent } from '../../components/profile-user/profile-user.component';
 
 @Component({
@@ -26,7 +26,7 @@ import { ProfileUserComponent } from '../../components/profile-user/profile-user
 export class MainComponent implements OnInit {
   menuOpen = true;
 
-  constructor(public messageUserService: MessageUserService) {}
+  constructor(public profileService: ProfileService) {}
 
   ngOnInit(): void {
 

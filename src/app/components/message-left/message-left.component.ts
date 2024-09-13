@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
-import { MessageUserService } from '../../services/message-user.service';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-message-left',
@@ -15,25 +15,24 @@ import { MessageUserService } from '../../services/message-user.service';
 })
 export class MessageLeftComponent {
   profileIsOpen = false;
-  userName = 'Saskia Richter';
+  
 
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {
     uid: '',
   };
 
+  @Input()userName = '';
+
   private routeSub: Subscription = new Subscription;
   public usersSubscription!: Subscription;
 
-  constructor(private route: ActivatedRoute, public messageUserService: MessageUserService){}
+  constructor(private route: ActivatedRoute, public profileService: ProfileService, public userService: UserService){}
 
   openProfile(){
-    this.messageUserService.searchUser(this.userName);
-    this.messageUserService.openProfile();
-  }
-
-  closeProfile(){
-
+    this.profileService.searchUser(this.userName);
+ 
+    this.profileService.openProfile();
   }
 
 }
