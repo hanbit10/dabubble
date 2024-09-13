@@ -7,9 +7,7 @@
 }
 
 @mixin icons($img: 20px, $bgImg: 20px, $bg: white) {
-  width: $img;
-  height: $img;
-  border-radius: 50%;
+  @include profileImg($img, $img);
   background-repeat: no-repeat;
   background-position: center;
   background-size: $bgImg $bgImg;
@@ -43,7 +41,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   .chosed-close {
     width: 30px;
     height: 30px;
@@ -59,19 +56,14 @@
 }
 
 .chosed-profile {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
+  @include profileImg(35px, 35px);
   margin-left: 10px;
   margin-right: 10px;
   object-fit: cover;
 }
 
 .content-profile {
-  width: 100%;
-  max-width: 50px;
-  max-height: 50px;
-  border-radius: 50%;
+  @include profileImg(50px, 50px);
   margin-left: 10px;
   margin-right: 10px;
   object-fit: cover;
