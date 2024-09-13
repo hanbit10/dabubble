@@ -32,7 +32,6 @@ export class ChannelChatComponent implements OnInit {
       const id = paramMap.get('id');
       if (id) {
         this.channelId = id;
-        console.log('channel id', this.channelId);
         this.channelSubscription = this.channelService.channels$
           .pipe(
             map((channels) =>
@@ -42,7 +41,6 @@ export class ChannelChatComponent implements OnInit {
           .subscribe((currentChannel) => {
             if (currentChannel) {
               this.currentChannel = currentChannel;
-              console.log('currentChannel', this.currentChannel);
             } else {
               console.log('Channel not found');
             }

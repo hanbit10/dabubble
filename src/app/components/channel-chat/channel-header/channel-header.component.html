@@ -1,7 +1,9 @@
 <div class="container">
   <div class="content-left">
     <div class="tag"></div>
-    <h2>{{currentChannel.name}}</h2>
+    @if(channel) {
+    <h2>{{channel.name}}</h2>
+    }
     <div class="arrow-drop-down"></div>
   </div>
   <div class="content-right">

@@ -36,7 +36,7 @@ export class ChannelAddUserComponent implements OnInit {
       if (currChannel) {
         this.usersSubscription = this.userService.users$.subscribe((users) => {
           if (users) {
-            this.keywords = users;
+            this.keywords = JSON.parse(JSON.stringify(users));
             this.filteredUsers = users.filter((user) => {
               return (currChannel.usersIds || []).includes(user.uid);
             });

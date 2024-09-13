@@ -32,7 +32,7 @@ export class ChannelCreateComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
-      this.keywords = users;
+      this.keywords = JSON.parse(JSON.stringify(users));
     });
     if (isPlatformBrowser(this.platformId)) {
       this.nextForm();
