@@ -5,6 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../models/users';
 import { Channel } from '../../../models/channels';
 import { ChannelService } from '../../../services/channel.service';
+import { UtilityService } from '../../../services/utility.service';
 
 @Component({
   selector: 'app-channel-header',
@@ -29,6 +30,7 @@ export class ChannelHeaderComponent implements OnInit {
   constructor(
     public userService: UserService,
     public channelService: ChannelService,
+    public utilityService: UtilityService,
     private route: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
@@ -63,13 +65,7 @@ export class ChannelHeaderComponent implements OnInit {
     });
   }
 
-  openProfile() {
-    const channelProfile = document.getElementById('channel-profile');
-    channelProfile?.classList.remove('hidden');
-  }
-
-  openAddUser() {
-    const addUser = document.getElementById('channel-add-user');
-    addUser?.classList.remove('hidden');
+  openComponent(elementID: string) {
+    this.utilityService.openComponent(elementID);
   }
 }

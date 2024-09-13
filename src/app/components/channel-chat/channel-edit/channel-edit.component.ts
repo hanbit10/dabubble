@@ -5,6 +5,7 @@ import { ChannelService } from '../../../services/channel.service';
 import { UserService } from '../../../services/user.service';
 import { Channel } from '../../../models/channels';
 import { UserProfile } from '../../../models/users';
+import { UtilityService } from '../../../services/utility.service';
 
 @Component({
   selector: 'app-channel-edit',
@@ -14,9 +15,6 @@ import { UserProfile } from '../../../models/users';
   styleUrl: './channel-edit.component.scss',
 })
 export class ChannelEditComponent implements OnInit {
-  close() {
-    throw new Error('Method not implemented.');
-  }
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   channel: Channel = {} as Channel;
@@ -24,7 +22,8 @@ export class ChannelEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public userService: UserService,
-    public channelService: ChannelService
+    public channelService: ChannelService,
+    public utilityService: UtilityService
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -46,12 +45,15 @@ export class ChannelEditComponent implements OnInit {
                 .subscribe((user) => {
                   if (user) {
                     this.channelCreatedBy = user;
-                    console.log('created by', this.channelCreatedBy);
                   }
                 });
             }
           });
       }
     });
+  }
+
+  close() {
+    this.utilityService.closeComponent('channel-edit');
   }
 }

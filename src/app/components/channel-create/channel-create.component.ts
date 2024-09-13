@@ -78,7 +78,7 @@ export class ChannelCreateComponent implements OnInit {
     this.selectedUsers = [];
     this.contents = [];
     this.resetCard();
-    this.utilityService.close('channel-create');
+    this.utilityService.closeComponent('channel-create');
   }
 
   resetCard() {

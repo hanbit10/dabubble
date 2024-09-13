@@ -43,7 +43,7 @@ export class ChannelProfileComponent implements OnInit {
   }
 
   close() {
-    this.utilityService.close('channel-profile');
+    this.utilityService.closeComponent('channel-profile');
   }
 
   openAddUser() {
