@@ -6,6 +6,7 @@ import { UserProfile } from '../../models/users';
 import { ChannelService } from '../../services/channel.service';
 import { Subscription } from 'rxjs';
 import { UtilityService } from '../../services/utility.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-channel-create',
@@ -23,14 +24,22 @@ export class ChannelCreateComponent implements OnInit {
   keywords: UserProfile[] = [];
   contents: UserProfile[] = [];
   selectedUsers: UserProfile[] = [];
+  currentUserId: string = '';
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
     public channelService: ChannelService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    private route: ActivatedRoute
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentUserId = id;
+      }
+    });
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.keywords = JSON.parse(JSON.stringify(users));
     });
@@ -106,7 +115,11 @@ export class ChannelCreateComponent implements OnInit {
   createChannel(channelForm: NgForm) {
     if (channelForm.valid) {
       console.log('creating a new channel', this.newChannel);
-      this.channelService.createNewChannel(this.newChannel, this.selectedUsers);
+      this.channelService.createNewChannel(
+        this.newChannel,
+        this.selectedUsers,
+        this.currentUserId
+      );
       const createChannel = document.getElementById('channel-create');
       createChannel?.classList.add('hidden');
       this.close();

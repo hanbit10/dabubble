@@ -33,21 +33,6 @@ export class ChannelHeaderComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
-    // this._items.subscribe((currChannel) => {
-    //   console.log(currChannel);
-    //   if (currChannel) {
-    //     this.usersSubscription = this.userService.users$.subscribe((users) => {
-    //       console.log(users);
-    //       if (users) {
-    //         this.filteredUsers = users.filter((user) => {
-    //           return (currChannel.usersIds || []).includes(user.uid);
-    //         });
-    //         console.log(this.filteredUsers);
-    //       }
-    //     });
-    //   }
-    // });
-
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
@@ -57,7 +42,6 @@ export class ChannelHeaderComponent implements OnInit {
           )
           .subscribe((currChannel) => {
             if (currChannel) {
-              console.log('Current Channel user IDs:', currChannel.usersIds); // Log usersIds
               this.channel = currChannel;
               this.usersSubscription = this.userService.users$
                 .pipe(

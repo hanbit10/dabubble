@@ -28,12 +28,17 @@ export class ChannelService {
     this.subChannelList();
   }
 
-  async createNewChannel(newChannel: any, chosen: UserProfile[]) {
+  async createNewChannel(
+    newChannel: any,
+    chosen: UserProfile[],
+    currentUserId: string
+  ) {
     let data: Channel = {
       name: newChannel.name,
       description: newChannel.description,
-      usersIds: [],
+      usersIds: [currentUserId],
       uid: '',
+      createdBy: currentUserId,
     };
 
     chosen.forEach((user: any) => {
