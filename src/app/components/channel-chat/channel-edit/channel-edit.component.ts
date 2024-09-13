@@ -14,6 +14,9 @@ import { UserProfile } from '../../../models/users';
   styleUrl: './channel-edit.component.scss',
 })
 export class ChannelEditComponent implements OnInit {
+  close() {
+    throw new Error('Method not implemented.');
+  }
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   channel: Channel = {} as Channel;

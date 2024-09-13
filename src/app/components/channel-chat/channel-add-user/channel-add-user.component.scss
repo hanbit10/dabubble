@@ -19,19 +19,6 @@
   background-color: white;
 }
 
-.card-close-add-user {
-  width: 40px;
-  height: 40px;
-  background-image: url("./../../../../assets/img/icons/material-symbols/close.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 40px 40px;
-  cursor: pointer;
-  &:hover {
-    background-image: url("./../../../../assets/img/icons/material-symbols/close-hover.svg");
-  }
-}
-
 .input-container {
   width: calc(100% - 40px);
 }
