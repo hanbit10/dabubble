@@ -1,3 +1,45 @@
 @import '../../../styles.scss';
 
 @import '../../../app/page/login/login.component.scss';
+
+.alert-wrapper {
+    align-self: flex-start;
+    >span {
+        color: $rosaError;
+    }
+}
+
+.input-wrapper-container { 
+    @include dFlex();
+    flex-direction: column;   
+    width: 100%;
+}
+
+.alert-wrapper {
+    @include dFlex($jc:flex-start);
+    height: 40px;
+}
+
+form {
+    @include dFlex($jc:space-between);
+    flex-direction: column;
+    max-width: 580px;
+    max-height: 1000px;
+    flex-grow: 1;
+    > h1 {
+      color: #444df2;
+      font-weight: 700;
+      font-size: 46px;
+      margin: 0;
+    }
+    > p {
+      text-align: center;
+      font-size: 18px;
+      margin: 0;
+    }
+}
+
+.password {
+    align-self: center;
+}
+
