@@ -4,6 +4,8 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { ChannelNavComponent } from '../../components/channel-nav/channel-nav.component';
 import { ChannelCreateComponent } from '../../components/channel-create/channel-create.component';
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
+import { MessageUserService } from '../../services/message-user.service';
+import { ProfileUserComponent } from '../../components/profile-user/profile-user.component';
 
 @Component({
   selector: 'app-main',
@@ -16,6 +18,7 @@ import { DirectNavComponent } from '../../components/direct-nav/direct-nav.compo
     ChannelNavComponent,
     ChannelCreateComponent,
     DirectNavComponent,
+    ProfileUserComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -23,7 +26,7 @@ import { DirectNavComponent } from '../../components/direct-nav/direct-nav.compo
 export class MainComponent implements OnInit {
   menuOpen = true;
 
-  constructor() {}
+  constructor(public messageUserService: MessageUserService) {}
 
   ngOnInit(): void {
 

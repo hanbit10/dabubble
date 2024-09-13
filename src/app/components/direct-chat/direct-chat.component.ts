@@ -6,6 +6,7 @@ import { UserProfile } from '../../models/users';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { ActivatedRoute } from '@angular/router';
 import { MessageLeftComponent } from '../message-left/message-left.component';
+import { MessageUserService } from '../../services/message-user.service';
 
 @Component({
   selector: 'app-direct-chat',
@@ -22,11 +23,10 @@ export class DirectChatComponent {
     uid: '',
   };
   userId = '';
-  profileIsOpen: boolean = false;
 
   private routeSub: Subscription = new Subscription;
 
-  constructor(public userService: UserService, private route: ActivatedRoute) {}
+  constructor(public userService: UserService, private route: ActivatedRoute, public messageUserService: MessageUserService) {}
 
   async ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
@@ -50,10 +50,7 @@ export class DirectChatComponent {
   }
 
   openProfile(){
-    this.profileIsOpen = true;
-  }
-
-  closeProfile(){
-    this.profileIsOpen = false;
+    this.messageUserService.openProfile();
+    this.messageUserService.messageUser = this.user;
   }
 }

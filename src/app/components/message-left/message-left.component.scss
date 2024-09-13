@@ -1,0 +1,19 @@
+@import './../../../styles.scss';
+@import './../../scss/main-style.scss';
+
+section{
+    justify-content: flex-start !important;
+
+    >img{
+        @include profileImg();
+    }
+}
+
+.message-info{
+    align-items: flex-start !important;
+}
+
+.message-text{
+    border-top-right-radius: 30px;
+}
+

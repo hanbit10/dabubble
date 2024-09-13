@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserProfile } from '../../models/users';
-
+import { MessageUserService } from '../../services/message-user.service';
 
 
 
@@ -12,19 +12,20 @@ import { UserProfile } from '../../models/users';
   styleUrl: './profile-user.component.scss'
 })
 export class ProfileUserComponent implements OnInit {
-  @Input() user: UserProfile = {
+  user: UserProfile = {
     uid: ''
   };
-  @Output() close = new EventEmitter<void>();
+  profileIsOpen = false;
 
-  constructor(){}
+  constructor(public messageUserService: MessageUserService){}
 
   ngOnInit(): void {
-    
+    this.profileIsOpen = this.messageUserService.profileIsOpen;
+    this.user = this.messageUserService.messageUser;
   }
 
-  onClose() {
-    this.close.emit();
+  closeProfile() {
+    this.messageUserService.profileIsOpen = false;
   }
 
   newMessage(){

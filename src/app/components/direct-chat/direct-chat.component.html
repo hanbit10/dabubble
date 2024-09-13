@@ -7,18 +7,17 @@
     </header>
 
     <section class="chat-container">
-        hier ist der Chat Verlauf
+
+        <div class="date-line">
+            <div class="line"></div>
+            <span class="message-date">heute</span>
+            <div class="line"></div>
+        </div>
+
         <app-message-left></app-message-left>
     </section>
 
     <div class="sendMessage-container">
         send message Komponente?
     </div>
-
-
-    @if (profileIsOpen) {
-    <div (click)="closeProfile()" class="overlay-userProfile">
-        <app-profile-user (click)="$event.stopPropagation()" [user]="user" (close)="closeProfile()"></app-profile-user>
-    </div>
-    }
 </section>

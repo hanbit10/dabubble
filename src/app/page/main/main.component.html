@@ -25,10 +25,6 @@
       </div>
 
       <div class="menu-nav">
-        <!-- <button mat-icon-button (click)="drawer.toggle()">
-          <mat-icon class="menu-icon">menu</mat-icon>
-        </button>
-        <button (click)="addUser()">Add User</button>-->
         <app-channel-nav [style]="'width: 100%'"></app-channel-nav>
         <app-direct-nav [style]="'width: 100%'"></app-direct-nav>
       </div>
@@ -42,6 +38,8 @@
 
 </div>
 
-
+@if (messageUserService.profileIsOpen) {
+  <app-profile-user></app-profile-user>
+  }
 
 <app-channel-create id="channel-create" class="hidden"></app-channel-create>
