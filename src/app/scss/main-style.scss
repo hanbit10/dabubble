@@ -7,21 +7,91 @@
 }
 
 @mixin icons($img: 20px, $bgImg: 20px, $bg: white) {
-  width: $img;
-  height: $img;
-  border-radius: 50%;
+  @include profileImg($img, $img);
   background-repeat: no-repeat;
   background-position: center;
   background-size: $bgImg $bgImg;
   background-color: $bg;
 }
 
-.message-container{
+.message-container {
   position: relative;
   width: 100%;
   height: 100%;
   padding-block: 32px;
   box-sizing: border-box;
+}
+
+.chosed-user {
+  @include dFlex(flex-start, center, 0);
+  font-family: NunitoRegular, sans-serif;
+  width: 90%;
+  max-width: fit-content;
+  height: 24px;
+  padding: 8px 10px;
+  margin-right: 8px;
+  background-color: #eceefe;
+  border-radius: 35px;
+}
+
+.search-bar {
+  @include dFlex(space-between, center, 0);
+  width: 100%;
+  .chosed-close {
+    @include icons(30px, 20px, $bgColor);
+    background-image: url("./../../assets/img/icons/material-symbols/close.svg");
+    cursor: pointer;
+    &:hover {
+      background-image: url("./../../assets/img/icons/material-symbols/close-hover.svg");
+    }
+  }
+}
+
+.chosed-profile {
+  @include profileImg(35px, 35px);
+  margin-left: 10px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.content-profile {
+  @include profileImg(50px, 50px);
+  margin-left: 10px;
+  margin-right: 10px;
+  object-fit: cover;
+}
+
+.result-box {
+  position: absolute;
+  margin-top: -10px;
+  margin-left: 20px;
+  width: 400px;
+  height: 300px;
+  border: 1px solid $lightPurple;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: white;
+  box-shadow: 0px 2px 10px 0px #00000014;
+  overflow-y: scroll;
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
+    border-radius: 35px;
+    margin: 16px 16px 16px 16px;
+    padding: 8px 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background: #eceefe;
+    }
+  }
 }
 
 .chat-header {
@@ -78,6 +148,48 @@
   opacity: 1;
   transition: opacity 125ms ease-in-out;
   @include dFlex();
+}
+
+.content-tab {
+  @include dFlex(space-between, center);
+}
+
+.input-container {
+  @include dFlex(flex-start, center, 0);
+  width: 100%;
+  max-width: 752px;
+  height: 32px;
+  border-radius: 40px;
+  border: 1px solid $purple2;
+  padding: 12px 20px 12px 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Nunito" !important;
+}
+.input-container:hover {
+  border: 1px solid $purple1 !important;
+}
+.input-container:focus {
+  border: 1px solid $purple1 !important;
+}
+
+input {
+  font-size: 18px;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+input:focus {
+  outline: none;
+  border: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  font-family: "Nunito" !important;
+  border: 1px solid $purple1 !important;
 }
 
 .date-line{

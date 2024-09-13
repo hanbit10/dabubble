@@ -5,11 +5,16 @@ import { ActivatedRoute } from '@angular/router';
 import { concatMapTo, map, Subscription } from 'rxjs';
 import { Channel } from '../../models/channels';
 import { ChannelProfileComponent } from './channel-profile/channel-profile.component';
+import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.component';
 
 @Component({
   selector: 'app-channel-chat',
   standalone: true,
-  imports: [ChannelHeaderComponent, ChannelProfileComponent],
+  imports: [
+    ChannelHeaderComponent,
+    ChannelProfileComponent,
+    ChannelAddUserComponent,
+  ],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
 })
@@ -27,7 +32,6 @@ export class ChannelChatComponent implements OnInit {
       const id = paramMap.get('id');
       if (id) {
         this.channelId = id;
-        console.log('channel id', this.channelId);
         this.channelSubscription = this.channelService.channels$
           .pipe(
             map((channels) =>
@@ -37,7 +41,6 @@ export class ChannelChatComponent implements OnInit {
           .subscribe((currentChannel) => {
             if (currentChannel) {
               this.currentChannel = currentChannel;
-              console.log('currentChannel', this.currentChannel);
             } else {
               console.log('Channel not found');
             }

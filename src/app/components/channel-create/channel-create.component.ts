@@ -5,6 +5,7 @@ import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ChannelService } from '../../services/channel.service';
 import { Subscription } from 'rxjs';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-channel-create',
@@ -25,17 +26,16 @@ export class ChannelCreateComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
-    public channelService: ChannelService
+    public channelService: ChannelService,
+    public utilityService: UtilityService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
-      this.keywords = users;
+      this.keywords = JSON.parse(JSON.stringify(users));
     });
     if (isPlatformBrowser(this.platformId)) {
-      this.closeCard();
       this.nextForm();
-      this.setUserSearchBar();
     }
   }
 
@@ -54,36 +54,22 @@ export class ChannelCreateComponent implements OnInit {
     this.selectedUsers.splice(index, 1);
   }
 
-  setUserSearchBar() {
+  setUserSearchBar($event: KeyboardEvent) {
     const inputBox = <HTMLInputElement>document.getElementById('input-box');
-    inputBox?.addEventListener('keyup', () => {
-      let result: any[] = [];
-      let input = inputBox.value;
-      if (input.length) {
-        result = this.keywords.filter((keyword) => {
-          return keyword.name?.toLowerCase().includes(input.toLowerCase());
-        });
-      }
-      console.log(result);
-      this.display(result);
-    });
-  }
-
-  display(result: any[]) {
+    let result: any[] = [];
+    let input = inputBox.value;
+    if (input.length) {
+      result = this.keywords.filter((keyword) => {
+        return keyword.name?.toLowerCase().includes(input.toLowerCase());
+      });
+    }
     this.contents = result;
   }
-
   close() {
     this.selectedUsers = [];
     this.contents = [];
     this.resetCard();
-  }
-  closeCard() {
-    const cardClose = document.querySelector('.card-close');
-    cardClose?.addEventListener('click', () => {
-      const createChannel = document.getElementById('channel-create');
-      createChannel?.classList.add('hidden');
-    });
+    this.utilityService.close('channel-create');
   }
 
   resetCard() {
@@ -99,6 +85,8 @@ export class ChannelCreateComponent implements OnInit {
     const channelName = <HTMLInputElement>(
       document.getElementById('channel-name')
     );
+    const cardTitle = <HTMLElement>document.getElementById('card-title');
+    cardTitle.innerText = 'Channel erstellen';
     inputBox.value = '';
     channelName.value = '';
     channelDescription.value = '';
