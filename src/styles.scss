@@ -1,27 +1,3 @@
-@use "@angular/material" as mat;
-
-@include mat.core();
-
-$dabubble-primary: mat.define-palette(mat.$indigo-palette);
-
-$dabubble-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $dabubble-primary,
-      accent: $dabubble-primary,
-    ),
-    typography: mat.define-typography-config(),
-    density: 0,
-  )
-);
-
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-@include mat.all-component-themes($dabubble-theme);
-
-/* You can add global styles to this file, and also import other style files */
-
 @font-face {
   font-family: NunitoRegular;
   src: url("./assets/fonts/nunito-v26-latin-regular.woff2");
@@ -86,6 +62,14 @@ h3 {
 
 .hidden {
   display: none;
+}
+
+.button-container {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .button-primary {

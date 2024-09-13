@@ -37,7 +37,8 @@
               </div>
               }
               }
-              <input type="text" id="input-box" placeholder="Name eingeben" autocomplete="off">
+              <input type="text" id="input-box" placeholder="Name eingeben" autocomplete="off"
+                (keyup)="setUserSearchBar($event)">
             </div>
           </div>
           @if(contents.length > 0) {
