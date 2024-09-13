@@ -23,6 +23,7 @@
 }
 
 .chosed-user {
+  @include dFlex(flex-start, center, 0);
   font-family: NunitoRegular, sans-serif;
   width: 90%;
   max-width: fit-content;
@@ -31,23 +32,14 @@
   margin-right: 8px;
   background-color: #eceefe;
   border-radius: 35px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 }
 
 .search-bar {
+  @include dFlex(space-between, center, 0);
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   .chosed-close {
-    width: 30px;
-    height: 30px;
+    @include icons(30px, 20px, $bgColor);
     background-image: url("./../../assets/img/icons/material-symbols/close.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 20px 20px;
     cursor: pointer;
     &:hover {
       background-image: url("./../../assets/img/icons/material-symbols/close-hover.svg");
