@@ -11,7 +11,7 @@
         <div class="chosed-user">
           <img class="chosed-profile" src={{chosed.profileImage}} alt="">
           {{chosed.name}}
-          <div class="chosed-close"></div>
+          <div class="chosed-close" (click)="removeFromChosen(chosed)"></div>
         </div>
         }
         }

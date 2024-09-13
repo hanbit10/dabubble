@@ -62,6 +62,12 @@ export class ChannelAddUserComponent implements OnInit {
     inputBox.value = '';
   }
 
+  removeFromChosen(chosed: any) {
+    let index = this.selectedUsers.indexOf(chosed);
+    this.keywords.push(chosed);
+    this.selectedUsers.splice(index, 1);
+  }
+
   setUserSearchBar($event: KeyboardEvent) {
     const inputBox = <HTMLInputElement>(
       document.getElementById('input-box-channel')
