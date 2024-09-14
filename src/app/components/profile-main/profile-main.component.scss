@@ -132,12 +132,12 @@ form {
 
 .edit-inputfield {
     width: 100%;
-    border: 1px solid $lightPurple;
+    border: 1px solid $lightPurple !important;
     border-radius: 30px;
     padding: 15px 20px 15px 20px;
     box-sizing: border-box;
     outline: none;
-}
+} 
 
 .email-invalid {
     @include font($ff: NunitoRegular, $fs: 14px, $lh: 14px);

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
 import { ProfileService } from '../../services/profile.service';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-message-left',
@@ -27,7 +28,7 @@ export class MessageLeftComponent {
   private routeSub: Subscription = new Subscription;
   public usersSubscription!: Subscription;
 
-  constructor(private route: ActivatedRoute, public profileService: ProfileService, public userService: UserService){}
+  constructor(private route: ActivatedRoute, public profileService: ProfileService, public userService: UserService, public channelService :ChannelService){}
 
   openProfile(){
     this.profileService.searchUser(this.userName);

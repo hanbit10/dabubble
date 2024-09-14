@@ -9,6 +9,11 @@ section{
     }
 }
 
+.message-bar{
+    left: 30px;
+    transform: translateX(40px);
+}
+
 .message-text{
     background-color: $purple2 !important;
     color: white !important;

@@ -3,13 +3,24 @@
 
     <div class="message-info">
         <div class="message-user">
-            <span class="message-user-name"  (click)="openProfile()">{{userName}}</span>
+            <span class="message-user-name" (click)="openProfile()">{{userName}}</span>
             <span class="message-time">14:25 Uhr</span>
         </div>
         <span class="message-text">Welche Version ist aktuell von Angular?</span>
         <div class="message-answer">
-            <button class="message-answer-button">2 Antworten</button>
+            <button class="message-answer-button" (click)="channelService.openThread()">2 Antworten</button>
             <span class="message-time">Letzte Antwort 14:56 Uhr</span>
         </div>
+    </div>
+
+    <div class="message-bar">
+        <div class="message-icon emoji-icon">
+            <img src="./../../../assets/img/icons/material-symbols/emoji-check.svg" alt="check emoji">
+        </div>
+        <div class="message-icon emoji-icon">
+            <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
+        </div>
+        <div class="message-icon reaction-icon"></div>
+        <div class="message-icon thread-icon"></div>
     </div>
 </section>

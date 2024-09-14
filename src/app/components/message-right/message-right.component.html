@@ -1,11 +1,29 @@
-<section class="message">
+<section class="message" (click)="closeSettings()">
     <div class="message-info">
         <div class="message-user">
-            <span class="message-user-name"  (click)="openProfile()">{{userName}}</span>
             <span class="message-time">14:25 Uhr</span>
+            <span class="message-user-name" (click)="openProfile()">{{userName}}</span>
         </div>
         <span class="message-text">Welche Version ist aktuell von Angular?</span>
     </div>
 
     <img src="./../../../assets/img/profile/woman2.svg" alt="profile-image">
+
+    <div class="message-bar">
+        <div class="message-icon emoji-icon">
+            <img src="./../../../assets/img/icons/material-symbols/emoji-check.svg" alt="check emoji">
+        </div>
+        <div class="message-icon emoji-icon">
+            <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
+        </div>
+        <div class="message-icon reaction-icon"></div>
+        <div class="message-icon thread-icon"></div>
+        <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
+            <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()" (click)="$event.stopPropagation()">
+                <span>Nachricht bearbeiten</span>
+            </div>
+        </div>
+
+        
+    </div>
 </section>

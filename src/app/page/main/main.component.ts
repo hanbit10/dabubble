@@ -6,6 +6,8 @@ import { ChannelCreateComponent } from '../../components/channel-create/channel-
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
 import { ProfileService } from '../../services/profile.service';
 import { ProfileUserComponent } from '../../components/profile-user/profile-user.component';
+import { ThreadComponent } from '../../components/thread/thread.component';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-main',
@@ -18,7 +20,8 @@ import { ProfileUserComponent } from '../../components/profile-user/profile-user
     ChannelNavComponent,
     ChannelCreateComponent,
     DirectNavComponent,
-    ProfileUserComponent
+    ProfileUserComponent,
+    ThreadComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -26,7 +29,7 @@ import { ProfileUserComponent } from '../../components/profile-user/profile-user
 export class MainComponent implements OnInit {
   menuOpen = true;
 
-  constructor(public profileService: ProfileService) {}
+  constructor(public profileService: ProfileService, public channelService: ChannelService) {}
 
   ngOnInit(): void {
 

@@ -124,3 +124,8 @@
   transform: rotateZ(180deg);
   @include font($ff: Nunito500, $fs: 18px, $lh: 20px);
 }
+
+.thread-container{
+  max-width: 350px;
+  margin-left: 20px;
+}

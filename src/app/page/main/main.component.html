@@ -34,12 +34,15 @@
       <router-outlet></router-outlet>
     </div>
 
+    <div [class]="channelService.threadIsOpen? 'thread-container container' : 'hidden'">
+      <app-thread></app-thread>
+    </div>
   </div>
 
 </div>
 
 @if (profileService.profileIsOpen) {
-  <app-profile-user></app-profile-user>
-  }
+<app-profile-user></app-profile-user>
+}
 
 <app-channel-create id="channel-create" class="hidden"></app-channel-create>

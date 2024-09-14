@@ -37,10 +37,12 @@
 .search-bar {
   @include dFlex(space-between, center, 0);
   width: 100%;
+
   .chosed-close {
     @include icons(30px, 20px, $bgColor);
     background-image: url("./../../assets/img/icons/material-symbols/close.svg");
     cursor: pointer;
+
     &:hover {
       background-image: url("./../../assets/img/icons/material-symbols/close-hover.svg");
     }
@@ -88,6 +90,7 @@
     justify-content: flex-start;
     align-items: center;
     cursor: pointer;
+
     &:hover {
       background: #eceefe;
     }
@@ -96,6 +99,7 @@
 
 .chat-header {
   position: absolute;
+  z-index: 888;
   top: 0;
   left: 0;
   right: 0;
@@ -112,7 +116,7 @@
   gap: 10px;
   width: 100%;
   padding-top: 96px;
-  padding-bottom: 65px;
+  padding-bottom: 85px;
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -126,12 +130,26 @@
   bottom: 0;
   padding: 8px 30px 32px 30px;
   background-color: white;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
-.sendMessage-component{
+.sendMessage-component {
   padding: 20px;
   border: 1px solid $lightPurple;
   border-radius: 20px;
+}
+
+.online-status {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-sizing: border-box;
+  background-color: $onlineGreen;
 }
 
 .active {
@@ -180,9 +198,11 @@
   margin-bottom: 20px;
   font-family: "Nunito" !important;
 }
+
 .input-container:hover {
   border: 1px solid $purple1 !important;
 }
+
 .input-container:focus {
   border: 1px solid $purple1 !important;
 }
@@ -206,63 +226,71 @@ input:-webkit-autofill:focus {
   border: 1px solid $purple1 !important;
 }
 
-.date-line{
+.date-line {
   @include dFlex();
   width: 100%;
   padding-inline: 30px;
   box-sizing: border-box;
 
-  .line{
-      border: 0.5px solid $lightPurple;
-      width: 100%;
+  .line {
+    border: 0.5px solid $lightPurple;
+    width: 100%;
   }
 
-  .message-date{
-      padding: 5px 15px 5px 15px;
-      border: 1px solid $lightPurple;
-      border-radius: 30px;
-      @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+  .message-date {
+    padding: 5px 15px 5px 15px;
+    border: 1px solid $lightPurple;
+    border-radius: 30px;
+    @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
   }
 }
 
-.message{
+.message {
+  position: relative;
   width: 100%;
   @include dFlex($ai: flex-start, $g: 30px);
   padding: 10px 30px 10px 30px;
   box-sizing: border-box;
+  margin-top: 24px;
 
-  &:hover{
+  &:hover {
     background-color: $bgColor;
 
-    .message-text{
+    .message-bar{
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity 125ms ease-in-out, transform 125ms ease-in-out;
+    }
+
+    .message-text {
       background-color: white;
     }
   }
 
-  .message-info{
+  .message-info {
     @include dFlex($g: 8px);
     flex-direction: column;
   }
 
-  .message-user{
+  .message-user {
     @include dFlex($g: 20px);
 
-    .message-user-name{
+    .message-user-name {
       @include font($ff: Nunito700, $fs: 18px, $lh: 24.55px);
 
-      &:hover{
+      &:hover {
         cursor: pointer;
         color: $purple1;
       }
     }
   }
 
-  .message-time{
+  .message-time {
     @include font($ff: NunitoRegular, $fs: 14px, $lh: 29.1px);
     color: $textGray;
   }
 
-  .message-text{
+  .message-text {
     background-color: $bgColor;
     padding: 15px;
     border-bottom-left-radius: 30px;
@@ -270,16 +298,16 @@ input:-webkit-autofill:focus {
     @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
   }
 
-  .message-answer{
+  .message-answer {
     @include dFlex($g: 20px);
 
-    .message-answer-button{
+    .message-answer-button {
       background-color: unset;
       border: none;
       @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
       color: $purple3;
 
-      &:hover{
+      &:hover {
         cursor: pointer;
         color: $purple1;
         @include font($ff: Nunito700, $fs: 18px, $lh: 24.55px);
@@ -288,5 +316,82 @@ input:-webkit-autofill:focus {
   }
 }
 
+.message-bar {
+  position: absolute;
+  top: -24px;
+  @include dFlex($g: 5px);
+  padding: 3px 15px 3px 15px;
+  border: 1px solid $lightPurple;
+  border-radius: 25px 25px 0px 25px;
+  width: fit-content;
+  background-color: white;
+  opacity: 0;
+  transition: opacity 125ms ease-in-out, transform 125ms ease-in-out;
 
+  .message-icon {
+    width: 40px;
+    height: 40px;
 
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .emoji-icon {
+    border-radius: 50%;
+    @include dFlex();
+
+    &:hover {
+      cursor: pointer;
+      background-color: $bgColor;
+    }
+  }
+
+  .edit-message-button{
+    position: absolute;
+    top: 20px;
+    right: -220px;
+    border-radius: 0px 30px 30px 30px;
+    padding: 20px 20px 20px 20px;
+    background-color: white;
+    box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+
+    &:hover{
+      >span{
+        background-color: $bgColor;
+        border-radius: 100px;
+        color: $purple3;
+      }
+    }
+
+    >span{
+      padding: 10px 20px 10px 20px;
+      @include font($ff: Nunito600, $fs: 18px, $lh: 24px);
+    }
+  }
+
+  .reaction-icon {
+    background-image: url('./../../assets/img/icons/material-symbols/addreaction.svg');
+
+    &:hover {
+      background-image: url('./../../assets/img/icons/material-symbols/addreaction-hover.svg');
+    }
+  }
+
+  .thread-icon {
+    background-image: url('./../../assets/img/icons/material-symbols/thread.svg');
+
+    &:hover {
+      background-image: url('./../../assets/img/icons/material-symbols/thread-hover.svg');
+    }
+  }
+
+  .settings-icon {
+    background-image: url('./../../assets/img/icons/material-symbols/settings.svg');
+
+    &:hover {
+      background-image: url('./../../assets/img/icons/material-symbols/settings-hover.svg');
+    }
+  }
+}

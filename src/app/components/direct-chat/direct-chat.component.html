@@ -1,7 +1,10 @@
 <section class="message-container">
     <header class="chat-header">
         <div class="contact-container" (click)="openProfile()">
-            <img src="{{user.profileImage}}" alt="profile pic">
+            <div class="profile-pic">
+                <img src="{{user.profileImage}}" alt="profile pic">
+                <div class="online-status" [class]="user.active ? 'active' : 'absent'"></div>
+            </div>
             {{ user.name }}
         </div>
     </header>
