@@ -17,7 +17,7 @@
             <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
         </div>
         <div class="message-icon reaction-icon"></div>
-        <div class="message-icon thread-icon"></div>
+        <div class="message-icon thread-icon" (click)="channelService.openThread()"></div>
         <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
             <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()" (click)="$event.stopPropagation()">
                 <span>Nachricht bearbeiten</span>

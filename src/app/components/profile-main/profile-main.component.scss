@@ -1,17 +1,6 @@
 @import './../../../styles.scss';
 @import './../../scss/main-style.scss';
-
-.overlay {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 9966;
-    background-color: rgba(0, 0, 0, 0.2);
-    animation: open 75ms ease-in;
-}
+@import './../../scss/profile-style.scss';
 
 .profile-main {
     position: absolute;
@@ -24,80 +13,12 @@
     flex-direction: column;
 }
 
-.profile-head {
+.profile-name-section-top {
     width: 100%;
     @include dFlex($jc: space-between);
-    @include font($ff: Nunito700, $fs: 22px, $lh: 28px);
 
-    >div {
-        width: 40px;
-        height: 40px;
-        background-image: url('./../../../assets/img/icons/material-symbols/close.svg');
-        object-fit: cover;
-
-        &:hover {
-            cursor: pointer;
-            background-image: url('./../../../assets/img/icons/material-symbols/close-hover.svg');
-        }
-    }
-}
-
-.profile-pic {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    margin-inline: 80px;
-}
-
-.profile-name-section {
-    width: 100%;
-    @include dFlex($g: 15px);
-    flex-direction: column;
-
-    .profile-name-section-top {
-        width: 100%;
-        @include dFlex($jc: space-between);
-
-        >span {
-            @include font($ff: Nunito700, $fs: 26px, $lh: 30px);
-        }
-    }
-
-    .profile-name-section-bottom {
-        width: 100%;
-        @include dFlex($jc: flex-start, $g: 15px);
-        @include font($ff: NunitoRegular, $fs: 20px, $lh: 27.28px);
-
-        >div {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-    }
-}
-
-.profile-edit-button {
-    @include font($ff: Nunito600, $fs: 18px, $lh: 24.55px);
-    color: $purple3;
-    background-color: unset;
-    border: none;
-
-    &:hover {
-        cursor: pointer;
-        color: $purple1;
-    }
-}
-
-.profile-mail-section {
-    width: 100%;
-    @include dFlex($jc: flex-start, $ai: flex-start, $g: 15px);
-
-    .mail-title {
-        @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
-    }
-
-    .mail-adress {
-        @include font($ff: NunitoRegular, $fs: 18px, $lh: 21.6px);
+    >span {
+        @include font($ff: Nunito700, $fs: 26px, $lh: 30px);
     }
 }
 
@@ -137,7 +58,7 @@ form {
     padding: 15px 20px 15px 20px;
     box-sizing: border-box;
     outline: none;
-} 
+}
 
 .email-invalid {
     @include font($ff: NunitoRegular, $fs: 14px, $lh: 14px);
