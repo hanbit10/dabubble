@@ -12,6 +12,7 @@ import { ChannelService } from '../../services/channel.service';
 export class MessageRightComponent {
   @Input()userName = '';
   settingIsOpen: boolean = false;
+  editMessageIsOpen: boolean = false;
 
   constructor(public profileService: ProfileService, public channelService: ChannelService){}
 
@@ -32,6 +33,11 @@ export class MessageRightComponent {
   }
 
   editMessage(){
+    this.editMessageIsOpen = true;
+  }
 
+  closeEditMessage(){
+    this.editMessageIsOpen = false;
+    this.settingIsOpen = false;
   }
 }

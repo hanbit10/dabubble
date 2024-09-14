@@ -151,3 +151,48 @@
         background-image: url('./../../assets/img/icons/material-symbols/settings-hover.svg');
     }
 }
+
+.edit-message-container{
+    width: 100%;
+    margin-left: 100px;
+    background-color: white;
+    border-radius: 20px;
+    border: 1px solid $lightPurple;
+    padding: 20px;
+    @include dFlex($g: 16px);
+    flex-direction: column;
+
+    &:hover{
+        border: 1px solid $purple2;
+    }
+}
+
+.edit-message-bottom{
+    width: 100%;
+    @include dFlex($jc: space-between);
+}
+
+.edit-reaction-icon{
+    background-image: url('./../../assets/img/icons/material-symbols/reaction.svg');
+
+    &:hover {
+        background-image: url('./../../assets/img/icons/material-symbols/reaction-hover.svg');
+    }
+}
+
+.edit-buttons{
+    @include dFlex($g: 32px);
+}
+
+.input-edit-message{
+    width: 100%;
+    outline: none;
+    border: none;
+    color: $textGray;
+    @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+    resize: none;
+
+    &:focus{
+        color: black;
+    }
+}
