@@ -1,0 +1,29 @@
+@import './../../../styles.scss';
+@import './../../scss/main-style.scss';
+@import './../../scss/message-style.scss';
+
+section{
+    justify-content: flex-end !important;
+
+    >img{
+        @include profileImg();
+    }
+}
+
+.message-bar{
+    left: 30px;
+    transform: translateX(40px);
+}
+
+.message-text{
+    background-color: $purple2 !important;
+    color: white !important;
+}
+
+.message-info{
+    align-items: flex-end !important;
+}
+
+.message-text{
+    border-top-left-radius: 30px;
+}

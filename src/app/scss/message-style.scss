@@ -1,0 +1,153 @@
+@import './../../styles.scss';
+@import './../scss/main-style.scss';
+
+.message {
+    position: relative;
+    width: 100%;
+    @include dFlex($ai: flex-start, $g: 30px);
+    padding: 10px 30px 10px 30px;
+    box-sizing: border-box;
+    margin-top: 24px;
+
+    &:hover {
+        background-color: $bgColor;
+
+        .message-bar {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 125ms ease-in-out, transform 125ms ease-in-out;
+        }
+
+        .message-text {
+            background-color: white;
+        }
+    }
+}
+
+.message-info {
+    @include dFlex($g: 8px);
+    flex-direction: column;
+}
+
+.message-user {
+    @include dFlex($g: 20px);
+
+    .message-user-name {
+        @include font($ff: Nunito700, $fs: 18px, $lh: 24.55px);
+
+        &:hover {
+            cursor: pointer;
+            color: $purple1;
+        }
+    }
+}
+
+.message-time {
+    @include font($ff: NunitoRegular, $fs: 14px, $lh: 29.1px);
+    color: $textGray;
+}
+
+.message-text {
+    background-color: $bgColor;
+    padding: 15px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+}
+
+.message-answer {
+    @include dFlex($g: 20px);
+
+    .message-answer-button {
+        background-color: unset;
+        border: none;
+        @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+        color: $purple3;
+
+        &:hover {
+            cursor: pointer;
+            color: $purple1;
+            @include font($ff: Nunito700, $fs: 18px, $lh: 24.55px);
+        }
+    }
+}
+
+.message-bar {
+    position: absolute;
+    top: -24px;
+    @include dFlex($g: 5px);
+    padding: 3px 15px 3px 15px;
+    border: 1px solid $lightPurple;
+    border-radius: 25px 25px 0px 25px;
+    width: fit-content;
+    background-color: white;
+    opacity: 0;
+    transition: opacity 125ms ease-in-out, transform 125ms ease-in-out;
+}
+
+.message-icon {
+    width: 40px;
+    height: 40px;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.emoji-icon {
+    border-radius: 50%;
+    @include dFlex();
+
+    &:hover {
+        cursor: pointer;
+        background-color: $bgColor;
+    }
+}
+
+.edit-message-button {
+    position: absolute;
+    top: 20px;
+    right: -220px;
+    border-radius: 0px 30px 30px 30px;
+    padding: 20px 20px 20px 20px;
+    background-color: white;
+    box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+
+    &:hover {
+        >span {
+            background-color: $bgColor;
+            border-radius: 100px;
+            color: $purple3;
+        }
+    }
+
+    >span {
+        padding: 10px 20px 10px 20px;
+        @include font($ff: Nunito600, $fs: 18px, $lh: 24px);
+    }
+}
+
+.reaction-icon {
+    background-image: url('./../../assets/img/icons/material-symbols/addreaction.svg');
+
+    &:hover {
+        background-image: url('./../../assets/img/icons/material-symbols/addreaction-hover.svg');
+    }
+}
+
+.thread-icon {
+    background-image: url('./../../assets/img/icons/material-symbols/thread.svg');
+
+    &:hover {
+        background-image: url('./../../assets/img/icons/material-symbols/thread-hover.svg');
+    }
+}
+
+.settings-icon {
+    background-image: url('./../../assets/img/icons/material-symbols/settings.svg');
+
+    &:hover {
+        background-image: url('./../../assets/img/icons/material-symbols/settings-hover.svg');
+    }
+}

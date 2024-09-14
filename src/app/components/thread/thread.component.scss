@@ -1,0 +1,28 @@
+@import './../../../styles.scss';
+@import './../../scss/main-style.scss';
+
+section{
+    position: relative;
+}
+
+header{
+    @include dFlex($jc: space-between);
+    height: 98px;
+    box-sizing: border-box;
+}
+
+.close-icon{
+    background-image: url('./../../../assets/img/icons/material-symbols/close.svg');
+    width: 40px;
+    height: 40px;
+
+    &:hover{
+        cursor: pointer;
+        background-image: url('./../../../assets/img/icons/material-symbols/close-hover.svg');
+    }
+}
+
+.thread-chat{
+    padding: 96px 30px 85px 30px;
+}
+

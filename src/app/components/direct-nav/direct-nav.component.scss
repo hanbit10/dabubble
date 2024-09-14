@@ -106,23 +106,3 @@
         @include profileImg($w: 50px, $h: 50px);
     }
 }
-
-.online-status {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 14px;
-    height: 14px;
-    border: 2px solid white;
-    border-radius: 50%;
-    box-sizing: border-box;
-    background-color: $onlineGreen;
-}
-
-.active {
-    background-color: $onlineGreen;
-}
-
-.absent {
-    background-color: $textGray;
-}

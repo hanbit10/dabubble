@@ -1,7 +1,8 @@
 @import './../../../styles.scss';
 @import './../../scss/main-style.scss';
+@import './../../scss/profile-style.scss';
 
-section {
+.profile-main {
     position: absolute;
     top: 85px;
     right: 20px;
@@ -12,84 +13,16 @@ section {
     flex-direction: column;
 }
 
-.profile-head {
+.profile-name-section-top {
     width: 100%;
     @include dFlex($jc: space-between);
-    @include font($ff: Nunito700, $fs: 22px, $lh: 28px);
 
-    >div {
-        width: 40px;
-        height: 40px;
-        background-image: url('./../../../assets/img/icons/material-symbols/close.svg');
-        object-fit: cover;
-
-        &:hover {
-            cursor: pointer;
-            background-image: url('./../../../assets/img/icons/material-symbols/close-hover.svg');
-        }
+    >span {
+        @include font($ff: Nunito700, $fs: 26px, $lh: 30px);
     }
 }
 
-.profile-pic {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    margin-inline: 80px;
-}
-
-.profile-name-section {
-    width: 100%;
-    @include dFlex($g: 15px);
-    flex-direction: column;
-
-    .profile-name-section-top {
-        width: 100%;
-        @include dFlex($jc: space-between);
-
-        >span {
-            @include font($ff: Nunito700, $fs: 26px, $lh: 30px);
-        }
-    }
-
-    .profile-name-section-bottom {
-        width: 100%;
-        @include dFlex($jc: flex-start, $g: 15px);
-        @include font($ff: NunitoRegular, $fs: 20px, $lh: 27.28px);
-
-        >div {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-        }
-    }
-}
-
-.profile-edit-button {
-    @include font($ff: Nunito600, $fs: 18px, $lh: 24.55px);
-    color: $purple3;
-    background-color: unset;
-    border: none;
-
-    &:hover {
-        cursor: pointer;
-        color: $purple1;
-    }
-}
-
-.profile-mail-section {
-    width: 100%;
-    @include dFlex($jc: flex-start, $ai: flex-start, $g: 15px);
-
-    .mail-title {
-        @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
-    }
-
-    .mail-adress {
-        @include font($ff: NunitoRegular, $fs: 18px, $lh: 21.6px);
-    }
-}
-
-form{
+form {
     width: 100%;
     @include dFlex($g: 18px);
     flex-direction: column;
@@ -120,20 +53,20 @@ form{
 
 .edit-inputfield {
     width: 100%;
-    border: 1px solid $lightPurple;
+    border: 1px solid $lightPurple !important;
     border-radius: 30px;
     padding: 15px 20px 15px 20px;
     box-sizing: border-box;
     outline: none;
 }
 
-.email-invalid{
+.email-invalid {
     @include font($ff: NunitoRegular, $fs: 14px, $lh: 14px);
     color: $rosaError;
     opacity: 0;
 }
 
-.email-invalid-visible{
+.email-invalid-visible {
     @include font($ff: NunitoRegular, $fs: 14px, $lh: 14px);
     color: $rosaError;
     opacity: 1;

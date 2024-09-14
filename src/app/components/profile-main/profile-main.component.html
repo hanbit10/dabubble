@@ -1,83 +1,89 @@
 @if(!editProfile){
-<section>
-    <div class="profile-head">
-        <span>Profil</span>
-        <div (click)="onClose()"></div>
-    </div>
+<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-userProfile' : 'hidden'">
+    <section (click)="$event.stopPropagation()" class="profile-main">
 
-    <img class="profile-pic" src="{{currentUser.profileImage}}" alt="profile pic">
-
-    <div class="profile-name-section">
-        <div class="profile-name-section-top">
-            <span>{{currentUser.name}}</span>
-            <button (click)="openEditProfile()" class="profile-edit-button">Bearbeiten</button>
+        <div class="profile-head">
+            <span>Profil</span>
+            <div (click)="closeProfile()"></div>
         </div>
 
-        @if(currentUser.active){
-        <div class="profile-name-section-bottom">
-            <div class="active"></div>
-            <span class="active-text">Aktiv</span>
-        </div>
-        }
-        @if(!currentUser.active){
-        <div class="profile-name-section-bottom">
-            <div class="absent"></div>
-            <span class="absent-text">Abwesend</span>
-        </div>
-        }
+        <img class="profile-pic" src="{{currentUser.profileImage}}" alt="profile pic">
 
-    </div>
+        <div class="profile-name-section">
+            <div class="profile-name-section-top">
+                <span>{{currentUser.name}}</span>
+                <button (click)="openEditProfile()" class="profile-edit-button">Bearbeiten</button>
+            </div>
 
-    <div class="profile-mail-section">
-        <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
-        <div>
-            <span class="mail-title">E-Mail-Adresse</span><br>
-            <span class="mail-adress">{{currentUser.email}}</span>
+            @if(currentUser.active){
+            <div class="profile-name-section-bottom">
+                <div class="active"></div>
+                <span class="active-text">Aktiv</span>
+            </div>
+            }
+            @if(!currentUser.active){
+            <div class="profile-name-section-bottom">
+                <div class="absent"></div>
+                <span class="absent-text">Abwesend</span>
+            </div>
+            }
+
         </div>
-    </div>
-</section>
+
+        <div class="profile-mail-section">
+            <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
+            <div>
+                <span class="mail-title">E-Mail-Adresse</span><br>
+                <span class="mail-adress">{{currentUser.email}}</span>
+            </div>
+        </div>
+    </section>
+</div>
 }
 
 
 @if(editProfile){
-<section>
-    <div class="profile-head">
-        <span>Dein Profil bearbeiten</span>
-        <div (click)="closeEditProfile()"></div>
-    </div>
-
-    <img class="profile-pic" src="{{currentUser.profileImage}}" alt="profile pic">
-
-    <form (ngSubmit)="safeEditProfile(contactForm)" #contactForm="ngForm">
-        <div class="profile-edit-section">
-            <div class="edit-container">
-                <div class="edit-title">
-                    <img src="./assets/img/icons/material-symbols/account-circle.svg" alt="email">
-                    <span class="mail-title">Vollständiger Name</span><br>
-                </div>
-                <input [(ngModel)]="newName" class="edit-inputfield" type="text" name="fullname" minlength="2"
-                    placeholder="{{currentUser.name}}">
-            </div>
-
-            <div class="edit-container">
-                <div class="edit-title">
-                    <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
-                    <span class="mail-title">E-Mail-Adresse</span><br>
-                </div>
-                <input #email="ngModel" [(ngModel)]="newMail" class="edit-inputfield" type="email" name="email"
-                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="{{currentUser.email}}">
-
-                <span class="email-invalid"
-                    [class.email-invalid-visible]="(email.invalid && contactForm.submitted)">*Diese E-Mail-Adresse ist
-                    leider ungültig.</span>
-            </div>
+<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-userProfile' : 'hidden'">
+    <section (click)="$event.stopPropagation()" class="profile-main">
+        <div class="profile-head">
+            <span>Dein Profil bearbeiten</span>
+            <div (click)="closeEditProfile()"></div>
         </div>
 
-        <div class="edit-button-container">
-            <button class="button-secondary" (click)="closeEditProfile()">Abbrechen</button>
-            <input type="submit" name="submit" value="Speichern" class="button-primary">
-        </div>
-    </form>
+        <img class="profile-pic" src="{{currentUser.profileImage}}" alt="profile pic">
 
-</section>
+        <form (ngSubmit)="safeEditProfile(contactForm)" #contactForm="ngForm">
+            <div class="profile-edit-section">
+                <div class="edit-container">
+                    <div class="edit-title">
+                        <img src="./assets/img/icons/material-symbols/account-circle.svg" alt="email">
+                        <span class="mail-title">Vollständiger Name</span><br>
+                    </div>
+                    <input [(ngModel)]="newName" class="edit-inputfield" type="text" name="fullname" minlength="2"
+                        placeholder="{{currentUser.name}}">
+                </div>
+
+                <div class="edit-container">
+                    <div class="edit-title">
+                        <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
+                        <span class="mail-title">E-Mail-Adresse</span><br>
+                    </div>
+                    <input #email="ngModel" [(ngModel)]="newMail" class="edit-inputfield" type="email" name="email"
+                        pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="{{currentUser.email}}">
+
+                    <span class="email-invalid"
+                        [class.email-invalid-visible]="(email.invalid && contactForm.submitted)">*Diese E-Mail-Adresse
+                        ist
+                        leider ungültig.</span>
+                </div>
+            </div>
+
+            <div class="edit-button-container">
+                <button class="button-secondary" (click)="closeEditProfile()">Abbrechen</button>
+                <input type="submit" name="submit" value="Speichern" class="button-primary">
+            </div>
+        </form>
+
+    </section>
+</div>
 }
