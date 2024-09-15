@@ -5,14 +5,24 @@
       <div class="card-close" (click)="close()"></div>
     </div>
     <div>
-      <h3>Channel Name</h3>
-      {{channel.name}}
-      <h3>Beschreibung</h3>
-      {{channel.description}}
-      <h3>Erstellt von</h3>
-      {{channelCreatedBy.name}}
-    </div>
+      <div class="channel-info-name">
+        <div class="content-tab">
+          <h3>Channel Name</h3>
+          <div class="">Bearbeiten</div>
+        </div>
+        {{channel.name}}
+      </div>
+      <div class="channel-info-description">
+        <div class="content-tab">
+          <h3>Beschreibung</h3>
+          <div class="">Bearbeiten</div>
+        </div>
+        {{channel.description}}
+        <h3>Erstellt von</h3>
+        {{channelCreatedBy.name}}
+      </div>
 
-    <div class="button-container">Channel verlassen</div>
+    </div>
+    <div class="button-container" (click)="leaveChannel()">Channel verlassen</div>
   </div>
 </div>

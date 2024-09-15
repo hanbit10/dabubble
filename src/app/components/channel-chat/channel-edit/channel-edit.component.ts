@@ -56,4 +56,8 @@ export class ChannelEditComponent implements OnInit {
   close() {
     this.utilityService.closeComponent('channel-edit');
   }
+
+  leaveChannel() {
+    this.utilityService.closeComponent('channel-edit');
+  }
 }
