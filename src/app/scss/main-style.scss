@@ -78,6 +78,11 @@
   background-image: url("./../../assets/img/icons/material-symbols/tag.svg");
 }
 
+.tag-small {
+  @include icons(24px, 24px, white);
+  background-image: url("./../../assets/img/icons/material-symbols/tag.svg");
+}
+
 .chosed-profile {
   @include profileImg(35px, 35px);
   margin-left: 10px;
@@ -203,8 +208,7 @@
 
 .input-container {
   @include dFlex(flex-start, center, 0);
-  width: 100%;
-  max-width: 752px;
+  box-sizing: border-box;
   height: 32px;
   border-radius: 40px;
   border: 1px solid $purple2;
@@ -241,6 +245,25 @@ input:-webkit-autofill:focus {
   border: 1px solid $purple1 !important;
 }
 
+textarea {
+  font-size: 18px;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+textarea:focus {
+  outline: none;
+  border: none;
+}
+
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  font-family: "Nunito" !important;
+  border: 1px solid $purple1 !important;
+}
+
 .date-line {
   @include dFlex();
   width: 100%;
@@ -258,4 +281,20 @@ input:-webkit-autofill:focus {
     border-radius: 30px;
     @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
   }
+}
+
+.blue-text {
+  color: $purple3;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: bold;
+  }
+}
+
+.button-container {
+  @include dFlex(flex-end, center);
+  width: 100%;
+  height: fit-content;
 }

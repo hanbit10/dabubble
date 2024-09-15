@@ -19,6 +19,8 @@ export class ChannelEditComponent implements OnInit {
   private channelSubscription!: Subscription;
   channel: Channel = {} as Channel;
   channelCreatedBy: UserProfile = {} as UserProfile;
+  editName: boolean = false;
+  editDescription: boolean = false;
   constructor(
     private route: ActivatedRoute,
     public userService: UserService,
@@ -59,5 +61,22 @@ export class ChannelEditComponent implements OnInit {
 
   leaveChannel() {
     this.utilityService.closeComponent('channel-edit');
+  }
+
+  edit(type: string) {
+    if (type == 'name') {
+      this.editName = true;
+    }
+    if (type == 'description') {
+      this.editDescription = true;
+    }
+  }
+  save(type: string) {
+    if (type == 'name') {
+      this.editName = false;
+    }
+    if (type == 'description') {
+      this.editDescription = false;
+    }
   }
 }

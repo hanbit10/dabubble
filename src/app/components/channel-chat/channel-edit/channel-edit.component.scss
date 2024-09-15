@@ -13,7 +13,10 @@
 }
 
 .content {
-  @include fullSizeCard(800px, 600px, 0px, 30px, 30px, 30px);
+  @include fullSizeCard(800px, fit-content, 0px, 30px, 30px, 30px);
+  @include dFlex(space-between, space-between, 0);
+  flex-direction: column;
+  min-height: 600px;
   margin-left: 30%;
   margin-top: 200px;
   background-color: white;
@@ -23,13 +26,74 @@
   @include dFlex(flex-start, flex-start, 0);
 }
 
+.content-line {
+  height: 1px;
+  width: 100%;
+  background-color: $lightPurple;
+}
+
 h2 {
   margin: 0px;
 }
 
-.channel-info-name {
-  border: 1px solid #adb0d9;
+@keyframes hideBorder {
+  from {
+    border: 1px solid $lightPurple;
+  }
+
+  to {
+    border: none;
+    padding: 0;
+  }
+}
+
+@keyframes showBorder {
+  from {
+    border: none;
+    padding: 0;
+  }
+
+  to {
+    border: 1px solid $lightPurple;
+    padding: 20px;
+  }
+}
+
+.channel-info-name,
+.channel-info-description {
+  border: 1px solid $lightPurple;
   border-radius: 20px;
-  padding: 6px 20px 6px 20px;
+  padding: 20px;
   box-sizing: border-box;
+  margin-top: 20px;
+}
+
+.channel-info-name {
+  height: 110px;
+}
+
+.channel-info-description {
+  height: 300px;
+}
+
+.show-border {
+  animation: showBorder 0.1s forwards;
+}
+
+.hide-border {
+  animation: hideBorder 0.1s forwards;
+}
+
+.channel-creator {
+  font-size: 24px;
+  color: $purple3;
+}
+
+.button-primary {
+  width: 200px;
+}
+
+.input-container {
+  margin-bottom: 0;
+  height: 60px;
 }
