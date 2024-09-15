@@ -18,3 +18,18 @@
   margin-top: 200px;
   background-color: white;
 }
+
+.content-left {
+  @include dFlex(flex-start, flex-start, 0);
+}
+
+h2 {
+  margin: 0px;
+}
+
+.channel-info-name {
+  border: 1px solid #adb0d9;
+  border-radius: 20px;
+  padding: 6px 20px 6px 20px;
+  box-sizing: border-box;
+}

@@ -73,6 +73,11 @@
   }
 }
 
+.tag {
+  @include icons(30px, 30px, white);
+  background-image: url("./../../assets/img/icons/material-symbols/tag.svg");
+}
+
 .chosed-profile {
   @include profileImg(35px, 35px);
   margin-left: 10px;
