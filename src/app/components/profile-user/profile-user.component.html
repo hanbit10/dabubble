@@ -1,39 +1,40 @@
-
-<section>
-    <div class="profile-head">
-        <span>Profil</span>
-        <div (click)="onClose()"></div>
-    </div>
-
-    <img class="profile-pic" src="{{user.profileImage}}" alt="profile pic">
-
-    <div class="profile-name-section">
-        <span>{{user.name}}</span>
-
-        @if(user.active){
-        <div class="profile-name-section-bottom">
-            <div class="active"></div>
-            <span class="active-text">Aktiv</span>
+<section [class]="profileIsOpen? 'overlay-userProfile' : 'hidden'" (click)="closeProfile()">
+    <div class="profile-user" (click)="$event.stopPropagation()">
+        <div class="profile-head">
+            <span>Profil</span>
+            <div (click)="closeProfile()"></div>
         </div>
-        }
-        @if(!user.active){
-        <div class="profile-name-section-bottom">
-            <div class="absent"></div>
-            <span class="absent-text">Abwesend</span>
-        </div>
-        }
-    </div>
 
-    <div class="profile-mail-section">
-        <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
-        <div>
-            <span class="mail-title">E-Mail-Adresse</span><br>
-            <span class="mail-adress">{{user.email}}</span>
-        </div>
-    </div>
+        <img class="profile-pic" src="{{user.profileImage}}" alt="profile pic">
 
-    <button class="button-primary" (click)="newMessage()">
-        <img src="./assets/img/icons/material-symbols/button_comment.svg" alt="comment">
-        Nachricht
-    </button>
+        <div class="profile-name-section">
+            <span>{{user.name}}</span>
+
+            @if(user.active){
+            <div class="profile-name-section-bottom">
+                <div class="active"></div>
+                <span class="active-text">Aktiv</span>
+            </div>
+            }
+            @if(!user.active){
+            <div class="profile-name-section-bottom">
+                <div class="absent"></div>
+                <span class="absent-text">Abwesend</span>
+            </div>
+            }
+        </div>
+
+        <div class="profile-mail-section">
+            <img src="./assets/img/icons/material-symbols/mail.svg" alt="email">
+            <div>
+                <span class="mail-title">E-Mail-Adresse</span><br>
+                <span class="mail-adress">{{user.email}}</span>
+            </div>
+        </div>
+
+        <button class="button-primary" (click)="newMessage()">
+            <img src="./assets/img/icons/material-symbols/button_comment.svg" alt="comment">
+            Nachricht
+        </button>
+    </div>
 </section>

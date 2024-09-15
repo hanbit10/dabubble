@@ -2,22 +2,26 @@
 @import './../../scss/main-style.scss';
 
 .contact-container {
-    width: 200px;
     @include dFlex($g: 15px, $jc: flex-start);
-    padding: 4px;
+    padding: 4px 15px 4px 4px;
     border-radius: 35px;
     box-sizing: border-box;
-    @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
+    @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
+    width: fit-content;
 
     &:hover {
         cursor: pointer;
         background-color: $bgColor;
     }
+}
+
+.profile-pic {
+    position: relative;
+    height: 50px;
+    width: 50px;
 
     >img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+        @include profileImg($w: 50px, $h: 50px);
     }
 }
 

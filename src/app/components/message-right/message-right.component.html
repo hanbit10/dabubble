@@ -1,17 +1,13 @@
-<section class="message">
-    <img src="./../../../assets/img/profile/woman2.svg" alt="profile-image">
-
+<section class="message" (click)="closeSettings()">
     <div class="message-info">
         <div class="message-user">
-            <span class="message-user-name" (click)="openProfile()">{{userName}}</span>
             <span class="message-time">14:25 Uhr</span>
+            <span class="message-user-name" (click)="openProfile()">{{userName}}</span>
         </div>
         <span class="message-text">Welche Version ist aktuell von Angular?</span>
-        <div class="message-answer">
-            <button class="message-answer-button" (click)="channelService.openThread()">2 Antworten</button>
-            <span class="message-time">Letzte Antwort 14:56 Uhr</span>
-        </div>
     </div>
+
+    <img src="./../../../assets/img/profile/woman2.svg" alt="profile-image">
 
     <div class="message-bar">
         <div class="message-icon emoji-icon">
@@ -22,5 +18,12 @@
         </div>
         <div class="message-icon reaction-icon"></div>
         <div class="message-icon thread-icon" (click)="channelService.openThread()"></div>
+        <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
+            <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()" (click)="$event.stopPropagation()">
+                <span>Nachricht bearbeiten</span>
+            </div>
+        </div>
+
+        
     </div>
 </section>

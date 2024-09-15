@@ -39,7 +39,7 @@
   @include dFlex($jc: flex-start, $g: 15px);
   flex-direction: column;
   padding: 32px 30px 32px 30px;
-  animation: open 75ms ease-in-out;
+  animation: open 200ms ease-in-out;
   margin-right: 20px;
 }
 
@@ -123,4 +123,9 @@
   writing-mode: vertical-rl;
   transform: rotateZ(180deg);
   @include font($ff: Nunito500, $fs: 18px, $lh: 20px);
+}
+
+.thread-container{
+  max-width: 350px;
+  margin-left: 20px;
 }

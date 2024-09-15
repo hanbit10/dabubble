@@ -1,0 +1,24 @@
+@import './../../../styles.scss';
+@import './../../scss/main-style.scss';
+@import './../../scss/message-style.scss';
+
+section{
+    justify-content: flex-start !important;
+
+    >img{
+        @include profileImg();
+    }
+}
+
+.message-bar{
+    right: 30px;
+    transform: translateX(-40px);
+}
+
+.message-info{
+    align-items: flex-start !important;
+}
+
+.message-text{
+    border-top-right-radius: 30px;
+}

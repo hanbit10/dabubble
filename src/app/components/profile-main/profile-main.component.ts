@@ -4,6 +4,7 @@ import { UserProfile } from '../../models/users';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-profile-main',
@@ -28,7 +29,7 @@ export class ProfileMainComponent implements OnInit {
   private routeSub: Subscription = new Subscription;
   private usersSubscription!: Subscription;
 
-  constructor(private userService: UserService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private route: ActivatedRoute, public profileService: ProfileService) { }
   editProfile = false;
   @Input() newMail = '';
   @Input() newName = '';
@@ -51,12 +52,14 @@ export class ProfileMainComponent implements OnInit {
   }
   
 
-  onClose() {
-    this.close.emit();
+  closeProfile() {
+    this.profileService.closeMainProfiel();
+    this.editProfile = false;
   }
 
   openEditProfile() {
     this.editProfile = true;
+    this.profileService.openMainProfile();
   }
 
   closeEditProfile() {

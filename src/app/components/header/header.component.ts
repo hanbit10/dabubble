@@ -6,6 +6,7 @@ import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { Subscription } from 'rxjs';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-header',
@@ -31,7 +32,7 @@ export class HeaderComponent implements OnInit {
   private usersSubscription!: Subscription;
   @ViewChild(ProfileMainComponent) profileMainComponent!: ProfileMainComponent;
 
-  constructor(private userService: UserService, private route: ActivatedRoute) {}
+  constructor(private userService: UserService, private route: ActivatedRoute, public profileService: ProfileService) {}
 
   async ngOnInit() {
     this.routeSub = this.route.params.subscribe(params => {
@@ -59,7 +60,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openProfile() {
-    this.profileOpen = true;
+    this.profileService.openMainProfile();
   }
 
   closeProfile() {
