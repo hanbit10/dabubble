@@ -88,6 +88,7 @@ export class ChannelService {
   }
 
   updateChannel(uid: string, type: string, data: any) {
+    console.log(data);
     if (type == 'name') {
       const docRef = doc(this.firestore, 'channels', uid);
       updateDoc(docRef, {

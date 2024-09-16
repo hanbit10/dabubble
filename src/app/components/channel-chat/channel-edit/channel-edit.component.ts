@@ -23,10 +23,8 @@ export class ChannelEditComponent implements OnInit {
   channelCreatedBy: UserProfile = {} as UserProfile;
   editName: boolean = false;
   editDescription: boolean = false;
-  updateName: any = {
+  updateChannel: any = {
     name: '',
-  };
-  updateDescription: any = {
     description: '',
   };
   currentUserID: string = '';
@@ -49,6 +47,8 @@ export class ChannelEditComponent implements OnInit {
           .subscribe((currChannel) => {
             if (currChannel) {
               this.channel = currChannel;
+              this.updateChannel.name = currChannel.name;
+              this.updateChannel.description = currChannel.description;
               this.usersSubscription = this.userService.users$
                 .pipe(
                   map((users) =>
@@ -98,7 +98,7 @@ export class ChannelEditComponent implements OnInit {
       this.channelService.updateChannel(
         this.channel.uid,
         type,
-        this.updateName
+        this.updateChannel
       );
     }
     if (type == 'description') {
@@ -106,7 +106,7 @@ export class ChannelEditComponent implements OnInit {
       this.channelService.updateChannel(
         this.channel.uid,
         type,
-        this.updateDescription
+        this.updateChannel
       );
     }
   }
