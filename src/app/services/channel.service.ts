@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -98,5 +99,12 @@ export class ChannelService {
         description: data.description,
       });
     }
+  }
+
+  leaveChannel(uid: string, currentUserId: string) {
+    const docRef = doc(this.firestore, 'channels', uid);
+    updateDoc(docRef, {
+      usersIds: arrayRemove(currentUserId),
+    });
   }
 }

@@ -29,6 +29,7 @@ export class ChannelEditComponent implements OnInit {
   updateDescription: any = {
     description: '',
   };
+  currentUserID: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -63,14 +64,24 @@ export class ChannelEditComponent implements OnInit {
           });
       }
     });
+
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentUserID = id;
+      }
+    });
   }
 
   close() {
     this.utilityService.closeComponent('channel-edit');
+    this.editName = false;
+    this.editDescription = false;
   }
 
   leaveChannel() {
     this.utilityService.closeComponent('channel-edit');
+    this.channelService.leaveChannel(this.channel.uid, this.currentUserID);
   }
 
   edit(type: string) {
