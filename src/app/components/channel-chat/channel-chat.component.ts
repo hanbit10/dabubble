@@ -6,6 +6,7 @@ import { concatMapTo, map, Subscription } from 'rxjs';
 import { Channel } from '../../models/channels';
 import { ChannelProfileComponent } from './channel-profile/channel-profile.component';
 import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.component';
+import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 
 @Component({
   selector: 'app-channel-chat',
@@ -14,6 +15,7 @@ import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.com
     ChannelHeaderComponent,
     ChannelProfileComponent,
     ChannelAddUserComponent,
+    ChannelEditComponent,
   ],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
@@ -50,7 +52,6 @@ export class ChannelChatComponent implements OnInit {
 
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
-      console.log('This is paramMap', paramMap);
     });
   }
 }

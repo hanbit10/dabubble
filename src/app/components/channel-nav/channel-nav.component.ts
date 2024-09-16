@@ -13,6 +13,7 @@ import {
 import { Subscription } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { ChannelService } from '../../services/channel.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-channel-nav',
@@ -32,10 +33,10 @@ export class ChannelNavComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
-    public channelService: ChannelService
+    public channelService: ChannelService,
+    public utilityService: UtilityService
   ) {}
   async ngOnInit() {
-    // this.userService.getAllUsersOnSnapshot();
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
       console.log('this is all users', this.allUsers);
@@ -47,9 +48,8 @@ export class ChannelNavComponent implements OnInit {
     );
     this.toogleDirectMessage();
   }
-  createChannel() {
-    const createChannel = document.getElementById('channel-create');
-    createChannel?.classList.remove('hidden');
+  openComponent(elementId: string) {
+    this.utilityService.openComponent(elementId);
   }
 
   toogleDirectMessage() {

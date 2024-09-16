@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -30,12 +31,17 @@ export class ChannelService {
     this.subChannelList();
   }
 
-  async createNewChannel(newChannel: any, chosen: UserProfile[]) {
+  async createNewChannel(
+    newChannel: any,
+    chosen: UserProfile[],
+    currentUserId: string
+  ) {
     let data: Channel = {
       name: newChannel.name,
       description: newChannel.description,
-      usersIds: [],
+      usersIds: [currentUserId],
       uid: '',
+      createdBy: currentUserId,
     };
 
     chosen.forEach((user: any) => {
@@ -73,11 +79,33 @@ export class ChannelService {
     });
   }
 
-  openThread(){
+  openThread() {
     this.threadIsOpen = true;
   }
 
-  closeThread(){
+  closeThread() {
     this.threadIsOpen = false;
+  }
+
+  updateChannel(uid: string, type: string, data: any) {
+    console.log(data);
+    if (type == 'name') {
+      const docRef = doc(this.firestore, 'channels', uid);
+      updateDoc(docRef, {
+        name: data.name,
+      });
+    } else if (type == 'description') {
+      const docRef = doc(this.firestore, 'channels', uid);
+      updateDoc(docRef, {
+        description: data.description,
+      });
+    }
+  }
+
+  leaveChannel(uid: string, currentUserId: string) {
+    const docRef = doc(this.firestore, 'channels', uid);
+    updateDoc(docRef, {
+      usersIds: arrayRemove(currentUserId),
+    });
   }
 }

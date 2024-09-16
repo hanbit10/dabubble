@@ -78,11 +78,6 @@
   background-size: 30px 30px;
 }
 
-.tag {
-  @include icons(30px, 30px, white);
-  background-image: url("./../../../../assets/img/icons/material-symbols/tag.svg");
-}
-
 .person-add {
   @include icons(40px, 24px, $bgColor);
   margin-left: 10px;

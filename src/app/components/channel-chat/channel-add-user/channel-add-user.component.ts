@@ -48,7 +48,7 @@ export class ChannelAddUserComponent implements OnInit {
 
   close() {
     this.selectedUsers = [];
-    this.utilityService.close('channel-add-user');
+    this.utilityService.closeComponent('channel-add-user');
   }
 
   saveToChosen(content: any) {
@@ -86,7 +86,7 @@ export class ChannelAddUserComponent implements OnInit {
     if (this.selectedUsers.length) {
       console.log(this.currentChannel.uid);
       this.channelService.addUser(this.currentChannel.uid, this.selectedUsers);
-      this.utilityService.close('channel-add-user');
+      this.utilityService.closeComponent('channel-add-user');
       this.selectedUsers = [];
     }
   }

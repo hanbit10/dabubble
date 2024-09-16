@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="content">
+    <div class="content-tab">
+      <div class="content-left">
+        <div class="tag"></div>
+        <h2>{{channel.name}}</h2>
+      </div>
+      <div class="card-close" (click)="close()"></div>
+    </div>
+    <div>
+      @if(!editName){
+      <div class="channel-info-name show-border">
+        <div class="content-tab">
+          <h3>Channel Name</h3>
+          <div class="blue-text" (click)="edit('name')">Bearbeiten</div>
+        </div>
+        <div class="content-left mt-20">
+          <div class="tag-small"></div>
+          <p>
+            {{channel.name}}
+          </p>
+        </div>
+      </div>
+      }@else{
+      <div class="channel-info-name hide-border">
+        <div class="content-tab">
+          <h3>Channel Name</h3>
+          <div class="blue-text mr-20" (click)="save('name')">Speichern</div>
+        </div>
+        <div class="input-container mt-20">
+          <div class="tag-small"></div>
+          <input type="text" placeholder="{{channel.name}}" [(ngModel)]="updateChannel.name">
+        </div>
+      </div>
+      }
+      @if(!editDescription){
+      <div class="channel-info-description show-border">
+        <div class="content-tab">
+          <h3>Beschreibung</h3>
+          <div class="blue-text" (click)="edit('description')">Bearbeiten</div>
+        </div>
+        <div class="channel-description mt-20">
+          {{channel.description}}
+        </div>
+        <div class="content-line mt-20"></div>
+        <h3 class="mt-20">Erstellt von</h3>
+        <div class="channel-creator mt-20">
+          {{channelCreatedBy.name}}
+        </div>
+      </div>
+      }@else {
+      <div class="channel-info-description hide-border">
+        <div class="content-tab">
+          <h3>Beschreibung</h3>
+          <div class="blue-text mr-20" (click)="save('description')">Speichern</div>
+        </div>
+        <div class="input-container mt-20">
+          <textarea id="channel-edit-description" value="{{channel.description}}" type="text"
+            [(ngModel)]="updateChannel.description"></textarea>
+        </div>
+        <div class="content-line mt-20"></div>
+        <h3 class="mt-20">Erstellt von</h3>
+        <div class="channel-creator mt-20">
+          {{channelCreatedBy.name}}
+        </div>
+      </div>
+      }
+    </div>
+    <div class="button-container">
+      <div class="button-primary mt-20" (click)="leaveChannel()">Channel verlassen</div>
+    </div>
+  </div>
+</div>

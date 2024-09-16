@@ -5,6 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../models/users';
 import { Channel } from '../../../models/channels';
 import { ChannelService } from '../../../services/channel.service';
+import { UtilityService } from '../../../services/utility.service';
 
 @Component({
   selector: 'app-channel-header',
@@ -29,25 +30,11 @@ export class ChannelHeaderComponent implements OnInit {
   constructor(
     public userService: UserService,
     public channelService: ChannelService,
+    public utilityService: UtilityService,
     private route: ActivatedRoute,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
-    // this._items.subscribe((currChannel) => {
-    //   console.log(currChannel);
-    //   if (currChannel) {
-    //     this.usersSubscription = this.userService.users$.subscribe((users) => {
-    //       console.log(users);
-    //       if (users) {
-    //         this.filteredUsers = users.filter((user) => {
-    //           return (currChannel.usersIds || []).includes(user.uid);
-    //         });
-    //         console.log(this.filteredUsers);
-    //       }
-    //     });
-    //   }
-    // });
-
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
@@ -57,11 +44,9 @@ export class ChannelHeaderComponent implements OnInit {
           )
           .subscribe((currChannel) => {
             if (currChannel) {
-              console.log('Current Channel user IDs:', currChannel.usersIds); // Log usersIds
               this.channel = currChannel;
               this.usersSubscription = this.userService.users$
                 .pipe(
-                  tap((users) => console.log('All Users:', users)), // Log users to see if they contain expected IDs
                   map((users) =>
                     users.filter((user) =>
                       currChannel.usersIds.includes(user.uid)
@@ -70,7 +55,6 @@ export class ChannelHeaderComponent implements OnInit {
                 )
                 .subscribe((filteredUsers) => {
                   if (filteredUsers) {
-                    console.log('Filtered Users:', filteredUsers); // Log filtered users
                     this.filteredUsers = filteredUsers;
                   }
                   this.changeDetectorRef.detectChanges();
@@ -81,13 +65,7 @@ export class ChannelHeaderComponent implements OnInit {
     });
   }
 
-  openProfile() {
-    const channelProfile = document.getElementById('channel-profile');
-    channelProfile?.classList.remove('hidden');
-  }
-
-  openAddUser() {
-    const addUser = document.getElementById('channel-add-user');
-    addUser?.classList.remove('hidden');
+  openComponent(elementID: string) {
+    this.utilityService.openComponent(elementID);
   }
 }
