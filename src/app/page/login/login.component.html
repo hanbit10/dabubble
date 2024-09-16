@@ -5,12 +5,12 @@
       <span>DABubble</span>
     </div>
     <div class="header-end">
-      <span *ngIf="this.logService.currentState === 'log-in'"
+      <span *ngIf="logService.currentState === 'log-in'"
         >Neu bei DABubble?</span
       >
       <div
-        *ngIf="this.logService.currentState === 'log-in'"
-        (click)="this.logService.currentState = 'create-account'"
+        *ngIf="logService.currentState === 'log-in'"
+        (click)="logService.currentState = 'create-account'"
         class="hidden-button"
       >
         <span>Konto erstellen</span>
@@ -18,14 +18,17 @@
     </div>
   </header>
   <app-log-in-card
-    *ngIf="this.logService.currentState === 'log-in'"
+    *ngIf="logService.currentState === 'log-in'"
   ></app-log-in-card>
   <app-create-account-card
-    *ngIf="this.logService.currentState === 'create-account'"
+    *ngIf="logService.currentState === 'create-account'"
   ></app-create-account-card>
   <app-create-avatar-card
-    *ngIf="this.logService.currentState === 'create-avatar'"
+    *ngIf="logService.currentState === 'create-avatar'"
   ></app-create-avatar-card>
+  <app-password-mail-card
+    *ngIf="logService.currentState === 'password-mail'"
+  ></app-password-mail-card>
   <footer>
     <div class="hidden-button">
       <span>Impressum</span>
@@ -34,5 +37,5 @@
       <span>Datenschutz</span>
     </div>
   </footer>
-  <div *ngIf="this.logService.userCreated" class="created-account"><h2>Konto erfolgreich erstellt!</h2></div>
+  <div *ngIf="logService.userCreated" class="created-account"><h2>Konto erfolgreich erstellt!</h2></div>
 </div>
