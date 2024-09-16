@@ -2,42 +2,6 @@
 
 @import "../../../app/page/login/login.component.scss";
 
-button {
-  align-self: flex-end;
-}
-
-form {
-  @include dFlex($jc:space-between);
-  flex-direction: column;
-  max-width: 580px;
-  max-height: 1000px;
-  flex-grow: 1;
-  > h1 {
-    color: #444df2;
-    font-weight: 700;
-    font-size: 46px;
-    margin: 0;
-  }
-  > p {
-    text-align: center;
-    font-size: 18px;
-    margin: 0;
-  }
-}
-
-.input-wrapper-container {
-  width: 100%;
-}
-
-.alert-wrapper {
-  align-self: flex-start;
-  @include dFlex($jc: flex-start);
-  height: 40px;
-  >span {
-    color: $rosaError;
-  }
-}
-
 .policy-container {
     @include dFlex();
     align-self: flex-start;
