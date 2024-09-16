@@ -78,11 +78,25 @@ export class ChannelService {
     });
   }
 
-  openThread(){
+  openThread() {
     this.threadIsOpen = true;
   }
 
-  closeThread(){
+  closeThread() {
     this.threadIsOpen = false;
+  }
+
+  updateChannel(uid: string, type: string, data: any) {
+    if (type == 'name') {
+      const docRef = doc(this.firestore, 'channels', uid);
+      updateDoc(docRef, {
+        name: data.name,
+      });
+    } else if (type == 'description') {
+      const docRef = doc(this.firestore, 'channels', uid);
+      updateDoc(docRef, {
+        description: data.description,
+      });
+    }
   }
 }
