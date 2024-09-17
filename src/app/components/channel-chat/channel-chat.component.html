@@ -8,8 +8,17 @@
       <div class="line"></div>
     </div>
 
+    @for(message of currentMessages; track message) {
+    @if(message.sentBy != this.currentUserId) {
     <app-message-left [userName]="'Saskia Richter'"></app-message-left>
-    <app-message-left [userName]="'Noah Braun'"></app-message-left>
+    <div>{{message.text}}</div>
+    <div>{{message.sentBy}}</div>
+    } @else if(message.sentBy == this.currentUserId) {
+    <app-message-right [userName]="'Frederick Beck'"></app-message-right>
+    <div>{{message.text}}</div>
+    <div>{{message.sentBy}}</div>
+    }
+    }
 
     <div class="date-line">
       <div class="line"></div>
@@ -17,7 +26,7 @@
       <div class="line"></div>
     </div>
 
-    <app-message-right [userName]="'Frederick Beck'"></app-message-right>
+
   </section>
   <section class="sendMessage-container">
     <div class="sendMessage-component">

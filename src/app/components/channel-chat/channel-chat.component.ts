@@ -10,6 +10,8 @@ import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { FormsModule, NgForm } from '@angular/forms';
+import { MessageService } from '../../services/message.service';
+import { Message } from '../../models/message';
 
 @Component({
   selector: 'app-channel-chat',
@@ -28,16 +30,19 @@ import { FormsModule, NgForm } from '@angular/forms';
 })
 export class ChannelChatComponent implements OnInit {
   private channelSubscription!: Subscription;
+  private messageSubscription!: Subscription;
   currentChannelId: string = '';
   currentUserId: string = '';
   allChannels: any[] = [];
   currentChannel: Channel = {} as Channel;
+  currentMessages: Message[] = [];
   sentMessage: any = {
     text: '',
     image: '',
   };
   constructor(
     public channelService: ChannelService,
+    public messageService: MessageService,
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
@@ -45,6 +50,7 @@ export class ChannelChatComponent implements OnInit {
       const id = paramMap.get('id');
       if (id) {
         this.currentChannelId = id;
+        this.messageService.subMessageList(this.currentChannelId);
         this.channelSubscription = this.channelService.channels$
           .pipe(
             map((channels) =>
@@ -67,11 +73,17 @@ export class ChannelChatComponent implements OnInit {
         this.currentUserId = id;
       }
     });
+
+    this.messageSubscription = this.messageService.messages$.subscribe(
+      (messages) => {
+        this.currentMessages = messages;
+      }
+    );
   }
 
   onSubmit(messageForm: NgForm) {
     if (messageForm.valid) {
-      this.channelService.sendMessage(
+      this.messageService.sendMessage(
         this.sentMessage,
         this.currentChannelId,
         this.currentUserId
