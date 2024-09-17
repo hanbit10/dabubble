@@ -22,10 +22,9 @@
   <section class="sendMessage-container">
     <div class="sendMessage-component">
       <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
-        <textarea name="message" id=""></textarea>
-        <button>send</button>
+        <textarea name="message" id="" [(ngModel)]="sentMessage.text"></textarea>
+        <button type="submit">send</button>
       </form>
-
     </div>
   </section>
 </div>

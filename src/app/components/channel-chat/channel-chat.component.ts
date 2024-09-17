@@ -9,7 +9,7 @@ import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.com
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-channel-chat',
@@ -27,11 +27,15 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './channel-chat.component.scss',
 })
 export class ChannelChatComponent implements OnInit {
-  messageForm: any;
   private channelSubscription!: Subscription;
-  channelId: string = '';
+  currentChannelId: string = '';
+  currentUserId: string = '';
   allChannels: any[] = [];
   currentChannel: Channel = {} as Channel;
+  sentMessage: any = {
+    text: '',
+    image: '',
+  };
   constructor(
     public channelService: ChannelService,
     private route: ActivatedRoute
@@ -40,11 +44,11 @@ export class ChannelChatComponent implements OnInit {
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
-        this.channelId = id;
+        this.currentChannelId = id;
         this.channelSubscription = this.channelService.channels$
           .pipe(
             map((channels) =>
-              channels.find((channel) => channel.uid === this.channelId)
+              channels.find((channel) => channel.uid === this.currentChannelId)
             )
           )
           .subscribe((currentChannel) => {
@@ -59,10 +63,19 @@ export class ChannelChatComponent implements OnInit {
 
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
+      if (id) {
+        this.currentUserId = id;
+      }
     });
   }
 
-  onSubmit(arg0: any) {
-    throw new Error('Method not implemented.');
+  onSubmit(messageForm: NgForm) {
+    if (messageForm.valid) {
+      this.channelService.sendMessage(
+        this.sentMessage,
+        this.currentChannelId,
+        this.currentUserId
+      );
+    }
   }
 }

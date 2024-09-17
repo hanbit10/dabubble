@@ -108,4 +108,25 @@ export class ChannelService {
       usersIds: arrayRemove(currentUserId),
     });
   }
+
+  async sendMessage(
+    sentMessage: any,
+    currentChannelId: string,
+    currentUserId: string
+  ) {
+    const docRef = collection(
+      this.firestore,
+      'channels',
+      currentChannelId,
+      'messages'
+    );
+
+    let data = {
+      text: sentMessage.text,
+      sentBy: currentUserId,
+      sentAt: Timestamp.fromDate(new Date()),
+    };
+
+    const querySnapshot = await addDoc(docRef, data);
+  }
 }
