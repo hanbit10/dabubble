@@ -10,6 +10,7 @@ currentState: string = 'log-in';
 userCreated:boolean = false;
 loginMail: string = '';
 loginPassword: string = '';
+passwordResetMail: string = '';
 
 profile: UserProfile = {
   address : {

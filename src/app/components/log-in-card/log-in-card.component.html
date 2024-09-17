@@ -20,7 +20,7 @@
         />
       </div>
       <div class="alert-wrapper">
-        <span *ngIf="mail.invalid && mail.touched || userNotFound"
+        <span *ngIf="(mail.invalid && mail.touched) || userNotFound"
           >* Die E-Mail-Adresse ist leider ungültig.</span
         >
       </div>
@@ -38,20 +38,27 @@
         />
       </div>
       <div class="alert-wrapper">
-        <span *ngIf="password.invalid && password.touched || wrongPassword"
+        <span *ngIf="(password.invalid && password.touched) || wrongPassword"
           >* Passwort ungültig</span
         >
       </div>
-      <div class="hidden-button password">
+      <div
+        class="hidden-button password"
+        (click)="logService.currentState = 'password-mail'"
+      >
         <span>Passwort vergessen?</span>
-      </div>      
-    </div>    
+      </div>
+    </div>
     <div class="divide-login">
       <div class="line"></div>
       <span>ODER</span>
       <div class="line"></div>
     </div>
-    <div class="input-wrapper google-input" type="button" (click)="googleLogin()">
+    <div
+      class="input-wrapper google-input"
+      type="button"
+      (click)="googleLogin()"
+    >
       <div class="google-wrapper">
         <img src="/assets/img/icons/google.png" alt="google" />
         <span>Anmelden mit Google</span>
@@ -60,7 +67,9 @@
     </div>
     <div class="buttoncontainer">
       <button class="button-primary" type="submit">Anmelden</button>
-      <button class="button-secondary" type="button" (click)="guestLogin()">Gäste-Login</button>
+      <button class="button-secondary" type="button" (click)="guestLogin()">
+        Gäste-Login
+      </button>
     </div>
   </form>
 </main>

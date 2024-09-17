@@ -53,6 +53,13 @@ app-create-avatar-card {
   flex-grow: 1;
 }
 
+app-password-mail-card {
+  display: flex;
+  max-width: 580px;
+  max-height: 500px;
+  flex-grow: 1;
+}
+
 main {
   @include dFlex($ai: center, $jc: space-between);
   position: relative;
@@ -220,4 +227,40 @@ footer {
     font-size: 32px;
   }
   animation: slidein-right 200ms ease-in-out;
+}
+
+button {
+  align-self: flex-end;
+}
+
+form {
+  @include dFlex($jc:space-between);
+  flex-direction: column;
+  max-width: 580px;
+  max-height: 1000px;
+  flex-grow: 1;
+  > h1 {
+    color: #444df2;
+    font-weight: 700;
+    font-size: 46px;
+    margin: 0;
+  }
+  > p {
+    text-align: center;
+    font-size: 18px;
+    margin: 0;
+  }
+}
+
+.input-wrapper-container {
+  width: 100%;
+}
+
+.alert-wrapper {
+  align-self: flex-start;
+  @include dFlex($jc: flex-start);
+  height: 40px;
+  >span {
+    color: $rosaError;
+  }
 }
