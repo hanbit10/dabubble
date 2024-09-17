@@ -1,5 +1,29 @@
-<div class="container">
+<div class="message-container">
   <app-channel-header [getCurrentChannel]="currentChannel"></app-channel-header>
+
+  <section class="chat-container">
+    <div class="date-line">
+      <div class="line"></div>
+      <span class="message-date">heute</span>
+      <div class="line"></div>
+    </div>
+
+    <app-message-left [userName]="'Saskia Richter'"></app-message-left>
+    <app-message-left [userName]="'Noah Braun'"></app-message-left>
+
+    <div class="date-line">
+      <div class="line"></div>
+      <span class="message-date">heute</span>
+      <div class="line"></div>
+    </div>
+
+    <app-message-right [userName]="'Frederick Beck'"></app-message-right>
+  </section>
+  <section class="sendMessage-container">
+    <div class="sendMessage-component">
+      send message Komponente?
+    </div>
+  </section>
 </div>
 
 <app-channel-profile id="channel-profile" class="hidden" [getCurrentChannel]="currentChannel"></app-channel-profile>

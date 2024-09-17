@@ -7,6 +7,8 @@ import { Channel } from '../../models/channels';
 import { ChannelProfileComponent } from './channel-profile/channel-profile.component';
 import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.component';
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
+import { MessageLeftComponent } from '../message-left/message-left.component';
+import { MessageRightComponent } from '../message-right/message-right.component';
 
 @Component({
   selector: 'app-channel-chat',
@@ -16,6 +18,8 @@ import { ChannelEditComponent } from './channel-edit/channel-edit.component';
     ChannelProfileComponent,
     ChannelAddUserComponent,
     ChannelEditComponent,
+    MessageLeftComponent,
+    MessageRightComponent,
   ],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
