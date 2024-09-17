@@ -7,14 +7,14 @@ import { Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
-import { PickerModule } from "@ctrl/ngx-emoji-mart";
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-message-left',
   standalone: true,
   imports: [ProfileUserComponent, PickerModule, CommonModule],
   templateUrl: './message-left.component.html',
-  styleUrl: './message-left.component.scss'
+  styleUrl: './message-left.component.scss',
 })
 export class MessageLeftComponent {
   profileIsOpen = false;
@@ -23,7 +23,7 @@ export class MessageLeftComponent {
     uid: '',
   };
 
-  @Input()userName = '';
+  @Input() userName = '';
 
   public editTextArea: string = 'Welche Version ist aktuell von Angular?';
   public isEmojiPickerVisible: boolean = false;
@@ -32,15 +32,19 @@ export class MessageLeftComponent {
     this.isEmojiPickerVisible = false;
   }
 
-  private routeSub: Subscription = new Subscription;
+  private routeSub: Subscription = new Subscription();
   public usersSubscription!: Subscription;
 
-  constructor(private route: ActivatedRoute, public profileService: ProfileService, public userService: UserService, public channelService :ChannelService){}
+  constructor(
+    private route: ActivatedRoute,
+    public profileService: ProfileService,
+    public userService: UserService,
+    public channelService: ChannelService
+  ) {}
 
-  openProfile(){
+  openProfile() {
     this.profileService.searchUser(this.userName);
- 
+
     this.profileService.openProfile();
   }
-
 }
