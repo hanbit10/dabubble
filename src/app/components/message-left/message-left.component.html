@@ -20,7 +20,12 @@
         <div class="message-icon emoji-icon">
             <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
         </div>
-        <div class="message-icon reaction-icon"></div>
+        <div class="emoji-container">
+            <button class="message-icon reaction-icon"
+                (click)="isEmojiPickerVisible = !isEmojiPickerVisible"></button>
+            <emoji-mart class="emoji-mart emoji-mart-message-left" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"
+                title="Choose your emoji"></emoji-mart>
+        </div>
         <div class="message-icon thread-icon" (click)="channelService.openThread()"></div>
     </div>
 </section>

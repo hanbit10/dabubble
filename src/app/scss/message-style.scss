@@ -74,6 +74,7 @@
 
 .message-bar {
     position: absolute;
+    z-index: 1;
     top: -24px;
     @include dFlex($g: 5px);
     padding: 3px 15px 3px 15px;
@@ -129,6 +130,8 @@
 }
 
 .reaction-icon {
+    border: none;
+    background-color: unset;
     background-image: url('./../../assets/img/icons/material-symbols/addreaction.svg');
 
     &:hover {
@@ -169,10 +172,36 @@
 
 .edit-message-bottom{
     width: 100%;
-    @include dFlex($jc: space-between);
+    @include dFlex($jc: space-between, $ai: flex-start);
 }
 
+.emoji-container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+::ng-deep .emoji-mart {
+    position: absolute !important;
+    z-index: 1 !important;
+    top: 10px;
+}
+
+::ng-deep .emoji-mart-scroll{
+    height: 150px;
+}
+
+::ng-deep .emoji-mart-anchor-bar {
+        background-color: $purple3 !important;
+}
+
+::ng-deep .emoji-mart-anchor-selected{
+    color: $purple3 !important; /* Die Hover-Hintergrundfarbe */
+  }
+
 .edit-reaction-icon{
+    border: none;
+    background-color: unset;
     background-image: url('./../../assets/img/icons/material-symbols/reaction.svg');
 
     &:hover {
