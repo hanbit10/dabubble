@@ -2,6 +2,7 @@
 @import './../../scss/main-style.scss';
 @import './../../scss/message-style.scss';
 
+
 section{
     justify-content: flex-end !important;
 
@@ -26,4 +27,8 @@ section{
 
 .message-text{
     border-top-left-radius: 30px;
+}
+
+.emoji-mart-message-right {
+    left: 30px !important;
 }

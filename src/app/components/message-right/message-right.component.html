@@ -1,3 +1,4 @@
+@if(!editMessageIsOpen){
 <section class="message" (click)="closeSettings()">
     <div class="message-info">
         <div class="message-user">
@@ -16,14 +17,44 @@
         <div class="message-icon emoji-icon">
             <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
         </div>
-        <div class="message-icon reaction-icon"></div>
+        
+        <div class="emoji-container">
+            <button class="message-icon reaction-icon"
+                (click)="isEmojiPickerVisible = !isEmojiPickerVisible"></button>
+            <emoji-mart class="emoji-mart emoji-mart-message-right" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"
+                title="Choose your emoji"></emoji-mart>
+        </div>
+
         <div class="message-icon thread-icon" (click)="channelService.openThread()"></div>
         <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
-            <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()" (click)="$event.stopPropagation()">
+            <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()"
+                (click)="$event.stopPropagation()">
                 <span>Nachricht bearbeiten</span>
             </div>
         </div>
-
-        
     </div>
 </section>
+}
+
+@if(editMessageIsOpen){
+<section class="message" (click)="closeSettings()">
+    <div class="edit-message-container">
+        <textarea class="input-edit-message" type="text" name="textarea"
+            [(ngModel)]="editTextArea"></textarea>
+        <div class="edit-message-bottom">
+            <div class="emoji-container">
+                <button class="message-icon edit-reaction-icon"
+                    (click)="isEmojiPickerVisible = !isEmojiPickerVisible"></button>
+                <emoji-mart class="emoji-mart emoji-mart-message-right" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"
+                    title="Choose your emoji"></emoji-mart>
+            </div>
+            <div class="edit-buttons">
+                <button class="button-secondary" (click)="closeEditMessage()">Abbrechen</button>
+                <button class="button-primary">Speichern</button>
+            </div>
+        </div>
+    </div>
+
+    <img src="./../../../assets/img/profile/woman2.svg" alt="profile-image">
+</section>
+}
