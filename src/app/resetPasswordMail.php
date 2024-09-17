@@ -1,23 +1,21 @@
 <?php
 
 switch ($_SERVER['REQUEST_METHOD']) {
-    case ("OPTIONS"): //Allow preflighting to take place.
+    case ("OPTIONS"): 
         header("Access-Control-Allow-Origin: *");
         header("Access-Control-Allow-Methods: POST");
         header("Access-Control-Allow-Headers: content-type");
         exit;
 
-    case("POST"): //Send the email;
+    case("POST"): 
         header("Access-Control-Allow-Origin: *");
-        // Payload is not send to $_POST Variable,
-        // is send to php:input as a text
+        
         $json = file_get_contents('php://input');
-        //parse the Payload from text format to Object
+        
         $params = json_decode($json);
 
         $email = $params->email;
         $name = $params->name;
-        $message = $params->message;
         $base_url = "https://example.com/reset-password";
         $id = $params->id;
         $current_time = time(); 
@@ -41,19 +39,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
         "<br><br>" .
         "Dein DABubble Team!";
         "<br><br>" .
-        "<img src='" . $image_url . "' alt='DABubble Logo' width='255px' height='70'>"; // Bild hinzufügen
+        "<img src='" . $image_url . "' alt='DABubble Logo' width='255px' height='70'>";
 
         $headers   = array();
         $headers[] = 'MIME-Version: 1.0';
         $headers[] = 'Content-type: text/html; charset=utf-8';
 
-        // Additional headers
+        
         $headers[] = "From: noreply@dabubble.com";
 
         mail($recipient, $subject, $message, implode("\r\n", $headers));
         break;
 
-    default: //Reject any non POST or OPTIONS requests.
+    default:
         header("Allow: POST", true, 405);
         exit;
     } 
