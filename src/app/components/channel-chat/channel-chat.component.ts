@@ -9,6 +9,7 @@ import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.com
 import { ChannelEditComponent } from './channel-edit/channel-edit.component';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-channel-chat',
@@ -20,11 +21,13 @@ import { MessageRightComponent } from '../message-right/message-right.component'
     ChannelEditComponent,
     MessageLeftComponent,
     MessageRightComponent,
+    FormsModule,
   ],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
 })
 export class ChannelChatComponent implements OnInit {
+  messageForm: any;
   private channelSubscription!: Subscription;
   channelId: string = '';
   allChannels: any[] = [];
@@ -57,5 +60,9 @@ export class ChannelChatComponent implements OnInit {
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
     });
+  }
+
+  onSubmit(arg0: any) {
+    throw new Error('Method not implemented.');
   }
 }

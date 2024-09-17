@@ -21,7 +21,11 @@
   </section>
   <section class="sendMessage-container">
     <div class="sendMessage-component">
-      send message Komponente?
+      <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
+        <textarea name="message" id=""></textarea>
+        <button>send</button>
+      </form>
+
     </div>
   </section>
 </div>
