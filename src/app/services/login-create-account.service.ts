@@ -7,7 +7,7 @@ import { UserProfile } from '../models/users';
 export class LoginCreateAccountService {
 
 users: UserProfile[] = [];
-currentState: string = 'log-in';
+currentState: string = 'reassign-password';
 userCreated:boolean = false;
 loginMail: string = '';
 loginPassword: string = '';

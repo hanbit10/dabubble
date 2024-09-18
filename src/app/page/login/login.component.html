@@ -29,6 +29,9 @@
   <app-password-mail-card
     *ngIf="logService.currentState === 'password-mail'"
   ></app-password-mail-card>
+  <app-reassign-password-card
+    *ngIf="logService.currentState === 'reassign-password'"
+  ></app-reassign-password-card>
   <footer>
     <div class="hidden-button">
       <span>Impressum</span>

@@ -53,7 +53,8 @@ app-create-avatar-card {
   flex-grow: 1;
 }
 
-app-password-mail-card {
+app-password-mail-card,
+app-reassign-password-card {
   display: flex;
   max-width: 580px;
   max-height: 500px;

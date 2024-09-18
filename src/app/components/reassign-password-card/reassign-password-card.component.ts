@@ -9,19 +9,24 @@ import { NgIf } from '@angular/common';
   standalone: true,
   imports: [FormsModule, NgIf],
   templateUrl: './reassign-password-card.component.html',
-  styleUrl: './reassign-password-card.component.scss'
+  styleUrl: './reassign-password-card.component.scss',
 })
 export class ReassignPasswordCardComponent {
-
   password: string = '';
   passwordCheck: string = '';
+  passwordMatch: boolean = false;
 
-  constructor(public logService: LoginCreateAccountService, private storage: UserService) {
+  constructor(
+    public logService: LoginCreateAccountService,
+    private storage: UserService
+  ) {}
 
+  sendMail(form: NgForm) {}
+
+  onPasswordCheck(event: any) {
+    
+    this.password === this.passwordCheck
+      ? (this.passwordMatch = true)
+      : (this.passwordMatch = false);
   }
-
-  sendMail(form: NgForm) {
-
-  }
-
 }
