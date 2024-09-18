@@ -4,21 +4,21 @@
   <section class="chat-container">
     @for(message of currentMessages; track message; let i = $index) {
     @if(message.sentBy != this.currentUserId) {
-    @if(shouldShowTimestamp(i+1)) { <div class="date-line">
+    <!-- @if(shouldShowTimestamp(i+1)) { <div class="date-line">
       <div class="line"></div>
       <span class="message-date">{{getCurrentDate(message.sentAt?.toDate())}}
       </span>
       <div class="line"></div>
     </div>
-    }
+    } -->
     <app-message-left [getMessage]="message"></app-message-left>
     } @else if(message.sentBy == this.currentUserId) {
-    @if(shouldShowTimestamp(i)) { <div class="date-line">
+    <!-- @if(shouldShowTimestamp(i)) { <div class="date-line">
       <div class="line"></div>
       <span class="message-date">{{getCurrentDate(message.sentAt?.toDate())}}</span>
       <div class="line"></div>
     </div>
-    }
+    } -->
     <app-message-right [getMessage]="message"></app-message-right>
     }
     }
