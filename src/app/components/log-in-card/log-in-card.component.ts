@@ -16,8 +16,8 @@ import { NgIf } from '@angular/common';
   styleUrl: './log-in-card.component.scss',
 })
 export class LogInCardComponent {
-  googleAuth = new GoogleAuthProvider();
-  users: UserProfile[] = [];
+
+  googleAuth = new GoogleAuthProvider();  
   userNotFound: boolean = false;
   wrongPassword: boolean = false;
 
@@ -31,14 +31,10 @@ export class LogInCardComponent {
 
   async loadUsers() {
     try {
-      this.users = await this.dataBase.getAllUsers();
+      this.logService.users = await this.dataBase.getAllUsers();
     } catch (error) {
       console.error('Error fetching users:', error);
     }
-  }
-
-  findUserIndex(searchMail: string) {
-    return this.users.findIndex((index) => index.email === searchMail);
   }
 
   userLogin(ngForm: NgForm) {
@@ -46,8 +42,8 @@ export class LogInCardComponent {
     let userIndex: number;
     ngForm.control.markAllAsTouched();
     if (ngForm.submitted && ngForm.form.valid) {
-      userIndex = this.findUserIndex(this.logService.loginMail);
-      user = this.users[userIndex];
+      userIndex = this.logService.findUserIndex(this.logService.loginMail);
+      user = this.logService.users[userIndex];
       console.log(user);
       this.validateInput(user);
     }
@@ -91,14 +87,14 @@ export class LogInCardComponent {
 
   async setGoogleUser(user: Object) {
     const userMail: string = (user as { email: string }).email;
-    let userIndex: number = this.findUserIndex(userMail);
+    let userIndex: number = this.logService.findUserIndex(userMail);
     let profile: UserProfile = this.logService.profile;
     if (userIndex === -1) {
       this.createGoogleUser(profile, user, userIndex, userMail);
     } else {
-      this.users[userIndex].active = true;
+      this.logService.users[userIndex].active = true;
     }
-    this.router.navigate([`/main/${this.users[userIndex].uid}`]);
+    this.router.navigate([`/main/${this.logService.users[userIndex].uid}`]);
   }
 
   async createGoogleUser(
@@ -113,6 +109,6 @@ export class LogInCardComponent {
     profile.profileImage = '/assets/img/profile/man1.svg';
     await this.dataBase.addUser(profile);
     await this.loadUsers();
-    userIndex = this.findUserIndex(userMail);
+    userIndex = this.logService.findUserIndex(userMail);
   }
 }

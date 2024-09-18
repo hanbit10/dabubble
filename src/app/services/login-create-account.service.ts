@@ -6,11 +6,12 @@ import { UserProfile } from '../models/users';
 })
 export class LoginCreateAccountService {
 
+users: UserProfile[] = [];
 currentState: string = 'log-in';
 userCreated:boolean = false;
 loginMail: string = '';
 loginPassword: string = '';
-passwordResetMail: string = '';
+
 
 profile: UserProfile = {
   address : {
@@ -27,10 +28,14 @@ profile: UserProfile = {
 
   constructor() {}  
 
-captureUser() {
-  console.log(this.profile);
-  this.currentState='create-avatar';
-}
+  findUserIndex(searchMail: string) {
+    return this.users.findIndex((index) => index.email === searchMail);
+  }
+
+  captureUser() {
+    console.log(this.profile);
+    this.currentState='create-avatar';
+  }
 
 
 }
