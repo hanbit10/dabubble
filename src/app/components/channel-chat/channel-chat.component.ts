@@ -76,7 +76,12 @@ export class ChannelChatComponent implements OnInit {
 
     this.messageSubscription = this.messageService.messages$.subscribe(
       (messages) => {
-        this.currentMessages = messages;
+        this.currentMessages = messages.sort((a, b) => {
+          if (a.sentAt && b.sentAt) {
+            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
+          }
+          return 0;
+        });
       }
     );
   }

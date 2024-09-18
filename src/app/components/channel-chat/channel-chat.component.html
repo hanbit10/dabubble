@@ -11,12 +11,8 @@
     @for(message of currentMessages; track message) {
     @if(message.sentBy != this.currentUserId) {
     <app-message-left [getMessage]="message"></app-message-left>
-    <div>{{message.text}}</div>
-    <div>{{message.sentBy}}</div>
     } @else if(message.sentBy == this.currentUserId) {
-    <app-message-right [userName]="'Frederick Beck'"></app-message-right>
-    <div>{{message.text}}</div>
-    <div>{{message.sentBy}}</div>
+    <app-message-right [getMessage]="message"></app-message-right>
     }
     }
 

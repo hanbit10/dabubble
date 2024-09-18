@@ -19,15 +19,16 @@ import { Message } from '../../models/message';
 })
 export class MessageLeftComponent implements OnInit {
   private _items = new BehaviorSubject<Message>({} as Message);
-  profileIsOpen = false;
-  allUsers: UserProfile[] = [];
-  messageUser: UserProfile = {} as UserProfile;
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
   get currentMessage(): Message {
     return this._items.getValue();
   }
+
+  profileIsOpen = false;
+  allUsers: UserProfile[] = [];
+  messageUser: UserProfile = {} as UserProfile;
 
   public editTextArea: string = 'Welche Version ist aktuell von Angular?';
   public isEmojiPickerVisible: boolean = false;
