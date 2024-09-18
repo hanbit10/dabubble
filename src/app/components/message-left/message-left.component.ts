@@ -38,6 +38,7 @@ export class MessageLeftComponent implements OnInit {
 
   private routeSub: Subscription = new Subscription();
   public usersSubscription!: Subscription;
+  formattedTime?: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +47,6 @@ export class MessageLeftComponent implements OnInit {
     public channelService: ChannelService
   ) {}
   ngOnInit(): void {
-    console.log(this.currentMessage);
     this.usersSubscription = this.userService.users$
       .pipe(
         map((users) =>
@@ -58,6 +58,15 @@ export class MessageLeftComponent implements OnInit {
           this.messageUser = currUser;
         }
       });
+
+    const date: Date | undefined = this.currentMessage.sentAt?.toDate();
+    const validDate = new Date(date ?? new Date());
+
+    this.formattedTime = validDate.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
   }
 
   openProfile() {

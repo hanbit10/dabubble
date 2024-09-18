@@ -3,8 +3,10 @@
 
     <div class="message-info">
         <div class="message-user">
-            <span class="message-user-name" (click)="openProfile()">{{messageUser.name}}</span>
-            <span class="message-time">14:25 Uhr</span>
+            <span class="message-user-name" (click)="openProfile()">{{messageUser.name}} Uhr</span>
+
+            <span class="message-time">{{formattedTime}}</span>
+
         </div>
         <span class="message-text">{{currentMessage.text}}</span>
         <div class="message-answer">
