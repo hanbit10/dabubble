@@ -2,25 +2,28 @@
   <app-channel-header [getCurrentChannel]="currentChannel"></app-channel-header>
 
   <section class="chat-container">
-    <div class="date-line">
+    @for(message of currentMessages; track message; let i = $index) {
+    @if(message.sentBy != this.currentUserId) {
+    @if(shouldShowTimestamp(i+1)) { <div class="date-line">
       <div class="line"></div>
-      <span class="message-date">heute</span>
+      <span class="message-date">{{getCurrentDate(message.sentAt?.toDate())}}
+      </span>
       <div class="line"></div>
     </div>
-
-    @for(message of currentMessages; track message) {
-    @if(message.sentBy != this.currentUserId) {
+    }
     <app-message-left [getMessage]="message"></app-message-left>
     } @else if(message.sentBy == this.currentUserId) {
+    @if(shouldShowTimestamp(i)) { <div class="date-line">
+      <div class="line"></div>
+      <span class="message-date">{{getCurrentDate(message.sentAt?.toDate())}}</span>
+      <div class="line"></div>
+    </div>
+    }
     <app-message-right [getMessage]="message"></app-message-right>
     }
     }
 
-    <div class="date-line">
-      <div class="line"></div>
-      <span class="message-date">heute</span>
-      <div class="line"></div>
-    </div>
+
 
 
   </section>

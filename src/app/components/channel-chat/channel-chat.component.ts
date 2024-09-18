@@ -12,6 +12,7 @@ import { MessageRightComponent } from '../message-right/message-right.component'
 import { FormsModule, NgForm } from '@angular/forms';
 import { MessageService } from '../../services/message.service';
 import { Message } from '../../models/message';
+import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-channel-chat',
@@ -40,6 +41,7 @@ export class ChannelChatComponent implements OnInit {
     text: '',
     image: '',
   };
+
   constructor(
     public channelService: ChannelService,
     public messageService: MessageService,
@@ -84,6 +86,42 @@ export class ChannelChatComponent implements OnInit {
         });
       }
     );
+  }
+
+  hoursPassed(date: Date | undefined): number {
+    const validDate = new Date(date ?? new Date());
+    const timeDiff = new Date().getTime() - validDate.getTime();
+    console.log(timeDiff / (1000 * 60 * 60));
+    return timeDiff / (1000 * 60 * 60);
+  }
+
+  shouldShowTimestamp(currentIndex: number): boolean {
+    const previousMessage = this.currentMessages[currentIndex - 1];
+    const currentMessage = this.currentMessages[currentIndex];
+    const previousDate = previousMessage.sentAt?.toDate();
+    const currentDate = currentMessage.sentAt?.toDate();
+    if (previousDate && currentDate) {
+      const timeDifference = currentDate.getTime() - previousDate.getTime();
+
+      // 24 hours in milliseconds
+      const twentyFourHoursInMs = 24 * 60 * 60 * 1000; // Get the time difference in milliseconds
+
+      // If the difference is greater than or equal to 24 hours, return true
+      console.log(timeDifference >= twentyFourHoursInMs);
+      return timeDifference >= twentyFourHoursInMs;
+    } else {
+      return false;
+    }
+  }
+
+  getCurrentDate(date: Date | undefined) {
+    const validDate = new Date(date ?? new Date());
+    const formattedDate = validDate.toLocaleDateString('de-DE', {
+      weekday: 'long', // Full name of the day
+      day: 'numeric', // Numeric day (e.g., 17)
+      month: 'long', // Full name of the month (e.g., September)
+    });
+    return formattedDate;
   }
 
   onSubmit(messageForm: NgForm) {
