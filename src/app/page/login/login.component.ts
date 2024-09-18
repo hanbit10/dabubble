@@ -7,6 +7,7 @@ import { CreateAccountCardComponent } from '../../components/create-account-card
 import { LoginCreateAccountService } from '../../services/login-create-account.service';
 import { CreateAvatarCardComponent } from '../../components/create-avatar-card/create-avatar-card.component';
 import { PasswordMailCardComponent } from '../../components/password-mail-card/password-mail-card.component';
+import { ReassignPasswordCardComponent } from '../../components/reassign-password-card/reassign-password-card.component';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ import { PasswordMailCardComponent } from '../../components/password-mail-card/p
     NgIf,
     CreateAccountCardComponent,
     CreateAvatarCardComponent,
-    PasswordMailCardComponent
+    PasswordMailCardComponent,
+    ReassignPasswordCardComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
