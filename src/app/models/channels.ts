@@ -4,3 +4,9 @@ export interface Channel {
   uid: string;
   usersIds: string[];
 }
+
+export interface Reaction{
+  emojiNative: string;
+  count: number;
+  reacted: boolean;
+}

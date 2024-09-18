@@ -175,30 +175,6 @@
     @include dFlex($jc: space-between, $ai: flex-start);
 }
 
-.emoji-container{
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-::ng-deep .emoji-mart {
-    position: absolute !important;
-    z-index: 1 !important;
-    top: 10px;
-}
-
-::ng-deep .emoji-mart-scroll{
-    height: 150px;
-}
-
-::ng-deep .emoji-mart-anchor-bar {
-        background-color: $purple3 !important;
-}
-
-::ng-deep .emoji-mart-anchor-selected{
-    color: $purple3 !important; /* Die Hover-Hintergrundfarbe */
-  }
-
 .edit-reaction-icon{
     border: none;
     background-color: unset;
@@ -223,5 +199,48 @@
 
     &:focus{
         color: black;
+    }
+}
+
+.emoji-container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+::ng-deep .emoji-mart {
+    position: absolute !important;
+    z-index: 1 !important;
+    top: 10px;
+}
+
+::ng-deep .emoji-mart-scroll{
+    height: 150px;
+}
+
+::ng-deep .emoji-mart-anchor-bar {
+        background-color: $purple3 !important;
+}
+
+::ng-deep .emoji-mart-anchor-selected{
+    color: $purple3 !important; /* Die Hover-Hintergrundfarbe */
+  }
+
+.reaction-container{
+    @include dFlex($jc: flex-end, $g: 10px);
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.reaction{
+    border: 1px solid $lightPurple;
+    border-radius: 20px;
+    padding: 5px 10px 5px 10px;
+    background-color: white;
+    @include dFlex($g: 10px);
+
+    &:hover{
+        cursor: pointer;
+        border: 1px solid $purple2;
     }
 }

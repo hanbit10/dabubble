@@ -4,6 +4,7 @@ import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from "@ctrl/ngx-emoji-mart";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ReactionService } from '../../services/reaction.service';
 
 @Component({
   selector: 'app-message-right',
@@ -17,14 +18,7 @@ export class MessageRightComponent {
   settingIsOpen: boolean = false;
   editMessageIsOpen: boolean = false;
 
-  public editTextArea: string = 'Welche Version ist aktuell von Angular?';
-  public isEmojiPickerVisible: boolean = false;
-  public addEmoji(event: any) {
-    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
-    this.isEmojiPickerVisible = false;
-  }
-
-  constructor(public profileService: ProfileService, public channelService: ChannelService){}
+  constructor(public profileService: ProfileService, public channelService: ChannelService, public reactionService: ReactionService){}
 
   openProfile(){
     this.profileService.openMainProfile();
@@ -49,6 +43,6 @@ export class MessageRightComponent {
   closeEditMessage(){
     this.editMessageIsOpen = false;
     this.settingIsOpen = false;
-    this.editTextArea = 'Welche Version ist aktuell von Angular?';
+    this.reactionService.editTextArea = 'Welche Version ist aktuell von Angular?';
   }
 }

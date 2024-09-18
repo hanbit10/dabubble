@@ -6,6 +6,17 @@
             <span class="message-user-name" (click)="openProfile()">{{userName}}</span>
         </div>
         <span class="message-text">Welche Version ist aktuell von Angular?</span>
+
+        <div class="reaction-container">
+        @for(reaction of reactionService.reactions; track $index){
+                <div class="reaction" (click)="reactionService.reactionPlus(reaction)">
+                    <div>{{reaction.emojiNative}}</div>
+                    <span>{{reaction.count}}</span>
+                </div>
+        }
+        <div class="message-icon reaction-icon"></div>
+    </div>
+
     </div>
 
     <img src="./../../../assets/img/profile/woman2.svg" alt="profile-image">
@@ -17,12 +28,11 @@
         <div class="message-icon emoji-icon">
             <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
         </div>
-        
+
         <div class="emoji-container">
-            <button class="message-icon reaction-icon"
-                (click)="isEmojiPickerVisible = !isEmojiPickerVisible"></button>
-            <emoji-mart class="emoji-mart emoji-mart-message-right" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"
-                title="Choose your emoji"></emoji-mart>
+            <button class="message-icon reaction-icon" (click)="reactionService.isEmojiPickerVisible = !reactionService.isEmojiPickerVisible"></button>
+            <emoji-mart class="emoji-mart emoji-mart-message-right" *ngIf="reactionService.isEmojiPickerVisible"
+                title="Choose your emoji" (emojiSelect)="reactionService.addreaction($event)"></emoji-mart>
         </div>
 
         <div class="message-icon thread-icon" (click)="channelService.openThread()"></div>
@@ -39,14 +49,13 @@
 @if(editMessageIsOpen){
 <section class="message" (click)="closeSettings()">
     <div class="edit-message-container">
-        <textarea class="input-edit-message" type="text" name="textarea"
-            [(ngModel)]="editTextArea"></textarea>
+        <textarea class="input-edit-message" type="text" name="textarea" [(ngModel)]="reactionService.editTextArea"></textarea>
         <div class="edit-message-bottom">
             <div class="emoji-container">
                 <button class="message-icon edit-reaction-icon"
-                    (click)="isEmojiPickerVisible = !isEmojiPickerVisible"></button>
-                <emoji-mart class="emoji-mart emoji-mart-message-right" *ngIf="isEmojiPickerVisible" (emojiSelect)="addEmoji($event)"
-                    title="Choose your emoji"></emoji-mart>
+                    (click)="reactionService.isEmojiPickerVisible = !reactionService.isEmojiPickerVisible"></button>
+                <emoji-mart class="emoji-mart emoji-mart-message-right" *ngIf="reactionService.isEmojiPickerVisible"
+                    (emojiSelect)="reactionService.addEmoji($event)" title="Choose your emoji"></emoji-mart>
             </div>
             <div class="edit-buttons">
                 <button class="button-secondary" (click)="closeEditMessage()">Abbrechen</button>
