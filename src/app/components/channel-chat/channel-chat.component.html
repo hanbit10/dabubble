@@ -1,5 +1,40 @@
-<div class="container">
+<div class="message-container">
   <app-channel-header [getCurrentChannel]="currentChannel"></app-channel-header>
+
+  <section class="chat-container">
+    @for(message of currentMessages; track message; let i = $index) {
+    @if(message.sentBy != this.currentUserId) {
+    <!-- @if(shouldShowTimestamp(i+1)) { <div class="date-line">
+      <div class="line"></div>
+      <span class="message-date">{{getCurrentDate(message.sentAt?.toDate())}}
+      </span>
+      <div class="line"></div>
+    </div>
+    } -->
+    <app-message-left [getMessage]="message"></app-message-left>
+    } @else if(message.sentBy == this.currentUserId) {
+    <!-- @if(shouldShowTimestamp(i)) { <div class="date-line">
+      <div class="line"></div>
+      <span class="message-date">{{getCurrentDate(message.sentAt?.toDate())}}</span>
+      <div class="line"></div>
+    </div>
+    } -->
+    <app-message-right [getMessage]="message"></app-message-right>
+    }
+    }
+
+
+
+
+  </section>
+  <section class="sendMessage-container">
+    <div class="sendMessage-component">
+      <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
+        <textarea name="message" id="" [(ngModel)]="sentMessage.text"></textarea>
+        <button type="submit">send</button>
+      </form>
+    </div>
+  </section>
 </div>
 
 <app-channel-profile id="channel-profile" class="hidden" [getCurrentChannel]="currentChannel"></app-channel-profile>
