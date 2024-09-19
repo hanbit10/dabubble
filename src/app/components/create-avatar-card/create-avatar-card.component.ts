@@ -38,11 +38,12 @@ export class CreateAvatarCardComponent {
       await this.dataBase.addUser(this.logService.profile);
       setTimeout(() => {
         this.logService.currentState = 'log-in';
-        document.body.style.overflowX = 'unset';
-        this.logService.userCreated = false;
+        document.body.style.overflowX = 'unset';        
+        this.logService.userPopup = false;
       }, 1500);
       document.body.style.overflowX = 'hidden';
-      this.logService.userCreated = true;
+      this.logService.userMessage = 'Konto erfolgreich erstellt!';
+      this.logService.userPopup = true;
     } catch (error) {
       console.error('Fehler beim Anlegen des Benutzers:', error);
     }

@@ -40,5 +40,5 @@
       <span>Datenschutz</span>
     </div>
   </footer>
-  <div *ngIf="logService.userCreated" class="created-account"><h2>Konto erfolgreich erstellt!</h2></div>
+  <div *ngIf="logService.userPopup" class="user-popup"><h2>{{ logService.userMessage }}</h2></div>
 </div>
