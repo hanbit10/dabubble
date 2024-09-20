@@ -22,6 +22,8 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
     "@ctrl/ngx-emoji-mart": "^9.2.0",
+    "@types/gsap": "^3.0.0",
+    "gsap": "^3.12.5",
     "inquirer-autocomplete-prompt": "^3.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -26,6 +26,8 @@ header {
 
 .logocontainer {
   @include dFlex($ai: center);
+  position: relative;
+  z-index: 2;
   gap: 16px;
   > img {
     height: 70px;
@@ -33,6 +35,7 @@ header {
   > span {
     font-size: 24px;
     font-weight: 700;
+    /* color: white; */
   }
 }
 
@@ -263,4 +266,14 @@ form {
   >span {
     color: $rosaError;
   }
+}
+
+.intro-screen {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(#797EF3,#313AE5);
 }
