@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { Message } from '../../models/message';
 
 @Component({
   selector: 'app-thread',
@@ -15,6 +17,14 @@ export class ThreadComponent implements OnInit {
     text: '',
     image: '',
   };
+  private _items = new BehaviorSubject<Message>({} as Message);
+  @Input() set getMessage(value: Message) {
+    this._items.next(value);
+  }
+  get currentMessage(): Message {
+    return this._items.getValue();
+  }
+
   constructor(
     public channelService: ChannelService,
     public threadService: ThreadService

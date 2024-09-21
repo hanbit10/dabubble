@@ -5,4 +5,5 @@ export interface Message {
   image?: string;
   sentBy?: string;
   sentAt: Timestamp;
+  uid: string;
 }

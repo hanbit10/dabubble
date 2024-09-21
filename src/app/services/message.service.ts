@@ -4,6 +4,7 @@ import {
   collection,
   Firestore,
   onSnapshot,
+  setDoc,
   Timestamp,
 } from '@angular/fire/firestore';
 import { Message } from '../models/message';
@@ -56,8 +57,10 @@ export class MessageService {
       text: sentMessage.text,
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),
+      uid: '',
     };
 
     const querySnapshot = await addDoc(docRef, data);
+    await setDoc(querySnapshot, { ...data, uid: querySnapshot.id });
   }
 }
