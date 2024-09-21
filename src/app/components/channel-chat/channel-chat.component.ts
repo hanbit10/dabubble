@@ -60,12 +60,17 @@ export class ChannelChatComponent implements OnInit {
 
   formatDate(dateString: Date | undefined): string {
     const validDate = new Date(dateString ?? new Date());
-    return validDate.toLocaleDateString('en-US', {
-      hour12: false,
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-    });
+    const today = new Date();
+    const isToday = validDate.toDateString() === today.toDateString();
+    if (isToday) {
+      return 'Heute';
+    } else {
+      return validDate.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+      });
+    }
   }
 
   lastSeenDay: string | null = null;
