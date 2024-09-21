@@ -4,10 +4,19 @@
             <h3>Thread</h3>
             <span># Entwicklerteam</span>
         </div>
-        <div class="close-icon" (click)="channelService.closeThread()"></div>
+        <div class="close-icon" (click)="threadService.closeThread()"></div>
     </header>
 
     <div class="thread-chat">
         <p>thread works!</p>
     </div>
+
+    <section class="sendMessage-container">
+        <div class="sendMessage-component">
+            <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
+                <textarea name="message" id="" [(ngModel)]="sentMessage.text"></textarea>
+                <button type="submit">send</button>
+            </form>
+        </div>
+    </section>
 </section>

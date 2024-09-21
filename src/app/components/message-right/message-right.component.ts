@@ -8,6 +8,7 @@ import { Message } from '../../models/message';
 import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-message-right',
@@ -42,7 +43,8 @@ export class MessageRightComponent implements OnInit {
   constructor(
     public profileService: ProfileService,
     public channelService: ChannelService,
-    public userService: UserService
+    public userService: UserService,
+    public threadService: ThreadService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$

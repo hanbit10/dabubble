@@ -34,7 +34,7 @@
       <router-outlet></router-outlet>
     </div>
 
-    <div [class]="channelService.threadIsOpen? 'thread-container container' : 'hidden'">
+    <div [class]="threadService.threadIsOpen? 'thread-container container' : 'hidden'">
       <app-thread></app-thread>
     </div>
   </div>

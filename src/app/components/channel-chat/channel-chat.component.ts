@@ -45,19 +45,6 @@ export class ChannelChatComponent implements OnInit {
     image: '',
   };
 
-  // messages = [
-  //   { content: 'Message 1', date: 'Tue Sep 17 2024' },
-  //   { content: 'Message 2', date: 'Tue Sep 17 2024' },
-  //   { content: 'Message 3', date: 'Wed Sep 18 2024' },
-  //   { content: 'Message 4', date: 'Wed Sep 18 2024' },
-  //   { content: 'Message 5', date: 'Wed Sep 18 2024' },
-  //   { content: 'Message 6', date: 'Sat Sep 22 2024' },
-  //   { content: 'Message 7', date: 'Sat Sep 22 2024' },
-  //   { content: 'Message 8', date: 'Sat Sep 22 2024' },
-  //   { content: 'Message 9', date: 'Tue Sep 24 2024' },
-  //   { content: 'Message 10', date: 'Tue Sep 24 2024' },
-  // ];
-
   formatDate(dateString: Date | undefined): string {
     const validDate = new Date(dateString ?? new Date());
     const today = new Date();
@@ -127,22 +114,6 @@ export class ChannelChatComponent implements OnInit {
       }
     );
   }
-
-  // groupMessagesByDay() {
-  //   return this.currentMessages.reduce((groups: any, message: Message) => {
-  //     if (message && message.sentAt) {
-  //       // Check if message and message.sentAt are not null/undefined
-  //       const date = message.sentAt.toDate(); // Safely access toDateString
-  //       const day = date.toDateString();
-  //       if (!groups[day]) {
-  //         groups[day] = [];
-  //       }
-  //       groups[day].push(message);
-  //     }
-  //     console.log(groups);
-  //     return groups; // Make sure return is outside the `if` block
-  //   }, {});
-  // }
 
   getCurrentDate(date: Date | undefined) {
     const validDate = new Date(date ?? new Date());
