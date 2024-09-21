@@ -9,6 +9,7 @@ import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Message } from '../../models/message';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-message-left',
@@ -45,7 +46,8 @@ export class MessageLeftComponent implements OnInit {
     private route: ActivatedRoute,
     public profileService: ProfileService,
     public userService: UserService,
-    public channelService: ChannelService
+    public channelService: ChannelService,
+    public threadService: ThreadService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
