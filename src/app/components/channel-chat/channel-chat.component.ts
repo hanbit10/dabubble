@@ -13,6 +13,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MessageService } from '../../services/message.service';
 import { Message } from '../../models/message';
 import { Timestamp } from '@angular/fire/firestore';
+import { CommonModule, KeyValuePipe } from '@angular/common';
 
 @Component({
   selector: 'app-channel-chat',
@@ -25,7 +26,9 @@ import { Timestamp } from '@angular/fire/firestore';
     MessageLeftComponent,
     MessageRightComponent,
     FormsModule,
+    CommonModule,
   ],
+  providers: [KeyValuePipe],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
 })
@@ -41,6 +44,43 @@ export class ChannelChatComponent implements OnInit {
     text: '',
     image: '',
   };
+
+  // messages = [
+  //   { content: 'Message 1', date: 'Tue Sep 17 2024' },
+  //   { content: 'Message 2', date: 'Tue Sep 17 2024' },
+  //   { content: 'Message 3', date: 'Wed Sep 18 2024' },
+  //   { content: 'Message 4', date: 'Wed Sep 18 2024' },
+  //   { content: 'Message 5', date: 'Wed Sep 18 2024' },
+  //   { content: 'Message 6', date: 'Sat Sep 22 2024' },
+  //   { content: 'Message 7', date: 'Sat Sep 22 2024' },
+  //   { content: 'Message 8', date: 'Sat Sep 22 2024' },
+  //   { content: 'Message 9', date: 'Tue Sep 24 2024' },
+  //   { content: 'Message 10', date: 'Tue Sep 24 2024' },
+  // ];
+
+  formatDate(dateString: Date | undefined): string {
+    const validDate = new Date(dateString ?? new Date());
+    const today = new Date();
+    const isToday = validDate.toDateString() === today.toDateString();
+    if (isToday) {
+      return 'Heute';
+    } else {
+      return validDate.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+      });
+    }
+  }
+
+  lastSeenDay: string | null = null;
+
+  shouldShowTimestamp(message: any): boolean {
+    const messageDay = new Date(message.sentAt.toDate()).toDateString();
+    const shouldShow = this.lastSeenDay !== messageDay;
+    this.lastSeenDay = messageDay;
+    return shouldShow;
+  }
 
   constructor(
     public channelService: ChannelService,
@@ -88,31 +128,21 @@ export class ChannelChatComponent implements OnInit {
     );
   }
 
-  hoursPassed(date: Date | undefined): number {
-    const validDate = new Date(date ?? new Date());
-    const timeDiff = new Date().getTime() - validDate.getTime();
-    console.log(timeDiff / (1000 * 60 * 60));
-    return timeDiff / (1000 * 60 * 60);
-  }
-
-  shouldShowTimestamp(currentIndex: number): boolean {
-    const previousMessage = this.currentMessages[currentIndex - 1];
-    const currentMessage = this.currentMessages[currentIndex];
-    const previousDate = previousMessage.sentAt?.toDate();
-    const currentDate = currentMessage.sentAt?.toDate();
-    if (previousDate && currentDate) {
-      const timeDifference = currentDate.getTime() - previousDate.getTime();
-
-      // 24 hours in milliseconds
-      const twentyFourHoursInMs = 24 * 60 * 60 * 1000; // Get the time difference in milliseconds
-
-      // If the difference is greater than or equal to 24 hours, return true
-      console.log(timeDifference >= twentyFourHoursInMs);
-      return timeDifference >= twentyFourHoursInMs;
-    } else {
-      return false;
-    }
-  }
+  // groupMessagesByDay() {
+  //   return this.currentMessages.reduce((groups: any, message: Message) => {
+  //     if (message && message.sentAt) {
+  //       // Check if message and message.sentAt are not null/undefined
+  //       const date = message.sentAt.toDate(); // Safely access toDateString
+  //       const day = date.toDateString();
+  //       if (!groups[day]) {
+  //         groups[day] = [];
+  //       }
+  //       groups[day].push(message);
+  //     }
+  //     console.log(groups);
+  //     return groups; // Make sure return is outside the `if` block
+  //   }, {});
+  // }
 
   getCurrentDate(date: Date | undefined) {
     const validDate = new Date(date ?? new Date());
