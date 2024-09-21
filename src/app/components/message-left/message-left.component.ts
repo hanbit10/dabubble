@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { UserService } from '../../services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
 import { ProfileService } from '../../services/profile.service';
@@ -14,7 +14,7 @@ import { ThreadService } from '../../services/thread.service';
 @Component({
   selector: 'app-message-left',
   standalone: true,
-  imports: [ProfileUserComponent, PickerModule, CommonModule],
+  imports: [ProfileUserComponent, PickerModule, CommonModule, RouterModule],
   templateUrl: './message-left.component.html',
   styleUrl: './message-left.component.scss',
 })

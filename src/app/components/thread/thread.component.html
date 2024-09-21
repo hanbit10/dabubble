@@ -7,7 +7,11 @@
         <div class="close-icon" (click)="threadService.closeThread()"></div>
     </header>
 
-    <section class="chat-container"></section>
+    <section class="chat-container">
+        <h2>Chat</h2>
+        {{currentMessageId}}
+        {{currentChannelId}}
+    </section>
 
     <section class="sendMessage-container">
         <div class="sendMessage-component">

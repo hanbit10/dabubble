@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class ThreadService {
   threadIsOpen: boolean = false;
-
   constructor() {}
 
   openThread() {
@@ -15,4 +14,6 @@ export class ThreadService {
   closeThread() {
     this.threadIsOpen = false;
   }
+
+  createThread() {}
 }

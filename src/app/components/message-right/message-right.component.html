@@ -24,7 +24,8 @@
                 (emojiSelect)="addEmoji($event)" title="Choose your emoji"></emoji-mart>
         </div>
 
-        <div class="message-icon thread-icon" (click)="threadService.openThread()"></div>
+        <div class="message-icon thread-icon" [routerLink]="['threads', currentMessage.uid]"
+            (click)="threadService.openThread()"></div>
         <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
             <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()"
                 (click)="$event.stopPropagation()">

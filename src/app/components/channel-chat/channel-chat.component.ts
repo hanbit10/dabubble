@@ -60,7 +60,7 @@ export class ChannelChatComponent implements OnInit {
     }
   }
 
-  lastSeenDay: string | null = null;
+  lastSeenDay: string | null = new Date().toDateString();
 
   shouldShowTimestamp(message: any): boolean {
     const messageDay = new Date(message.sentAt.toDate()).toDateString();

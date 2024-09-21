@@ -1,9 +1,8 @@
 <div class="message-container">
   <app-channel-header [getCurrentChannel]="currentChannel"></app-channel-header>
-
   <section class="chat-container">
-    @for (message of currentMessages; track message) {
-    @if( shouldShowTimestamp(message)) {
+    @for(message of currentMessages; track message) {
+    @if(shouldShowTimestamp(message)) {
     <div class="date-line">
       <div class="line"></div>
       <span class="message-date">{{ formatDate(message.sentAt.toDate()) }}</span>
@@ -12,11 +11,10 @@
     }
     @if(message.sentBy != this.currentUserId) {
     <app-message-left [getMessage]="message"></app-message-left>
-    } @else if(message.sentBy == this.currentUserId) {
+    }@else if(message.sentBy == this.currentUserId) {
     <app-message-right [getMessage]="message"></app-message-right>
     }
     }
-
   </section>
   <section class="sendMessage-container">
     <div class="sendMessage-component">

@@ -4,6 +4,7 @@ import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { Message } from '../../models/message';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-thread',
@@ -17,20 +18,28 @@ export class ThreadComponent implements OnInit {
     text: '',
     image: '',
   };
-  private _items = new BehaviorSubject<Message>({} as Message);
-  @Input() set getMessage(value: Message) {
-    this._items.next(value);
-  }
-  get currentMessage(): Message {
-    return this._items.getValue();
-  }
+  currentMessageId: string = '';
+  currentChannelId: string = '';
 
   constructor(
     public channelService: ChannelService,
-    public threadService: ThreadService
+    public threadService: ThreadService,
+    private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.route.firstChild?.firstChild?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentMessageId = id;
+      }
+    });
+
+    this.route.firstChild?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentChannelId = id;
+      }
+    });
   }
 
   onSubmit(messageForm: NgForm) {
