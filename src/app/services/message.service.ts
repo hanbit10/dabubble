@@ -58,6 +58,7 @@ export class MessageService {
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
+      lastThreadReply: null,
     };
 
     const querySnapshot = await addDoc(docRef, data);
