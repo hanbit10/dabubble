@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
   collection,
+  doc,
   Firestore,
   onSnapshot,
   setDoc,
@@ -40,7 +41,6 @@ export class MessageService {
       this.messageSubject.next(this.messages);
     });
   }
-
   async sendMessage(
     sentMessage: any,
     currentChannelId: string,

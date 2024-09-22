@@ -16,8 +16,8 @@
 
     <section class="sendMessage-container">
         <div class="sendMessage-component">
-            <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
-                <textarea name="message" id="" [(ngModel)]="sentMessage.text"></textarea>
+            <form id="message-form" (ngSubmit)="onSubmitting(messageForm)" #messageForm="ngForm">
+                <textarea name="message" id="" [(ngModel)]="sentThread.text"></textarea>
                 <button type="submit">send</button>
             </form>
         </div>

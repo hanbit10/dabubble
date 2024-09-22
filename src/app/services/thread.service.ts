@@ -46,6 +46,7 @@ export class ThreadService {
   }
 
   async getAllThreads(currentChannelId: string, currentMessageId: string) {
+    console.log('this is the problem');
     const docRef = collection(
       this.firestore,
       'channels',
@@ -59,6 +60,7 @@ export class ThreadService {
     const threads = querySnapshot.docs.map((doc) => doc.data());
     return threads;
   }
+
   openThread() {
     this.threadIsOpen = true;
   }
@@ -73,6 +75,9 @@ export class ThreadService {
     currentMessageId: string,
     currentUserId: string
   ) {
+    console.log('is this triggered?');
+    console.log(currentChannelId);
+    console.log(currentMessageId);
     const docRef = collection(
       this.firestore,
       'channels',
