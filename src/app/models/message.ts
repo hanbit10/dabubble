@@ -16,4 +16,6 @@ export interface Reaction{
     emojiNative: string;
     count: number;
     reacted: boolean;
+  sentAt: Timestamp;
+  uid: string;
 }

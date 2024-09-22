@@ -9,52 +9,63 @@ import {
 } from '@angular/fire/firestore';
 import { Message } from '../models/message';
 import { BehaviorSubject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MessageService {
+export class ThreadService {
   firestore: Firestore = inject(Firestore);
-  private messageSubject = new BehaviorSubject<any[]>([]);
-  currentChannelId: string = '';
-  messages: any[] = [];
-  constructor() { }
+  private threadSubject = new BehaviorSubject<any[]>([]);
+  threadIsOpen: boolean = false;
+  threads: any[] = [];
+  constructor() {}
 
-  get messages$() {
-    return this.messageSubject.asObservable();
+  get threads$() {
+    return this.threadSubject.asObservable();
   }
 
-  subMessageList(currentChannelId: string) {
+  subThreadList(currentChannelId: string, currentMessageId: string) {
     const docRef = collection(
       this.firestore,
       'channels',
       currentChannelId,
-      'messages'
+      'messages',
+      currentMessageId,
+      'threads'
     );
     return onSnapshot(docRef, (list) => {
-      this.messages = [];
+      this.threads = [];
       list.forEach((doc) => {
-        this.messages.push(doc.data());
+        this.threads.push(doc.data());
       });
-      this.messageSubject.next(this.messages);
+      this.threadSubject.next(this.threads);
     });
   }
+  openThread() {
+    this.threadIsOpen = true;
+  }
 
-  async sendMessage(
-    sentMessage: any,
+  closeThread() {
+    this.threadIsOpen = false;
+  }
+
+  async sendThread(
+    sentThread: any,
     currentChannelId: string,
+    currentMessageId: string,
     currentUserId: string
   ) {
     const docRef = collection(
       this.firestore,
       'channels',
       currentChannelId,
-      'messages'
+      'messages',
+      currentMessageId,
+      'threads'
     );
 
     let data: Message = {
-      text: sentMessage.text,
+      text: sentThread.text,
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',

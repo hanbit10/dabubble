@@ -6,13 +6,17 @@ import { ChannelChatComponent } from './components/channel-chat/channel-chat.com
 import { NewMessageComponent } from './components/new-message/new-message.component';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
 import { ReassignPasswordCardComponent } from './components/reassign-password-card/reassign-password-card.component';
+import { ThreadComponent } from './components/thread/thread.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
     children: [
-      { path: 'reassignpassword/:id/:timestamp', component: ReassignPasswordCardComponent },
+      {
+        path: 'reassignpassword/:id/:timestamp',
+        component: ReassignPasswordCardComponent,
+      },
     ],
   },
 
@@ -21,7 +25,11 @@ export const routes: Routes = [
     component: MainComponent,
     children: [
       { path: 'users/:id', component: DirectChatComponent },
-      { path: 'channels/:id', component: ChannelChatComponent },
+      {
+        path: 'channels/:id',
+        component: ChannelChatComponent,
+        children: [{ path: 'threads/:id', component: ThreadComponent }],
+      },
       { path: 'newMessage', component: NewMessageComponent },
     ],
   },

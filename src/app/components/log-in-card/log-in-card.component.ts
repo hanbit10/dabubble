@@ -58,7 +58,10 @@ export class LogInCardComponent {
         user.active = true;
         await this.dataBase.updateUser(user, user.uid);
         this.wrongPassword = false;
-        this.router.navigate([`/main/${user.uid}`]);
+        this.animateLogin();
+        setTimeout(() => {
+          this.router.navigate([`/main/${user.uid}`]);
+        },1600);        
       } else {
         this.wrongPassword = true;
       }
@@ -66,7 +69,10 @@ export class LogInCardComponent {
   }
 
   guestLogin() {
-    this.router.navigate([`/main/guest`]);
+    this.animateLogin();
+    setTimeout(() => {
+      this.router.navigate([`/main/guest`])
+    },1600);
   }
 
   googleLogin() {
@@ -94,7 +100,10 @@ export class LogInCardComponent {
     } else {
       this.logService.users[userIndex].active = true;
     }
-    this.router.navigate([`/main/${this.logService.users[userIndex].uid}`]);
+    this.animateLogin();
+    setTimeout(() => {
+      this.router.navigate([`/main/${this.logService.users[userIndex].uid}`])
+    },1600);
   }
 
   async createGoogleUser(
@@ -111,4 +120,15 @@ export class LogInCardComponent {
     await this.loadUsers();
     userIndex = this.logService.findUserIndex(userMail);
   }
+
+  animateLogin() {    
+    setTimeout(() => {      
+      document.body.style.overflowX = 'unset';      
+      this.logService.userPopup = false;
+    }, 1500);
+    document.body.style.overflowX = 'hidden';
+    this.logService.userMessage = 'Anmelden';
+    this.logService.userPopup = true;    
+  }
+
 }

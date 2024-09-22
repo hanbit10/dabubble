@@ -8,9 +8,10 @@ export class LoginCreateAccountService {
 
 users: UserProfile[] = [];
 currentState: string = 'log-in';
-userCreated:boolean = false;
 loginMail: string = '';
 loginPassword: string = '';
+userPopup: boolean = false;
+userMessage: string = '';
 
 
 profile: UserProfile = {
@@ -30,6 +31,10 @@ profile: UserProfile = {
 
   findUserIndex(searchMail: string) {
     return this.users.findIndex((index) => index.email === searchMail);
+  }
+
+  findUserIndexId(id: string) {
+    return this.users.findIndex((index) => index.uid === id);
   }
 
   captureUser() {
