@@ -24,19 +24,33 @@ header {
   @include dFlex($ai: center, $jc: space-between);
 }
 
+.seventy {
+  min-height: 70px;
+  
+}
+
+.typewriter {
+  transition: all linear;
+}
+
 .logocontainer {
   @include dFlex($ai: center);
-  position: relative;
+  position: relative;  
   z-index: 2;
   gap: 16px;
+  transition: all linear;
   > img {
     height: 70px;
   }
-  > span {
-    font-size: 24px;
-    font-weight: 700;
-    /* color: white; */
+  >div {
+    width: 130px;
+    overflow: hidden;
+    >p {
+      font-size: 24px;
+      font-weight: 700;    
+    }
   }
+  
 }
 
 .header-end {
@@ -275,5 +289,5 @@ form {
   top: 0;
   right: 0;
   bottom: 0;
-  background-image: linear-gradient(#797EF3,#313AE5);
+  background-image: linear-gradient(#797EF3,#313AE5);  
 }
