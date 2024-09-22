@@ -1,8 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import {
+  addDoc,
   collection,
   Firestore,
   onSnapshot,
+  setDoc,
   Timestamp,
 } from '@angular/fire/firestore';
 import { Message } from '../models/message';
@@ -68,5 +70,8 @@ export class ThreadService {
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
     };
+
+    const querySnapshot = await addDoc(docRef, data);
+    await setDoc(querySnapshot, { ...data, uid: querySnapshot.id });
   }
 }
