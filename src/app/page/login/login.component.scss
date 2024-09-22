@@ -24,16 +24,33 @@ header {
   @include dFlex($ai: center, $jc: space-between);
 }
 
+.seventy {
+  min-height: 70px;
+  
+}
+
+.typewriter {
+  transition: all linear;
+}
+
 .logocontainer {
   @include dFlex($ai: center);
+  position: relative;  
+  z-index: 2;
   gap: 16px;
+  transition: all linear;
   > img {
     height: 70px;
   }
-  > span {
-    font-size: 24px;
-    font-weight: 700;
+  >div {
+    width: 130px;
+    overflow: hidden;
+    >p {
+      font-size: 24px;
+      font-weight: 700;    
+    }
   }
+  
 }
 
 .header-end {
@@ -53,7 +70,8 @@ app-create-avatar-card {
   flex-grow: 1;
 }
 
-app-password-mail-card {
+app-password-mail-card,
+app-reassign-password-card {
   display: flex;
   max-width: 580px;
   max-height: 500px;
@@ -213,13 +231,12 @@ footer {
   gap: 30px;
 }
 
-.created-account {
+.user-popup {
   position: absolute;
   @include dFlex();
   right: 100px;
   bottom: 48px;
-  width: 480px;
-  height: 130px;
+  padding: 16px 32px;
   border-radius: 30px 30px 0px 30px;
   background-color: $purple1;
   >h2 {
@@ -263,4 +280,14 @@ form {
   >span {
     color: $rosaError;
   }
+}
+
+.intro-screen {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(#797EF3,#313AE5);  
 }

@@ -1,9 +1,15 @@
 <div class="log-in">
-  <header>
-    <div class="logocontainer">
-      <img src="/assets/img/logo/da-bubble-logo.svg" alt="logo" />
-      <span>DABubble</span>
-    </div>
+  <div class="intro-screen">    
+  </div>
+  <header>  
+    <div class="seventy">  
+      <div class="logocontainer">        
+        <img class="logo" src="/assets/img/logo/da-bubble-logo.svg" alt="logo" /> 
+        <div>              
+          <p class="typewriter">DABubble</p>     
+        </div>   
+      </div>  
+    </div>  
     <div class="header-end">
       <span *ngIf="logService.currentState === 'log-in'"
         >Neu bei DABubble?</span
@@ -29,6 +35,9 @@
   <app-password-mail-card
     *ngIf="logService.currentState === 'password-mail'"
   ></app-password-mail-card>
+  <app-reassign-password-card
+    *ngIf="logService.currentState === 'reassign-password'"
+  ></app-reassign-password-card>
   <footer>
     <div class="hidden-button">
       <span>Impressum</span>
@@ -37,5 +46,5 @@
       <span>Datenschutz</span>
     </div>
   </footer>
-  <div *ngIf="logService.userCreated" class="created-account"><h2>Konto erfolgreich erstellt!</h2></div>
+  <div *ngIf="logService.userPopup" class="user-popup"><h2>{{ logService.userMessage }}</h2></div>
 </div>
