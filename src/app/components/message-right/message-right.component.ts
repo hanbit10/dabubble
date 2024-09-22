@@ -33,6 +33,8 @@ export class MessageRightComponent implements OnInit {
   editMessageIsOpen: boolean = false;
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
+  currentChannelId: string = '';
+  currentUserId: string = '';
 
   public editTextArea: string = 'Welche Version ist aktuell von Angular?';
   public isEmojiPickerVisible: boolean = false;
@@ -67,14 +69,22 @@ export class MessageRightComponent implements OnInit {
       });
 
     this.route.paramMap.subscribe(async (paramMap) => {
-      const currentChannelId = paramMap.get('id');
-      if (currentChannelId && this.currentMessage.uid) {
-        console.log('currentChannelId', currentChannelId);
-        console.log('currentMessageId', this.currentMessage.uid);
+      const id = paramMap.get('id');
+      console.log('what is this id', id);
+      if (id && this.currentMessage.uid) {
+        this.currentChannelId = id;
         this.allThreads = await this.threadService.getAllThreads(
-          currentChannelId,
+          this.currentChannelId,
           this.currentMessage.uid
         );
+      }
+    });
+
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      console.log('UserId', id);
+      if (id) {
+        this.currentUserId = id;
       }
     });
 

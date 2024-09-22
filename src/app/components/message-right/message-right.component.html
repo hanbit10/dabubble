@@ -8,7 +8,8 @@
         <span class="message-text">{{currentMessage.text}}</span>
         @if(allThreads.length > 0) {
         <div class="message-answer">
-            <button class="message-answer-button" [routerLink]="['threads', currentMessage.uid]"
+            <button class="message-answer-button"
+                [routerLink]="['/main', currentUserId,{outlets:{thread:['channels', currentChannelId, 'th', currentMessage.uid]}}]"
                 (click)="threadService.openThread()">
                 {{allThreads.length}}
                 Antworten</button>
@@ -33,7 +34,8 @@
                 (emojiSelect)="addEmoji($event)" title="Choose your emoji"></emoji-mart>
         </div>
 
-        <div class="message-icon thread-icon" [routerLink]="['threads', currentMessage.uid]"
+        <div class="message-icon thread-icon"
+            [routerLink]="['/main', currentUserId,{outlets:{thread:['channels', currentChannelId, 'th', currentMessage.uid]}}]"
             (click)="threadService.openThread()"></div>
         <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
             <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()"

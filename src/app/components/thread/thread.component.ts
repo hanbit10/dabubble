@@ -31,36 +31,27 @@ export class ThreadComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
+      const msgId = paramMap.get('msgId');
+      if (id && msgId) {
+        console.log('is it working?', id);
+        this.currentChannelId = id;
+        this.currentMessageId = msgId;
+      }
+    });
+
+    this.route.firstChild?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      console.log('does this even exist?');
       if (id) {
-        this.currentUserId = id;
-        this.route.firstChild?.paramMap.subscribe((paramMap) => {
-          const id = paramMap.get('id');
-          if (id) {
-            this.currentChannelId = id;
-            this.route.firstChild?.firstChild?.paramMap.subscribe(
-              (paramMap) => {
-                const id = paramMap.get('id');
-                if (id) {
-                  this.currentMessageId = id;
-                  console.log(
-                    'current ChannelId is existing',
-                    this.currentChannelId
-                  );
-                  console.log(
-                    'current MessageId is existing',
-                    this.currentMessageId
-                  );
-                  if (this.currentChannelId && this.currentMessageId) {
-                    this.threadService.subThreadList(
-                      this.currentChannelId,
-                      this.currentMessageId
-                    );
-                  }
-                }
-              }
-            );
-          }
-        });
+        this.currentMessageId = id;
+        console.log('current ChannelId is existing', this.currentChannelId);
+        console.log('current MessageId is existing', this.currentMessageId);
+        if (this.currentChannelId && this.currentMessageId) {
+          this.threadService.subThreadList(
+            this.currentChannelId,
+            this.currentMessageId
+          );
+        }
       }
     });
 

@@ -12,7 +12,8 @@
         @if(allThreads.length > 0) {
         <div class="message-answer">
             <button class="message-answer-button" routerLinkActive="active"
-                [routerLink]="['threads', currentMessage.uid]" (click)="threadService.openThread()">
+                [routerLink]="[{outlets:{thread:['channels', currentChannelId, 'th', currentMessage.uid]}}]"
+                (click)="threadService.openThread()">
                 {{allThreads.length}}
                 Antworten</button>
             <span class="message-time">Letzte Antwort {{formattedThreadTime}} Uhr</span>
