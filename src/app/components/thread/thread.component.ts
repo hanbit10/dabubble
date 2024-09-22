@@ -40,12 +40,14 @@ export class ThreadComponent implements OnInit {
       const id = paramMap.get('id');
       if (id) {
         this.currentMessageId = id;
-        console.log('current ChannelId', this.currentChannelId);
-        console.log('current MessageId', this.currentMessageId);
-        this.threadService.subThreadList(
-          this.currentChannelId,
-          this.currentMessageId
-        );
+        console.log('current ChannelId is existing', this.currentChannelId);
+        console.log('current MessageId is existing', this.currentMessageId);
+        if (this.currentChannelId && this.currentMessageId) {
+          this.threadService.subThreadList(
+            this.currentChannelId,
+            this.currentMessageId
+          );
+        }
       }
     });
 

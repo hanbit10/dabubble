@@ -12,6 +12,7 @@ import { Message } from '../../models/message';
 import { ThreadService } from '../../services/thread.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { UtilityService } from '../../services/utility.service';
+import { Channel } from '../../models/channels';
 
 @Component({
   selector: 'app-message-left',
@@ -32,7 +33,10 @@ export class MessageLeftComponent implements OnInit {
   profileIsOpen = false;
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
-  allThreads: any[] = [];
+
+  currentThreads: any[] = [];
+  currentChannelId: string = '';
+  currentUserId: string = '';
 
   public editTextArea: string = 'Welche Version ist aktuell von Angular?';
   public isEmojiPickerVisible: boolean = false;
@@ -40,7 +44,7 @@ export class MessageLeftComponent implements OnInit {
     this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
     this.isEmojiPickerVisible = false;
   }
-
+  private threadSubscription!: Subscription;
   private routeSub: Subscription = new Subscription();
   public usersSubscription!: Subscription;
   formattedCurrMsgTime?: string;
@@ -68,14 +72,34 @@ export class MessageLeftComponent implements OnInit {
       });
 
     this.route.paramMap.subscribe(async (paramMap) => {
-      const currentChannelId = paramMap.get('id');
-      if (currentChannelId && this.currentMessage.uid) {
-        this.allThreads = await this.threadService.getAllThreads(
-          currentChannelId,
+      const id = paramMap.get('id');
+      console.log('currentChannelId', id);
+      if (id && this.currentMessage.uid) {
+        this.currentChannelId = id;
+        this.threadService.subThreadList(
+          this.currentChannelId,
           this.currentMessage.uid
         );
       }
     });
+
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentUserId = id;
+      }
+    });
+
+    this.threadSubscription = this.threadService.threads$.subscribe(
+      (threads) => {
+        this.currentThreads = threads.sort((a, b) => {
+          if (a.sentAt && b.sentAt) {
+            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
+          }
+          return 0;
+        });
+      }
+    );
 
     this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
       this.currentMessage.sentAt!
