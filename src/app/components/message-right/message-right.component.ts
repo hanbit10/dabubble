@@ -68,7 +68,9 @@ export class MessageRightComponent implements OnInit {
 
     this.route.paramMap.subscribe(async (paramMap) => {
       const currentChannelId = paramMap.get('id');
-      if (currentChannelId) {
+      if (currentChannelId && this.currentMessage.uid) {
+        console.log('currentChannelId', currentChannelId);
+        console.log('currentMessageId', this.currentMessage.uid);
         this.allThreads = await this.threadService.getAllThreads(
           currentChannelId,
           this.currentMessage.uid
