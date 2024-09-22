@@ -2,10 +2,20 @@
 <section class="message" (click)="closeSettings()">
     <div class="message-info">
         <div class="message-user">
-            <span class="message-time">{{formattedTime}} Uhr</span>
+            <span class="message-time">{{formattedCurrMsgTime}} Uhr</span>
             <span class="message-user-name" (click)="openProfile()">{{messageUser.name}}</span>
         </div>
         <span class="message-text">{{currentMessage.text}}</span>
+        @if(allThreads.length > 0) {
+        <div class="message-answer">
+            <button class="message-answer-button"
+                [routerLink]="['/main', currentUserId,{outlets:{thread:['channels', currentChannelId, 'th', currentMessage.uid]}}]"
+                (click)="threadService.openThread()">
+                {{allThreads.length}}
+                Antworten</button>
+            <span class="message-time">Letzte Antwort {{formattedThreadTime}} Uhr</span>
+        </div>
+        }
     </div>
 
     <img src="{{messageUser.profileImage}}" alt="profile-image">
@@ -24,7 +34,8 @@
                 (emojiSelect)="addEmoji($event)" title="Choose your emoji"></emoji-mart>
         </div>
 
-        <div class="message-icon thread-icon" [routerLink]="['threads', currentMessage.uid]"
+        <div class="message-icon thread-icon"
+            [routerLink]="['/main', currentUserId,{outlets:{thread:['channels', currentChannelId, 'th', currentMessage.uid]}}]"
             (click)="threadService.openThread()"></div>
         <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
             <div [class]="settingIsOpen? 'edit-message-button' : 'hidden'" (click)="editMessage()"

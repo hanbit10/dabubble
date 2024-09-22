@@ -10,6 +10,9 @@ import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Message } from '../../models/message';
 import { ThreadService } from '../../services/thread.service';
+import { Timestamp } from '@angular/fire/firestore';
+import { UtilityService } from '../../services/utility.service';
+import { Channel } from '../../models/channels';
 
 @Component({
   selector: 'app-message-left',
@@ -31,23 +34,29 @@ export class MessageLeftComponent implements OnInit {
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
 
+  allThreads: any[] = [];
+  currentChannelId: string = '';
+  currentUserId: string = '';
+
   public editTextArea: string = 'Welche Version ist aktuell von Angular?';
   public isEmojiPickerVisible: boolean = false;
   public addEmoji(event: any) {
     this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
     this.isEmojiPickerVisible = false;
   }
-
+  private threadSubscription!: Subscription;
   private routeSub: Subscription = new Subscription();
   public usersSubscription!: Subscription;
-  formattedTime?: string;
+  formattedCurrMsgTime?: string;
+  formattedThreadTime?: string;
 
   constructor(
     private route: ActivatedRoute,
     public profileService: ProfileService,
     public userService: UserService,
     public channelService: ChannelService,
-    public threadService: ThreadService
+    public threadService: ThreadService,
+    public utilityService: UtilityService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -62,14 +71,22 @@ export class MessageLeftComponent implements OnInit {
         }
       });
 
-    const date: Date | undefined = this.currentMessage.sentAt?.toDate();
-    const validDate = new Date(date ?? new Date());
-
-    this.formattedTime = validDate.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
+    this.route.paramMap.subscribe(async (paramMap) => {
+      const currentChannelId = paramMap.get('id');
+      if (currentChannelId && this.currentMessage.uid) {
+        this.allThreads = await this.threadService.getAllThreads(
+          currentChannelId,
+          this.currentMessage.uid
+        );
+      }
     });
+
+    this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
+      this.currentMessage.sentAt!
+    );
+    this.formattedThreadTime = this.utilityService.getFormattedTime(
+      this.currentMessage.lastThreadReply!
+    );
   }
 
   openProfile() {

@@ -28,7 +28,11 @@ export const routes: Routes = [
       {
         path: 'channels/:id',
         component: ChannelChatComponent,
-        children: [{ path: 'threads/:id', component: ThreadComponent }],
+      },
+      {
+        path: 'channels/:id/th/:msgId',
+        component: ThreadComponent,
+        outlet: 'thread',
       },
       { path: 'newMessage', component: NewMessageComponent },
     ],

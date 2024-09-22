@@ -2,13 +2,16 @@ import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
   collection,
+  doc,
   Firestore,
+  getDocs,
   onSnapshot,
   setDoc,
   Timestamp,
+  updateDoc,
 } from '@angular/fire/firestore';
-import { Message } from '../models/message';
 import { BehaviorSubject } from 'rxjs';
+import { Thread } from '../models/threads';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +44,23 @@ export class ThreadService {
       this.threadSubject.next(this.threads);
     });
   }
+
+  async getAllThreads(currentChannelId: string, currentMessageId: string) {
+    console.log('this is the problem');
+    const docRef = collection(
+      this.firestore,
+      'channels',
+      currentChannelId,
+      'messages',
+      currentMessageId,
+      'threads'
+    );
+
+    const querySnapshot = await getDocs(docRef);
+    const threads = querySnapshot.docs.map((doc) => doc.data());
+    return threads;
+  }
+
   openThread() {
     this.threadIsOpen = true;
   }
@@ -55,6 +75,9 @@ export class ThreadService {
     currentMessageId: string,
     currentUserId: string
   ) {
+    console.log('is this triggered?');
+    console.log(currentChannelId);
+    console.log(currentMessageId);
     const docRef = collection(
       this.firestore,
       'channels',
@@ -64,7 +87,7 @@ export class ThreadService {
       'threads'
     );
 
-    let data: Message = {
+    let data: Thread = {
       text: sentThread.text,
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),
@@ -73,5 +96,17 @@ export class ThreadService {
 
     const querySnapshot = await addDoc(docRef, data);
     await setDoc(querySnapshot, { ...data, uid: querySnapshot.id });
+
+    const docRef2 = doc(
+      this.firestore,
+      'channels',
+      currentChannelId,
+      'messages',
+      currentMessageId
+    );
+
+    await updateDoc(docRef2, {
+      lastThreadReply: Timestamp.fromDate(new Date()),
+    });
   }
 }

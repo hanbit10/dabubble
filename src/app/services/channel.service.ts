@@ -41,6 +41,7 @@ export class ChannelService {
       usersIds: [currentUserId],
       uid: '',
       createdBy: currentUserId,
+      createdAt: Timestamp.fromDate(new Date()),
     };
 
     chosen.forEach((user: any) => {
