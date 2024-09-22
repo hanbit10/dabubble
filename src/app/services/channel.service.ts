@@ -25,7 +25,6 @@ export class ChannelService {
   firestore: Firestore = inject(Firestore);
   private channelSubject = new BehaviorSubject<any[]>([]);
   channels: any[] = [];
-  threadIsOpen: boolean = false;
 
   constructor() {
     this.subChannelList();
@@ -77,14 +76,6 @@ export class ChannelService {
         usersIds: arrayUnion(user.uid),
       });
     });
-  }
-
-  openThread() {
-    this.threadIsOpen = true;
-  }
-
-  closeThread() {
-    this.threadIsOpen = false;
   }
 
   updateChannel(uid: string, type: string, data: any) {

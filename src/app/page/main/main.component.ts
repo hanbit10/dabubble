@@ -8,6 +8,7 @@ import { ProfileService } from '../../services/profile.service';
 import { ProfileUserComponent } from '../../components/profile-user/profile-user.component';
 import { ThreadComponent } from '../../components/thread/thread.component';
 import { ChannelService } from '../../services/channel.service';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-main',
@@ -21,7 +22,7 @@ import { ChannelService } from '../../services/channel.service';
     ChannelCreateComponent,
     DirectNavComponent,
     ProfileUserComponent,
-    ThreadComponent
+    ThreadComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -29,18 +30,19 @@ import { ChannelService } from '../../services/channel.service';
 export class MainComponent implements OnInit {
   menuOpen = true;
 
-  constructor(public profileService: ProfileService, public channelService: ChannelService) {}
+  constructor(
+    public profileService: ProfileService,
+    public channelService: ChannelService,
+    public threadService: ThreadService
+  ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
-  }
-
-  toggleMenu(){
+  toggleMenu() {
     if (this.menuOpen) {
       this.menuOpen = false;
-    }else{
+    } else {
       this.menuOpen = true;
     }
   }
-
 }

@@ -8,11 +8,13 @@ import { Message } from '../../models/message';
 import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
+import { ThreadService } from '../../services/thread.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-message-right',
   standalone: true,
-  imports: [PickerModule, FormsModule, CommonModule],
+  imports: [PickerModule, FormsModule, CommonModule, RouterModule],
   templateUrl: './message-right.component.html',
   styleUrl: './message-right.component.scss',
 })
@@ -42,7 +44,8 @@ export class MessageRightComponent implements OnInit {
   constructor(
     public profileService: ProfileService,
     public channelService: ChannelService,
-    public userService: UserService
+    public userService: UserService,
+    public threadService: ThreadService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
