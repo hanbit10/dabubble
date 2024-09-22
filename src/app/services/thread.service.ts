@@ -3,6 +3,7 @@ import {
   addDoc,
   collection,
   Firestore,
+  getDocs,
   onSnapshot,
   setDoc,
   Timestamp,
@@ -40,6 +41,21 @@ export class ThreadService {
       });
       this.threadSubject.next(this.threads);
     });
+  }
+
+  async getAllThreads(currentChannelId: string, currentMessageId: string) {
+    const docRef = collection(
+      this.firestore,
+      'channels',
+      currentChannelId,
+      'messages',
+      currentMessageId,
+      'threads'
+    );
+
+    const querySnapshot = await getDocs(docRef);
+    const threads = querySnapshot.docs.map((doc) => doc.data());
+    return threads;
   }
   openThread() {
     this.threadIsOpen = true;

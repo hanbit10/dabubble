@@ -12,6 +12,7 @@
         <div class="message-answer">
             <button class="message-answer-button" [routerLink]="['threads', currentMessage.uid]"
                 (click)="threadService.openThread()">
+                {{allThreads.length}}
                 Antworten</button>
             <span class="message-time">Letzte Antwort 14:56 Uhr</span>
         </div>

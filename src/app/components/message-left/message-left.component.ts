@@ -30,6 +30,7 @@ export class MessageLeftComponent implements OnInit {
   profileIsOpen = false;
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
+  allThreads: any[] = [];
 
   public editTextArea: string = 'Welche Version ist aktuell von Angular?';
   public isEmojiPickerVisible: boolean = false;
@@ -61,6 +62,16 @@ export class MessageLeftComponent implements OnInit {
           this.messageUser = currUser;
         }
       });
+
+    this.route.paramMap.subscribe(async (paramMap) => {
+      const currentChannelId = paramMap.get('id');
+      if (currentChannelId) {
+        this.allThreads = await this.threadService.getAllThreads(
+          currentChannelId,
+          this.currentMessage.uid
+        );
+      }
+    });
 
     const date: Date | undefined = this.currentMessage.sentAt?.toDate();
     const validDate = new Date(date ?? new Date());
