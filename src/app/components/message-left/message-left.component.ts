@@ -34,7 +34,7 @@ export class MessageLeftComponent implements OnInit {
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
 
-  currentThreads: any[] = [];
+  allThreads: any[] = [];
   currentChannelId: string = '';
   currentUserId: string = '';
 
@@ -72,34 +72,16 @@ export class MessageLeftComponent implements OnInit {
       });
 
     this.route.paramMap.subscribe(async (paramMap) => {
-      const id = paramMap.get('id');
-      console.log('currentChannelId', id);
-      if (id && this.currentMessage.uid) {
-        this.currentChannelId = id;
-        this.threadService.subThreadList(
-          this.currentChannelId,
+      const currentChannelId = paramMap.get('id');
+      if (currentChannelId && this.currentMessage.uid) {
+        console.log('currentChannelId', currentChannelId);
+        console.log('currentMessageId', this.currentMessage.uid);
+        this.allThreads = await this.threadService.getAllThreads(
+          currentChannelId,
           this.currentMessage.uid
         );
       }
     });
-
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
-
-    this.threadSubscription = this.threadService.threads$.subscribe(
-      (threads) => {
-        this.currentThreads = threads.sort((a, b) => {
-          if (a.sentAt && b.sentAt) {
-            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-          }
-          return 0;
-        });
-      }
-    );
 
     this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
       this.currentMessage.sentAt!

@@ -9,12 +9,11 @@
 
         </div>
         <span class="message-text">{{currentMessage.text}}</span>
-        @if(currentThreads.length > 0) {
+        @if(allThreads.length > 0) {
         <div class="message-answer">
             <button class="message-answer-button" routerLinkActive="active"
-                [routerLink]="['', {outlets: {thread:['channels', currentChannelId, 'threads', currentMessage.uid]}}]"
-                (click)="threadService.openThread()">
-                {{currentThreads.length}}
+                [routerLink]="['threads', currentMessage.uid]" (click)="threadService.openThread()">
+                {{allThreads.length}}
                 Antworten</button>
             <span class="message-time">Letzte Antwort {{formattedThreadTime}} Uhr</span>
         </div>

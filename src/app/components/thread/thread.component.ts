@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -29,25 +29,38 @@ export class ThreadComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    this.route.firstChild?.paramMap.subscribe((paramMap) => {
+    this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
-        this.currentChannelId = id;
-      }
-    });
-
-    this.route.firstChild?.firstChild?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentMessageId = id;
-        console.log('current ChannelId is existing', this.currentChannelId);
-        console.log('current MessageId is existing', this.currentMessageId);
-        if (this.currentChannelId && this.currentMessageId) {
-          this.threadService.subThreadList(
-            this.currentChannelId,
-            this.currentMessageId
-          );
-        }
+        this.currentUserId = id;
+        this.route.firstChild?.paramMap.subscribe((paramMap) => {
+          const id = paramMap.get('id');
+          if (id) {
+            this.currentChannelId = id;
+            this.route.firstChild?.firstChild?.paramMap.subscribe(
+              (paramMap) => {
+                const id = paramMap.get('id');
+                if (id) {
+                  this.currentMessageId = id;
+                  console.log(
+                    'current ChannelId is existing',
+                    this.currentChannelId
+                  );
+                  console.log(
+                    'current MessageId is existing',
+                    this.currentMessageId
+                  );
+                  if (this.currentChannelId && this.currentMessageId) {
+                    this.threadService.subThreadList(
+                      this.currentChannelId,
+                      this.currentMessageId
+                    );
+                  }
+                }
+              }
+            );
+          }
+        });
       }
     });
 
