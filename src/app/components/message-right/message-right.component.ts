@@ -9,7 +9,8 @@ import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ThreadService } from '../../services/thread.service';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-message-right',
@@ -40,12 +41,17 @@ export class MessageRightComponent implements OnInit {
     this.isEmojiPickerVisible = false;
   }
   formattedTime?: string;
+  formattedCurrMsgTime?: string;
+  formattedThreadTime?: string;
+  allThreads: any[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     public profileService: ProfileService,
     public channelService: ChannelService,
     public userService: UserService,
-    public threadService: ThreadService
+    public threadService: ThreadService,
+    public utilityService: UtilityService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -60,14 +66,22 @@ export class MessageRightComponent implements OnInit {
         }
       });
 
-    const date: Date | undefined = this.currentMessage.sentAt?.toDate();
-    const validDate = new Date(date ?? new Date());
-
-    this.formattedTime = validDate.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
+    this.route.paramMap.subscribe(async (paramMap) => {
+      const currentChannelId = paramMap.get('id');
+      if (currentChannelId) {
+        this.allThreads = await this.threadService.getAllThreads(
+          currentChannelId,
+          this.currentMessage.uid
+        );
+      }
     });
+
+    this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
+      this.currentMessage.sentAt!
+    );
+    this.formattedThreadTime = this.utilityService.getFormattedTime(
+      this.currentMessage.lastThreadReply!
+    );
   }
 
   openProfile() {
