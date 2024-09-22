@@ -5,17 +5,20 @@
         <div class="message-user">
             <span class="message-user-name" (click)="openProfile()">{{messageUser.name}}</span>
 
-            <span class="message-time">{{formattedTime}} Uhr</span>
+            <span class="message-time">{{formattedCurrMsgTime}} Uhr</span>
 
         </div>
         <span class="message-text">{{currentMessage.text}}</span>
+        @if(allThreads.length > 0) {
         <div class="message-answer">
             <button class="message-answer-button" [routerLink]="['threads', currentMessage.uid]"
                 (click)="threadService.openThread()">
                 {{allThreads.length}}
                 Antworten</button>
-            <span class="message-time">Letzte Antwort 14:56 Uhr</span>
+            <span class="message-time">Letzte Antwort {{formattedThreadTime}} Uhr</span>
         </div>
+        }
+
     </div>
 
     <div class="message-bar">

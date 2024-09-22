@@ -101,7 +101,7 @@ export class ThreadService {
     );
 
     await updateDoc(docRef2, {
-      lastThreadReply: Timestamp.fromDate(new Date()), // Assuming querySnapshot.id is the ID of the last thread reply
+      lastThreadReply: Timestamp.fromDate(new Date()),
     });
   }
 }

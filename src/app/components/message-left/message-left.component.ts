@@ -10,6 +10,8 @@ import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Message } from '../../models/message';
 import { ThreadService } from '../../services/thread.service';
+import { Timestamp } from '@angular/fire/firestore';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-message-left',
@@ -41,14 +43,16 @@ export class MessageLeftComponent implements OnInit {
 
   private routeSub: Subscription = new Subscription();
   public usersSubscription!: Subscription;
-  formattedTime?: string;
+  formattedCurrMsgTime?: string;
+  formattedThreadTime?: string;
 
   constructor(
     private route: ActivatedRoute,
     public profileService: ProfileService,
     public userService: UserService,
     public channelService: ChannelService,
-    public threadService: ThreadService
+    public threadService: ThreadService,
+    public utilityService: UtilityService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -73,14 +77,12 @@ export class MessageLeftComponent implements OnInit {
       }
     });
 
-    const date: Date | undefined = this.currentMessage.sentAt?.toDate();
-    const validDate = new Date(date ?? new Date());
-
-    this.formattedTime = validDate.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    });
+    this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
+      this.currentMessage.sentAt!
+    );
+    this.formattedThreadTime = this.utilityService.getFormattedTime(
+      this.currentMessage.lastThreadReply!
+    );
   }
 
   openProfile() {
