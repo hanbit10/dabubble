@@ -10,7 +10,9 @@
         </div>
         <span class="message-text">{{currentMessage.text}}</span>
         <div class="message-answer">
-            <button class="message-answer-button" (click)="channelService.openThread()">2 Antworten</button>
+            <button class="message-answer-button" [routerLink]="['threads', currentMessage.uid]"
+                (click)="threadService.openThread()">
+                Antworten</button>
             <span class="message-time">Letzte Antwort 14:56 Uhr</span>
         </div>
     </div>
@@ -27,6 +29,7 @@
             <emoji-mart class="emoji-mart emoji-mart-message-left" *ngIf="isEmojiPickerVisible"
                 (emojiSelect)="addEmoji($event)" title="Choose your emoji"></emoji-mart>
         </div>
-        <div class="message-icon thread-icon" (click)="channelService.openThread()"></div>
+        <div class="message-icon thread-icon" [routerLink]="['threads', currentMessage.uid]"
+            (click)="threadService.openThread()"></div>
     </div>
 </section>

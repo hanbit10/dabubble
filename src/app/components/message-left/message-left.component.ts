@@ -2,18 +2,19 @@ import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { UserService } from '../../services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Message } from '../../models/message';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-message-left',
   standalone: true,
-  imports: [ProfileUserComponent, PickerModule, CommonModule],
+  imports: [ProfileUserComponent, PickerModule, CommonModule, RouterModule],
   templateUrl: './message-left.component.html',
   styleUrl: './message-left.component.scss',
 })
@@ -45,7 +46,8 @@ export class MessageLeftComponent implements OnInit {
     private route: ActivatedRoute,
     public profileService: ProfileService,
     public userService: UserService,
-    public channelService: ChannelService
+    public channelService: ChannelService,
+    public threadService: ThreadService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
