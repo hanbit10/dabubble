@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import {
   addDoc,
+  arrayRemove,
   arrayUnion,
   collection,
   doc,
@@ -14,9 +15,11 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { Channel } from '../models/channels';
-
 import { UserProfile } from '../models/users';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map, Subscription } from 'rxjs';
+import { MessageService } from './message.service';
+import { ActivatedRoute } from '@angular/router';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,16 +29,21 @@ export class ChannelService {
   channels: any[] = [];
   threadIsOpen: boolean = false;
 
-  constructor() {
+  constructor(private route: ActivatedRoute, public messageService: MessageService) {
     this.subChannelList();
   }
 
-  async createNewChannel(newChannel: any, chosen: UserProfile[]) {
+  async createNewChannel(
+    newChannel: any,
+    chosen: UserProfile[],
+    currentUserId: string
+  ) {
     let data: Channel = {
       name: newChannel.name,
       description: newChannel.description,
-      usersIds: [],
+      usersIds: [currentUserId],
       uid: '',
+      createdBy: currentUserId,
     };
 
     chosen.forEach((user: any) => {
@@ -73,11 +81,62 @@ export class ChannelService {
     });
   }
 
-  openThread(){
+  openThread() {
     this.threadIsOpen = true;
   }
 
-  closeThread(){
+  closeThread() {
     this.threadIsOpen = false;
   }
+
+  updateChannel(uid: string, type: string, data: any) {
+    console.log(data);
+    if (type == 'name') {
+      const docRef = doc(this.firestore, 'channels', uid);
+      updateDoc(docRef, {
+        name: data.name,
+      });
+    } else if (type == 'description') {
+      const docRef = doc(this.firestore, 'channels', uid);
+      updateDoc(docRef, {
+        description: data.description,
+      });
+    }
+  }
+
+  leaveChannel(uid: string, currentUserId: string) {
+    const docRef = doc(this.firestore, 'channels', uid);
+    updateDoc(docRef, {
+      usersIds: arrayRemove(currentUserId),
+    });
+  }
+
+  private routeSub: Subscription = new Subscription;
+  private channelSubscription: Subscription = new Subscription;
+  currentChannelId: string = '';
+  allChannels: any[] = [];
+  currentChannel: Channel = {} as Channel;
+
+
+  getChannel() {
+    const childRoute = this.route.snapshot.firstChild?.firstChild;
+
+    if (childRoute) {
+      this.currentChannelId = childRoute.params['id']; // Abrufen der Kanal-ID
+
+      this.channelSubscription = this.channels$.subscribe(channels => {
+        this.allChannels = channels;
+
+        let filteredChannel = this.allChannels.find((channel) => {
+          return channel.uid === this.currentChannelId;
+        });
+        if (filteredChannel) {
+          this.currentChannel = filteredChannel;
+        }
+      });
+    };
+  }
+
+
 }
+

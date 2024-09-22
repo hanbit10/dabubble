@@ -9,31 +9,14 @@
   height: 100%;
   background-color: rgba(232, 105, 105, 0.369);
   z-index: 4;
+  @include dFlex(flex-end, flex-start, 0);
 }
 
 .content {
-  position: absolute;
-  top: 150px;
-  right: 100px;
-  width: 350px;
-  height: fit-content;
+  margin-top: 200px;
+  margin-right: 10%;
+  @include fullSizeCard(350px, fit-content, 30px, 0px, 30px, 30px);
   background-color: white;
-  border-radius: 30px 0px 30px 30px;
-  box-shadow: 0px 6px 10px 0px #00000033;
-  padding: 40px;
-}
-
-.card-close-add-user {
-  width: 40px;
-  height: 40px;
-  background-image: url("./../../../../assets/img/icons/material-symbols/close.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 40px 40px;
-  cursor: pointer;
-  &:hover {
-    background-image: url("./../../../../assets/img/icons/material-symbols/close-hover.svg");
-  }
 }
 
 .input-container {

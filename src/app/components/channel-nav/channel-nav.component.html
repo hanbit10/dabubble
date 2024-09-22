@@ -9,7 +9,7 @@
     </div>
 
   </div>
-  <button class="add-channel" (click)="createChannel()"></button>
+  <button class="add-channel" (click)="openComponent('channel-create')"></button>
 </button>
 
 @if(filtering) {
@@ -23,7 +23,7 @@
     }
   </div>
 
-  <div (click)="createChannel()" class="add-channel-dropdown">
+  <div (click)="openComponent('channel-create')" class="add-channel-dropdown">
     <div class="add-circle"></div>
     Channel hinzufügen
   </div>

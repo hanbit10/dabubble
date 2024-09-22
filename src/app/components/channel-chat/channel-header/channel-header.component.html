@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="content-left">
+<div class="chat-header">
+  <div class="content-left" (click)="openComponent('channel-edit')">
     <div class="tag"></div>
     @if(channel) {
     <h2>{{channel.name}}</h2>
@@ -7,12 +7,12 @@
     <div class="arrow-drop-down"></div>
   </div>
   <div class="content-right">
-    <section class="user-profile" (click)="openProfile()">
+    <section class="user-profile" (click)="openComponent('channel-profile')">
       @for(users of filteredUsers; track users) {
       <img src="{{users.profileImage}}">
       }
       <h3 class="user-number"> {{filteredUsers.length}}</h3>
     </section>
-    <div class="person-add" (click)="openAddUser()"></div>
+    <div class="person-add" (click)="openComponent('channel-add-user')"></div>
   </div>
 </div>

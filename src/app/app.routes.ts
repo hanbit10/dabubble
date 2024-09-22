@@ -5,11 +5,15 @@ import { DirectChatComponent } from './components/direct-chat/direct-chat.compon
 import { ChannelChatComponent } from './components/channel-chat/channel-chat.component';
 import { NewMessageComponent } from './components/new-message/new-message.component';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { ReassignPasswordCardComponent } from './components/reassign-password-card/reassign-password-card.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
+    children: [
+      { path: 'reassignpassword/:id/:timestamp', component: ReassignPasswordCardComponent },
+    ],
   },
 
   {

@@ -1,10 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Reaction } from '../models/channels';
+import { inject, Injectable } from '@angular/core';
+import { Reaction } from '../models/message';
+import { collection, doc } from "firebase/firestore";
+import { Firestore, onSnapshot } from '@angular/fire/firestore';
+import { BehaviorSubject } from 'rxjs';
+import { ChannelService } from './channel.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReactionService {
+  firestore: Firestore = inject(Firestore);
   reactions: Reaction[] = [];
   reactionEmoji: string = '';
 
@@ -13,7 +18,36 @@ export class ReactionService {
   
   reactionExists = false;
 
-  constructor() { }
+  private reactionSubject = new BehaviorSubject<Reaction[]>([]);
+
+  constructor(public channelService: ChannelService) {}
+
+  getMessagesRef(){
+    return collection(this.firestore, `channels/${this.channelService.currentChannelId}/messages`);
+  }
+
+  getMessage(){
+
+  }
+
+  subUsersList() {
+    const docRef = collection(this.firestore, 'users');
+    return onSnapshot(docRef, (list) => {
+      this.reactions = [];
+      list.forEach((reaction) => {
+        this.reactions.push(this.setReactionObject(reaction.data()));
+      });
+      this.reactionSubject.next(this.reactions);
+    });
+  }
+
+  setReactionObject(obj: any): Reaction {
+    return {
+      emojiNative: obj.emojiNative,
+      count: obj.count,
+      reacted: obj.reacted
+    };
+  }
 
 
   public addEmoji(event: any) {
@@ -41,6 +75,10 @@ export class ReactionService {
       })
     }
     console.log(this.reactions);
+  }
+
+  addReactionFirebase(){
+
   }
 
   reactionPlus(reaction: Reaction){

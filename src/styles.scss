@@ -62,16 +62,14 @@ h3 {
   margin: 0px;
 }
 
-.hidden {
-  display: none;
+p {
+  font-size: 18px;
+  font-family: NunitoRegular, sans-serif;
+  margin: 0px;
 }
 
-.button-container {
-  width: 100%;
-  height: fit-content;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+.hidden {
+  display: none;
 }
 
 .button-primary {
@@ -121,4 +119,12 @@ h3 {
     color: $textGray;
     background-color: unset;
   }
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-20 {
+  margin-right: 20px;
 }
