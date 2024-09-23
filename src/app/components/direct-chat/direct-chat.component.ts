@@ -12,6 +12,7 @@ import { Message } from '../../models/message';
 import { FormsModule, NgForm } from '@angular/forms';
 import { DirectChatService } from '../../services/direct-chat.service';
 import { MessageService } from '../../services/message.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-direct-chat',
@@ -49,7 +50,8 @@ export class DirectChatComponent {
     private route: ActivatedRoute,
     public profileService: ProfileService,
     public directChatService: DirectChatService,
-    public messageService: MessageService
+    public messageService: MessageService,
+    public utilityService: UtilityService
   ) {}
 
   async ngOnInit() {

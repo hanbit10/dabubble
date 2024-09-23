@@ -46,8 +46,10 @@ export class DirectChatService {
         found = true;
         return;
       } else if (
-        doc.data()['usersIds'][0] == otherUserId &&
-        doc.data()['usersIds'][1] == currentUserId
+        (doc.data()['usersIds'][0] == otherUserId &&
+          doc.data()['usersIds'][1] == currentUserId) ||
+        (doc.data()['usersIds'][0] == currentUserId &&
+          doc.data()['usersIds'][1] == otherUserId)
       ) {
         found = true;
         return;
@@ -72,8 +74,10 @@ export class DirectChatService {
         chatId = doc.id;
         return;
       } else if (
-        doc.data()['usersIds'][0] == otherUserId &&
-        doc.data()['usersIds'][1] == currentUserId
+        (doc.data()['usersIds'][0] == otherUserId &&
+          doc.data()['usersIds'][1] == currentUserId) ||
+        (doc.data()['usersIds'][0] == currentUserId &&
+          doc.data()['usersIds'][1] == otherUserId)
       ) {
         chatId = doc.id;
         return;

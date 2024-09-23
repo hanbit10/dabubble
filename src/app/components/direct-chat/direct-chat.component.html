@@ -11,29 +11,27 @@
 
     <section class="chat-container">
 
+        @if(currentMessages.length == 0) {
+        <!-- <div class="no-messages">{{currentChannel.name}}</div>
+        <p>Du hast diesn Channel {{formatDate(currentChannel.createdAt?.toDate())}} erstellt. Das ist der Anfang des
+            Channels
+            # {{currentChannel.name}}</p> -->
+        } @else {
+        @for(message of currentMessages; track message; let i = $index) {
+        @if(utilityService.shouldShowTimestamp(message) || i == 0) {
         <div class="date-line">
             <div class="line"></div>
-            <span class="message-date">heute</span>
+            <span class="message-date">{{ utilityService.formatDate(message.sentAt.toDate()) }}</span>
             <div class="line"></div>
         </div>
-
-        {{currentUserId}}
-        {{otherUserId}}
-        {{currentChatId}}
-        @for(message of currentMessages; track message) {
-        {{message.text}}
         }
-
-        <!-- <app-message-left [getMessage]="'Saskia Richter'"></app-message-left>
-        <app-message-left [getMessage]="'Noah Braun'"></app-message-left> -->
-
-        <div class="date-line">
-            <div class="line"></div>
-            <span class="message-date">heute</span>
-            <div class="line"></div>
-        </div>
-
-        <!-- <app-message-right [userName]="'Frederick Beck'"></app-message-right> -->
+        @if(message.sentBy != this.currentUserId) {
+        <app-message-left [getMessage]="message"></app-message-left>
+        }@else if(message.sentBy == this.currentUserId) {
+        <app-message-right [getMessage]="message"></app-message-right>
+        }
+        }
+        }
     </section>
 
     <section class="sendMessage-container">
