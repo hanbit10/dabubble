@@ -17,6 +17,13 @@
             <div class="line"></div>
         </div>
 
+        {{currentUserId}}
+        {{otherUserId}}
+        {{currentChatId}}
+        @for(message of currentMessages; track message) {
+        {{message.text}}
+        }
+
         <!-- <app-message-left [getMessage]="'Saskia Richter'"></app-message-left>
         <app-message-left [getMessage]="'Noah Braun'"></app-message-left> -->
 
