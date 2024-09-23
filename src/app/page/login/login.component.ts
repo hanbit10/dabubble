@@ -9,6 +9,8 @@ import { CreateAvatarCardComponent } from '../../components/create-avatar-card/c
 import { PasswordMailCardComponent } from '../../components/password-mail-card/password-mail-card.component';
 import { ReassignPasswordCardComponent } from '../../components/reassign-password-card/reassign-password-card.component';
 import { gsap, SteppedEase } from 'gsap';
+import { ImpressumCardComponent } from '../../components/impressum-card/impressum-card.component';
+import { PolicyCardComponent } from '../../components/policy-card/policy-card.component';
 
 
 @Component({
@@ -23,7 +25,8 @@ import { gsap, SteppedEase } from 'gsap';
     CreateAvatarCardComponent,
     PasswordMailCardComponent,
     ReassignPasswordCardComponent,
-    
+    ImpressumCardComponent,
+    PolicyCardComponent    
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -33,7 +36,7 @@ export class LoginComponent {
   constructor(public logService: LoginCreateAccountService) {}
 
   ngOnInit() {    
-    this.introAnimation();
+    //this.introAnimation();
   }
 
   introAnimation() {
