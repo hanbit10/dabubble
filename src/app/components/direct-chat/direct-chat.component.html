@@ -29,9 +29,12 @@
         <!-- <app-message-right [userName]="'Frederick Beck'"></app-message-right> -->
     </section>
 
-    <div class="sendMessage-container">
+    <section class="sendMessage-container">
         <div class="sendMessage-component">
-            send message Komponente?
+            <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
+                <textarea name="message" id="" [(ngModel)]="sentMessage.text"></textarea>
+                <button type="submit">send</button>
+            </form>
         </div>
-    </div>
+    </section>
 </section>

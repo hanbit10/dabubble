@@ -9,11 +9,17 @@ import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { ProfileService } from '../../services/profile.service';
 import { Message } from '../../models/message';
+import { FormsModule, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-direct-chat',
   standalone: true,
-  imports: [ProfileUserComponent, MessageLeftComponent, MessageRightComponent],
+  imports: [
+    ProfileUserComponent,
+    MessageLeftComponent,
+    MessageRightComponent,
+    FormsModule,
+  ],
   templateUrl: './direct-chat.component.html',
   styleUrl: './direct-chat.component.scss',
 })
@@ -28,6 +34,10 @@ export class DirectChatComponent {
   currentUserId: string = '';
   private routeSub: Subscription = new Subscription();
 
+  sentMessage: any = {
+    text: '',
+    image: '',
+  };
   currentMessages: Message[] = [];
 
   constructor(
@@ -59,6 +69,17 @@ export class DirectChatComponent {
         console.log('other user id', this.otherUserId);
       }
     });
+  }
+
+  onSubmit(messageForm: NgForm) {
+    // if (messageForm.valid) {
+    //   this.messageService.sendMessage(
+    //     this.sentMessage,
+    //     this.currentChatId,
+    //     this.currentUserId,
+    //     'chats'
+    //   );
+    // }
   }
 
   ngOnDestroy() {

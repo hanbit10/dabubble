@@ -56,7 +56,7 @@ export class ChannelChatComponent implements OnInit {
       const id = paramMap.get('id');
       if (id) {
         this.currentChannelId = id;
-        this.messageService.subChannelMessageList(this.currentChannelId);
+        this.messageService.subMessageList(this.currentChannelId, 'channels');
         this.channelSubscription = this.channelService.channels$
           .pipe(
             map((channels) =>
@@ -122,7 +122,8 @@ export class ChannelChatComponent implements OnInit {
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChannelId,
-        this.currentUserId
+        this.currentUserId,
+        'channels'
       );
     }
   }
