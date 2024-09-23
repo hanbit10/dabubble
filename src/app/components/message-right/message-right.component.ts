@@ -81,7 +81,6 @@ export class MessageRightComponent implements OnInit {
 
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
-      console.log('UserId', id);
       if (id) {
         this.currentUserId = id;
       }

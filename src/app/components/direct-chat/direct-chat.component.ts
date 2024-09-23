@@ -8,41 +8,56 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { ProfileService } from '../../services/profile.service';
+import { Message } from '../../models/message';
 
 @Component({
   selector: 'app-direct-chat',
   standalone: true,
   imports: [ProfileUserComponent, MessageLeftComponent, MessageRightComponent],
   templateUrl: './direct-chat.component.html',
-  styleUrl: './direct-chat.component.scss'
+  styleUrl: './direct-chat.component.scss',
 })
 export class DirectChatComponent {
   firestore: Firestore = inject(Firestore);
   public usersSubscription!: Subscription;
   allUsers: UserProfile[] = [];
-  user: UserProfile = {
+  otherUser: UserProfile = {
     uid: '',
   };
-  userId = '';
+  otherUserId: string = '';
+  currentUserId: string = '';
+  private routeSub: Subscription = new Subscription();
 
-  private routeSub: Subscription = new Subscription;
+  currentMessages: Message[] = [];
 
-  constructor(public userService: UserService, private route: ActivatedRoute, public profileService: ProfileService) {}
+  constructor(
+    public userService: UserService,
+    private route: ActivatedRoute,
+    public profileService: ProfileService
+  ) {}
 
   async ngOnInit() {
-    this.routeSub = this.route.params.subscribe(params => {
-      this.userId = params['id'];  
-      
-      this.usersSubscription = this.userService.users$.subscribe(users => {
+    this.routeSub = this.route.params.subscribe((params) => {
+      this.otherUserId = params['id'];
+
+      this.usersSubscription = this.userService.users$.subscribe((users) => {
         this.allUsers = users;
-  
+
         let filteredUser = this.allUsers.find((user) => {
-          return user.uid === this.userId;
+          return user.uid === this.otherUserId;
         });
         if (filteredUser) {
-          this.user = filteredUser;
+          this.otherUser = filteredUser;
         }
       });
+    });
+
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        console.log('current User id', id);
+        console.log('other user id', this.otherUserId);
+      }
     });
   }
 
@@ -50,8 +65,8 @@ export class DirectChatComponent {
     this.routeSub.unsubscribe();
   }
 
-  openProfile(){
+  openProfile() {
     this.profileService.openProfile();
-    this.profileService.profileUser = this.user;
+    this.profileService.profileUser = this.otherUser;
   }
 }

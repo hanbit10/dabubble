@@ -114,7 +114,6 @@ export class ChannelCreateComponent implements OnInit {
 
   createChannel(channelForm: NgForm) {
     if (channelForm.valid) {
-      console.log('creating a new channel', this.newChannel);
       this.channelService.createNewChannel(
         this.newChannel,
         this.selectedUsers,

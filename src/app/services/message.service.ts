@@ -26,7 +26,7 @@ export class MessageService {
     return this.messageSubject.asObservable();
   }
 
-  subMessageList(currentChannelId: string) {
+  subChannelMessageList(currentChannelId: string) {
     const docRef = collection(
       this.firestore,
       'channels',

@@ -33,7 +33,6 @@ export class ThreadComponent implements OnInit {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
       if (id && msgId) {
-        console.log('is it working?', id);
         this.currentChannelId = id;
         this.currentMessageId = msgId;
         this.threadService.subThreadList(
@@ -64,8 +63,6 @@ export class ThreadComponent implements OnInit {
 
   onSubmitting(messageForm: NgForm) {
     if (messageForm.valid) {
-      console.log(this.currentChannelId);
-      console.log(this.currentMessageId);
       this.threadService.sendThread(
         this.sentThread,
         this.currentChannelId,
