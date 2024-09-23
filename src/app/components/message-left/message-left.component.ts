@@ -72,10 +72,11 @@ export class MessageLeftComponent implements OnInit {
       });
 
     this.route.paramMap.subscribe(async (paramMap) => {
-      const currentChannelId = paramMap.get('id');
-      if (currentChannelId && this.currentMessage.uid) {
+      const id = paramMap.get('id');
+      if (id && this.currentMessage.uid) {
+        this.currentChannelId = id;
         this.allThreads = await this.threadService.getAllThreads(
-          currentChannelId,
+          this.currentChannelId,
           this.currentMessage.uid
         );
       }

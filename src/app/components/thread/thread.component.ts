@@ -36,22 +36,17 @@ export class ThreadComponent implements OnInit {
         console.log('is it working?', id);
         this.currentChannelId = id;
         this.currentMessageId = msgId;
+        this.threadService.subThreadList(
+          this.currentChannelId,
+          this.currentMessageId
+        );
       }
     });
 
-    this.route.firstChild?.paramMap.subscribe((paramMap) => {
+    this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
-      console.log('does this even exist?');
       if (id) {
-        this.currentMessageId = id;
-        console.log('current ChannelId is existing', this.currentChannelId);
-        console.log('current MessageId is existing', this.currentMessageId);
-        if (this.currentChannelId && this.currentMessageId) {
-          this.threadService.subThreadList(
-            this.currentChannelId,
-            this.currentMessageId
-          );
-        }
+        this.currentUserId = id;
       }
     });
 

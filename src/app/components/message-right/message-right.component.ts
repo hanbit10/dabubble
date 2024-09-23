@@ -70,7 +70,6 @@ export class MessageRightComponent implements OnInit {
 
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
-      console.log('what is this id', id);
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
         this.allThreads = await this.threadService.getAllThreads(
