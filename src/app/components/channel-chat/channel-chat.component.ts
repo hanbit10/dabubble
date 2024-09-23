@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
 import { ActivatedRoute } from '@angular/router';
@@ -44,30 +44,7 @@ export class ChannelChatComponent implements OnInit {
     text: '',
     image: '',
   };
-
-  formatDate(dateString: Date | undefined): string {
-    const validDate = new Date(dateString ?? new Date());
-    const today = new Date();
-    const isToday = validDate.toDateString() === today.toDateString();
-    if (isToday) {
-      return 'Heute';
-    } else {
-      return validDate.toLocaleDateString('de-DE', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-      });
-    }
-  }
-
   lastSeenDay: string | null = new Date().toDateString();
-
-  shouldShowTimestamp(message: any): boolean {
-    const messageDay = new Date(message.sentAt.toDate()).toDateString();
-    const shouldShow = this.lastSeenDay !== messageDay;
-    this.lastSeenDay = messageDay;
-    return shouldShow;
-  }
 
   constructor(
     public channelService: ChannelService,
@@ -115,14 +92,29 @@ export class ChannelChatComponent implements OnInit {
     );
   }
 
-  getCurrentDate(date: Date | undefined) {
-    const validDate = new Date(date ?? new Date());
-    const formattedDate = validDate.toLocaleDateString('de-DE', {
-      weekday: 'long', // Full name of the day
-      day: 'numeric', // Numeric day (e.g., 17)
-      month: 'long', // Full name of the month (e.g., September)
-    });
-    return formattedDate;
+  formatDate(dateString: Date | undefined): string {
+    const validDate = new Date(dateString ?? new Date());
+    const today = new Date();
+    const isToday = validDate.toDateString() === today.toDateString();
+    if (isToday) {
+      return 'Heute';
+    } else {
+      return validDate.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+      });
+    }
+  }
+
+  shouldShowTimestamp(message: any): boolean {
+    if (!message || !message.sentAt || !message.sentAt.toDate) {
+      return false;
+    }
+    const messageDay = new Date(message.sentAt.toDate()).toDateString();
+    const shouldShow = this.lastSeenDay !== messageDay;
+    this.lastSeenDay = messageDay;
+    return shouldShow;
   }
 
   onSubmit(messageForm: NgForm) {

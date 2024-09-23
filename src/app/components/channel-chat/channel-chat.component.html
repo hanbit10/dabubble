@@ -1,8 +1,14 @@
 <div class="message-container">
   <app-channel-header [getCurrentChannel]="currentChannel"></app-channel-header>
   <section class="chat-container">
-    @for(message of currentMessages; track message) {
-    @if(shouldShowTimestamp(message)) {
+    @if(currentMessages.length == 0) {
+    <div class="no-messages">{{currentChannel.name}}</div>
+    <p>Du hast diesn Channel {{formatDate(currentChannel.createdAt?.toDate())}} erstellt. Das ist der Anfang des
+      Channels
+      # {{currentChannel.name}}</p>
+    } @else {
+    @for(message of currentMessages; track message; let i = $index) {
+    @if(shouldShowTimestamp(message) || i == 0) {
     <div class="date-line">
       <div class="line"></div>
       <span class="message-date">{{ formatDate(message.sentAt.toDate()) }}</span>
@@ -13,6 +19,7 @@
     <app-message-left [getMessage]="message"></app-message-left>
     }@else if(message.sentBy == this.currentUserId) {
     <app-message-right [getMessage]="message"></app-message-right>
+    }
     }
     }
   </section>

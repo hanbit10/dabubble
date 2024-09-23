@@ -9,7 +9,8 @@ import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ThreadService } from '../../services/thread.service';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-message-right',
@@ -32,6 +33,8 @@ export class MessageRightComponent implements OnInit {
   editMessageIsOpen: boolean = false;
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
+  currentChannelId: string = '';
+  currentUserId: string = '';
 
   public editTextArea: string = 'Welche Version ist aktuell von Angular?';
   public isEmojiPickerVisible: boolean = false;
@@ -40,12 +43,17 @@ export class MessageRightComponent implements OnInit {
     this.isEmojiPickerVisible = false;
   }
   formattedTime?: string;
+  formattedCurrMsgTime?: string;
+  formattedThreadTime?: string;
+  allThreads: any[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     public profileService: ProfileService,
     public channelService: ChannelService,
     public userService: UserService,
-    public threadService: ThreadService
+    public threadService: ThreadService,
+    public utilityService: UtilityService
   ) {}
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -60,14 +68,31 @@ export class MessageRightComponent implements OnInit {
         }
       });
 
-    const date: Date | undefined = this.currentMessage.sentAt?.toDate();
-    const validDate = new Date(date ?? new Date());
-
-    this.formattedTime = validDate.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
+    this.route.paramMap.subscribe(async (paramMap) => {
+      const id = paramMap.get('id');
+      if (id && this.currentMessage.uid) {
+        this.currentChannelId = id;
+        this.allThreads = await this.threadService.getAllThreads(
+          this.currentChannelId,
+          this.currentMessage.uid
+        );
+      }
     });
+
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      console.log('UserId', id);
+      if (id) {
+        this.currentUserId = id;
+      }
+    });
+
+    this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
+      this.currentMessage.sentAt!
+    );
+    this.formattedThreadTime = this.utilityService.getFormattedTime(
+      this.currentMessage.lastThreadReply!
+    );
   }
 
   openProfile() {

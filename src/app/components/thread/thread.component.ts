@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ThreadComponent implements OnInit {
   private threadSubscription!: Subscription;
-  sentMessage: any = {
+  sentThread: any = {
     text: '',
     image: '',
   };
@@ -25,31 +25,28 @@ export class ThreadComponent implements OnInit {
   currentThreads: Message[] = [];
 
   constructor(
-    public channelService: ChannelService,
     public threadService: ThreadService,
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
-    // Subscribe to the main route and all child routes in one block
     this.route.paramMap.subscribe((paramMap) => {
-      // Get the current user ID from the main route
-      this.currentUserId = paramMap.get('id') || '';
+      const id = paramMap.get('id');
+      const msgId = paramMap.get('msgId');
+      if (id && msgId) {
+        console.log('is it working?', id);
+        this.currentChannelId = id;
+        this.currentMessageId = msgId;
+        this.threadService.subThreadList(
+          this.currentChannelId,
+          this.currentMessageId
+        );
+      }
+    });
 
-      // Get the current channel ID from the first child route (if exists)
-      const firstChild = this.route.firstChild;
-      if (firstChild) {
-        firstChild.paramMap.subscribe((paramMap) => {
-          this.currentChannelId = paramMap.get('id') || '';
-
-          // Get the current message ID from the second child route (if exists)
-          firstChild.firstChild?.paramMap.subscribe((paramMap) => {
-            this.currentMessageId = paramMap.get('id') || '';
-            this.threadService.subThreadList(
-              this.currentChannelId,
-              this.currentMessageId
-            );
-          });
-        });
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentUserId = id;
       }
     });
 
@@ -65,11 +62,12 @@ export class ThreadComponent implements OnInit {
     );
   }
 
-  onSubmit(messageForm: NgForm) {
+  onSubmitting(messageForm: NgForm) {
     if (messageForm.valid) {
-      console.log(this.sentMessage);
+      console.log(this.currentChannelId);
+      console.log(this.currentMessageId);
       this.threadService.sendThread(
-        this.sentMessage,
+        this.sentThread,
         this.currentChannelId,
         this.currentMessageId,
         this.currentUserId
