@@ -30,7 +30,6 @@ export class MessageLeftComponent implements OnInit {
     return this._items.getValue();
   }
 
-  profileIsOpen = false;
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
 
