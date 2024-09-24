@@ -36,7 +36,6 @@ export class DirectChatService {
     const docRef = collection(this.firestore, 'chats');
     const q = query(docRef, where('usersIds', 'array-contains', currentUserId));
     const querySnapshot = await getDocs(q);
-
     querySnapshot.forEach((doc) => {
       if (
         otherUserId == currentUserId &&
@@ -63,8 +62,6 @@ export class DirectChatService {
     const q = query(docRef, where('usersIds', 'array-contains', currentUserId));
     const querySnapshot = await getDocs(q);
     let chatId: string = '';
-    console.log(currentUserId);
-    console.log(otherUserId);
     querySnapshot.forEach((doc) => {
       if (
         otherUserId == currentUserId &&

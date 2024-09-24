@@ -60,30 +60,17 @@ export class DirectChatComponent {
       this.route.parent?.paramMap.subscribe(async (paramMap) => {
         const id = paramMap.get('id');
         if (id) {
-          console.log('current User id', id);
-          console.log('other user id', this.otherUserId);
           this.currentUserId = id;
-          const exist = this.directChatService.isExistingChat(
+          console.log('this is otheruserid', this.otherUserId);
+          console.log('this is currentuserid', this.currentUserId);
+
+          this.currentChatId = await this.directChatService.getChatId(
             this.otherUserId,
             this.currentUserId
           );
-          console.log((await exist) == false);
-          if ((await exist) == false) {
-            console.log('creating new chat');
-            this.currentChatId = '';
-            this.currentMessages = [];
-            this.directChatService.createNewChat(
-              this.otherUserId,
-              this.currentUserId
-            );
-          } else {
-            this.currentChatId = await this.directChatService.getChatId(
-              this.otherUserId,
-              this.currentUserId
-            );
-            this.messageService.subMessageList(this.currentChatId, 'chats');
-            console.log('current chat id', this.currentChatId);
-          }
+          console.log('current chat id', this.currentChatId);
+          this.messageService.subMessageList(this.currentChatId, 'chats');
+          console.log('current chat id', this.currentChatId);
         }
       });
 
@@ -110,8 +97,12 @@ export class DirectChatComponent {
     });
   }
 
-  onSubmit(messageForm: NgForm) {
+  async onSubmit(messageForm: NgForm) {
     if (messageForm.valid) {
+      this.currentChatId = await this.directChatService.getChatId(
+        this.otherUserId,
+        this.currentUserId
+      );
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChatId,

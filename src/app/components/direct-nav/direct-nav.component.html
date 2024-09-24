@@ -14,7 +14,7 @@
 @if(dropdown) {
 <div id="dropdown-container" class="dropdown-contacts">
   @for(user of allUsers; track user) {
-  <div [routerLink]="['users', user.uid]" class="contact-container">
+  <div [routerLink]="['users', user.uid]" class="contact-container" (click)="createDirectMessage(user.uid)">
     <div class="profile-pic">
       <img src="{{user.profileImage}}" alt="profile pic">
       <div class="online-status" [class]="user.active ? 'active' : 'absent'"></div>
