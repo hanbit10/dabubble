@@ -1,0 +1,25 @@
+@import '../../../styles.scss';
+
+.frame {
+    @include dFlex();
+    flex-direction: column;
+    min-height: 130px;
+    width: 800px;
+    padding: 20px;
+    border: 1px solid $lightPurple;
+    background-color: white;
+    border-radius: 20px;    
+}
+
+.tools {
+    @include dFlex($jc: space-between);
+    width: 100%;
+    >div {
+        @include dFlex($g: 5px);
+        .bar {
+            width: 1px;
+            height: 40px;
+            background-color: $lightPurple;
+        }
+    }
+}
