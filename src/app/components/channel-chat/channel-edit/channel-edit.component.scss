@@ -98,3 +98,18 @@ h2 {
 .button-primary {
   width: 200px;
 }
+
+.channel-description {
+  min-height: 60px;
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+pre {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  text-align: left;
+  white-space: pre-line;
+  font-family: NunitoRegular, sans-serif;
+}

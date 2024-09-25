@@ -36,6 +36,7 @@
                 type="text"
                 placeholder="{{ channel.name }}"
                 [(ngModel)]="updateChannel.name"
+                maxlength="30"
               />
             </div>
           </div>
@@ -48,9 +49,9 @@
                 Bearbeiten
               </div>
             </div>
-            <div class="channel-description mt-20">
+            <pre class="channel-description mt-20">
               {{ channel.description }}
-            </div>
+            </pre>
             <div class="content-line mt-20"></div>
             <h3 class="mt-20">Erstellt von</h3>
             <div class="channel-creator mt-20">
