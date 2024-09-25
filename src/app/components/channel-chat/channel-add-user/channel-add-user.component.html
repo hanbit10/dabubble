@@ -7,35 +7,54 @@
       </div>
       <div id="input-container" class="input-container">
         <div class="search-bar">
-          @if(selectedUsers){
-          @for(chosed of selectedUsers; track chosed) {
-          <div class="chosed-user">
-            <img class="chosed-profile" src={{chosed.profileImage}} alt="">
-            {{chosed.name}}
-            <div class="chosed-close" (click)="removeFromChosen(chosed)"></div>
-          </div>
+          @if (selectedUsers) {
+            @for (chosed of selectedUsers; track chosed) {
+              <div class="chosed-user">
+                <img
+                  class="chosed-profile"
+                  src="{{ chosed.profileImage }}"
+                  alt=""
+                />
+                {{ chosed.name }}
+                <div
+                  class="chosed-close"
+                  (click)="removeFromChosen(chosed)"
+                ></div>
+              </div>
+            }
           }
+          @if (selectedUsers.length < 1) {
+            <input
+              type="text"
+              id="input-box-channel"
+              (keyup)="setUserSearchBar($event)"
+              placeholder="Name eingeben"
+              autocomplete="off"
+            />
           }
-          <input type="text" id="input-box-channel" (keyup)="setUserSearchBar($event)" placeholder="Name eingeben"
-            autocomplete="off">
         </div>
       </div>
-      @if(contents.length > 0) {
-      <div id="result-box" class="result-box">
-        <ul>
-          @for(content of contents; track content) {
-          <li (click)="saveToChosen(content)">
-            <img class="content-profile" src={{content.profileImage}} alt="">
-            {{content.name}}
-          </li>
-          }
-        </ul>
-      </div>
+      @if (contents.length > 0) {
+        <div id="result-box" class="result-box">
+          <ul>
+            @for (content of contents; track content) {
+              <li (click)="saveToChosen(content)">
+                <img
+                  class="content-profile"
+                  src="{{ content.profileImage }}"
+                  alt=""
+                />
+                {{ content.name }}
+              </li>
+            }
+          </ul>
+        </div>
       }
       <div class="button-container">
-        <button class="button-primary" (click)="addUser()" type="submit">hinzufügen</button>
+        <button class="button-primary" (click)="addUser()" type="submit">
+          hinzufügen
+        </button>
       </div>
     </div>
   </div>
-
 </div>
