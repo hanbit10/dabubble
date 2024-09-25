@@ -37,6 +37,8 @@
   .content-users {
     display: flex;
     flex-direction: column;
+    max-height: 300px;
+    overflow-y: scroll;
   }
 
   .content-user {
