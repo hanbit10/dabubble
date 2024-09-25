@@ -11,6 +11,7 @@ import { UserProfile } from '../../models/users';
 import { ThreadService } from '../../services/thread.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UtilityService } from '../../services/utility.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-message-right',
@@ -21,6 +22,7 @@ import { UtilityService } from '../../services/utility.service';
 })
 export class MessageRightComponent implements OnInit {
   private _items = new BehaviorSubject<Message>({} as Message);
+
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
@@ -28,6 +30,7 @@ export class MessageRightComponent implements OnInit {
   get currentMessage(): Message {
     return this._items.getValue();
   }
+
   public usersSubscription!: Subscription;
   settingIsOpen: boolean = false;
   editMessageIsOpen: boolean = false;
@@ -36,16 +39,19 @@ export class MessageRightComponent implements OnInit {
   currentChannelId: string = '';
   currentUserId: string = '';
 
-  public editTextArea: string = 'Welche Version ist aktuell von Angular?';
-  public isEmojiPickerVisible: boolean = false;
-  public addEmoji(event: any) {
-    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
-    this.isEmojiPickerVisible = false;
-  }
   formattedTime?: string;
   formattedCurrMsgTime?: string;
   formattedThreadTime?: string;
   allThreads: any[] = [];
+
+  emojiPickerLeft: boolean = false;
+  emojiPickerRight: boolean = false;
+  emojiPickerEdit: boolean = false;
+  editTextArea: string = '...';
+  addEmoji(event: any) {
+    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
+    this.emojiPickerEdit = false;
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -53,8 +59,10 @@ export class MessageRightComponent implements OnInit {
     public channelService: ChannelService,
     public userService: UserService,
     public threadService: ThreadService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    public messageService: MessageService,
   ) {}
+
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
       .pipe(
@@ -118,6 +126,10 @@ export class MessageRightComponent implements OnInit {
   closeEditMessage() {
     this.editMessageIsOpen = false;
     this.settingIsOpen = false;
-    this.editTextArea = 'Welche Version ist aktuell von Angular?';
+  }
+
+  selectEmoji(event: any, emojiPicker: any){
+    this.messageService.giveReaction(event, this.userService.mainUser.name, this.currentMessage, this.currentChannelId);
+    emojiPicker = false;
   }
 }

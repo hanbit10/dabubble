@@ -7,10 +7,10 @@ import {
   onSnapshot,
   setDoc,
   Timestamp,
+  updateDoc
 } from '@angular/fire/firestore';
-import { Message } from '../models/message';
+import { Message, Reaction } from '../models/message';
 import { BehaviorSubject } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,9 @@ export class MessageService {
   private messageSubject = new BehaviorSubject<any[]>([]);
   currentChannelId: string = '';
   messages: any[] = [];
-  constructor() {}
+  reactionExists = false;
+
+  constructor() { }
 
   get messages$() {
     return this.messageSubject.asObservable();
@@ -41,6 +43,7 @@ export class MessageService {
       this.messageSubject.next(this.messages);
     });
   }
+
   async sendMessage(
     sentMessage: any,
     currentChannelId: string,
@@ -59,9 +62,79 @@ export class MessageService {
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
       lastThreadReply: null,
+      reactions: null
     };
 
     const querySnapshot = await addDoc(docRef, data);
     await setDoc(querySnapshot, { ...data, uid: querySnapshot.id });
+  }
+
+  giveReaction(event: any, currentUser: any, message: any, channelId: any) {
+    this.reactionExists = false;
+    if (message.reactions) {
+      this.handleReaction(event, currentUser, message, channelId)
+      if (!this.reactionExists) {
+        this.addReactionToArray(event, currentUser, message);
+      }
+    } else {
+      this.createReactions(event, currentUser, message);
+    }
+    this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
+    
+  }
+
+  handleReaction(event: any, currentUser: any, message: any, channelId: any){
+    for (let i = 0; i < message.reactions.length; i++) {
+      let reaction = message.reactions[i];
+      if (reaction.emojiNative == event.emoji.native) {
+        if (reaction.users.includes(currentUser)) {
+          this.removeReaction(reaction, currentUser, message, i);
+        } else {
+          this.addReaction(reaction, currentUser);
+        }
+        this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
+        this.reactionExists = true;
+        break; 
+      }
+    }
+  }
+
+  removeReaction(reaction: any, currentUser: any, message: any, i:any){
+    reaction.count--;
+    reaction.users.splice(currentUser, 1);
+    if (reaction.count == 0) {
+      message.reactions.splice(i, 1);
+    }
+  }
+
+  addReaction(reaction: any, currentUser: any){
+    reaction.count++;
+    reaction.users.push(currentUser);
+  }
+
+  addReactionToArray(event: any, currentUser: any, message: any){
+    message.reactions.push({
+      'emojiNative': event.emoji.native,
+      'count': 1,
+      'users': [currentUser]
+    })
+  }
+
+  createReactions(event: any, currentUser: any, message: any){
+    message.reactions = [{
+      'emojiNative': event.emoji.native,
+      'count': 1,
+      'users': [currentUser]
+    }]
+  }
+
+  async updateMessage(col: string, docId: string, item: {}) {
+    await updateDoc(this.getSingleDocRef(col, docId), item).catch(
+      (err) => { console.log(err); }
+    ).then();
+  }
+
+  getSingleDocRef(col: string, docId: string) {
+    return doc(collection(this.firestore, col), docId);
   }
 }
