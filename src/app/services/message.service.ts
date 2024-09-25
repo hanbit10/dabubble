@@ -26,10 +26,10 @@ export class MessageService {
     return this.messageSubject.asObservable();
   }
 
-  subMessageList(currentChannelId: string) {
+  subMessageList(currentChannelId: string, type: string) {
     const docRef = collection(
       this.firestore,
-      'channels',
+      type,
       currentChannelId,
       'messages'
     );
@@ -44,11 +44,12 @@ export class MessageService {
   async sendMessage(
     sentMessage: any,
     currentChannelId: string,
-    currentUserId: string
+    currentUserId: string,
+    type: string
   ) {
     const docRef = collection(
       this.firestore,
-      'channels',
+      type,
       currentChannelId,
       'messages'
     );
