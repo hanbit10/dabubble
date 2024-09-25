@@ -40,17 +40,7 @@ export class DirectNavComponent {
     });
   }
 
-  async createDirectMessage(otherUserId: string) {
-    const exist = this.directChatService.isExistingChat(
-      otherUserId,
-      this.currentUserId
-    );
-    if ((await exist) == false) {
-      this.directChatService.createNewChat(otherUserId, this.currentUserId);
-      console.log('new chat created');
-    } else {
-      this.directChatService.getChatId(otherUserId, this.currentUserId);
-      console.log('existing chat found');
-    }
-  }
+  // async createDirectMessage(otherUserId: string) {
+
+  // }
 }

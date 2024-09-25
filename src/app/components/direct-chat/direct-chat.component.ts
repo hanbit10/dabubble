@@ -61,16 +61,25 @@ export class DirectChatComponent {
         const id = paramMap.get('id');
         if (id) {
           this.currentUserId = id;
-          console.log('this is otheruserid', this.otherUserId);
-          console.log('this is currentuserid', this.currentUserId);
+
+          const exist = this.directChatService.isExistingChat(
+            this.otherUserId,
+            this.currentUserId
+          );
+          if ((await exist) == false) {
+            this.directChatService.createNewChat(
+              this.otherUserId,
+              this.currentUserId
+            );
+            console.log('new chat created');
+          }
 
           this.currentChatId = await this.directChatService.getChatId(
             this.otherUserId,
             this.currentUserId
           );
-          console.log('current chat id', this.currentChatId);
+
           this.messageService.subMessageList(this.currentChatId, 'chats');
-          console.log('current chat id', this.currentChatId);
         }
       });
 
