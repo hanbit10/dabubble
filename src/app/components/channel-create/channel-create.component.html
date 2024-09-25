@@ -4,59 +4,97 @@
       <h2 id="card-title">Channel erstellen</h2>
       <div id="card-close" class="card-close" (click)="close()"></div>
     </div>
-    <div id="card-description" class="card-description">Channels dienen deinem Team zur Kommunikation. Am besten sollten
-      sie themenbezogen
-      sein #marketing zum Beispiel.
+    <div id="card-description" class="card-description">
+      Channels dienen deinem Team zur Kommunikation. Am besten sollten sie
+      themenbezogen sein #marketing zum Beispiel.
     </div>
     <section class="input-section">
-      <form id="channel-form" class="channel-form" (ngSubmit)="createChannel(channelForm)" #channelForm="ngForm">
+      <form
+        id="channel-form"
+        class="channel-form"
+        (ngSubmit)="createChannel(channelForm)"
+        #channelForm="ngForm"
+      >
         <div id="first-form" class="first-form">
           <label for="channel-name">Channel-Name</label>
           <div class="input-container" tabindex="0">
-            <input id="channel-name" name="channel-name" type="text" placeholder="z.B. Kooperationsprojekte"
-              [(ngModel)]="newChannel.name" autocomplete="off">
+            <input
+              id="channel-name"
+              name="channel-name"
+              type="text"
+              placeholder="z.B. Kooperationsprojekte"
+              [(ngModel)]="newChannel.name"
+              autocomplete="off"
+            />
           </div>
           <label for="channel-description">Beschreibung (optional)</label>
           <div class="input-container">
-            <input id="channel-description" name="channel-description" type="text"
-              placeholder="Enter Channel Description" [(ngModel)]="newChannel.description" autocomplete="off">
+            <input
+              id="channel-description"
+              name="channel-description"
+              type="text"
+              placeholder="Enter Channel Description"
+              [(ngModel)]="newChannel.description"
+              autocomplete="off"
+            />
           </div>
         </div>
         <div id="second-form" class="second-form hidden">
           <div class="channel-new-name">
-            <div class="channel-hashtag">#</div> &nbsp; {{newChannel.name}}
+            <div class="channel-hashtag">#</div>
+            &nbsp; {{ newChannel.name }}
           </div>
           <div id="input-container" class="input-container">
             <div class="search-bar">
-              @if(selectedUsers){
-              @for(chosed of selectedUsers; track chosed) {
-              <div class="chosed-user">
-                <img class="chosed-profile" src={{chosed.profileImage}} alt="">
-                {{chosed.name}}
-                <div class="chosed-close" (click)="removeFromChosen(chosed)"></div>
-              </div>
+              @if (selectedUsers) {
+                @for (chosed of selectedUsers; track chosed) {
+                  <div class="chosed-user">
+                    <img
+                      class="chosed-profile"
+                      src="{{ chosed.profileImage }}"
+                      alt=""
+                    />
+                    {{ chosed.name }}
+                    <div
+                      class="chosed-close"
+                      (click)="removeFromChosen(chosed)"
+                    ></div>
+                  </div>
+                }
               }
+              @if (selectedUsers.length < 3) {
+                <input
+                  type="text"
+                  id="input-box"
+                  placeholder="Name eingeben"
+                  autocomplete="off"
+                  (keyup)="setUserSearchBar($event)"
+                />
               }
-              <input type="text" id="input-box" placeholder="Name eingeben" autocomplete="off"
-                (keyup)="setUserSearchBar($event)">
             </div>
           </div>
-          @if(contents.length > 0) {
-          <div id="result-box" class="result-box">
-            <ul>
-              @for(content of contents; track content) {
-              <li (click)="saveToChosen(content)">
-                <img class="content-profile" src={{content.profileImage}} alt="">
-                {{content.name}}
-              </li>
-              }
-            </ul>
-          </div>
+          @if (contents.length > 0) {
+            <div id="result-box" class="result-box">
+              <ul>
+                @for (content of contents; track content) {
+                  <li (click)="saveToChosen(content)">
+                    <img
+                      class="content-profile"
+                      src="{{ content.profileImage }}"
+                      alt=""
+                    />
+                    {{ content.name }}
+                  </li>
+                }
+              </ul>
+            </div>
           }
         </div>
         <div class="button-container">
           <div id="next-form" class="button">Weiter</div>
-          <button id="channel-submit" class="button hidden" type="submit">Erstellen</button>
+          <button id="channel-submit" class="button hidden" type="submit">
+            Erstellen
+          </button>
         </div>
       </form>
     </section>
