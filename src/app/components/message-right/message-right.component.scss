@@ -25,10 +25,22 @@ section{
     align-items: flex-end !important;
 }
 
+.message-box{
+    align-items: flex-end;
+}
+
 .message-text{
     border-top-left-radius: 30px;
 }
 
 .emoji-mart-message-right {
     left: 30px !important;
+}
+
+.emoji-mart-message-reaction{
+    left: -330px !important;
+}
+
+.reaction-container{
+    justify-content: flex-end;
 }

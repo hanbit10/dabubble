@@ -56,7 +56,6 @@ export class ChannelNavComponent implements OnInit {
       const dropdownIcon = document.getElementById('dropdown-icon');
       const dropdownBtn = document.getElementById('dropdown-btn');
       if (dropdownBtn) {
-        console.log(this.filtering);
         dropdownBtn.addEventListener('click', (event) => {
           if (dropdownIcon && this.filtering) {
             dropdownIcon.classList.add('rotate-down');
