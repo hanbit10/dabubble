@@ -102,6 +102,7 @@ h2 {
 .channel-description {
   min-height: 60px;
   max-height: 100px;
+  overflow-wrap: break-word;
   overflow-y: scroll;
 }
 

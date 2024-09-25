@@ -25,6 +25,7 @@
               placeholder="z.B. Kooperationsprojekte"
               [(ngModel)]="newChannel.name"
               autocomplete="off"
+              maxlength="30"
             />
           </div>
           <label for="channel-description">Beschreibung (optional)</label>
@@ -36,6 +37,7 @@
               placeholder="Enter Channel Description"
               [(ngModel)]="newChannel.description"
               autocomplete="off"
+              maxlength="100"
             />
           </div>
         </div>
