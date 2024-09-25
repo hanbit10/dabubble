@@ -7,11 +7,9 @@
   position: absolute;
   left: 0;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: $fullSizeColor;
+  z-index: 999;
+  @include dFlex(center, center, 0);
 }
 
 .content {
@@ -21,10 +19,8 @@
   background-color: white;
   border-radius: 30px;
   padding: 40px;
-  display: flex;
+  @include dFlex(flex-start, flex-start, 0);
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
   box-shadow: 0px 6px 10px 0px #00000033;
 }
 

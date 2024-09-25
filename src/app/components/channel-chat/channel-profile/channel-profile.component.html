@@ -1,20 +1,23 @@
 <div class="container">
-  <div class="content">
-    <div class="content-tab">
-      <h2>Mitglieder</h2>
-      <div class="card-close" (click)="close()"></div>
-    </div>
-    <div class="content-users">
-      @for(users of filteredUsers; track users) {
-      <div class="content-user">
-        <img src="{{users.profileImage}}">
-        {{users.name}}
+  <div class="content-container">
+    <div class="content">
+      <div class="content-tab">
+        <h2>Mitglieder</h2>
+        <div class="card-close" (click)="close()"></div>
       </div>
-      }
-      <section (click)="openAddUser()" class="container-add-users">
-        <div class="add-member"></div>
-        <div class="add-users">Mitglieder hinzufügen</div>
-      </section>
+      <div class="content-users">
+        @for(users of filteredUsers; track users) {
+        <div class="content-user">
+          <img src="{{users.profileImage}}">
+          {{users.name}}
+        </div>
+        }
+        <section (click)="openAddUser()" class="container-add-users">
+          <div class="add-member"></div>
+          <div class="add-users">Mitglieder hinzufügen</div>
+        </section>
+      </div>
     </div>
   </div>
+
 </div>

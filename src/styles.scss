@@ -1,4 +1,4 @@
-@import '@ctrl/ngx-emoji-mart/picker';
+@import "@ctrl/ngx-emoji-mart/picker";
 
 @font-face {
   font-family: NunitoRegular;
@@ -28,6 +28,7 @@ $purple2: rgb(121, 127, 243);
 $purple3: rgb(83, 90, 241);
 $onlineGreen: rgb(146, 200, 62);
 $rosaError: rgb(237, 30, 121);
+$fullSizeColor: rgba(0, 0, 0, 0.2);
 
 @mixin dFlex($jc: center, $ai: center, $g: 0) {
   display: flex;
