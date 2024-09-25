@@ -38,12 +38,18 @@
   <app-reassign-password-card
     *ngIf="logService.currentState === 'reassign-password'"
   ></app-reassign-password-card>
+  <app-impressum-card
+    *ngIf="logService.currentState === 'impressum'"  
+  ></app-impressum-card>
+  <app-policy-card
+    *ngIf="logService.currentState === 'policy'"  
+  ></app-policy-card>
   <footer>
     <div class="hidden-button">
-      <span>Impressum</span>
+      <span (click)="logService.currentState = 'impressum'">Impressum</span>
     </div>
     <div class="hidden-button">
-      <span>Datenschutz</span>
+      <span (click)="logService.currentState = 'policy'">Datenschutz</span>
     </div>
   </footer>
   <div *ngIf="logService.userPopup" class="user-popup"><h2>{{ logService.userMessage }}</h2></div>

@@ -71,12 +71,22 @@ app-create-avatar-card {
 }
 
 app-password-mail-card,
-app-reassign-password-card {
+app-reassign-password-card,
+app-impressum-card {
   display: flex;
   max-width: 580px;
   max-height: 500px;
   flex-grow: 1;
 }
+
+app-policy-card {
+  display: flex;
+  max-width: 620px;
+  max-height: 500px;
+  flex-grow: 1;
+}
+
+
 
 main {
   @include dFlex($ai: center, $jc: space-between);

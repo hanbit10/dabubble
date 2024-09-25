@@ -1,0 +1,31 @@
+@import "../../../styles.scss";
+
+@import "../../../app/page/login/login.component.scss";
+
+main {
+    @include dFlex($ai: flex-start,$jc: flex-start,$g: 40px);
+    flex-direction: column;
+    max-height: 600px;
+    flex-grow: unset;
+    >h1, h2 {
+        align-self: center;
+    }
+    >p {
+        text-align: unset;
+    }
+    >div:last-child {
+        @include dFlex($g: 32px);
+        flex-direction: column;
+        width: 100%;
+        >h2 {
+            color: #444df2;
+            font-weight: 500;
+            font-size: 32px;
+            margin: 0;    
+        }
+        >p {
+            align-self: flex-start;
+        }
+    }
+}
+
