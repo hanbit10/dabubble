@@ -23,6 +23,8 @@ export class UserService {
   private usersSubject = new BehaviorSubject<UserProfile[]>([]);
   allUsersOnSnapshot: UserProfile[] = [];
 
+  mainUser: UserProfile = {} as UserProfile;
+
   constructor() {
     this.unsubUsers = this.subUsersList();
   }

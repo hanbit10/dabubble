@@ -14,6 +14,7 @@ import { MessageService } from '../../services/message.service';
 import { Message } from '../../models/message';
 import { Timestamp } from '@angular/fire/firestore';
 import { CommonModule, KeyValuePipe } from '@angular/common';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-channel-chat',
@@ -44,11 +45,11 @@ export class ChannelChatComponent implements OnInit {
     text: '',
     image: '',
   };
-  lastSeenDay: string | null = new Date().toDateString();
 
   constructor(
     public channelService: ChannelService,
     public messageService: MessageService,
+    public utilityService: UtilityService,
     private route: ActivatedRoute
   ) {}
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class ChannelChatComponent implements OnInit {
       const id = paramMap.get('id');
       if (id) {
         this.currentChannelId = id;
-        this.messageService.subMessageList(this.currentChannelId);
+        this.messageService.subMessageList(this.currentChannelId, 'channels');
         this.channelSubscription = this.channelService.channels$
           .pipe(
             map((channels) =>
@@ -92,37 +93,13 @@ export class ChannelChatComponent implements OnInit {
     );
   }
 
-  formatDate(dateString: Date | undefined): string {
-    const validDate = new Date(dateString ?? new Date());
-    const today = new Date();
-    const isToday = validDate.toDateString() === today.toDateString();
-    if (isToday) {
-      return 'Heute';
-    } else {
-      return validDate.toLocaleDateString('de-DE', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-      });
-    }
-  }
-
-  shouldShowTimestamp(message: any): boolean {
-    if (!message || !message.sentAt || !message.sentAt.toDate) {
-      return false;
-    }
-    const messageDay = new Date(message.sentAt.toDate()).toDateString();
-    const shouldShow = this.lastSeenDay !== messageDay;
-    this.lastSeenDay = messageDay;
-    return shouldShow;
-  }
-
   onSubmit(messageForm: NgForm) {
     if (messageForm.valid) {
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChannelId,
-        this.currentUserId
+        this.currentUserId,
+        'channels'
       );
     }
   }

@@ -46,7 +46,6 @@ export class ThreadService {
   }
 
   async getAllThreads(currentChannelId: string, currentMessageId: string) {
-    console.log('this is the problem');
     const docRef = collection(
       this.firestore,
       'channels',

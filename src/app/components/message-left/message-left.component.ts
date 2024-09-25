@@ -13,6 +13,7 @@ import { ThreadService } from '../../services/thread.service';
 import { Timestamp } from '@angular/fire/firestore';
 import { UtilityService } from '../../services/utility.service';
 import { Channel } from '../../models/channels';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-message-left',
@@ -30,7 +31,6 @@ export class MessageLeftComponent implements OnInit {
     return this._items.getValue();
   }
 
-  profileIsOpen = false;
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
 
@@ -38,17 +38,14 @@ export class MessageLeftComponent implements OnInit {
   currentChannelId: string = '';
   currentUserId: string = '';
 
-  public editTextArea: string = 'Welche Version ist aktuell von Angular?';
-  public isEmojiPickerVisible: boolean = false;
-  public addEmoji(event: any) {
-    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
-    this.isEmojiPickerVisible = false;
-  }
   private threadSubscription!: Subscription;
-  private routeSub: Subscription = new Subscription();
+  private routeSub?: Subscription = new Subscription();
   public usersSubscription!: Subscription;
   formattedCurrMsgTime?: string;
   formattedThreadTime?: string;
+
+  emojiPickerLeft: boolean = false;
+  emojiPickerRight: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,8 +53,10 @@ export class MessageLeftComponent implements OnInit {
     public userService: UserService,
     public channelService: ChannelService,
     public threadService: ThreadService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    public messageService: MessageService,
   ) {}
+
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
       .pipe(
@@ -88,11 +87,16 @@ export class MessageLeftComponent implements OnInit {
     this.formattedThreadTime = this.utilityService.getFormattedTime(
       this.currentMessage.lastThreadReply!
     );
+    
   }
 
   openProfile() {
-    // this.profileService.searchUser(this.userName);
-
+    this.profileService.searchUser(this.messageUser.name);
     this.profileService.openProfile();
+  }
+
+  selectEmoji(event: any, emojiPicker: any){
+    this.messageService.giveReaction(event, this.userService.mainUser.name, this.currentMessage, this.currentChannelId);
+    emojiPicker = false;
   }
 }

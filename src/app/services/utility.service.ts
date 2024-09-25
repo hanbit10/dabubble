@@ -28,4 +28,30 @@ export class UtilityService {
     });
     return formatTime;
   }
+
+  formatDate(dateString: Date | undefined): string {
+    const validDate = new Date(dateString ?? new Date());
+    const today = new Date();
+    const isToday = validDate.toDateString() === today.toDateString();
+    if (isToday) {
+      return 'Heute';
+    } else {
+      return validDate.toLocaleDateString('de-DE', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+      });
+    }
+  }
+
+  lastSeenDay: string | null = new Date().toDateString();
+  shouldShowTimestamp(message: any): boolean {
+    if (!message || !message.sentAt || !message.sentAt.toDate) {
+      return false;
+    }
+    const messageDay = new Date(message.sentAt.toDate()).toDateString();
+    const shouldShow = this.lastSeenDay !== messageDay;
+    this.lastSeenDay = messageDay;
+    return shouldShow;
+  }
 }

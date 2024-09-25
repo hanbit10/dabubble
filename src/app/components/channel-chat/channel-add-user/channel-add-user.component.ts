@@ -84,7 +84,6 @@ export class ChannelAddUserComponent implements OnInit {
 
   addUser() {
     if (this.selectedUsers.length) {
-      console.log(this.currentChannel.uid);
       this.channelService.addUser(this.currentChannel.uid, this.selectedUsers);
       this.utilityService.closeComponent('channel-add-user');
       this.selectedUsers = [];

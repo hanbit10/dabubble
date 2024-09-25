@@ -39,7 +39,6 @@ export class ChannelNavComponent implements OnInit {
   async ngOnInit() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
-      console.log('this is all users', this.allUsers);
     });
     this.channelSubscription = this.channelService.channels$.subscribe(
       (channels) => {
@@ -57,7 +56,6 @@ export class ChannelNavComponent implements OnInit {
       const dropdownIcon = document.getElementById('dropdown-icon');
       const dropdownBtn = document.getElementById('dropdown-btn');
       if (dropdownBtn) {
-        console.log(this.filtering);
         dropdownBtn.addEventListener('click', (event) => {
           if (dropdownIcon && this.filtering) {
             dropdownIcon.classList.add('rotate-down');

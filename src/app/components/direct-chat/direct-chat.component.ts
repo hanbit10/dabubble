@@ -8,50 +8,125 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { ProfileService } from '../../services/profile.service';
+import { Message } from '../../models/message';
+import { FormsModule, NgForm } from '@angular/forms';
+import { DirectChatService } from '../../services/direct-chat.service';
+import { MessageService } from '../../services/message.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-direct-chat',
   standalone: true,
-  imports: [ProfileUserComponent, MessageLeftComponent, MessageRightComponent],
+  imports: [
+    ProfileUserComponent,
+    MessageLeftComponent,
+    MessageRightComponent,
+    FormsModule,
+  ],
   templateUrl: './direct-chat.component.html',
-  styleUrl: './direct-chat.component.scss'
+  styleUrl: './direct-chat.component.scss',
 })
 export class DirectChatComponent {
   firestore: Firestore = inject(Firestore);
   public usersSubscription!: Subscription;
   allUsers: UserProfile[] = [];
-  user: UserProfile = {
+  otherUser: UserProfile = {
     uid: '',
   };
-  userId = '';
+  otherUserId: string = '';
+  currentUserId: string = '';
+  private routeSub: Subscription = new Subscription();
+  private messageSubscription!: Subscription;
+  currentChatId: string = '';
 
-  private routeSub: Subscription = new Subscription;
+  sentMessage: any = {
+    text: '',
+    image: '',
+  };
+  currentMessages: Message[] = [];
 
-  constructor(public userService: UserService, private route: ActivatedRoute, public profileService: ProfileService) {}
+  constructor(
+    public userService: UserService,
+    private route: ActivatedRoute,
+    public profileService: ProfileService,
+    public directChatService: DirectChatService,
+    public messageService: MessageService,
+    public utilityService: UtilityService
+  ) {}
 
   async ngOnInit() {
-    this.routeSub = this.route.params.subscribe(params => {
-      this.userId = params['id'];  
-      
-      this.usersSubscription = this.userService.users$.subscribe(users => {
-        this.allUsers = users;
-  
-        let filteredUser = this.allUsers.find((user) => {
-          return user.uid === this.userId;
-        });
-        if (filteredUser) {
-          this.user = filteredUser;
+    this.route.params.subscribe((params) => {
+      this.otherUserId = params['id'];
+      this.route.parent?.paramMap.subscribe(async (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+
+          const exist = this.directChatService.isExistingChat(
+            this.otherUserId,
+            this.currentUserId
+          );
+          if ((await exist) == false) {
+            this.directChatService.createNewChat(
+              this.otherUserId,
+              this.currentUserId
+            );
+            console.log('new chat created');
+          }
+
+          this.currentChatId = await this.directChatService.getChatId(
+            this.otherUserId,
+            this.currentUserId
+          );
+
+          this.messageService.subMessageList(this.currentChatId, 'chats');
         }
       });
+
+      this.usersSubscription = this.userService.users$.subscribe((users) => {
+        this.allUsers = users;
+        let filteredUser = this.allUsers.find((user) => {
+          return user.uid === this.otherUserId;
+        });
+        if (filteredUser) {
+          this.otherUser = filteredUser;
+        }
+      });
+
+      this.messageSubscription = this.messageService.messages$.subscribe(
+        (messages) => {
+          this.currentMessages = messages.sort((a, b) => {
+            if (a.sentAt && b.sentAt) {
+              return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
+            }
+            return 0;
+          });
+        }
+      );
     });
+  }
+
+  async onSubmit(messageForm: NgForm) {
+    if (messageForm.valid) {
+      this.currentChatId = await this.directChatService.getChatId(
+        this.otherUserId,
+        this.currentUserId
+      );
+      this.messageService.sendMessage(
+        this.sentMessage,
+        this.currentChatId,
+        this.currentUserId,
+        'chats'
+      );
+    }
   }
 
   ngOnDestroy() {
     this.routeSub.unsubscribe();
   }
 
-  openProfile(){
+  openProfile() {
     this.profileService.openProfile();
-    this.profileService.profileUser = this.user;
+    this.profileService.profileUser = this.otherUser;
   }
 }
