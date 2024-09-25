@@ -91,7 +91,7 @@ export class MessageLeftComponent implements OnInit {
   }
 
   openProfile() {
-    // this.profileService.searchUser(this.userName);
+    this.profileService.searchUser(this.messageUser.name);
     this.profileService.openProfile();
   }
 
