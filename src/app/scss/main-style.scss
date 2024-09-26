@@ -277,6 +277,8 @@ textarea:-webkit-autofill:focus {
   }
 
   .message-date {
+    width: 100%;
+    max-width: fit-content;
     padding: 5px 15px 5px 15px;
     border: 1px solid $lightPurple;
     border-radius: 30px;
