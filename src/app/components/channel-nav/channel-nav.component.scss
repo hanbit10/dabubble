@@ -26,11 +26,13 @@
 
 .channel-container {
   width: 100%;
-  @include dFlex($g: 13px);
+  @include dFlex(flex-start, center, $g: 13px);
+  margin-left: 10px;
   flex-direction: column;
 }
 
 .channel-nav-name {
+  margin-left: 10px;
   max-width: 180px;
   white-space: nowrap;
   overflow: hidden;
@@ -38,14 +40,16 @@
 }
 
 .channel {
-  width: 100%;
-
+  // width: 90%;
   @include dFlex($g: 10px, $jc: flex-start);
-  margin: 0px 30px 0px 30px;
-  padding: 4px 10px 4px 10px;
+  gap: 0;
+  padding: 4px 10px 4px 0px;
   box-sizing: border-box;
   border-radius: 20px;
   @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
+  .tag {
+    margin-left: 10px;
+  }
 
   &:hover {
     cursor: pointer;
