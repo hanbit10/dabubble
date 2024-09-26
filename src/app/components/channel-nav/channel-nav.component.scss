@@ -25,9 +25,9 @@
 }
 
 .channel-container {
-  width: 100%;
   @include dFlex(flex-start, center, $g: 13px);
-  margin-left: 10px;
+  box-sizing: border-box;
+  margin-left: 27px;
   flex-direction: column;
 }
 
