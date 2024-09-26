@@ -1,25 +1,58 @@
-@import '../../../styles.scss';
+@import "../../../styles.scss";
 
 .frame {
-    @include dFlex();
-    flex-direction: column;
-    min-height: 130px;
-    width: 800px;
-    padding: 20px;
-    border: 1px solid $lightPurple;
-    background-color: white;
-    border-radius: 20px;    
+  @include dFlex($jc: space-between);
+  flex-direction: column;
+  min-height: 100px;  
+  padding: 20px;
+  border: 1px solid $lightPurple;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .tools {
-    @include dFlex($jc: space-between);
-    width: 100%;
-    >div {
-        @include dFlex($g: 5px);
-        .bar {
-            width: 1px;
-            height: 40px;
-            background-color: $lightPurple;
-        }
+  @include dFlex($jc: space-between);
+  width: 100%;
+  > div {
+    @include dFlex($g: 8px);
+    .bar {
+      width: 1px;
+      height: 40px;
+      background-color: $lightPurple;
     }
+  }
+}
+
+#message {
+  font-family: NunitoRegular, sans-serif;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 18px;
+  padding: 8px;
+  width: 100%;
+  height: 40px;
+}
+
+.icon {
+  @include dFlex();
+  padding: 8px;
+  border-radius: 50%;
+  &:hover {
+    background-color: $bgColor;
+    cursor: pointer;
+    > img {
+      filter: brightness(0) saturate(100%) invert(35%) sepia(88%) saturate(972%)
+        hue-rotate(214deg) brightness(91%) contrast(110%);
+    }
+  }
+}
+
+.send-arrow {
+  &:hover {
+    cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(64%) sepia(67%) saturate(4757%)
+      hue-rotate(213deg) brightness(100%) contrast(91%);
+  }
 }

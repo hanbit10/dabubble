@@ -38,7 +38,7 @@ export class LoginComponent {
   constructor(public logService: LoginCreateAccountService) {}
 
   ngOnInit() {    
-    //this.introAnimation();
+    this.introAnimation();
   }
 
   introAnimation() {

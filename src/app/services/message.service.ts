@@ -80,8 +80,7 @@ export class MessageService {
     } else {
       this.createReactions(event, currentUser, message);
     }
-    this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
-    
+    this.updateMessage(`channels/${channelId}/messages`, message.uid, message);    
   }
 
   handleReaction(event: any, currentUser: any, message: any, channelId: any){

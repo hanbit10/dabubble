@@ -1,12 +1,14 @@
 <div class="frame">
-    <textarea name="message" id="message"></textarea>
+    <textarea name="message" id="message" [placeholder]="'#' + currentChannel.name" [(ngModel)]="Message.text"></textarea>
     <div class="tools">
         <div>
-            <img src="/assets/img/icons/material-symbols/add.png" alt="upload" class="icon">
+            <div class="icon"><img src="/assets/img/icons/material-symbols/add.png" alt="upload"></div>
             <div class="bar"></div>
-            <img src="/assets/img/icons/emoji-menu.svg" alt="emoji" class="icon">
-            <img src="/assets/img/icons/tag-user.svg" alt="tag-user" class="icon">
+            <div class="icon"><img src="/assets/img/icons/emoji-menu.svg" alt="emoji" ></div>
+            <div class="icon"><img src="/assets/img/icons/tag-user.svg" alt="tag-user" ></div>
         </div>
-        <img src="/assets/img/icons/send-message.svg" alt="send-message" class="send-arrow">
+        <img src="/assets/img/icons/send-message.svg" alt="send-message" class="send-arrow"
+        (click)="postMessage()"
+        >
     </div>
 </div>
