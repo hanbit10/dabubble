@@ -29,7 +29,7 @@ export class ProfileService {
 
   constructor(public userService: UserService) { }
 
-  searchUser(nameOfUser: string){
+  searchUser(nameOfUser: any){
     this.usersSubscription = this.userService.users$.subscribe(users => {
       this.allUsers = users;
       

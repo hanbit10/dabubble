@@ -19,10 +19,22 @@ section{
     align-items: flex-start !important;
 }
 
+.message-box{
+    align-items: flex-start;
+}
+
 .message-text{
     border-top-right-radius: 30px;
 }
 
 .emoji-mart-message-left{
     left: -330px !important;
+}
+
+.emoji-mart-message-reaction{
+    left: 30px !important;
+}
+
+.reaction-container{
+    justify-content: flex-start;
 }

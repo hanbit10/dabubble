@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 
 @Component({
@@ -46,6 +46,7 @@ export class HeaderComponent implements OnInit {
         });
         if (filteredUser) {
           this.currentUser = filteredUser;
+          this.userService.mainUser = filteredUser
         }
       });
     });
