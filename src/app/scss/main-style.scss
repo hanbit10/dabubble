@@ -210,7 +210,7 @@
 .input-container {
   @include dFlex(flex-start, center, 0);
   box-sizing: border-box;
-  height: 32px;
+  height: 60px;
   border-radius: 40px;
   border: 1px solid $purple2;
   padding: 12px 20px 12px 20px;
@@ -277,6 +277,8 @@ textarea:-webkit-autofill:focus {
   }
 
   .message-date {
+    width: 100%;
+    max-width: fit-content;
     padding: 5px 15px 5px 15px;
     border: 1px solid $lightPurple;
     border-radius: 30px;

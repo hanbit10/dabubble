@@ -25,20 +25,33 @@
 }
 
 .channel-container {
-  width: 100%;
-  @include dFlex($g: 13px);
+  @include dFlex(flex-start, center, $g: 13px);
+  box-sizing: border-box;
+  margin-left: 27px;
   flex-direction: column;
 }
 
-.channel{
-  width: 100%;
+.channel-nav-name {
+  margin-left: 10px;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.channel {
+  // width: 90%;
   @include dFlex($g: 10px, $jc: flex-start);
-  padding: 4px 40px 4px 40px;
+  gap: 0;
+  padding: 4px 10px 4px 0px;
   box-sizing: border-box;
   border-radius: 20px;
   @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
+  .tag {
+    margin-left: 10px;
+  }
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     background-color: $bgColor;
 
@@ -47,7 +60,7 @@
     }
   }
 
-  &:active{
+  &:active {
     cursor: pointer;
     background-color: $bgColor;
     @include font($ff: Nunito700, $fs: 16px, $lh: 20px);
@@ -66,8 +79,8 @@
 .dropdown-title {
   @include dFlex($g: 10px);
 
-  >span {
-      @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
+  > span {
+    @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
   }
 }
 
@@ -127,13 +140,12 @@
   margin-right: 8px;
 }
 
-.add-channel-dropdown{
+.add-channel-dropdown {
   @include dFlex($g: 10px, $jc: flex-start);
-  width: 100%;
   padding: 4px 40px 4px 40px;
   @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     color: $purple3;
 
@@ -142,7 +154,7 @@
     }
   }
 
-  &:active{
+  &:active {
     .add-circle {
       background-image: url("./../../../assets/img/icons/material-symbols/add_circle-active.svg");
     }
