@@ -13,7 +13,7 @@
           <img src="{{ users.profileImage }}" />
         }
       }
-      @if (filteredUsers.length >= 3) {
+      @if (filteredUsers.length > 3) {
         <div class="plus-users">+{{ filteredUsers.length - 3 }}</div>
       }
       <h3 class="user-number">{{ filteredUsers.length }}</h3>
