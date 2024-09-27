@@ -57,10 +57,10 @@
     </div>
 
     <div class="message-bar">
-        <div class="message-icon emoji-icon">
+        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('✅', userService.mainUser.name, currentMessage, currentChannelId)">
             <img src="./../../../assets/img/icons/material-symbols/emoji-check.svg" alt="check emoji">
         </div>
-        <div class="message-icon emoji-icon">
+        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('🙌', userService.mainUser.name, currentMessage, currentChannelId)">
             <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
         </div>
         <div class="emoji-container">

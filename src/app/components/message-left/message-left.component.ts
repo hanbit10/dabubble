@@ -96,7 +96,7 @@ export class MessageLeftComponent implements OnInit {
   }
 
   selectEmoji(event: any, emojiPicker: any){
-    this.messageService.giveReaction(event, this.userService.mainUser.name, this.currentMessage, this.currentChannelId);
+    this.messageService.giveReaction(event.emoji.native, this.userService.mainUser.name, this.currentMessage, this.currentChannelId);
     emojiPicker = false;
   }
 }

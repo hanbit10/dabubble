@@ -70,23 +70,23 @@ export class MessageService {
     await setDoc(querySnapshot, { ...data, uid: querySnapshot.id });
   }
 
-  giveReaction(event: any, currentUser: any, message: any, channelId: any) {
+  giveReaction(emoji: any, currentUser: any, message: any, channelId: any) {
     this.reactionExists = false;
     if (message.reactions) {
-      this.handleReaction(event, currentUser, message, channelId)
+      this.handleReaction(emoji, currentUser, message, channelId)
       if (!this.reactionExists) {
-        this.addReactionToArray(event, currentUser, message);
+        this.addReactionToArray(emoji, currentUser, message);
       }
     } else {
-      this.createReactions(event, currentUser, message);
+      this.createReactions(emoji, currentUser, message);
     }
     this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
   }
 
-  handleReaction(event: any, currentUser: any, message: any, channelId: any) {
+  handleReaction(emoji: any, currentUser: any, message: any, channelId: any) {
     for (let i = 0; i < message.reactions.length; i++) {
       let reaction = message.reactions[i];
-      if (reaction.emojiNative == event.emoji.native) {
+      if (reaction.emojiNative == emoji) {
         this.handleSingleReaction(reaction, currentUser, message, channelId, i)
         this.reactionExists = true;
         break;
@@ -95,8 +95,6 @@ export class MessageService {
   }
 
   handleSingleReaction(reaction: any, currentUser: any, message: any, channelId: any, i:any) {
-    console.log(reaction, currentUser, i);
-    
     if (reaction.users.includes(currentUser)) {
       this.removeReaction(reaction, currentUser, message, i);
     } else {
@@ -121,17 +119,17 @@ export class MessageService {
     reaction.users.push(currentUser);
   }
 
-  addReactionToArray(event: any, currentUser: any, message: any) {
+  addReactionToArray(emoji: any, currentUser: any, message: any) {
     message.reactions.push({
-      'emojiNative': event.emoji.native,
+      'emojiNative': emoji,
       'count': 1,
       'users': [currentUser]
     })
   }
 
-  createReactions(event: any, currentUser: any, message: any) {
+  createReactions(emoji: any, currentUser: any, message: any) {
     message.reactions = [{
-      'emojiNative': event.emoji.native,
+      'emojiNative': emoji,
       'count': 1,
       'users': [currentUser]
     }]
