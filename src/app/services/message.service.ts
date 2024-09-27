@@ -70,10 +70,18 @@ export class MessageService {
     await setDoc(querySnapshot, { ...data, uid: querySnapshot.id });
   }
 
-  giveReaction(emoji: any, currentUser: any, message: any, channelId: any) {
+  /**
+   * Updates excisting reactions or creates new ones when adding a reaction to a message.
+   * 
+   * @param {string} emoji - the emoji that is given as reaction
+   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction
+   * @param {any} message - the message to which the reaction is added
+   * @param {string} channelId - the Id of the channel where the message is written
+   */
+  giveReaction(emoji: string, currentUser: any, message: any, channelId: string) {
     this.reactionExists = false;
     if (message.reactions) {
-      this.handleReaction(emoji, currentUser, message, channelId)
+      this.checkReaction(emoji, currentUser, message, channelId)
       if (!this.reactionExists) {
         this.addReactionToArray(emoji, currentUser, message);
       }
@@ -83,7 +91,15 @@ export class MessageService {
     this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
   }
 
-  handleReaction(emoji: any, currentUser: any, message: any, channelId: any) {
+  /**
+   * Checks if an emoji already exists as reaction for a message.
+   * 
+   * @param {string} emoji - the emoji that is given as reaction
+   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction
+   * @param {any} message - the message to which the reaction is added
+   * @param {string} channelId - the Id of the channel where the message is written
+   */
+  checkReaction(emoji: string, currentUser: any, message: any, channelId: string) {
     for (let i = 0; i < message.reactions.length; i++) {
       let reaction = message.reactions[i];
       if (reaction.emojiNative == emoji) {
@@ -94,7 +110,16 @@ export class MessageService {
     }
   }
 
-  handleSingleReaction(reaction: any, currentUser: any, message: any, channelId: any, i:any) {
+  /**
+   * Handles adding and removing a reaction and updating the message.
+   * 
+   * @param {any} reaction - single reaction to a message
+   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction
+   * @param {any} message - the message to which the reaction is added
+   * @param {string} channelId - the Id of the channel where the message is written
+   * @param {number} i - position of the reaction in the reaction Array
+   */
+  handleSingleReaction(reaction: any, currentUser: any, message: any, channelId: string, i:number) {
     if (reaction.users.includes(currentUser)) {
       this.removeReaction(reaction, currentUser, message, i);
     } else {
@@ -103,7 +128,15 @@ export class MessageService {
     this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
   }
 
-  removeReaction(reaction: any, currentUser: any, message: any, i: any) {
+  /**
+   * Removes an already existing reaction.
+   * 
+   * @param {any} reaction - single reaction to a message
+   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   * @param {any} message - the message to which the reaction is added
+   * @param {number} i - position of the reaction in the reaction Array
+   */
+  removeReaction(reaction: any, currentUser: any, message: any, i: number) {
     reaction.count--;
     let indexOfUser = reaction.users.indexOf(currentUser);
     if (indexOfUser > -1){
@@ -114,12 +147,26 @@ export class MessageService {
     }
   }
 
+  /**
+   * Adds a reaction.
+   * 
+   * @param {any} reaction - single reaction to a message
+   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   */
   addReaction(reaction: any, currentUser: any) {
     reaction.count++;
     reaction.users.push(currentUser);
   }
 
-  addReactionToArray(emoji: any, currentUser: any, message: any) {
+  /**
+   * 
+   * Adds a new reaction to the reactions Array of a message.
+   * 
+   * @param {string} emoji - the emoji that is given as reaction
+   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   * @param {any} message - the message to which the reaction is added
+   */
+  addReactionToArray(emoji: string, currentUser: any, message: any) {
     message.reactions.push({
       'emojiNative': emoji,
       'count': 1,
@@ -127,7 +174,14 @@ export class MessageService {
     })
   }
 
-  createReactions(emoji: any, currentUser: any, message: any) {
+  /**
+   * When the reactions Array of a message is null this adds the first reaction.
+   * 
+   * @param {string} emoji - the emoji that is given as reaction
+   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   * @param {any} message - the message to which the reaction is added
+   */
+  createReactions(emoji: string, currentUser: any, message: any) {
     message.reactions = [{
       'emojiNative': emoji,
       'count': 1,
@@ -135,12 +189,26 @@ export class MessageService {
     }]
   }
 
+  /**
+   *  Updates a document in the specified collection with the provided item.
+   * 
+   * @param {string} col - the Id of the collection where the document is located
+   * @param {string} docId - the Id of the document that will be updated
+   * @param {object} item - the new object to update the document with
+   */
   async updateMessage(col: string, docId: string, item: {}) {
     await updateDoc(this.getSingleDocRef(col, docId), item).catch(
       (err) => { console.log(err); }
     ).then();
   }
 
+  /**
+   * Retrieves a reference to a single document within a collection in Firestore.
+   * 
+   * @param {string} col - the Id of the collection where the document is located
+   * @param {string} docId - the Id of the document that will be updated
+   * @returns {DocumentReference} - A Firestore document reference object for the specified document.
+   */
   getSingleDocRef(col: string, docId: string) {
     return doc(collection(this.firestore, col), docId);
   }
