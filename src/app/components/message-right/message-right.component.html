@@ -7,14 +7,34 @@
         </div>
         <div class="message-box">
             <span class="message-text">{{currentMessage.text}}</span>
-            <div class="reaction-container">
+            <div [class]="currentMessage.reactions?.length === 0 || currentMessage.reactions === null ? 'hidden' : 'reaction-container'">
                 @for(reaction of currentMessage.reactions; track $index){
-                <div class="reaction">
+                    <div class="reaction" (click)="messageService.handleSingleReaction(reaction, userService.mainUser.uid, currentMessage, currentChannelId, $index)">
                     <div>{{reaction.emojiNative}}</div>
                     <span>{{reaction.count}}</span>
+
+                    <div class="reaction-hover">
+                        <div class="reaction-hover-emoji">{{reaction.emojiNative}}</div>
+
+                        @if(reaction.count == 1){
+                            <span><b>{{reaction.users[0]}}</b>
+                                <br> hat reagiert</span>
+                        }
+
+                        @if(reaction.count == 2){
+                            <span><b>{{reaction.users[0]}} und 
+                                <br> {{reaction.users[1]}}</b>
+                                <br> haben reagiert</span>
+                        }
+
+                        @if(reaction.count > 2){
+                            <span><b>{{reaction.users[0]}} und 
+                                <br> {{reaction.count - 1}} Weitere</b> haben reagiert</span>
+                        }
+                    </div>
                 </div>
                 }
-                <div class="emoji-container">
+                <div  class="emoji-container">
                     <button class="message-icon reaction-icon" (click)="emojiPickerRight = !emojiPickerRight"></button>
                     <emoji-mart class="emoji-mart emoji-mart-message-reaction" *ngIf="emojiPickerRight"
                         (emojiSelect)="selectEmoji($event, emojiPickerRight)" title="Choose your emoji"></emoji-mart>

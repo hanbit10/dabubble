@@ -81,39 +81,47 @@ export class MessageService {
       this.createReactions(event, currentUser, message);
     }
     this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
-    
   }
 
-  handleReaction(event: any, currentUser: any, message: any, channelId: any){
+  handleReaction(event: any, currentUser: any, message: any, channelId: any) {
     for (let i = 0; i < message.reactions.length; i++) {
       let reaction = message.reactions[i];
       if (reaction.emojiNative == event.emoji.native) {
-        if (reaction.users.includes(currentUser)) {
-          this.removeReaction(reaction, currentUser, message, i);
-        } else {
-          this.addReaction(reaction, currentUser);
-        }
-        this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
+        this.handleSingleReaction(reaction, currentUser, message, channelId, i)
         this.reactionExists = true;
-        break; 
+        break;
       }
     }
   }
 
-  removeReaction(reaction: any, currentUser: any, message: any, i:any){
+  handleSingleReaction(reaction: any, currentUser: any, message: any, channelId: any, i:any) {
+    console.log(reaction, currentUser, i);
+    
+    if (reaction.users.includes(currentUser)) {
+      this.removeReaction(reaction, currentUser, message, i);
+    } else {
+      this.addReaction(reaction, currentUser);
+    }
+    this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
+  }
+
+  removeReaction(reaction: any, currentUser: any, message: any, i: any) {
     reaction.count--;
-    reaction.users.splice(currentUser, 1);
+    let indexOfUser = reaction.users.indexOf(currentUser);
+    if (indexOfUser > -1){
+      reaction.users.splice(indexOfUser, 1);
+    }
     if (reaction.count == 0) {
       message.reactions.splice(i, 1);
     }
   }
 
-  addReaction(reaction: any, currentUser: any){
+  addReaction(reaction: any, currentUser: any) {
     reaction.count++;
     reaction.users.push(currentUser);
   }
 
-  addReactionToArray(event: any, currentUser: any, message: any){
+  addReactionToArray(event: any, currentUser: any, message: any) {
     message.reactions.push({
       'emojiNative': event.emoji.native,
       'count': 1,
@@ -121,7 +129,7 @@ export class MessageService {
     })
   }
 
-  createReactions(event: any, currentUser: any, message: any){
+  createReactions(event: any, currentUser: any, message: any) {
     message.reactions = [{
       'emojiNative': event.emoji.native,
       'count': 1,
