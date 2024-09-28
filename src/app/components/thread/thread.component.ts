@@ -10,6 +10,7 @@ import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
+import { Channel } from '../../models/channels';
 
 @Component({
   selector: 'app-thread',
@@ -22,6 +23,7 @@ export class ThreadComponent implements OnInit {
   private threadSubscription!: Subscription;
   private messageSubscription!: Subscription;
   private userSubscription!: Subscription;
+  private channelSubscription!: Subscription;
   sentThread: any = {
     text: '',
     image: '',
@@ -31,6 +33,7 @@ export class ThreadComponent implements OnInit {
   currentUserId: string = '';
   currentThreads: Message[] = [];
   messageById: Message[] = [];
+  currentChannel: any = {};
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
 
@@ -38,6 +41,7 @@ export class ThreadComponent implements OnInit {
     public threadService: ThreadService,
     public messageService: MessageService,
     public userService: UserService,
+    public channelService: ChannelService,
     private route: ActivatedRoute,
   ) {}
   ngOnInit(): void {
@@ -52,6 +56,7 @@ export class ThreadComponent implements OnInit {
           this.currentMessageId,
         );
         this.messageService.subMessageList(this.currentChannelId, 'channels');
+        this.channelService.subChannelById(this.currentChannelId);
       }
     });
 
@@ -61,6 +66,14 @@ export class ThreadComponent implements OnInit {
         this.currentUserId = id;
       }
     });
+
+    this.channelSubscription = this.channelService.channelById$.subscribe(
+      (channel) => {
+        if (channel) {
+          this.currentChannel = channel;
+        }
+      },
+    );
 
     this.messageSubscription = this.messageService.messages$
       .pipe(

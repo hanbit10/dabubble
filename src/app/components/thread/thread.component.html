@@ -2,7 +2,10 @@
   <header class="chat-header">
     <div>
       <h3>Thread</h3>
-      <span># Entwicklerteam</span>
+      <!-- @for (channel of currentChannel; track channel) {
+        <span># {{ channel.name }}</span>
+      } -->
+      {{ currentChannel.name }}
     </div>
     <div class="close-icon" (click)="threadService.closeThread()"></div>
   </header>
