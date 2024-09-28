@@ -1,28 +1,41 @@
-@import './../../../styles.scss';
-@import './../../scss/main-style.scss';
+@import "./../../../styles.scss";
+@import "./../../scss/main-style.scss";
 
-section{
-    position: relative;
+section {
+  position: relative;
 }
 
-header{
-    @include dFlex($jc: space-between);
-    height: 98px;
-    box-sizing: border-box;
+header {
+  @include dFlex($jc: space-between);
+  height: 98px;
+  box-sizing: border-box;
 }
 
-.close-icon{
-    background-image: url('./../../../assets/img/icons/material-symbols/close.svg');
-    width: 40px;
-    height: 40px;
+.close-icon {
+  background-image: url("./../../../assets/img/icons/material-symbols/close.svg");
+  width: 40px;
+  height: 40px;
 
-    &:hover{
-        cursor: pointer;
-        background-image: url('./../../../assets/img/icons/material-symbols/close-hover.svg');
-    }
+  &:hover {
+    cursor: pointer;
+    background-image: url("./../../../assets/img/icons/material-symbols/close-hover.svg");
+  }
 }
 
-.thread-chat{
-    padding: 96px 30px 85px 30px;
+.thread-chat {
+  padding: 96px 30px 85px 30px;
 }
 
+.thread-line {
+  color: $lightPurple;
+  width: 100%;
+  max-width: fit-content;
+}
+
+.blue-text-normal {
+  margin-left: 8px;
+}
+
+.line {
+  margin-left: 20px;
+}

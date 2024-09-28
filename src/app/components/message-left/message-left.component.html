@@ -1,54 +1,113 @@
 <section class="message">
-    <img src="{{messageUser.profileImage}}" alt="profile-image">
+  <img src="{{ messageUser.profileImage }}" alt="profile-image" />
 
-    <div class="message-info">
-        <div class="message-user">
-            <span class="message-user-name" (click)="openProfile()">{{messageUser.name}}</span>
-            <span class="message-time">{{formattedCurrMsgTime}} Uhr</span>
-        </div>
-        <div class="message-box">
-            <span class="message-text">{{currentMessage.text}}</span>
-            <div class="reaction-container">
-                <div class="emoji-container">
-                    <button class="message-icon reaction-icon" (click)="emojiPickerLeft = !emojiPickerLeft"></button>
-                    <emoji-mart class="emoji-mart emoji-mart-message-reaction" *ngIf="emojiPickerLeft"
-                        (emojiSelect)="selectEmoji($event, emojiPickerLeft)" title="Choose your emoji"></emoji-mart>
-                </div>
-                @for(reaction of currentMessage.reactions; track $index){
-                <div class="reaction">
-                    <div>{{reaction.emojiNative}}</div>
-                    <span>{{reaction.count}}</span>
-                </div>
-                }
-            </div>
-        </div>
-
-        @if(allThreads.length > 0) {
-        <div class="message-answer">
-            <button class="message-answer-button" routerLinkActive="active"
-                [routerLink]="[{outlets:{thread:['channels', currentChannelId, 'th', currentMessage.uid]}}]"
-                (click)="threadService.openThread()">
-                {{allThreads.length}}
-                Antworten</button>
-            <span class="message-time">Letzte Antwort {{formattedThreadTime}} Uhr</span>
-        </div>
-        }
-
+  <div class="message-info">
+    <div class="message-user">
+      <span class="message-user-name" (click)="openProfile()">
+        {{ messageUser.name }}
+      </span>
+      <span class="message-time"
+        >{{
+          this.utilityService.getFormattedTime(currentMessage.sentAt)
+        }}
+        Uhr</span
+      >
     </div>
-
-    <div class="message-bar">
-        <div class="message-icon emoji-icon">
-            <img src="./../../../assets/img/icons/material-symbols/emoji-check.svg" alt="check emoji">
-        </div>
-        <div class="message-icon emoji-icon">
-            <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
-        </div>
+    <div class="message-box">
+      <span class="message-text">{{ currentMessage.text }}</span>
+      <div class="reaction-container">
         <div class="emoji-container">
-            <button class="message-icon reaction-icon" (click)="emojiPickerRight = !emojiPickerRight"></button>
-            <emoji-mart class="emoji-mart emoji-mart-message-left" *ngIf="emojiPickerRight"
-                (emojiSelect)="selectEmoji($event, emojiPickerRight)" title="Choose your emoji"></emoji-mart>
+          <button
+            class="message-icon reaction-icon"
+            (click)="emojiPickerLeft = !emojiPickerLeft"
+          ></button>
+          <emoji-mart
+            class="emoji-mart emoji-mart-message-reaction"
+            *ngIf="emojiPickerLeft"
+            (emojiSelect)="selectEmoji($event, emojiPickerLeft)"
+            title="Choose your emoji"
+          ></emoji-mart>
         </div>
-        <div class="message-icon thread-icon" [routerLink]="['threads', currentMessage.uid]"
-            (click)="threadService.openThread()"></div>
+        @for (reaction of currentMessage.reactions; track $index) {
+          <div class="reaction">
+            <div>{{ reaction.emojiNative }}</div>
+            <span>{{ reaction.count }}</span>
+          </div>
+        }
+      </div>
     </div>
+    @if (threadActive == false) {
+      @if (allThreads.length > 0) {
+        <div class="message-answer">
+          <button
+            class="message-answer-button"
+            routerLinkActive="active"
+            [routerLink]="[
+              '/main',
+              currentUserId,
+              {
+                outlets: {
+                  thread: [
+                    'channels',
+                    currentChannelId,
+                    'th',
+                    currentMessage.uid
+                  ]
+                }
+              }
+            ]"
+            (click)="threadService.openThread()"
+          >
+            {{ allThreads.length }}
+            {{ utilityService.getAntwort(allThreads.length) }}
+          </button>
+          <span class="message-time"
+            >Letzte Antwort {{ formattedThreadTime }} Uhr</span
+          >
+        </div>
+      }
+    }
+  </div>
+
+  <div class="message-bar">
+    <div class="message-icon emoji-icon">
+      <img
+        src="./../../../assets/img/icons/material-symbols/emoji-check.svg"
+        alt="check emoji"
+      />
+    </div>
+    <div class="message-icon emoji-icon">
+      <img
+        src="./../../../assets/img/icons/material-symbols/emoji-hands.svg"
+        alt="hands emoji"
+      />
+    </div>
+    <div class="emoji-container">
+      <button
+        class="message-icon reaction-icon"
+        (click)="emojiPickerRight = !emojiPickerRight"
+      ></button>
+      <emoji-mart
+        class="emoji-mart emoji-mart-message-left"
+        *ngIf="emojiPickerRight"
+        (emojiSelect)="selectEmoji($event, emojiPickerRight)"
+        title="Choose your emoji"
+      ></emoji-mart>
+    </div>
+    @if (threadActive == false) {
+      <div
+        class="message-icon thread-icon"
+        [routerLink]="[
+          '/main',
+          currentUserId,
+          {
+            outlets: {
+              thread: ['channels', currentChannelId, 'th', currentMessage.uid]
+            }
+          }
+        ]"
+        (click)="threadService.openThread()"
+      ></div>
+    }
+  </div>
 </section>

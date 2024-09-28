@@ -27,7 +27,7 @@
 
 @keyframes open {
   0% {
-    width: 0px; 
+    width: 0px;
   }
   100% {
     width: 350px;
@@ -81,7 +81,7 @@
   overflow: scroll;
 }
 
-.navigation-bar{
+.navigation-bar {
   position: absolute;
   z-index: 999;
   bottom: 100px;
@@ -93,39 +93,39 @@
   @include dFlex($g: 10px);
   flex-direction: column;
 
-  &:hover{
+  &:hover {
     cursor: pointer;
     color: $purple3;
 
-    .navbar-open-icon{
-      background-image: url('./../../../assets/img/icons/material-symbols/navbar-open-hover.svg');
+    .navbar-open-icon {
+      background-image: url("./../../../assets/img/icons/material-symbols/navbar-open-hover.svg");
     }
 
-    .navbar-closed-icon{
-      background-image: url('./../../../assets/img/icons/material-symbols/navbar-closed-hover.svg');
+    .navbar-closed-icon {
+      background-image: url("./../../../assets/img/icons/material-symbols/navbar-closed-hover.svg");
     }
   }
 }
 
-.navbar-open-icon{
+.navbar-open-icon {
   width: 32px;
   height: 32px;
-  background-image: url('./../../../assets/img/icons/material-symbols/navbar-open.svg');
+  background-image: url("./../../../assets/img/icons/material-symbols/navbar-open.svg");
 }
 
-.navbar-closed-icon{
+.navbar-closed-icon {
   width: 32px;
   height: 32px;
-  background-image: url('./../../../assets/img/icons/material-symbols/navbar-closed.svg');
+  background-image: url("./../../../assets/img/icons/material-symbols/navbar-closed.svg");
 }
 
-.navbar-text{
+.navbar-text {
   writing-mode: vertical-rl;
   transform: rotateZ(180deg);
   @include font($ff: Nunito500, $fs: 18px, $lh: 20px);
 }
 
-.thread-container{
-  max-width: 350px;
+.thread-container {
+  max-width: 485px;
   margin-left: 20px;
 }
