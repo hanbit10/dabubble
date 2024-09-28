@@ -17,11 +17,10 @@
 
     <div class="date-line">
       @if (currentThreads.length > 0) {
-        @if (currentThreads.length == 1) {
-          <span class="thread-line">{{ currentThreads.length }} Antwort</span>
-        } @else {
-          <span class="thread-line">{{ currentThreads.length }} Antworten</span>
-        }
+        <span class="thread-line"
+          >{{ currentThreads.length }}
+          {{ utilityService.getAntwort(currentThreads.length) }}
+        </span>
       }
 
       <div class="line"></div>

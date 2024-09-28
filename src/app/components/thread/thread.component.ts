@@ -11,6 +11,7 @@ import { UserProfile } from '../../models/users';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { Channel } from '../../models/channels';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-thread',
@@ -42,6 +43,7 @@ export class ThreadComponent implements OnInit {
     public messageService: MessageService,
     public userService: UserService,
     public channelService: ChannelService,
+    public utilityService: UtilityService,
     private route: ActivatedRoute,
   ) {}
   ngOnInit(): void {

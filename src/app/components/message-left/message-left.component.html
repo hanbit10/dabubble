@@ -59,7 +59,7 @@
             (click)="threadService.openThread()"
           >
             {{ allThreads.length }}
-            Antworten
+            {{ utilityService.getAntwort(allThreads.length) }}
           </button>
           <span class="message-time"
             >Letzte Antwort {{ formattedThreadTime }} Uhr</span
