@@ -27,10 +27,14 @@ export class ThreadService {
     return this.threadSubject.asObservable();
   }
 
-  subThreadList(currentChannelId: string, currentMessageId: string) {
+  subThreadList(
+    currentChannelId: string,
+    currentMessageId: string,
+    type: string,
+  ) {
     const docRef = collection(
       this.firestore,
-      'channels',
+      type,
       currentChannelId,
       'messages',
       currentMessageId,
@@ -77,13 +81,14 @@ export class ThreadService {
     currentChannelId: string,
     currentMessageId: string,
     currentUserId: string,
+    type: string,
   ) {
     console.log('is this triggered?');
     console.log(currentChannelId);
     console.log(currentMessageId);
     const docRef = collection(
       this.firestore,
-      'channels',
+      type,
       currentChannelId,
       'messages',
       currentMessageId,
@@ -102,7 +107,7 @@ export class ThreadService {
 
     const docRef2 = doc(
       this.firestore,
-      'channels',
+      type,
       currentChannelId,
       'messages',
       currentMessageId,

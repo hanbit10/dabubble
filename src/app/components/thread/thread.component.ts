@@ -37,6 +37,7 @@ export class ThreadComponent implements OnInit {
   currentChannel: any = {};
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
+  routePath: string = '';
 
   constructor(
     public threadService: ThreadService,
@@ -50,12 +51,21 @@ export class ThreadComponent implements OnInit {
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
+      const routePath = this.route.snapshot.url[0]['path'];
+      console.log('routePath', routePath);
       if (id && msgId) {
         this.currentId = id;
         this.currentMessageId = msgId;
-        this.threadService.subThreadList(this.currentId, this.currentMessageId);
-        this.messageService.subMessageList(this.currentId, 'channels');
-        this.channelService.subChannelById(this.currentId);
+        this.routePath = routePath;
+        this.threadService.subThreadList(
+          this.currentId,
+          this.currentMessageId,
+          this.routePath,
+        );
+        this.messageService.subMessageList(this.currentId, this.routePath);
+        if (this.routePath == 'channels') {
+          this.channelService.subChannelById(this.currentId);
+        }
       }
     });
 
@@ -105,6 +115,7 @@ export class ThreadComponent implements OnInit {
         this.currentId,
         this.currentMessageId,
         this.currentUserId,
+        this.routePath,
       );
     }
   }
