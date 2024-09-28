@@ -46,6 +46,7 @@ export class ChannelChatComponent implements OnInit {
     image: '',
   };
   threadActive: boolean = false;
+  collectionType: string = 'channels';
 
   constructor(
     public channelService: ChannelService,

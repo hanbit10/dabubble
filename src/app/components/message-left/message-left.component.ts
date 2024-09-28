@@ -28,6 +28,7 @@ export class MessageLeftComponent implements OnInit {
     this._items.next(value);
   }
   @Input() threadActive!: boolean;
+  @Input() collectionType!: string;
   get currentMessage(): Message {
     return this._items.getValue();
   }
@@ -36,7 +37,7 @@ export class MessageLeftComponent implements OnInit {
   messageUser: UserProfile = {} as UserProfile;
 
   allThreads: any[] = [];
-  currentChannelId: string = '';
+  currentId: string = '';
   currentUserId: string = '';
 
   private threadSubscription!: Subscription;
@@ -74,9 +75,9 @@ export class MessageLeftComponent implements OnInit {
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
-        this.currentChannelId = id;
+        this.currentId = id;
         this.allThreads = await this.threadService.getAllThreads(
-          this.currentChannelId,
+          this.currentId,
           this.currentMessage.uid,
         );
       }
@@ -112,7 +113,7 @@ export class MessageLeftComponent implements OnInit {
       event,
       this.userService.mainUser.name,
       this.currentMessage,
-      this.currentChannelId,
+      this.currentId,
     );
     emojiPicker = false;
   }
