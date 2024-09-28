@@ -74,7 +74,7 @@ export class MessageService {
    * Updates excisting reactions or creates new ones when adding a reaction to a message.
    * 
    * @param {string} emoji - the emoji that is given as reaction
-   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction
+   * @param {any} currentUser - the user that is logged in and is giving the reaction
    * @param {any} message - the message to which the reaction is added
    * @param {string} channelId - the Id of the channel where the message is written
    */
@@ -95,7 +95,7 @@ export class MessageService {
    * Checks if an emoji already exists as reaction for a message.
    * 
    * @param {string} emoji - the emoji that is given as reaction
-   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction
+   * @param {any} currentUser - the user that is logged in and is giving the reaction
    * @param {any} message - the message to which the reaction is added
    * @param {string} channelId - the Id of the channel where the message is written
    */
@@ -114,13 +114,13 @@ export class MessageService {
    * Handles adding and removing a reaction and updating the message.
    * 
    * @param {any} reaction - single reaction to a message
-   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction
+   * @param {any} currentUser - the user that is logged in and is giving the reaction
    * @param {any} message - the message to which the reaction is added
    * @param {string} channelId - the Id of the channel where the message is written
    * @param {number} i - position of the reaction in the reaction Array
    */
   handleSingleReaction(reaction: any, currentUser: any, message: any, channelId: string, i:number) {
-    if (reaction.users.includes(currentUser)) {
+    if (reaction.users.includes(currentUser.uid)) {
       this.removeReaction(reaction, currentUser, message, i);
     } else {
       this.addReaction(reaction, currentUser);
@@ -132,13 +132,13 @@ export class MessageService {
    * Removes an already existing reaction.
    * 
    * @param {any} reaction - single reaction to a message
-   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   * @param {any} currentUser - the user that is logged in and is giving the reaction 
    * @param {any} message - the message to which the reaction is added
    * @param {number} i - position of the reaction in the reaction Array
    */
   removeReaction(reaction: any, currentUser: any, message: any, i: number) {
     reaction.count--;
-    let indexOfUser = reaction.users.indexOf(currentUser);
+    let indexOfUser = reaction.users.indexOf(currentUser.uid);
     if (indexOfUser > -1){
       reaction.users.splice(indexOfUser, 1);
     }
@@ -148,10 +148,10 @@ export class MessageService {
   }
 
   /**
-   * Adds a reaction.
+   * Increases the count of an reaction and adds the user.
    * 
    * @param {any} reaction - single reaction to a message
-   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   * @param {any} currentUser - the user that is logged in and is giving the reaction 
    */
   addReaction(reaction: any, currentUser: any) {
     reaction.count++;
@@ -163,7 +163,7 @@ export class MessageService {
    * Adds a new reaction to the reactions Array of a message.
    * 
    * @param {string} emoji - the emoji that is given as reaction
-   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   * @param {any} currentUser - the user that is logged in and is giving the reaction 
    * @param {any} message - the message to which the reaction is added
    */
   addReactionToArray(emoji: string, currentUser: any, message: any) {
@@ -178,7 +178,7 @@ export class MessageService {
    * When the reactions Array of a message is null this adds the first reaction.
    * 
    * @param {string} emoji - the emoji that is given as reaction
-   * @param {any} currentUser - the name of the user that is logged in and is giving the reaction 
+   * @param {any} currentUser - the user that is logged in and is giving the reaction 
    * @param {any} message - the message to which the reaction is added
    */
   createReactions(emoji: string, currentUser: any, message: any) {

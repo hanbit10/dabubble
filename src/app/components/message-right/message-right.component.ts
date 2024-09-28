@@ -46,6 +46,7 @@ export class MessageRightComponent implements OnInit {
 
   emojiPickerLeft: boolean = false;
   emojiPickerRight: boolean = false;
+
   emojiPickerEdit: boolean = false;
   editTextArea: string = '...';
   addEmoji(event: any) {
@@ -102,6 +103,7 @@ export class MessageRightComponent implements OnInit {
     );
   }
 
+
   openProfile() {
     this.profileService.openMainProfile();
   }
@@ -128,7 +130,7 @@ export class MessageRightComponent implements OnInit {
   }
 
   selectEmoji(event: any, emojiPicker: any){
-    this.messageService.giveReaction(event.emoji.native, this.userService.mainUser.name, this.currentMessage, this.currentChannelId);
+    this.messageService.giveReaction(event.emoji.native, this.userService.mainUser, this.currentMessage, this.currentChannelId);
     emojiPicker = false;
   }
 }

@@ -15,7 +15,7 @@
                         (emojiSelect)="selectEmoji($event, emojiPickerLeft)" title="Choose your emoji"></emoji-mart>
                 </div>
                 @for(reaction of currentMessage.reactions; track $index){
-                <div class="reaction" (click)="messageService.handleSingleReaction(reaction, userService.mainUser.name, currentMessage, currentChannelId, $index)">
+                <div class="reaction" (click)="messageService.handleSingleReaction(reaction, userService.mainUser, currentMessage, currentChannelId, $index)">
                     <div>{{reaction.emojiNative}}</div>
                     <span>{{reaction.count}}</span>
 
@@ -57,10 +57,10 @@
     </div>
 
     <div class="message-bar">
-        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('✅', userService.mainUser.name, currentMessage, currentChannelId)">
+        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('✅', userService.mainUser, currentMessage, currentChannelId)">
             <img src="./../../../assets/img/icons/material-symbols/emoji-check.svg" alt="check emoji">
         </div>
-        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('🙌', userService.mainUser.name, currentMessage, currentChannelId)">
+        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('🙌', userService.mainUser, currentMessage, currentChannelId)">
             <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
         </div>
         <div class="emoji-container">
