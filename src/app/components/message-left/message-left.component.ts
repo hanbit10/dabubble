@@ -71,14 +71,6 @@ export class MessageLeftComponent implements OnInit {
         }
       });
 
-    // if (this.currentMessage && this.currentMessage.sentBy) {
-    //   this.userService.subUserById(this.currentMessage.sentBy);
-    // }
-
-    // this.usersSubscription = this.userService.userById$.subscribe((user) => {
-    //   this.messageUser = user;
-    // });
-
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
