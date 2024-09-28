@@ -27,15 +27,15 @@
     </div>
     @for (thread of currentThreads; track thread) {
       @if (thread.sentBy != currentUserId) {
-        <app-message-left
+        <!-- <app-message-left
           [getMessage]="thread"
           [threadActive]="threadActive"
-        ></app-message-left>
+        ></app-message-left> -->
       } @else if (thread.sentBy == currentUserId) {
-        <app-message-right
+        <!-- <app-message-right
           [getMessage]="thread"
           [threadActive]="threadActive"
-        ></app-message-right>
+        ></app-message-right> -->
       }
     }
   </section>

@@ -9,7 +9,7 @@ import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { ThreadService } from '../../services/thread.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UtilityService } from '../../services/utility.service';
 import { MessageService } from '../../services/message.service';
 
@@ -57,6 +57,7 @@ export class MessageRightComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     public profileService: ProfileService,
     public channelService: ChannelService,
     public userService: UserService,
@@ -80,11 +81,13 @@ export class MessageRightComponent implements OnInit {
 
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
+      const routePath = this.route.snapshot.url[0]['path'];
       if (id && this.currentMessage.uid) {
         this.currentId = id;
         this.allThreads = await this.threadService.getAllThreads(
           this.currentId,
           this.currentMessage.uid,
+          routePath,
         );
       }
     });

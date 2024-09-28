@@ -30,7 +30,7 @@ export class ThreadComponent implements OnInit {
     image: '',
   };
   currentMessageId: string = '';
-  currentChannelId: string = '';
+  currentId: string = '';
   currentUserId: string = '';
   currentThreads: Message[] = [];
   messageById: Message[] = [];
@@ -51,14 +51,11 @@ export class ThreadComponent implements OnInit {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
       if (id && msgId) {
-        this.currentChannelId = id;
+        this.currentId = id;
         this.currentMessageId = msgId;
-        this.threadService.subThreadList(
-          this.currentChannelId,
-          this.currentMessageId,
-        );
-        this.messageService.subMessageList(this.currentChannelId, 'channels');
-        this.channelService.subChannelById(this.currentChannelId);
+        this.threadService.subThreadList(this.currentId, this.currentMessageId);
+        this.messageService.subMessageList(this.currentId, 'channels');
+        this.channelService.subChannelById(this.currentId);
       }
     });
 
@@ -105,7 +102,7 @@ export class ThreadComponent implements OnInit {
     if (messageForm.valid) {
       this.threadService.sendThread(
         this.sentThread,
-        this.currentChannelId,
+        this.currentId,
         this.currentMessageId,
         this.currentUserId,
       );
