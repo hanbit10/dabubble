@@ -11,6 +11,9 @@ import {
 } from '@angular/fire/firestore';
 import { Message, Reaction } from '../models/message';
 import { BehaviorSubject } from 'rxjs';
+import { UserProfile } from '../models/users';
+import { UserService } from './user.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +25,7 @@ export class MessageService {
   messages: any[] = [];
   reactionExists = false;
 
-  constructor() { }
+  constructor(public userService: UserService) { }
 
   get messages$() {
     return this.messageSubject.asObservable();
@@ -120,8 +123,9 @@ export class MessageService {
    * @param {number} i - position of the reaction in the reaction Array
    */
   handleSingleReaction(reaction: any, currentUser: any, message: any, channelId: string, i:number) {
-    if (reaction.users.includes(currentUser.uid)) {
-      this.removeReaction(reaction, currentUser, message, i);
+    let user = reaction.users.find((user: { uid: any; }) => user.uid === currentUser.uid);
+    if (reaction.users.includes(user)) {
+      this.removeReaction(reaction, user, currentUser, message, i);
     } else {
       this.addReaction(reaction, currentUser);
     }
@@ -136,9 +140,10 @@ export class MessageService {
    * @param {any} message - the message to which the reaction is added
    * @param {number} i - position of the reaction in the reaction Array
    */
-  removeReaction(reaction: any, currentUser: any, message: any, i: number) {
+  removeReaction(reaction: any, user: any, currentUser: any, message: any, i: number) {
     reaction.count--;
-    let indexOfUser = reaction.users.indexOf(currentUser.uid);
+    let indexOfUser = reaction.users.indexOf(user);
+    
     if (indexOfUser > -1){
       reaction.users.splice(indexOfUser, 1);
     }
@@ -211,5 +216,23 @@ export class MessageService {
    */
   getSingleDocRef(col: string, docId: string) {
     return doc(collection(this.firestore, col), docId);
+  }
+
+  /**
+   * Searches through the subscribed list of users from `userService` to find a user based on its Id.
+   * Returns the current username.
+   * 
+   * @param {any} reactionUserId - the Id of the user which name should be returned
+   * @returns {string} - name of the user or `undefined` if the user is not found
+   */
+  getUserNameById(reactionUserId: any){
+    let reactionUser = {} as UserProfile;
+    let filteredUser = this.userService.users.find((user) => {
+        return user.uid === reactionUserId; 
+    });
+    if (filteredUser) {
+      reactionUser = filteredUser;
+    }
+    return reactionUser.name
   }
 }

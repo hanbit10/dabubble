@@ -31,7 +31,6 @@ export class MessageLeftComponent implements OnInit {
     return this._items.getValue();
   }
 
-  allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
 
   allThreads: any[] = [];
@@ -87,7 +86,6 @@ export class MessageLeftComponent implements OnInit {
     this.formattedThreadTime = this.utilityService.getFormattedTime(
       this.currentMessage.lastThreadReply!
     );
-    
   }
 
   openProfile() {
@@ -96,7 +94,7 @@ export class MessageLeftComponent implements OnInit {
   }
 
   selectEmoji(event: any, emojiPicker: any){
-    this.messageService.giveReaction(event.emoji.uid, this.userService.mainUser, this.currentMessage, this.currentChannelId);
+    this.messageService.giveReaction(event.emoji.uid, this.userService.mainUser.uid, this.currentMessage, this.currentChannelId);
     emojiPicker = false;
   }
 }

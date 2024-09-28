@@ -9,7 +9,7 @@
             <span class="message-text">{{currentMessage.text}}</span>
             <div [class]="currentMessage.reactions?.length === 0 || currentMessage.reactions === null ? 'hidden' : 'reaction-container'">
                 @for(reaction of currentMessage.reactions; track $index){
-                    <div class="reaction" (click)="messageService.handleSingleReaction(reaction, userService.mainUser, currentMessage, currentChannelId, $index)">
+                    <div class="reaction" (click)="messageService.handleSingleReaction(reaction, userService.mainUser.uid, currentMessage, currentChannelId, $index)">
                     <div>{{reaction.emojiNative}}</div>
                     <span>{{reaction.count}}</span>
 
@@ -17,18 +17,18 @@
                         <div class="reaction-hover-emoji">{{reaction.emojiNative}}</div>
 
                         @if(reaction.count == 1){
-                            <span><b>{{reaction.users[0]}}</b>
+                            <span><b>{{messageService.getUserNameById(reaction.users[0])}}</b>
                                 <br> hat reagiert</span>
                         }
 
                         @if(reaction.count == 2){
-                            <span><b>{{reaction.users[0]}} und 
-                                <br> {{reaction.users[1]}}</b>
+                            <span><b>{{messageService.getUserNameById(reaction.users[0])}} und 
+                                <br> {{messageService.getUserNameById(reaction.users[1])}}</b>
                                 <br> haben reagiert</span>
                         }
 
                         @if(reaction.count > 2){
-                            <span><b>{{reaction.users[0]}} und 
+                            <span><b>{{messageService.getUserNameById(reaction.users[0])}} und 
                                 <br> {{reaction.count - 1}} Weitere</b> haben reagiert</span>
                         }
                     </div>
@@ -57,10 +57,10 @@
     <img src="{{messageUser.profileImage}}" alt="profile-image">
 
     <div class="message-bar">
-        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('✅', userService.mainUser, currentMessage, currentChannelId)">
+        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('✅', userService.mainUser.uid, currentMessage, currentChannelId)">
             <img src="./../../../assets/img/icons/material-symbols/emoji-check.svg" alt="check emoji">
         </div>
-        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('🙌', userService.mainUser, currentMessage, currentChannelId)">
+        <div class="message-icon emoji-icon" (click)="messageService.giveReaction('🙌', userService.mainUser.uid, currentMessage, currentChannelId)">
             <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji">
         </div>
 
