@@ -2,19 +2,26 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { Message } from '../../models/message';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from '../../services/message.service';
+import { UserService } from '../../services/user.service';
+import { UserProfile } from '../../models/users';
+import { MessageLeftComponent } from '../message-left/message-left.component';
+import { MessageRightComponent } from '../message-right/message-right.component';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MessageLeftComponent, MessageRightComponent],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
 export class ThreadComponent implements OnInit {
   private threadSubscription!: Subscription;
+  private messageSubscription!: Subscription;
+  private userSubscription!: Subscription;
   sentThread: any = {
     text: '',
     image: '',
@@ -23,10 +30,15 @@ export class ThreadComponent implements OnInit {
   currentChannelId: string = '';
   currentUserId: string = '';
   currentThreads: Message[] = [];
+  messageById: Message[] = [];
+  userById: UserProfile = {} as UserProfile;
+  threadActive: boolean = true;
 
   constructor(
     public threadService: ThreadService,
-    private route: ActivatedRoute
+    public messageService: MessageService,
+    public userService: UserService,
+    private route: ActivatedRoute,
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -37,8 +49,9 @@ export class ThreadComponent implements OnInit {
         this.currentMessageId = msgId;
         this.threadService.subThreadList(
           this.currentChannelId,
-          this.currentMessageId
+          this.currentMessageId,
         );
+        this.messageService.subMessageList(this.currentChannelId, 'channels');
       }
     });
 
@@ -49,6 +62,18 @@ export class ThreadComponent implements OnInit {
       }
     });
 
+    this.messageSubscription = this.messageService.messages$
+      .pipe(
+        map((messages) =>
+          messages.find((message) => message.uid == this.currentMessageId),
+        ),
+      )
+      .subscribe((currMsg) => {
+        if (currMsg) {
+          this.messageById = [currMsg];
+        }
+      });
+
     this.threadSubscription = this.threadService.threads$.subscribe(
       (threads) => {
         this.currentThreads = threads.sort((a, b) => {
@@ -57,7 +82,7 @@ export class ThreadComponent implements OnInit {
           }
           return 0;
         });
-      }
+      },
     );
   }
 
@@ -67,7 +92,7 @@ export class ThreadComponent implements OnInit {
         this.sentThread,
         this.currentChannelId,
         this.currentMessageId,
-        this.currentUserId
+        this.currentUserId,
       );
     }
   }

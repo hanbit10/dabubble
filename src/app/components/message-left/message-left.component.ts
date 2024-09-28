@@ -27,6 +27,7 @@ export class MessageLeftComponent implements OnInit {
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
+  @Input() threadActive!: boolean;
   get currentMessage(): Message {
     return this._items.getValue();
   }
@@ -61,7 +62,7 @@ export class MessageLeftComponent implements OnInit {
     this.usersSubscription = this.userService.users$
       .pipe(
         map((users) =>
-          users.find((user) => user.uid === this.currentMessage.sentBy),
+          users.find((user) => user.uid == this.currentMessage.sentBy),
         ),
       )
       .subscribe((currUser) => {
@@ -69,6 +70,14 @@ export class MessageLeftComponent implements OnInit {
           this.messageUser = currUser;
         }
       });
+
+    // if (this.currentMessage && this.currentMessage.sentBy) {
+    //   this.userService.subUserById(this.currentMessage.sentBy);
+    // }
+
+    // this.usersSubscription = this.userService.userById$.subscribe((user) => {
+    //   this.messageUser = user;
+    // });
 
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
@@ -88,12 +97,17 @@ export class MessageLeftComponent implements OnInit {
       }
     });
 
-    this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
-      this.currentMessage.sentAt!,
-    );
-    this.formattedThreadTime = this.utilityService.getFormattedTime(
-      this.currentMessage.lastThreadReply!,
-    );
+    if (this.currentMessage && this.currentMessage.sentBy) {
+      this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
+        this.currentMessage.sentAt,
+      );
+    }
+
+    if (this.currentMessage && this.currentMessage.lastThreadReply) {
+      this.formattedThreadTime = this.utilityService.getFormattedTime(
+        this.currentMessage.lastThreadReply,
+      );
+    }
   }
 
   openProfile() {

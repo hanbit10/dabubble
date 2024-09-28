@@ -3,10 +3,17 @@
 
   <div class="message-info">
     <div class="message-user">
-      <span class="message-user-name" (click)="openProfile()">{{
-        messageUser.name
-      }}</span>
-      <span class="message-time">{{ formattedCurrMsgTime }} Uhr</span>
+      <span class="message-user-name" (click)="openProfile()">
+        @if (messageUser) {
+          {{ messageUser.name }}
+        }
+      </span>
+      <span class="message-time"
+        >{{
+          this.utilityService.getFormattedTime(currentMessage.sentAt)
+        }}
+        Uhr</span
+      >
     </div>
     <div class="message-box">
       <span class="message-text">{{ currentMessage.text }}</span>
@@ -31,30 +38,36 @@
         }
       </div>
     </div>
-
-    @if (allThreads.length > 0) {
-      <div class="message-answer">
-        <button
-          class="message-answer-button"
-          routerLinkActive="active"
-          [routerLink]="[
-            '/main',
-            currentUserId,
-            {
-              outlets: {
-                thread: ['channels', currentChannelId, 'th', currentMessage.uid]
+    @if (threadActive == false) {
+      @if (allThreads.length > 0) {
+        <div class="message-answer">
+          <button
+            class="message-answer-button"
+            routerLinkActive="active"
+            [routerLink]="[
+              '/main',
+              currentUserId,
+              {
+                outlets: {
+                  thread: [
+                    'channels',
+                    currentChannelId,
+                    'th',
+                    currentMessage.uid
+                  ]
+                }
               }
-            }
-          ]"
-          (click)="threadService.openThread()"
-        >
-          {{ allThreads.length }}
-          Antworten
-        </button>
-        <span class="message-time"
-          >Letzte Antwort {{ formattedThreadTime }} Uhr</span
-        >
-      </div>
+            ]"
+            (click)="threadService.openThread()"
+          >
+            {{ allThreads.length }}
+            Antworten
+          </button>
+          <span class="message-time"
+            >Letzte Antwort {{ formattedThreadTime }} Uhr</span
+          >
+        </div>
+      }
     }
   </div>
 
