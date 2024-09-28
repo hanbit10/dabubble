@@ -31,7 +31,10 @@
             [threadActive]="threadActive"
           ></app-message-left>
         } @else if (message.sentBy == this.currentUserId) {
-          <app-message-right [getMessage]="message"></app-message-right>
+          <app-message-right
+            [getMessage]="message"
+            [threadActive]="threadActive"
+          ></app-message-right>
         }
       }
     }

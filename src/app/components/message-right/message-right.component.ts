@@ -26,6 +26,7 @@ export class MessageRightComponent implements OnInit {
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
+  @Input() threadActive!: boolean;
 
   get currentMessage(): Message {
     return this._items.getValue();
@@ -67,8 +68,8 @@ export class MessageRightComponent implements OnInit {
     this.usersSubscription = this.userService.users$
       .pipe(
         map((users) =>
-          users.find((user) => user.uid === this.currentMessage.sentBy)
-        )
+          users.find((user) => user.uid === this.currentMessage.sentBy),
+        ),
       )
       .subscribe((currUser) => {
         if (currUser) {
@@ -82,7 +83,7 @@ export class MessageRightComponent implements OnInit {
         this.currentChannelId = id;
         this.allThreads = await this.threadService.getAllThreads(
           this.currentChannelId,
-          this.currentMessage.uid
+          this.currentMessage.uid,
         );
       }
     });
@@ -95,10 +96,10 @@ export class MessageRightComponent implements OnInit {
     });
 
     this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
-      this.currentMessage.sentAt!
+      this.currentMessage.sentAt!,
     );
     this.formattedThreadTime = this.utilityService.getFormattedTime(
-      this.currentMessage.lastThreadReply!
+      this.currentMessage.lastThreadReply!,
     );
   }
 
@@ -127,8 +128,13 @@ export class MessageRightComponent implements OnInit {
     this.settingIsOpen = false;
   }
 
-  selectEmoji(event: any, emojiPicker: any){
-    this.messageService.giveReaction(event, this.userService.mainUser.name, this.currentMessage, this.currentChannelId);
+  selectEmoji(event: any, emojiPicker: any) {
+    this.messageService.giveReaction(
+      event,
+      this.userService.mainUser.name,
+      this.currentMessage,
+      this.currentChannelId,
+    );
     emojiPicker = false;
   }
 }

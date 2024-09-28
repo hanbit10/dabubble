@@ -18,10 +18,17 @@
     {{ this.currentChannelId }}
     {{ this.currentMessageId }}
     @for (thread of currentThreads; track thread) {
-      <app-message-left
-        [getMessage]="thread"
-        [threadActive]="threadActive"
-      ></app-message-left>
+      @if (thread.sentBy != currentUserId) {
+        <app-message-left
+          [getMessage]="thread"
+          [threadActive]="threadActive"
+        ></app-message-left>
+      } @else if (thread.sentBy == currentUserId) {
+        <app-message-right
+          [getMessage]="thread"
+          [threadActive]="threadActive"
+        ></app-message-right>
+      }
     }
   </section>
 

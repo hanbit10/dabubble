@@ -4,9 +4,7 @@
   <div class="message-info">
     <div class="message-user">
       <span class="message-user-name" (click)="openProfile()">
-        @if (messageUser) {
-          {{ messageUser.name }}
-        }
+        {{ messageUser.name }}
       </span>
       <span class="message-time"
         >{{
@@ -96,18 +94,20 @@
         title="Choose your emoji"
       ></emoji-mart>
     </div>
-    <div
-      class="message-icon thread-icon"
-      [routerLink]="[
-        '/main',
-        currentUserId,
-        {
-          outlets: {
-            thread: ['channels', currentChannelId, 'th', currentMessage.uid]
+    @if (threadActive == false) {
+      <div
+        class="message-icon thread-icon"
+        [routerLink]="[
+          '/main',
+          currentUserId,
+          {
+            outlets: {
+              thread: ['channels', currentChannelId, 'th', currentMessage.uid]
+            }
           }
-        }
-      ]"
-      (click)="threadService.openThread()"
-    ></div>
+        ]"
+        (click)="threadService.openThread()"
+      ></div>
+    }
   </div>
 </section>
