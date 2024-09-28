@@ -5,11 +5,16 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Message } from '../../models/message';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from '../../services/message.service';
+import { UserProfile } from '../../models/users';
+import { UserService } from '../../services/user.service';
+import { MessageLeftComponent } from '../message-left/message-left.component';
+import { MessageRightComponent } from '../message-right/message-right.component';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MessageLeftComponent, MessageRightComponent],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
@@ -23,12 +28,18 @@ export class ThreadComponent implements OnInit {
   currentChannelId: string = '';
   currentUserId: string = '';
   currentThreads: Message[] = [];
+  currentMessage: any;
+  currentChannel: any;
+  messageUser: any;
 
   constructor(
     public threadService: ThreadService,
-    private route: ActivatedRoute
+    public messageService: MessageService,
+    public channelService: ChannelService,
+    public userService: UserService,
+    private route: ActivatedRoute,
   ) {}
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
@@ -37,7 +48,7 @@ export class ThreadComponent implements OnInit {
         this.currentMessageId = msgId;
         this.threadService.subThreadList(
           this.currentChannelId,
-          this.currentMessageId
+          this.currentMessageId,
         );
       }
     });
@@ -57,7 +68,21 @@ export class ThreadComponent implements OnInit {
           }
           return 0;
         });
-      }
+      },
+    );
+
+    this.currentMessage = await this.messageService.getMessageById(
+      this.currentChannelId,
+      this.currentMessageId,
+      'channels',
+    );
+
+    this.currentChannel = await this.channelService.getChannelById(
+      this.currentChannelId,
+    );
+
+    this.messageUser = await this.userService.getUserById(
+      this.currentMessage.sentBy,
     );
   }
 
@@ -67,7 +92,7 @@ export class ThreadComponent implements OnInit {
         this.sentThread,
         this.currentChannelId,
         this.currentMessageId,
-        this.currentUserId
+        this.currentUserId,
       );
     }
   }

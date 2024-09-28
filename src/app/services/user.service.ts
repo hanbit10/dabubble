@@ -8,6 +8,7 @@ import {
   updateDoc,
   doc,
   onSnapshot,
+  getDoc,
 } from '@angular/fire/firestore';
 import { UserProfile } from '../models/users';
 import { BehaviorSubject } from 'rxjs';
@@ -16,7 +17,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  firestore: Firestore = inject(Firestore);  
+  firestore: Firestore = inject(Firestore);
 
   users: UserProfile[] = [];
   unsubUsers;
@@ -44,6 +45,12 @@ export class UserService {
       allUsers.push(userData);
     });
     return allUsers;
+  }
+
+  async getUserById(userId: string) {
+    const docRef = doc(this.firestore, 'users', userId);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data();
   }
 
   async getAllUsersOnSnapshot() {

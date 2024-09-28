@@ -6,6 +6,7 @@ import {
   collection,
   doc,
   Firestore,
+  getDoc,
   getDocs,
   onSnapshot,
   query,
@@ -33,7 +34,7 @@ export class ChannelService {
   async createNewChannel(
     newChannel: any,
     chosen: UserProfile[],
-    currentUserId: string
+    currentUserId: string,
   ) {
     let data: Channel = {
       name: newChannel.name,
@@ -99,5 +100,11 @@ export class ChannelService {
     updateDoc(docRef, {
       usersIds: arrayRemove(currentUserId),
     });
+  }
+
+  async getChannelById(currentChannelId: string) {
+    const docRef = doc(this.firestore, 'channels', currentChannelId);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data();
   }
 }
