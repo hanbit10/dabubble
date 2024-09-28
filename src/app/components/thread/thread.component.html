@@ -25,9 +25,6 @@
 
       <div class="line"></div>
     </div>
-
-    {{ this.currentChannelId }}
-    {{ this.currentMessageId }}
     @for (thread of currentThreads; track thread) {
       @if (thread.sentBy != currentUserId) {
         <app-message-left
