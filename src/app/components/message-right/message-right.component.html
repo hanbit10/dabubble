@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-
+      {{ allThreads.length }}
       @if (allThreads.length > 0) {
         <div class="message-answer">
           <button
@@ -90,21 +90,19 @@
         ></emoji-mart>
       </div>
 
-      @if (threadActive == false) {
-        <div
-          class="message-icon thread-icon"
-          [routerLink]="[
-            '/main',
-            currentUserId,
-            {
-              outlets: {
-                thread: ['channels', currentChannelId, 'th', currentMessage.uid]
-              }
+      <div
+        class="message-icon thread-icon"
+        [routerLink]="[
+          '/main',
+          currentUserId,
+          {
+            outlets: {
+              thread: ['channels', currentChannelId, 'th', currentMessage.uid]
             }
-          ]"
-          (click)="threadService.openThread()"
-        ></div>
-      }
+          }
+        ]"
+        (click)="threadService.openThread()"
+      ></div>
 
       <div
         class="message-icon settings-icon"
