@@ -1,45 +1,57 @@
 <section class="message-container">
-    <header class="chat-header">
-        <div class="contact-container" (click)="openProfile()">
-            <div class="profile-pic">
-                <img src="{{otherUser.profileImage}}" alt="profile pic">
-                <div class="online-status" [class]="otherUser.active ? 'active' : 'absent'"></div>
-            </div>
-            {{ otherUser.name }}
-        </div>
-    </header>
+  <header class="chat-header">
+    <div class="contact-container" (click)="openProfile()">
+      <div class="profile-pic">
+        <img src="{{ otherUser.profileImage }}" alt="profile pic" />
+        <div
+          class="online-status"
+          [class]="otherUser.active ? 'active' : 'absent'"
+        ></div>
+      </div>
+      {{ otherUser.name }}
+    </div>
+  </header>
 
-    <section class="chat-container">
-
-        @if(currentMessages.length == 0) {
-        <!-- <div class="no-messages">{{currentChannel.name}}</div>
+  <section class="chat-container">
+    @if (currentMessages.length == 0) {
+      <!-- <div class="no-messages">{{currentChannel.name}}</div>
         <p>Du hast diesn Channel {{formatDate(currentChannel.createdAt?.toDate())}} erstellt. Das ist der Anfang des
             Channels
             # {{currentChannel.name}}</p> -->
-        } @else {
-        @for(message of currentMessages; track message; let i = $index) {
-        @if(utilityService.shouldShowTimestamp(message) || i == 0) {
-        <div class="date-line">
+    } @else {
+      @for (message of currentMessages; track message; let i = $index) {
+        @if (utilityService.shouldShowTimestamp(message) || i == 0) {
+          <div class="date-line">
             <div class="line"></div>
-            <span class="message-date">{{ utilityService.formatDate(message.sentAt.toDate()) }}</span>
+            <span class="message-date">{{
+              utilityService.formatDate(message.sentAt.toDate())
+            }}</span>
             <div class="line"></div>
-        </div>
+          </div>
         }
-        @if(message.sentBy != this.currentUserId) {
+        <!-- @if(message.sentBy != this.currentUserId) {
         <app-message-left [getMessage]="message"></app-message-left>
         }@else if(message.sentBy == this.currentUserId) {
         <app-message-right [getMessage]="message"></app-message-right>
-        }
-        }
-        }
-    </section>
+        } -->
+      }
+    }
+  </section>
 
-    <section class="sendMessage-container">
-        <div class="sendMessage-component">
-            <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
-                <textarea name="message" id="" [(ngModel)]="sentMessage.text"></textarea>
-                <button type="submit">send</button>
-            </form>
-        </div>
-    </section>
+  <section class="sendMessage-container">
+    <div class="sendMessage-component">
+      <form
+        id="message-form"
+        (ngSubmit)="onSubmit(messageForm)"
+        #messageForm="ngForm"
+      >
+        <textarea
+          name="message"
+          id=""
+          [(ngModel)]="sentMessage.text"
+        ></textarea>
+        <button type="submit">send</button>
+      </form>
+    </div>
+  </section>
 </section>

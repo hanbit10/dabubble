@@ -34,7 +34,7 @@ export class ThreadService {
       currentChannelId,
       'messages',
       currentMessageId,
-      'threads'
+      'threads',
     );
     return onSnapshot(docRef, (list) => {
       this.threads = [];
@@ -45,14 +45,18 @@ export class ThreadService {
     });
   }
 
-  async getAllThreads(currentChannelId: string, currentMessageId: string) {
+  async getAllThreads(
+    currentChannelId: string,
+    currentMessageId: string,
+    type: string,
+  ) {
     const docRef = collection(
       this.firestore,
-      'channels',
+      type,
       currentChannelId,
       'messages',
       currentMessageId,
-      'threads'
+      'threads',
     );
 
     const querySnapshot = await getDocs(docRef);
@@ -72,7 +76,7 @@ export class ThreadService {
     sentThread: any,
     currentChannelId: string,
     currentMessageId: string,
-    currentUserId: string
+    currentUserId: string,
   ) {
     console.log('is this triggered?');
     console.log(currentChannelId);
@@ -83,7 +87,7 @@ export class ThreadService {
       currentChannelId,
       'messages',
       currentMessageId,
-      'threads'
+      'threads',
     );
 
     let data: Thread = {
@@ -101,7 +105,7 @@ export class ThreadService {
       'channels',
       currentChannelId,
       'messages',
-      currentMessageId
+      currentMessageId,
     );
 
     await updateDoc(docRef2, {

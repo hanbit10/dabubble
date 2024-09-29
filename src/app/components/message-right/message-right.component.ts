@@ -27,6 +27,7 @@ export class MessageRightComponent implements OnInit {
     this._items.next(value);
   }
   @Input() threadActive!: boolean;
+  @Input() collectionType!: string;
 
   get currentMessage(): Message {
     return this._items.getValue();
@@ -86,12 +87,14 @@ export class MessageRightComponent implements OnInit {
 
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
+      console.log(this.collectionType);
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
         if (this.threadActive == false) {
           this.allThreads = await this.threadService.getAllThreads(
             this.currentChannelId,
             this.currentMessage.uid,
+            this.collectionType,
           );
         }
         console.log(this.allThreads);

@@ -41,7 +41,7 @@
               {
                 outlets: {
                   thread: [
-                    'channels',
+                    collectionType,
                     currentChannelId,
                     'th',
                     currentMessage.uid
@@ -98,7 +98,12 @@
             currentUserId,
             {
               outlets: {
-                thread: ['channels', currentChannelId, 'th', currentMessage.uid]
+                thread: [
+                  collectionType,
+                  currentChannelId,
+                  'th',
+                  currentMessage.uid
+                ]
               }
             }
           ]"

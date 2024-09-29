@@ -31,6 +31,7 @@ export class MessageLeftComponent implements OnInit {
   get currentMessage(): Message {
     return this._items.getValue();
   }
+  @Input() collectionType!: string;
 
   allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
@@ -84,10 +85,10 @@ export class MessageLeftComponent implements OnInit {
         this.currentChannelId = id;
 
         if (this.threadActive == false) {
-          this.allThreads = await this.threadService.getAllThreads(
-            this.currentChannelId,
-            this.currentMessage.uid,
-          );
+          // this.allThreads = await this.threadService.getAllThreads(
+          //   this.currentChannelId,
+          //   this.currentMessage.uid,
+          // );
         }
       }
     });

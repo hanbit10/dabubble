@@ -37,6 +37,7 @@ export class ThreadComponent implements OnInit {
   currentChannel: any = {};
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
+  collectionType: string = 'threads';
 
   constructor(
     public threadService: ThreadService,
