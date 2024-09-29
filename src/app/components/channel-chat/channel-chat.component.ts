@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
 import { ActivatedRoute } from '@angular/router';
-import { concatMapTo, map, Subscription } from 'rxjs';
+import { concatMapTo, filter, map, Subscription } from 'rxjs';
 import { Channel } from '../../models/channels';
 import { ChannelProfileComponent } from './channel-profile/channel-profile.component';
 import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.component';
@@ -39,7 +39,7 @@ export class ChannelChatComponent implements OnInit {
   currentChannelId: string = '';
   currentUserId: string = '';
   allChannels: any[] = [];
-  currentChannel: Channel = {} as Channel;
+  currentChannel: any = {} as Channel;
   currentMessages: Message[] = [];
   sentMessage: any = {
     text: '',
@@ -54,44 +54,49 @@ export class ChannelChatComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
   ngOnInit(): void {
-    this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentChannelId = id;
-        this.messageService.subMessageList(this.currentChannelId, 'channels');
-        this.channelSubscription = this.channelService.channels$
-          .pipe(
-            map((channels) =>
-              channels.find((channel) => channel.uid === this.currentChannelId),
-            ),
-          )
-          .subscribe((currentChannel) => {
-            if (currentChannel) {
-              this.currentChannel = currentChannel;
-            } else {
-              console.log('Channel not found');
-            }
-          });
-      }
-    });
-
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.currentUserId = id;
       }
     });
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      if (id) {
+        this.currentChannelId = id;
+        console.log(this.currentChannelId);
+        this.messageService.subMessageList(this.currentChannelId, 'channels');
+        this.channelSubscription = this.channelService.channels$
+          .pipe(
+            filter((channels) => channels.length > 0), // Only proceed when channels is not empty
+            map((channels) => {
+              console.log('Emitted Channels:', channels); // Log emitted channels
+              return channels.find(
+                (channel) => channel.uid === this.currentChannelId,
+              );
+            }),
+          )
+          .subscribe((currentChannel) => {
+            console.log('Current Channel Found:', currentChannel); // Log the found channel
+            if (currentChannel) {
+              this.currentChannel = currentChannel;
+            }
+          });
 
-    this.messageSubscription = this.messageService.messages$.subscribe(
-      (messages) => {
-        this.currentMessages = messages.sort((a, b) => {
-          if (a.sentAt && b.sentAt) {
-            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-          }
-          return 0;
-        });
-      },
-    );
+        this.messageSubscription = this.messageService.messages$.subscribe(
+          (messages) => {
+            this.currentMessages = messages.sort((a, b) => {
+              if (a.sentAt && b.sentAt) {
+                return (
+                  a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime()
+                );
+              }
+              return 0;
+            });
+          },
+        );
+      }
+    });
   }
 
   onSubmit(messageForm: NgForm) {

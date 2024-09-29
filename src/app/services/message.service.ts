@@ -61,6 +61,8 @@ export class MessageService {
       list.forEach((doc) => {
         this.messages.push(doc.data());
       });
+
+      console.log(this.messages);
       this.messageSubject.next(this.messages);
     });
   }
