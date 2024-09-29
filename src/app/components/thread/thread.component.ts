@@ -57,7 +57,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('channelId');
+      const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
       if (id && msgId) {
         this.currentChannelId = id;
