@@ -24,7 +24,12 @@ export const routes: Routes = [
     path: 'main/:id',
     component: MainComponent,
     children: [
-      { path: 'users/:id', component: DirectChatComponent },
+      { path: 'chats/:id', component: DirectChatComponent },
+      {
+        path: 'chats/:id/th/:msgId',
+        component: ThreadComponent,
+        outlet: 'thread',
+      },
       {
         path: 'channels/:id',
         component: ChannelChatComponent,

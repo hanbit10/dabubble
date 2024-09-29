@@ -77,21 +77,24 @@ export class MessageRightComponent implements OnInit {
         }
       });
 
-    this.route.paramMap.subscribe(async (paramMap) => {
-      const id = paramMap.get('id');
-      if (id && this.currentMessage.uid) {
-        this.currentChannelId = id;
-        this.allThreads = await this.threadService.getAllThreads(
-          this.currentChannelId,
-          this.currentMessage.uid,
-        );
-      }
-    });
-
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.currentUserId = id;
+      }
+    });
+
+    this.route.paramMap.subscribe(async (paramMap) => {
+      const id = paramMap.get('id');
+      if (id && this.currentMessage.uid) {
+        this.currentChannelId = id;
+        if (this.threadActive == false) {
+          this.allThreads = await this.threadService.getAllThreads(
+            this.currentChannelId,
+            this.currentMessage.uid,
+          );
+        }
+        console.log(this.allThreads);
       }
     });
 
