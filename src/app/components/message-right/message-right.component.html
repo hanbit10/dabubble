@@ -91,20 +91,21 @@
           title="Choose your emoji"
         ></emoji-mart>
       </div>
-
-      <div
-        class="message-icon thread-icon"
-        [routerLink]="[
-          '/main',
-          currentUserId,
-          {
-            outlets: {
-              thread: ['channels', currentChannelId, 'th', currentMessage.uid]
+      @if (threadActive == false) {
+        <div
+          class="message-icon thread-icon"
+          [routerLink]="[
+            '/main',
+            currentUserId,
+            {
+              outlets: {
+                thread: ['channels', currentChannelId, 'th', currentMessage.uid]
+              }
             }
-          }
-        ]"
-        (click)="threadService.openThread()"
-      ></div>
+          ]"
+          (click)="threadService.openThread()"
+        ></div>
+      }
 
       <div
         class="message-icon settings-icon"
