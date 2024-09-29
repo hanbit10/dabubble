@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -20,7 +20,7 @@ import { MessageService } from '../../services/message.service';
   templateUrl: './message-right.component.html',
   styleUrl: './message-right.component.scss',
 })
-export class MessageRightComponent implements OnInit {
+export class MessageRightComponent implements OnInit, OnDestroy {
   private _items = new BehaviorSubject<Message>({} as Message);
 
   @Input() set getMessage(value: Message) {
@@ -33,6 +33,8 @@ export class MessageRightComponent implements OnInit {
   }
 
   public usersSubscription!: Subscription;
+  public routeSubscription!: Subscription;
+  public routeParentSubscription?: Subscription;
   settingIsOpen: boolean = false;
   editMessageIsOpen: boolean = false;
   allUsers: UserProfile[] = [];
@@ -77,14 +79,16 @@ export class MessageRightComponent implements OnInit {
         }
       });
 
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
 
-    this.route.paramMap.subscribe(async (paramMap) => {
+    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
@@ -141,5 +145,11 @@ export class MessageRightComponent implements OnInit {
       this.currentChannelId,
     );
     emojiPicker = false;
+  }
+
+  ngOnDestroy(): void {
+    this.usersSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
+    this.routeParentSubscription?.unsubscribe;
   }
 }

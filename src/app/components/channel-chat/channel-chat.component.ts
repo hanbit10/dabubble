@@ -75,7 +75,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
       if (id) {
         this.currentChannelId = id;
         console.log('this is currentChannel id', this.currentChannelId);
-
+        this.messageService.subMessageList(this.currentChannelId, 'channels');
         this.channelSubscription = this.channelService.channels$
           .pipe(
             filter((channels) => channels.length > 0), // Only proceed when channels is not empty
@@ -107,7 +107,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
         console.log('sorted messages', this.currentMessages);
       },
     );
-    this.messageService.subMessageList(this.currentChannelId, 'channels');
   }
 
   onSubmit(messageForm: NgForm) {
