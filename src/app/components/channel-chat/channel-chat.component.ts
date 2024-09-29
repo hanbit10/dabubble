@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
 import { ActivatedRoute } from '@angular/router';
@@ -33,9 +38,11 @@ import { UtilityService } from '../../services/utility.service';
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
 })
-export class ChannelChatComponent implements OnInit {
+export class ChannelChatComponent implements OnInit, OnDestroy {
   private channelSubscription!: Subscription;
   private messageSubscription!: Subscription;
+  private paramsSubscription!: Subscription;
+  private paramsParentSubscription?: Subscription;
   currentChannelId: string = '';
   currentUserId: string = '';
   allChannels: any[] = [];
@@ -53,19 +60,22 @@ export class ChannelChatComponent implements OnInit {
     public utilityService: UtilityService,
     private route: ActivatedRoute,
   ) {}
+
   ngOnInit(): void {
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
-    this.route.params.subscribe((params) => {
+    this.paramsParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
+    this.paramsSubscription = this.route.params.subscribe((params) => {
       const id = params['id'];
       if (id) {
         this.currentChannelId = id;
-        console.log(this.currentChannelId);
-        this.messageService.subMessageList(this.currentChannelId, 'channels');
+        console.log('this is currentChannel id', this.currentChannelId);
+
         this.channelSubscription = this.channelService.channels$
           .pipe(
             filter((channels) => channels.length > 0), // Only proceed when channels is not empty
@@ -82,21 +92,22 @@ export class ChannelChatComponent implements OnInit {
               this.currentChannel = currentChannel;
             }
           });
-
-        this.messageSubscription = this.messageService.messages$.subscribe(
-          (messages) => {
-            this.currentMessages = messages.sort((a, b) => {
-              if (a.sentAt && b.sentAt) {
-                return (
-                  a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime()
-                );
-              }
-              return 0;
-            });
-          },
-        );
       }
     });
+
+    this.messageSubscription = this.messageService.messages$.subscribe(
+      (messages) => {
+        console.log('messages', messages);
+        this.currentMessages = messages.sort((a, b) => {
+          if (a.sentAt && b.sentAt) {
+            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
+          }
+          return 0;
+        });
+        console.log('sorted messages', this.currentMessages);
+      },
+    );
+    this.messageService.subMessageList(this.currentChannelId, 'channels');
   }
 
   onSubmit(messageForm: NgForm) {
@@ -108,5 +119,12 @@ export class ChannelChatComponent implements OnInit {
         'channels',
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.channelSubscription.unsubscribe();
+    this.messageSubscription.unsubscribe();
+    this.paramsSubscription.unsubscribe();
+    this.paramsParentSubscription?.unsubscribe();
   }
 }

@@ -16,6 +16,8 @@
       </div>
     } @else {
       @for (message of currentMessages; track message; let i = $index) {
+        {{ currentChannel.name }}
+        {{ currentMessages.length }}
         @if (utilityService.shouldShowTimestamp(message) || i == 0) {
           <div class="date-line">
             <div class="line"></div>

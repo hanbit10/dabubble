@@ -86,6 +86,7 @@ export class MessageService {
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
       lastThreadReply: null,
+      threadReplies: 0,
       reactions: null,
     };
 

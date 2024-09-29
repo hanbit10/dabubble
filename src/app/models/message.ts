@@ -7,11 +7,12 @@ export interface Message {
   sentAt: Timestamp;
   uid: string;
   lastThreadReply: Timestamp | null;
+  threadReplies: number;
   reactions: Reaction[] | null;
 }
 
 export interface Reaction {
-  emojiNative: '',
-  users: string[],
-  count: number
+  emojiNative: '';
+  users: string[];
+  count: number;
 }
