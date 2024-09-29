@@ -34,20 +34,20 @@ export class MessageService {
     return this.messageByIdSubject.asObservable();
   }
 
-  subMessageById(currentChannelId: string, curentMessage: string) {
-    const docRef = doc(
-      this.firestore,
-      'channels',
-      currentChannelId,
-      'messages',
-      curentMessage,
-    );
+  // subMessageById(currentChannelId: string, curentMessage: string) {
+  //   const docRef = doc(
+  //     this.firestore,
+  //     'channels',
+  //     currentChannelId,
+  //     'messages',
+  //     curentMessage,
+  //   );
 
-    return onSnapshot(docRef, (doc) => {
-      this.messageById = doc.data();
-      this.messageByIdSubject.next(this.messageById);
-    });
-  }
+  //   return onSnapshot(docRef, (doc) => {
+  //     this.messageById = doc.data();
+  //     this.messageByIdSubject.next(this.messageById);
+  //   });
+  // }
 
   subMessageList(currentChannelId: string, type: string) {
     const docRef = collection(

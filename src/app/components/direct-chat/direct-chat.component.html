@@ -30,9 +30,17 @@
           </div>
         }
         @if (message.sentBy != this.currentUserId) {
-          <!-- <app-message-left [getMessage]="message"></app-message-left> -->
+          <app-message-left
+            [getMessage]="message"
+            [threadActive]="threadActive"
+            [collectionType]="collectionType"
+          ></app-message-left>
         } @else if (message.sentBy == this.currentUserId) {
-          <!-- <app-message-right [getMessage]="message"></app-message-right> -->
+          <app-message-right
+            [getMessage]="message"
+            [threadActive]="threadActive"
+            [collectionType]="collectionType"
+          ></app-message-right>
         }
       }
     }

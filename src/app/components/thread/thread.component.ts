@@ -12,6 +12,7 @@ import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { Channel } from '../../models/channels';
 import { UtilityService } from '../../services/utility.service';
+import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
   selector: 'app-thread',
@@ -45,34 +46,36 @@ export class ThreadComponent implements OnInit {
     public userService: UserService,
     public channelService: ChannelService,
     public utilityService: UtilityService,
+    public directChatService: DirectChatService,
     private route: ActivatedRoute,
   ) {}
   ngOnInit(): void {
-    this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      const msgId = paramMap.get('msgId');
-      const routePath = this.route.snapshot.url[0]['path'];
-      console.log('routePath', routePath);
-      if (id && msgId) {
-        this.currentId = id;
-        this.currentMessageId = msgId;
-        this.routePath = routePath;
-        this.threadService.subThreadList(
-          this.currentId,
-          this.currentMessageId,
-          this.routePath,
-        );
-        this.messageService.subMessageList(this.currentId, this.routePath);
-        if (this.routePath == 'channels') {
-          this.channelService.subChannelById(this.currentId);
-        }
-      }
-    });
-
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.currentUserId = id;
+      }
+    });
+
+    this.route.paramMap.subscribe(async (paramMap) => {
+      const id = paramMap.get('id');
+      const msgId = paramMap.get('msgId');
+      const routePath = this.route.snapshot.url[0]['path'];
+
+      if (id && msgId) {
+        this.currentId = id;
+        console.log('currentId', this.currentId);
+        this.currentMessageId = msgId;
+        this.routePath = routePath;
+        console.log('current routePath', routePath);
+        console.log('current id', id);
+        console.log('current id', this.currentId);
+        console.log('currentMessageId', this.currentMessageId);
+        this.threadService.subThreadList(id, msgId, this.routePath);
+        this.messageService.subMessageList(this.currentId, this.routePath);
+        if (this.routePath == 'channels') {
+          this.channelService.subChannelById(this.currentId);
+        }
       }
     });
 

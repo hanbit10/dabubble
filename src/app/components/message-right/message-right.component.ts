@@ -12,6 +12,7 @@ import { ThreadService } from '../../services/thread.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UtilityService } from '../../services/utility.service';
 import { MessageService } from '../../services/message.service';
+import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
   selector: 'app-message-right',
@@ -64,6 +65,7 @@ export class MessageRightComponent implements OnInit {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
+    public directChatService: DirectChatService,
   ) {}
 
   ngOnInit(): void {
@@ -79,23 +81,30 @@ export class MessageRightComponent implements OnInit {
         }
       });
 
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentUserId = id;
+      }
+    });
+
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const routePath = this.route.snapshot.url[0]['path'];
       if (id && this.currentMessage.uid) {
         this.currentId = id;
+        if (routePath == 'chats' && id) {
+          this.currentId = await this.directChatService.getChatId(
+            id,
+            this.currentUserId,
+          );
+        }
         this.allThreads = await this.threadService.getAllThreads(
           this.currentId,
           this.currentMessage.uid,
           routePath,
         );
-      }
-    });
-
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
+        console.log('allThreads', this.allThreads);
       }
     });
 

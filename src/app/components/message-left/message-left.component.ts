@@ -14,6 +14,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { UtilityService } from '../../services/utility.service';
 import { Channel } from '../../models/channels';
 import { MessageService } from '../../services/message.service';
+import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
   selector: 'app-message-left',
@@ -57,6 +58,7 @@ export class MessageLeftComponent implements OnInit {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
+    public directChatService: DirectChatService,
   ) {}
 
   ngOnInit(): void {
@@ -72,23 +74,30 @@ export class MessageLeftComponent implements OnInit {
         }
       });
 
-    this.route.paramMap.subscribe(async (paramMap) => {
-      const id = paramMap.get('id');
-      const routePath = this.route.snapshot.url[0]['path'];
-      if (id && this.currentMessage.uid) {
-        this.currentId = id;
-        this.allThreads = await this.threadService.getAllThreads(
-          this.currentId,
-          this.currentMessage.uid,
-          routePath,
-        );
-      }
-    });
-
     this.route.parent?.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.currentUserId = id;
+      }
+    });
+
+    this.route.paramMap.subscribe(async (paramMap) => {
+      const id = paramMap.get('id');
+      const routePath = this.route.snapshot.url[0]['path'];
+
+      if (id && this.currentMessage.uid) {
+        this.currentId = id;
+        if (routePath == 'chats' && id) {
+          this.currentId = await this.directChatService.getChatId(
+            id,
+            this.currentUserId,
+          );
+        }
+        // this.allThreads = await this.threadService.getAllThreads(
+        //   this.currentId,
+        //   this.currentMessage.uid,
+        //   routePath,
+        // );
       }
     });
 
