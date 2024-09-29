@@ -30,7 +30,7 @@ export const routes: Routes = [
         component: ChannelChatComponent,
       },
       {
-        path: 'channels/:id/th/:msgId',
+        path: 'channels/:channelId/th/:msgId',
         component: ThreadComponent,
         outlet: 'thread',
       },

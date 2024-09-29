@@ -57,7 +57,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
+      const id = paramMap.get('channelId');
       const msgId = paramMap.get('msgId');
       if (id && msgId) {
         this.currentChannelId = id;
@@ -66,7 +66,11 @@ export class ThreadComponent implements OnInit, OnDestroy {
           this.currentChannelId,
           this.currentMessageId,
         );
-        this.messageService.subMessageList(this.currentChannelId, 'channels');
+        console.log(this.threadService.threadIsOpen);
+        if (this.threadService.threadIsOpen) {
+          this.messageService.subMessageList(this.currentChannelId, 'channels');
+        }
+
         this.channelService.subChannelById(this.currentChannelId);
       }
     });
