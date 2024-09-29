@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -21,11 +27,13 @@ import { DirectChatService } from '../../services/direct-chat.service';
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
-export class ThreadComponent implements OnInit {
+export class ThreadComponent implements OnInit, OnDestroy {
   private threadSubscription!: Subscription;
   private messageSubscription!: Subscription;
   private userSubscription!: Subscription;
   private channelSubscription!: Subscription;
+  public routeSubscription!: Subscription;
+  public routeParentSubscription?: Subscription;
   sentThread: any = {
     text: '',
     image: '',
@@ -49,33 +57,29 @@ export class ThreadComponent implements OnInit {
     public directChatService: DirectChatService,
     private route: ActivatedRoute,
   ) {}
-  ngOnInit(): void {
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
 
-    this.route.paramMap.subscribe(async (paramMap) => {
+  ngOnInit(): void {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
+
+    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
       const routePath = this.route.snapshot.url[0]['path'];
 
       if (id && msgId) {
         this.currentId = id;
-        console.log('currentId', this.currentId);
         this.currentMessageId = msgId;
         this.routePath = routePath;
-        console.log('current routePath', routePath);
-        console.log('current id', id);
-        console.log('current id', this.currentId);
-        console.log('currentMessageId', this.currentMessageId);
         this.threadService.subThreadList(id, msgId, this.routePath);
         this.messageService.subMessageList(this.currentId, this.routePath);
-        if (this.routePath == 'channels') {
-          this.channelService.subChannelById(this.currentId);
-        }
+        this.channelService.subChannelById(this.currentId);
       }
     });
 
@@ -120,6 +124,21 @@ export class ThreadComponent implements OnInit {
         this.currentUserId,
         this.routePath,
       );
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.threadSubscription) {
+      this.threadSubscription.unsubscribe();
+    }
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    if (this.routeParentSubscription) {
+      this.routeParentSubscription.unsubscribe();
     }
   }
 }

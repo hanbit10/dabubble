@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
 import { ActivatedRoute } from '@angular/router';
@@ -33,9 +38,11 @@ import { UtilityService } from '../../services/utility.service';
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
 })
-export class ChannelChatComponent implements OnInit {
+export class ChannelChatComponent implements OnInit, OnDestroy {
   private channelSubscription!: Subscription;
   private messageSubscription!: Subscription;
+  public routeSubscription!: Subscription;
+  public routeParentSubscription?: Subscription;
   currentChannelId: string = '';
   currentUserId: string = '';
   allChannels: any[] = [];
@@ -54,6 +61,7 @@ export class ChannelChatComponent implements OnInit {
     public utilityService: UtilityService,
     private route: ActivatedRoute,
   ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
@@ -103,6 +111,21 @@ export class ChannelChatComponent implements OnInit {
         this.currentUserId,
         'channels',
       );
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.channelSubscription) {
+      this.channelSubscription.unsubscribe();
+    }
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+    if (this.routeParentSubscription) {
+      this.routeParentSubscription.unsubscribe();
     }
   }
 }

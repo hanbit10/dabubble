@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -21,7 +21,7 @@ import { DirectChatService } from '../../services/direct-chat.service';
   templateUrl: './message-right.component.html',
   styleUrl: './message-right.component.scss',
 })
-export class MessageRightComponent implements OnInit {
+export class MessageRightComponent implements OnInit, OnDestroy {
   private _items = new BehaviorSubject<Message>({} as Message);
 
   @Input() set getMessage(value: Message) {
@@ -35,6 +35,8 @@ export class MessageRightComponent implements OnInit {
   }
 
   public usersSubscription!: Subscription;
+  public routeSubscription!: Subscription;
+  public routeParentSubscription?: Subscription;
   settingIsOpen: boolean = false;
   editMessageIsOpen: boolean = false;
   allUsers: UserProfile[] = [];
@@ -81,29 +83,39 @@ export class MessageRightComponent implements OnInit {
         }
       });
 
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
 
-    this.route.paramMap.subscribe(async (paramMap) => {
+    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const routePath = this.route.snapshot.url[0]['path'];
       if (id && this.currentMessage.uid) {
         this.currentId = id;
+
         if (routePath == 'chats' && id) {
           this.currentId = await this.directChatService.getChatId(
             id,
             this.currentUserId,
           );
         }
+
+        console.log('currentId', this.currentId);
+        console.log('id', id);
+        console.log('routePath', routePath);
+        console.log('currentMessage.uid', this.currentMessage.uid);
+
         this.allThreads = await this.threadService.getAllThreads(
           this.currentId,
           this.currentMessage.uid,
           routePath,
         );
+
         console.log('allThreads', this.allThreads);
       }
     });
@@ -149,5 +161,19 @@ export class MessageRightComponent implements OnInit {
       this.currentId,
     );
     emojiPicker = false;
+  }
+
+  ngOnDestroy(): void {
+    if (this.usersSubscription) {
+      this.usersSubscription.unsubscribe();
+    }
+
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+
+    if (this.routeParentSubscription) {
+      this.routeParentSubscription.unsubscribe();
+    }
   }
 }
