@@ -21,6 +21,7 @@ export class MessageService {
   currentChannelId: string = '';
   messages: any[] = [];
   reactionExists = false;
+  messageFileURL: string = '';
 
   constructor() { }
 
@@ -58,6 +59,7 @@ export class MessageService {
     );
 
     let data: Message = {
+      image: sentMessage.image,
       text: sentMessage.text,
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),

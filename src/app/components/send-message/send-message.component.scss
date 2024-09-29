@@ -1,9 +1,9 @@
 @import "../../../styles.scss";
 
 .frame {
-  @include dFlex($jc: space-between);
+  @include dFlex($g: 8px);
   flex-direction: column;
-  min-height: 100px;  
+  min-height: 100px;
   padding: 20px;
   border: 1px solid $lightPurple;
   background-color: white;
@@ -39,6 +39,7 @@
   @include dFlex();
   padding: 8px;
   border-radius: 50%;
+  position: relative;
   &:hover {
     background-color: $bgColor;
     cursor: pointer;
@@ -55,4 +56,30 @@
     filter: brightness(0) saturate(100%) invert(64%) sepia(67%) saturate(4757%)
       hue-rotate(213deg) brightness(100%) contrast(91%);
   }
+}
+
+.upload-input {
+  display: none;
+}
+
+.attachment {
+  @include dFlex($g: 8px);
+  align-self: flex-start;
+  color: #757575;
+  > img:first-child {
+    height: 24px;
+  }
+  > div {
+    padding: 0;
+    > img {
+      height: 38px;
+      filter: invert(50%) sepia(3%) saturate(2%) hue-rotate(345deg)
+        brightness(90%) contrast(84%);
+    }
+  }
+}
+
+.emoji-container {
+  position: absolute;
+  top: -308px;
 }
