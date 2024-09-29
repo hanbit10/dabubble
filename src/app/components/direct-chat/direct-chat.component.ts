@@ -51,7 +51,7 @@ export class DirectChatComponent {
     public profileService: ProfileService,
     public directChatService: DirectChatService,
     public messageService: MessageService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
   ) {}
 
   async ngOnInit() {
@@ -64,19 +64,19 @@ export class DirectChatComponent {
 
           const exist = this.directChatService.isExistingChat(
             this.otherUserId,
-            this.currentUserId
+            this.currentUserId,
           );
           if ((await exist) == false) {
             this.directChatService.createNewChat(
               this.otherUserId,
-              this.currentUserId
+              this.currentUserId,
             );
             console.log('new chat created');
           }
 
           this.currentChatId = await this.directChatService.getChatId(
             this.otherUserId,
-            this.currentUserId
+            this.currentUserId,
           );
 
           this.messageService.subMessageList(this.currentChatId, 'chats');
@@ -101,7 +101,7 @@ export class DirectChatComponent {
             }
             return 0;
           });
-        }
+        },
       );
     });
   }
@@ -110,13 +110,13 @@ export class DirectChatComponent {
     if (messageForm.valid) {
       this.currentChatId = await this.directChatService.getChatId(
         this.otherUserId,
-        this.currentUserId
+        this.currentUserId,
       );
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChatId,
         this.currentUserId,
-        'chats'
+        'chats',
       );
     }
   }
