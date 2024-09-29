@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -20,11 +26,13 @@ import { UtilityService } from '../../services/utility.service';
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
-export class ThreadComponent implements OnInit {
+export class ThreadComponent implements OnInit, OnDestroy {
   private threadSubscription!: Subscription;
   private messageSubscription!: Subscription;
   private userSubscription!: Subscription;
   private channelSubscription!: Subscription;
+  private routeSubscription!: Subscription;
+  private routeParentSubscription?: Subscription;
   sentThread: any = {
     text: '',
     image: '',
@@ -46,8 +54,9 @@ export class ThreadComponent implements OnInit {
     public utilityService: UtilityService,
     private route: ActivatedRoute,
   ) {}
+
   ngOnInit(): void {
-    this.route.paramMap.subscribe((paramMap) => {
+    this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
       if (id && msgId) {
@@ -62,12 +71,14 @@ export class ThreadComponent implements OnInit {
       }
     });
 
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
 
     this.channelSubscription = this.channelService.channelById$.subscribe(
       (channel) => {
@@ -110,5 +121,14 @@ export class ThreadComponent implements OnInit {
         this.currentUserId,
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.channelSubscription.unsubscribe();
+    this.messageSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+    this.threadSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
+    this.routeParentSubscription?.unsubscribe();
   }
 }

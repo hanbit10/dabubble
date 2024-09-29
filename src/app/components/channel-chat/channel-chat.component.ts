@@ -62,51 +62,51 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.paramsParentSubscription = this.route.parent?.paramMap.subscribe(
-      (paramMap) => {
-        const id = paramMap.get('id');
-        if (id) {
-          this.currentUserId = id;
-        }
-      },
-    );
-    this.paramsSubscription = this.route.params.subscribe((params) => {
-      const id = params['id'];
+    this.paramsSubscription = this.route.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
       if (id) {
         this.currentChannelId = id;
         console.log('this is currentChannel id', this.currentChannelId);
         this.messageService.subMessageList(this.currentChannelId, 'channels');
-        this.channelSubscription = this.channelService.channels$
-          .pipe(
-            filter((channels) => channels.length > 0), // Only proceed when channels is not empty
-            map((channels) => {
-              console.log('Emitted Channels:', channels); // Log emitted channels
-              return channels.find(
-                (channel) => channel.uid === this.currentChannelId,
-              );
-            }),
-          )
-          .subscribe((currentChannel) => {
-            console.log('Current Channel Found:', currentChannel); // Log the found channel
-            if (currentChannel) {
-              this.currentChannel = currentChannel;
-            }
-          });
+        this.route.parent?.paramMap.subscribe((paramMap) => {
+          const parentId = paramMap.get('id');
+          if (parentId) {
+            this.currentUserId = parentId;
+            this.channelSubscription = this.channelService.channels$
+              .pipe(
+                filter((channels) => channels.length > 0), // Only proceed when channels is not empty
+                map((channels) => {
+                  console.log('Emitted Channels:', channels); // Log emitted channels
+                  return channels.find(
+                    (channel) => channel.uid === this.currentChannelId,
+                  );
+                }),
+              )
+              .subscribe((currentChannel) => {
+                console.log('Current Channel Found:', currentChannel); // Log the found channel
+                if (currentChannel) {
+                  this.currentChannel = currentChannel;
+                }
+              });
+
+            this.messageSubscription = this.messageService.messages$.subscribe(
+              (messages) => {
+                console.log('messages', messages);
+                this.currentMessages = messages.sort((a, b) => {
+                  if (a.sentAt && b.sentAt) {
+                    return (
+                      a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime()
+                    );
+                  }
+                  return 0;
+                });
+                console.log('sorted messages', this.currentMessages);
+              },
+            );
+          }
+        });
       }
     });
-
-    this.messageSubscription = this.messageService.messages$.subscribe(
-      (messages) => {
-        console.log('messages', messages);
-        this.currentMessages = messages.sort((a, b) => {
-          if (a.sentAt && b.sentAt) {
-            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-          }
-          return 0;
-        });
-        console.log('sorted messages', this.currentMessages);
-      },
-    );
   }
 
   onSubmit(messageForm: NgForm) {

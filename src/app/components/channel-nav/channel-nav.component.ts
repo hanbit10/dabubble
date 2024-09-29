@@ -24,8 +24,8 @@ import { UtilityService } from '../../services/utility.service';
 })
 export class ChannelNavComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
-  public usersSubscription!: Subscription;
-  public channelSubscription!: Subscription;
+  private usersSubscription!: Subscription;
+  private channelSubscription!: Subscription;
   allUsers: any[] = [];
   allChannels: any[] = [];
   filtering: boolean = true;

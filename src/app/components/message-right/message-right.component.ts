@@ -93,14 +93,14 @@ export class MessageRightComponent implements OnInit, OnDestroy {
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
 
-        console.log('this is currentChannelId', this.currentChannelId);
-        console.log('this is currentMessage.uid', this.currentMessage.uid);
+        // console.log('this is currentChannelId', this.currentChannelId);
+        // console.log('this is currentMessage.uid', this.currentMessage.uid);
         this.allThreads = await this.threadService.getAllThreads(
           this.currentChannelId,
           this.currentMessage.uid,
         );
 
-        console.log('this is allThreads', this.allThreads);
+        // console.log('this is allThreads', this.allThreads);
       }
     });
 
