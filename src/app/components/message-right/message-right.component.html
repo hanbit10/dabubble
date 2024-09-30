@@ -54,7 +54,7 @@
           >
             {{ currentMessage.threadReplies }}
             <!-- {{ allThreads.length }} -->
-            {{ utilityService.getAntwort(allThreads.length) }}
+            {{ utilityService.getAntwort(currentMessage.threadReplies) }}
           </button>
           <span class="message-time"
             >Letzte Antwort {{ formattedThreadTime }} Uhr</span

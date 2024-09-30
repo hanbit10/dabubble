@@ -59,7 +59,6 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     public profileService: ProfileService,
-    public channelService: ChannelService,
     public userService: UserService,
     public threadService: ThreadService,
     public utilityService: UtilityService,
@@ -92,15 +91,6 @@ export class MessageRightComponent implements OnInit, OnDestroy {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
-
-        // console.log('this is currentChannelId', this.currentChannelId);
-        // console.log('this is currentMessage.uid', this.currentMessage.uid);
-        this.allThreads = await this.threadService.getAllThreads(
-          this.currentChannelId,
-          this.currentMessage.uid,
-        );
-
-        // console.log('this is allThreads', this.allThreads);
       }
     });
 
