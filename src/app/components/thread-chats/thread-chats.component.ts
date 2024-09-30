@@ -39,11 +39,10 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
     image: '',
   };
   currentMessageId: string = '';
-  currentChannelId: string = '';
+  currentChatId: string = '';
   currentUserId: string = '';
   currentThreads: Message[] = [];
   messageById: Message[] = [];
-  currentChannel: any = {};
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
   routePath: string = 'chats';
@@ -71,38 +70,25 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
       if (id && msgId) {
-        this.currentChannelId = id;
         this.currentMessageId = msgId;
-
-        this.currentChannelId = await this.directChatService.getChatId(
+        this.currentChatId = await this.directChatService.getChatId(
           id,
           this.currentUserId,
         );
+        console.log('thread chat', this.currentChatId);
         this.threadService.subThreadList(
-          this.currentChannelId,
+          this.currentChatId,
           this.currentMessageId,
           this.routePath,
         );
-
-        console.log(this.threadService.threadIsOpen);
         if (this.threadService.threadIsOpen) {
           this.messageService.subMessageList(
-            this.currentChannelId,
+            this.currentChatId,
             this.routePath,
           );
         }
-
-        // this.channelService.subChannelById(this.currentChannelId);
       }
     });
-
-    this.channelSubscription = this.channelService.channelById$.subscribe(
-      (channel) => {
-        if (channel) {
-          this.currentChannel = channel;
-        }
-      },
-    );
 
     this.messageSubscription = this.messageService.messages$
       .pipe(
@@ -132,7 +118,7 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
     if (messageForm.valid) {
       this.threadService.sendThread(
         this.sentThread,
-        this.currentChannelId,
+        this.currentChatId,
         this.currentMessageId,
         this.currentUserId,
         this.routePath,
