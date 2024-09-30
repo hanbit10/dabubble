@@ -18,6 +18,7 @@ import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { Channel } from '../../models/channels';
 import { UtilityService } from '../../services/utility.service';
+import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
   selector: 'app-thread',
@@ -53,33 +54,11 @@ export class ThreadComponent implements OnInit, OnDestroy {
     public userService: UserService,
     public channelService: ChannelService,
     public utilityService: UtilityService,
+    public directChatService: DirectChatService,
     private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      const msgId = paramMap.get('msgId');
-      const routePath = this.route.snapshot.url[0]['path'];
-      console.log(routePath);
-      if (id && msgId) {
-        this.currentChannelId = id;
-        this.currentMessageId = msgId;
-        this.routePath = routePath;
-        this.threadService.subThreadList(
-          this.currentChannelId,
-          this.currentMessageId,
-          routePath,
-        );
-        console.log(this.threadService.threadIsOpen);
-        if (this.threadService.threadIsOpen) {
-          this.messageService.subMessageList(this.currentChannelId, routePath);
-        }
-
-        this.channelService.subChannelById(this.currentChannelId);
-      }
-    });
-
     this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
       (paramMap) => {
         const id = paramMap.get('id');
@@ -88,6 +67,43 @@ export class ThreadComponent implements OnInit, OnDestroy {
         }
       },
     );
+    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
+      const id = paramMap.get('id');
+      const msgId = paramMap.get('msgId');
+      const routePath = this.route.snapshot.url[0]['path'];
+      console.log(routePath);
+      if (id && msgId) {
+        this.currentChannelId = id;
+        this.currentMessageId = msgId;
+        this.routePath = routePath;
+        if (routePath == 'chats') {
+          console.log(id, this.currentUserId);
+          this.currentChannelId = await this.directChatService.getChatId(
+            id,
+            this.currentUserId,
+          );
+          console.log('current chat id', this.currentChannelId);
+          this.threadService.subThreadList(
+            this.currentChannelId,
+            this.currentMessageId,
+            routePath,
+          );
+        } else if (routePath == 'channels') {
+          this.threadService.subThreadList(
+            this.currentChannelId,
+            this.currentMessageId,
+            routePath,
+          );
+        }
+
+        console.log(this.threadService.threadIsOpen);
+        if (this.threadService.threadIsOpen) {
+          this.messageService.subMessageList(this.currentChannelId, routePath);
+        }
+
+        this.channelService.subChannelById(this.currentChannelId);
+      }
+    });
 
     this.channelSubscription = this.channelService.channelById$.subscribe(
       (channel) => {

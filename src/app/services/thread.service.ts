@@ -104,7 +104,7 @@ export class ThreadService {
 
     const docRef2 = doc(
       this.firestore,
-      'channels',
+      type,
       currentChannelId,
       'messages',
       currentMessageId,
