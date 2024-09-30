@@ -1,10 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from '../../services/message.service';
 import { FormsModule } from '@angular/forms';
 import { Channel } from '../../models/channels';
 import { StorageService } from '../../services/storage.service';
 import { NgIf } from '@angular/common';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { UserService } from '../../services/user.service';
+import { UserProfile } from '../../models/users';
+import { LoginCreateAccountService } from '../../services/login-create-account.service';
 
 @Component({
   selector: 'app-send-message',
@@ -24,8 +27,15 @@ export class SendMessageComponent {
   }
   messageFile: File | null = null;
   emojiPicker: boolean = false;
+  users: UserProfile[] = [];
+  channelUsers: UserProfile[] = [];
+  channels: Channel[] = [];
 
-  constructor(public messService: MessageService, public storage: StorageService ) {}
+  constructor(public messService: MessageService, public storage: StorageService, private userService: UserService, private logService: LoginCreateAccountService ) {}
+
+  async ngOnInit() {
+    this.users = await this.userService.getAllUsers();
+  }
 
   async postMessage() {
     const content = this.Message;
@@ -65,5 +75,13 @@ export class SendMessageComponent {
     this.emojiPicker = false;
   }
 
+  showUsers() {
+    console.log(this.users);
+    /* const channelUserIds = this.currentChannel.usersIds;
+    channelUserIds.forEach(id => {
+      this.users.filter( user => user.uid === id )
+    });
+    this.Message.text += this.currentChannel.usersIds; */
+  }
 
 }

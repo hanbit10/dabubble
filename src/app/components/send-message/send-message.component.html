@@ -1,4 +1,7 @@
 <div class="frame">
+  <div class="tag-list">
+    
+  </div>
   <textarea
     name="message"
     id="message"
@@ -37,7 +40,7 @@
             (emojiSelect)="selectEmoji($event)" title="Choose your emoji"></emoji-mart>        
         <img src="/assets/img/icons/emoji-menu.svg" alt="emoji" (click)="emojiPicker = !emojiPicker"/>
       </div>
-      <div class="icon">
+      <div class="icon" (click)="showUsers()">
         <img src="/assets/img/icons/tag-user.svg" alt="tag-user" />
       </div>
     </div>
