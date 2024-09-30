@@ -21,13 +21,13 @@ import { UtilityService } from '../../services/utility.service';
 import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
-  selector: 'app-thread',
+  selector: 'app-thread-chats',
   standalone: true,
   imports: [FormsModule, MessageLeftComponent, MessageRightComponent],
-  templateUrl: './thread.component.html',
-  styleUrl: './thread.component.scss',
+  templateUrl: './thread-chats.component.html',
+  styleUrl: './thread-chats.component.scss',
 })
-export class ThreadComponent implements OnInit, OnDestroy {
+export class ThreadChatsComponent implements OnInit, OnDestroy {
   private threadSubscription!: Subscription;
   private messageSubscription!: Subscription;
   private userSubscription!: Subscription;
@@ -46,7 +46,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   currentChannel: any = {};
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
-  routePath: string = 'channels';
+  routePath: string = 'chats';
 
   constructor(
     public threadService: ThreadService,
@@ -74,25 +74,15 @@ export class ThreadComponent implements OnInit, OnDestroy {
         this.currentChannelId = id;
         this.currentMessageId = msgId;
 
-        // if (routePath == 'chats') {
-        //   console.log(id, this.currentUserId);
-        //   this.currentChannelId = await this.directChatService.getChatId(
-        //     id,
-        //     this.currentUserId,
-        //   );
-        //   console.log('current chat id', this.currentChannelId);
-        //   this.threadService.subThreadList(
-        //     this.currentChannelId,
-        //     this.currentMessageId,
-        //     routePath,
-        //   );
-        // } else if (routePath == 'channels') {
+        this.currentChannelId = await this.directChatService.getChatId(
+          id,
+          this.currentUserId,
+        );
         this.threadService.subThreadList(
           this.currentChannelId,
           this.currentMessageId,
           this.routePath,
         );
-        // }
 
         console.log(this.threadService.threadIsOpen);
         if (this.threadService.threadIsOpen) {
@@ -102,7 +92,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
           );
         }
 
-        this.channelService.subChannelById(this.currentChannelId);
+        // this.channelService.subChannelById(this.currentChannelId);
       }
     });
 
