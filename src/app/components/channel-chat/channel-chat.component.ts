@@ -53,6 +53,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     image: '',
   };
   threadActive: boolean = false;
+  collectionType: string = 'channels';
 
   constructor(
     public channelService: ChannelService,

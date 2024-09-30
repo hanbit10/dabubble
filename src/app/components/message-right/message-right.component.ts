@@ -27,6 +27,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     this._items.next(value);
   }
   @Input() threadActive!: boolean;
+  @Input() collectionType!: string;
 
   get currentMessage(): Message {
     return this._items.getValue();

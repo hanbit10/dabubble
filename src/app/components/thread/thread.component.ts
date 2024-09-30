@@ -45,6 +45,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   currentChannel: any = {};
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
+  routePath: string = '';
 
   constructor(
     public threadService: ThreadService,
@@ -59,16 +60,20 @@ export class ThreadComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
+      const routePath = this.route.snapshot.url[0]['path'];
+      console.log(routePath);
       if (id && msgId) {
         this.currentChannelId = id;
         this.currentMessageId = msgId;
+        this.routePath = routePath;
         this.threadService.subThreadList(
           this.currentChannelId,
           this.currentMessageId,
+          routePath,
         );
         console.log(this.threadService.threadIsOpen);
         if (this.threadService.threadIsOpen) {
-          this.messageService.subMessageList(this.currentChannelId, 'channels');
+          this.messageService.subMessageList(this.currentChannelId, routePath);
         }
 
         this.channelService.subChannelById(this.currentChannelId);
@@ -123,6 +128,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
         this.currentChannelId,
         this.currentMessageId,
         this.currentUserId,
+        this.routePath,
       );
     }
   }
