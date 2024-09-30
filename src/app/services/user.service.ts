@@ -16,14 +16,16 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  firestore: Firestore = inject(Firestore);  
+  firestore: Firestore = inject(Firestore);
 
   users: UserProfile[] = [];
   unsubUsers;
   private usersSubject = new BehaviorSubject<UserProfile[]>([]);
+  private userByIdSubject = new BehaviorSubject<UserProfile>({} as UserProfile);
   allUsersOnSnapshot: UserProfile[] = [];
 
   mainUser: UserProfile = {} as UserProfile;
+  userById: any = {} as UserProfile;
 
   constructor() {
     this.unsubUsers = this.subUsersList();
@@ -66,6 +68,17 @@ export class UserService {
     return this.usersSubject.asObservable();
   }
 
+  get userById$() {
+    return this.userByIdSubject.asObservable();
+  }
+
+  subUserById(userId: string) {
+    const docRef = doc(this.firestore, 'users', userId);
+    return onSnapshot(docRef, (doc) => {
+      this.userById = doc.data();
+      this.userByIdSubject.next(this.userById);
+    });
+  }
   subUsersList() {
     const docRef = collection(this.firestore, 'users');
     return onSnapshot(docRef, (list) => {

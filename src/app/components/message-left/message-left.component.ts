@@ -27,6 +27,7 @@ export class MessageLeftComponent implements OnInit {
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
+  @Input() threadActive!: boolean;
   get currentMessage(): Message {
     return this._items.getValue();
   }
@@ -61,8 +62,8 @@ export class MessageLeftComponent implements OnInit {
     this.usersSubscription = this.userService.users$
       .pipe(
         map((users) =>
-          users.find((user) => user.uid === this.currentMessage.sentBy)
-        )
+          users.find((user) => user.uid == this.currentMessage.sentBy),
+        ),
       )
       .subscribe((currUser) => {
         if (currUser) {
@@ -76,18 +77,29 @@ export class MessageLeftComponent implements OnInit {
         this.currentChannelId = id;
         this.allThreads = await this.threadService.getAllThreads(
           this.currentChannelId,
-          this.currentMessage.uid
+          this.currentMessage.uid,
         );
       }
     });
 
-    this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
-      this.currentMessage.sentAt!
-    );
-    this.formattedThreadTime = this.utilityService.getFormattedTime(
-      this.currentMessage.lastThreadReply!
-    );
-    
+    this.route.parent?.paramMap.subscribe((paramMap) => {
+      const id = paramMap.get('id');
+      if (id) {
+        this.currentUserId = id;
+      }
+    });
+
+    if (this.currentMessage && this.currentMessage.sentBy) {
+      this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
+        this.currentMessage.sentAt,
+      );
+    }
+
+    if (this.currentMessage && this.currentMessage.lastThreadReply) {
+      this.formattedThreadTime = this.utilityService.getFormattedTime(
+        this.currentMessage.lastThreadReply,
+      );
+    }
   }
 
   openProfile() {
@@ -95,8 +107,13 @@ export class MessageLeftComponent implements OnInit {
     this.profileService.openProfile();
   }
 
-  selectEmoji(event: any, emojiPicker: any){
-    this.messageService.giveReaction(event, this.userService.mainUser.name, this.currentMessage, this.currentChannelId);
+  selectEmoji(event: any, emojiPicker: any) {
+    this.messageService.giveReaction(
+      event,
+      this.userService.mainUser.name,
+      this.currentMessage,
+      this.currentChannelId,
+    );
     emojiPicker = false;
   }
 }

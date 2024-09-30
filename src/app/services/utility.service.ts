@@ -54,4 +54,12 @@ export class UtilityService {
     this.lastSeenDay = messageDay;
     return shouldShow;
   }
+
+  getAntwort(number: number): string {
+    if (number === 1) {
+      return 'Antwort';
+    } else {
+      return 'Antworten';
+    }
+  }
 }

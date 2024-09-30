@@ -1,40 +1,71 @@
 <div class="message-container">
   <app-channel-header [getCurrentChannel]="currentChannel"></app-channel-header>
   <section class="chat-container">
-    @if(currentMessages.length == 0) {
-    <div class="no-messages">{{currentChannel.name}}</div>
-    <p>Du hast diesn Channel {{utilityService.formatDate(currentChannel.createdAt?.toDate())}} erstellt. Das ist der
-      Anfang des
-      Channels
-      # {{currentChannel.name}}</p>
+    @if (currentMessages.length == 0) {
+      <div class="no-message-container">
+        <div class="no-messages">
+          <div class="tag"></div>
+          {{ currentChannel.name }}
+        </div>
+        <div class="no-messages-text">
+          Du hast diesen Channel
+          {{ utilityService.formatDate(currentChannel.createdAt?.toDate()) }}
+          erstellt. Das ist der Anfang des Channels
+          <div class="blue-text"># {{ currentChannel.name }}</div>
+        </div>
+      </div>
     } @else {
-    @for(message of currentMessages; track message; let i = $index) {
-    @if(utilityService.shouldShowTimestamp(message) || i == 0) {
-    <div class="date-line">
-      <div class="line"></div>
-      <span class="message-date">{{ utilityService.formatDate(message.sentAt.toDate()) }}</span>
-      <div class="line"></div>
-    </div>
-    }
-    @if(message.sentBy != this.currentUserId) {
-    <app-message-left [getMessage]="message"></app-message-left>
-    }@else if(message.sentBy == this.currentUserId) {
-    <app-message-right [getMessage]="message"></app-message-right>
-    }
-    }
+      @for (message of currentMessages; track message; let i = $index) {
+        @if (utilityService.shouldShowTimestamp(message) || i == 0) {
+          <div class="date-line">
+            <div class="line"></div>
+            <span class="message-date">{{
+              utilityService.formatDate(message.sentAt.toDate())
+            }}</span>
+            <div class="line"></div>
+          </div>
+        }
+        @if (message.sentBy != this.currentUserId) {
+          <app-message-left
+            [getMessage]="message"
+            [threadActive]="threadActive"
+          ></app-message-left>
+        } @else if (message.sentBy == this.currentUserId) {
+          <app-message-right
+            [getMessage]="message"
+            [threadActive]="threadActive"
+          ></app-message-right>
+        }
+      }
     }
   </section>
   <app-send-message [currentChannelId]="currentChannelId" [currentChannel]="currentChannel" 
   [currentUserId]="currentUserId"></app-send-message>
   <!-- <section class="sendMessage-container">
     <div class="sendMessage-component">
-      <form id="message-form" (ngSubmit)="onSubmit(messageForm)" #messageForm="ngForm">
-        <textarea name="message" id="" [(ngModel)]="sentMessage.text"></textarea>
+      <form
+        id="message-form"
+        (ngSubmit)="onSubmit(messageForm)"
+        #messageForm="ngForm"
+      >
+        <textarea
+          name="message"
+          id=""
+          [(ngModel)]="sentMessage.text"
+        ></textarea>
         <button type="submit">send</button>
       </form>
     </div>
   </section> -->
 </div>
-<app-channel-profile id="channel-profile" class="hidden" [getCurrentChannel]="currentChannel"></app-channel-profile>
-<app-channel-add-user id="channel-add-user" class="hidden" [getCurrentChannel]="currentChannel"></app-channel-add-user>
+<app-channel-profile
+  id="channel-profile"
+  class="hidden"
+  [getCurrentChannel]="currentChannel"
+></app-channel-profile>
+<app-channel-add-user
+  id="channel-add-user"
+  class="hidden"
+  [getCurrentChannel]="currentChannel"
+></app-channel-add-user>
 <app-channel-edit id="channel-edit" class="hidden"></app-channel-edit>

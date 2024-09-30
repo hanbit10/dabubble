@@ -78,3 +78,12 @@ h2 {
     background-image: url("./../../../../assets/img/icons/material-symbols/person-add-hover.svg");
   }
 }
+
+.plus-users {
+  @include profileImg(40px, 40px);
+  @include dFlex(center, center, 0);
+  border: 2px solid white;
+  background-color: $bgColor;
+  font-size: bolder;
+  margin-left: -6px;
+}

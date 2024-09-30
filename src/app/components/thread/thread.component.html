@@ -1,27 +1,55 @@
 <section class="message-container">
-    <header class="chat-header">
-        <div>
-            <h3>Thread</h3>
-            <span># Entwicklerteam</span>
-        </div>
-        <div class="close-icon" (click)="threadService.closeThread()"></div>
-    </header>
+  <header class="chat-header">
+    <div class="row">
+      <h3>Thread</h3>
+      <div class="blue-text-normal">#&nbsp;{{ currentChannel.name }}</div>
+    </div>
+    <div class="close-icon" (click)="threadService.closeThread()"></div>
+  </header>
 
-    <section class="chat-container">
-        <h2>Chat</h2>
-        {{this.currentChannelId}}
-        {{this.currentMessageId}}
-        @for(thread of currentThreads; track thread) {
-        {{thread.text}}
-        }
-    </section>
+  <section class="chat-container">
+    @for (message of messageById; track message) {
+      <app-message-left
+        [getMessage]="message"
+        [threadActive]="threadActive"
+      ></app-message-left>
+    }
 
-    <section class="sendMessage-container">
-        <div class="sendMessage-component">
-            <form id="message-form" (ngSubmit)="onSubmitting(messageForm)" #messageForm="ngForm">
-                <textarea name="message" id="" [(ngModel)]="sentThread.text"></textarea>
-                <button type="submit">send</button>
-            </form>
-        </div>
-    </section>
+    <div class="date-line">
+      @if (currentThreads.length > 0) {
+        <span class="thread-line"
+          >{{ currentThreads.length }}
+          {{ utilityService.getAntwort(currentThreads.length) }}
+        </span>
+      }
+
+      <div class="line"></div>
+    </div>
+    @for (thread of currentThreads; track thread) {
+      @if (thread.sentBy != currentUserId) {
+        <app-message-left
+          [getMessage]="thread"
+          [threadActive]="threadActive"
+        ></app-message-left>
+      } @else if (thread.sentBy == currentUserId) {
+        <app-message-right
+          [getMessage]="thread"
+          [threadActive]="threadActive"
+        ></app-message-right>
+      }
+    }
+  </section>
+
+  <section class="sendMessage-container">
+    <div class="sendMessage-component">
+      <form
+        id="message-form"
+        (ngSubmit)="onSubmitting(messageForm)"
+        #messageForm="ngForm"
+      >
+        <textarea name="message" id="" [(ngModel)]="sentThread.text"></textarea>
+        <button type="submit">send</button>
+      </form>
+    </div>
+  </section>
 </section>
