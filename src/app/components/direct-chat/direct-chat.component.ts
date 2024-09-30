@@ -45,6 +45,7 @@ export class DirectChatComponent {
     image: '',
   };
   currentMessages: Message[] = [];
+  threadActive: boolean = false;
 
   constructor(
     public userService: UserService,
