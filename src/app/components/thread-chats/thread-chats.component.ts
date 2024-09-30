@@ -34,6 +34,15 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   private channelSubscription!: Subscription;
   private routeSubscription!: Subscription;
   private routeParentSubscription?: Subscription;
+  subscriptions: Subscription[] = [
+    this.channelSubscription,
+    this.messageSubscription,
+    this.userSubscription,
+    this.threadSubscription,
+    this.routeSubscription,
+    this.routeParentSubscription!,
+  ];
+
   sentThread: any = {
     text: '',
     image: '',
@@ -43,7 +52,6 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   currentUserId: string = '';
   currentThreads: Message[] = [];
   messageById: Message[] = [];
-  userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
   routePath: string = 'chats';
 
@@ -127,23 +135,8 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.channelSubscription) {
-      this.channelSubscription.unsubscribe();
-    }
-    if (this.messageSubscription) {
-      this.messageSubscription.unsubscribe();
-    }
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
-    if (this.threadSubscription) {
-      this.threadSubscription.unsubscribe();
-    }
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
-    if (this.routeParentSubscription) {
-      this.routeParentSubscription.unsubscribe();
-    }
+    this.subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
   }
 }
