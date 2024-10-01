@@ -1,5 +1,5 @@
 @if(!editMessageIsOpen){
-<section class="message" (click)="closeSettings()">
+<section class="message" (click)="closeSettings()" (click)=" closeEmojiPicker()">
     <div class="message-info">
         <div class="message-user">
             <span class="message-time">{{formattedCurrMsgTime}} Uhr</span>

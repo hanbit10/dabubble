@@ -126,4 +126,9 @@ export class MessageRightComponent implements OnInit {
     this.messageService.giveReaction(event.emoji.native, this.userService.mainUser.uid, this.currentMessage, this.currentChannelId);
     emojiPicker = false;
   }
+
+  closeEmojiPicker(){
+    this.emojiPickerRight1 = false;
+    this.emojiPickerRight2 = false;
+  }
 }
