@@ -73,28 +73,11 @@ export class ThreadComponent implements OnInit, OnDestroy {
       if (id && msgId) {
         this.currentChannelId = id;
         this.currentMessageId = msgId;
-
-        // if (routePath == 'chats') {
-        //   console.log(id, this.currentUserId);
-        //   this.currentChannelId = await this.directChatService.getChatId(
-        //     id,
-        //     this.currentUserId,
-        //   );
-        //   console.log('current chat id', this.currentChannelId);
-        //   this.threadService.subThreadList(
-        //     this.currentChannelId,
-        //     this.currentMessageId,
-        //     routePath,
-        //   );
-        // } else if (routePath == 'channels') {
         this.threadService.subThreadList(
           this.currentChannelId,
           this.currentMessageId,
           this.routePath,
         );
-        // }
-
-        console.log(this.threadService.threadIsOpen);
         if (this.threadService.threadIsOpen) {
           this.messageService.subMessageList(
             this.currentChannelId,
