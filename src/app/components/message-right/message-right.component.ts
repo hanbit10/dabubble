@@ -45,14 +45,8 @@ export class MessageRightComponent implements OnInit {
   formattedThreadTime?: string;
   allThreads: any[] = [];
 
-  emojiPickerLeft: boolean = false;
-  emojiPickerRight: boolean = false;
-  emojiPickerEdit: boolean = false;
-  editTextArea: string = '...';
-  addEmoji(event: any) {
-    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
-    this.emojiPickerEdit = false;
-  }
+  emojiPickerRight1: boolean = false;
+  emojiPickerRight2: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -62,7 +56,7 @@ export class MessageRightComponent implements OnInit {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -103,6 +97,7 @@ export class MessageRightComponent implements OnInit {
     );
   }
 
+
   openProfile() {
     this.profileService.openMainProfile();
   }
@@ -129,12 +124,12 @@ export class MessageRightComponent implements OnInit {
   }
 
   selectEmoji(event: any, emojiPicker: any) {
-    this.messageService.giveReaction(
-      event,
-      this.userService.mainUser.name,
-      this.currentMessage,
-      this.currentChannelId,
-    );
+    this.messageService.giveReaction(event.emoji.native, this.userService.mainUser.uid, this.currentMessage, this.currentChannelId);
     emojiPicker = false;
+  }
+
+  closeEmojiPicker() {
+    this.emojiPickerRight1 = false;
+    this.emojiPickerRight2 = false;
   }
 }

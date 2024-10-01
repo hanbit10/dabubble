@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { UserService } from '../../services/user.service';
@@ -10,10 +10,9 @@ import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { Message } from '../../models/message';
 import { ThreadService } from '../../services/thread.service';
-import { Timestamp } from '@angular/fire/firestore';
 import { UtilityService } from '../../services/utility.service';
-import { Channel } from '../../models/channels';
 import { MessageService } from '../../services/message.service';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-message-left',
@@ -32,7 +31,6 @@ export class MessageLeftComponent implements OnInit {
     return this._items.getValue();
   }
 
-  allUsers: UserProfile[] = [];
   messageUser: UserProfile = {} as UserProfile;
 
   allThreads: any[] = [];
@@ -45,8 +43,8 @@ export class MessageLeftComponent implements OnInit {
   formattedCurrMsgTime?: string;
   formattedThreadTime?: string;
 
-  emojiPickerLeft: boolean = false;
-  emojiPickerRight: boolean = false;
+  emojiPickerLeft1: boolean = false;
+  emojiPickerLeft2: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,8 +53,8 @@ export class MessageLeftComponent implements OnInit {
     public channelService: ChannelService,
     public threadService: ThreadService,
     public utilityService: UtilityService,
-    public messageService: MessageService,
-  ) {}
+    public messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -82,24 +80,12 @@ export class MessageLeftComponent implements OnInit {
       }
     });
 
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
-
-    if (this.currentMessage && this.currentMessage.sentBy) {
-      this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
-        this.currentMessage.sentAt,
-      );
-    }
-
-    if (this.currentMessage && this.currentMessage.lastThreadReply) {
-      this.formattedThreadTime = this.utilityService.getFormattedTime(
-        this.currentMessage.lastThreadReply,
-      );
-    }
+    this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
+      this.currentMessage.sentAt!
+    );
+    this.formattedThreadTime = this.utilityService.getFormattedTime(
+      this.currentMessage.lastThreadReply!
+    );
   }
 
   openProfile() {
@@ -108,12 +94,12 @@ export class MessageLeftComponent implements OnInit {
   }
 
   selectEmoji(event: any, emojiPicker: any) {
-    this.messageService.giveReaction(
-      event,
-      this.userService.mainUser.name,
-      this.currentMessage,
-      this.currentChannelId,
-    );
+    this.messageService.giveReaction(event.emoji.native, this.userService.mainUser.uid, this.currentMessage, this.currentChannelId);
     emojiPicker = false;
+  }
+
+  closeEmojiPicker() {
+    this.emojiPickerLeft1 = false;
+    this.emojiPickerLeft2 = false;
   }
 }
