@@ -39,22 +39,8 @@
       }
     }
   </section>
-  <section class="sendMessage-container">
-    <div class="sendMessage-component">
-      <form
-        id="message-form"
-        (ngSubmit)="onSubmit(messageForm)"
-        #messageForm="ngForm"
-      >
-        <textarea
-          name="message"
-          id=""
-          [(ngModel)]="sentMessage.text"
-        ></textarea>
-        <button type="submit">send</button>
-      </form>
-    </div>
-  </section>
+  <app-send-message [currentChannelId]="currentChannelId" [currentChannel]="currentChannel" 
+  [currentUserId]="currentUserId"></app-send-message>  
 </div>
 <app-channel-profile
   id="channel-profile"

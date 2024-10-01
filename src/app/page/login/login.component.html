@@ -44,6 +44,9 @@
   <app-policy-card
     *ngIf="logService.currentState === 'policy'"  
   ></app-policy-card>
+  <app-send-message
+    *ngIf="logService.currentState === 'send-message'"  
+  ></app-send-message>
   <footer>
     <div class="hidden-button">
       <span (click)="logService.currentState = 'impressum'">Impressum</span>

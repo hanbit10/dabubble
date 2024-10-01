@@ -23,6 +23,7 @@ export class MessageService {
   messages: any[] = [];
   messageById: any = {} as Message;
   reactionExists = false;
+  messageFileURL: string = '';
 
   constructor() {}
 
@@ -79,6 +80,7 @@ export class MessageService {
     );
 
     let data: Message = {
+      image: sentMessage.image,
       text: sentMessage.text,
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),
