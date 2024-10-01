@@ -30,6 +30,7 @@ export class SendMessageComponent {
   users: UserProfile[] = [];
   channelUsers: UserProfile[] = [];
   channels: Channel[] = [];
+  
 
   constructor(public messService: MessageService, public storage: StorageService, private userService: UserService, private logService: LoginCreateAccountService ) {}
 
@@ -76,12 +77,10 @@ export class SendMessageComponent {
   }
 
   showUsers() {
-    console.log(this.users);
-    /* const channelUserIds = this.currentChannel.usersIds;
-    channelUserIds.forEach(id => {
-      this.users.filter( user => user.uid === id )
-    });
-    this.Message.text += this.currentChannel.usersIds; */
+    const channelIds = this.currentChannel.usersIds;
+    this.channelUsers = this.users.filter( user => channelIds.includes(user.uid));
+    console.log(this.channelUsers);
+    
   }
 
 }
