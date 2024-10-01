@@ -24,7 +24,9 @@ import { BehaviorSubject } from 'rxjs';
 export class ChannelService {
   firestore: Firestore = inject(Firestore);
   private channelSubject = new BehaviorSubject<any[]>([]);
+  private channelByIdSubject = new BehaviorSubject<any>({} as Channel);
   channels: any[] = [];
+  channelById: any = {} as Channel;
 
   constructor() {
     this.subChannelList();
@@ -33,7 +35,7 @@ export class ChannelService {
   async createNewChannel(
     newChannel: any,
     chosen: UserProfile[],
-    currentUserId: string
+    currentUserId: string,
   ) {
     let data: Channel = {
       name: newChannel.name,
@@ -59,6 +61,10 @@ export class ChannelService {
     return this.channelSubject.asObservable();
   }
 
+  get channelById$() {
+    return this.channelByIdSubject.asObservable();
+  }
+
   subChannelList() {
     const docRef = collection(this.firestore, 'channels');
     return onSnapshot(docRef, (list) => {
@@ -67,6 +73,14 @@ export class ChannelService {
         this.channels.push(doc.data());
       });
       this.channelSubject.next(this.channels);
+    });
+  }
+
+  subChannelById(currentChannelId: string) {
+    const docRef = doc(this.firestore, 'channels', currentChannelId);
+    return onSnapshot(docRef, (doc) => {
+      this.channelById = doc.data();
+      this.channelByIdSubject.next(this.channelById);
     });
   }
 

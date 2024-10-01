@@ -296,6 +296,14 @@ textarea:-webkit-autofill:focus {
   }
 }
 
+.row {
+  @include dFlex();
+}
+
+.blue-text-normal {
+  color: $purple3;
+}
+
 .button-container {
   @include dFlex(flex-end, center);
   width: 100%;

@@ -45,12 +45,13 @@ export class ChannelChatComponent implements OnInit {
     text: '',
     image: '',
   };
+  threadActive: boolean = false;
 
   constructor(
     public channelService: ChannelService,
     public messageService: MessageService,
     public utilityService: UtilityService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
@@ -61,8 +62,8 @@ export class ChannelChatComponent implements OnInit {
         this.channelSubscription = this.channelService.channels$
           .pipe(
             map((channels) =>
-              channels.find((channel) => channel.uid === this.currentChannelId)
-            )
+              channels.find((channel) => channel.uid === this.currentChannelId),
+            ),
           )
           .subscribe((currentChannel) => {
             if (currentChannel) {
@@ -89,7 +90,7 @@ export class ChannelChatComponent implements OnInit {
           }
           return 0;
         });
-      }
+      },
     );
   }
 
@@ -99,7 +100,7 @@ export class ChannelChatComponent implements OnInit {
         this.sentMessage,
         this.currentChannelId,
         this.currentUserId,
-        'channels'
+        'channels',
       );
     }
   }

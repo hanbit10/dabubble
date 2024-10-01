@@ -26,6 +26,7 @@ export class MessageLeftComponent implements OnInit {
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
+  @Input() threadActive!: boolean;
   get currentMessage(): Message {
     return this._items.getValue();
   }
@@ -59,8 +60,8 @@ export class MessageLeftComponent implements OnInit {
     this.usersSubscription = this.userService.users$
       .pipe(
         map((users) =>
-          users.find((user) => user.uid === this.currentMessage.sentBy)
-        )
+          users.find((user) => user.uid == this.currentMessage.sentBy),
+        ),
       )
       .subscribe((currUser) => {
         if (currUser) {
@@ -74,7 +75,7 @@ export class MessageLeftComponent implements OnInit {
         this.currentChannelId = id;
         this.allThreads = await this.threadService.getAllThreads(
           this.currentChannelId,
-          this.currentMessage.uid
+          this.currentMessage.uid,
         );
       }
     });
@@ -97,7 +98,7 @@ export class MessageLeftComponent implements OnInit {
     emojiPicker = false;
   }
 
-  closeEmojiPicker(){
+  closeEmojiPicker() {
     this.emojiPickerLeft1 = false;
     this.emojiPickerLeft2 = false;
   }

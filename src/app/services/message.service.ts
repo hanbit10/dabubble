@@ -7,7 +7,7 @@ import {
   onSnapshot,
   setDoc,
   Timestamp,
-  updateDoc
+  updateDoc,
 } from '@angular/fire/firestore';
 import { Message, Reaction } from '../models/message';
 import { BehaviorSubject } from 'rxjs';
@@ -18,14 +18,35 @@ import { BehaviorSubject } from 'rxjs';
 export class MessageService {
   firestore: Firestore = inject(Firestore);
   private messageSubject = new BehaviorSubject<any[]>([]);
+  private messageByIdSubject = new BehaviorSubject<any>({});
   currentChannelId: string = '';
   messages: any[] = [];
+  messageById: any = {} as Message;
   reactionExists = false;
 
-  constructor() { }
+  constructor() {}
 
   get messages$() {
     return this.messageSubject.asObservable();
+  }
+
+  get messageById$() {
+    return this.messageByIdSubject.asObservable();
+  }
+
+  subMessageById(currentChannelId: string, curentMessage: string) {
+    const docRef = doc(
+      this.firestore,
+      'channels',
+      currentChannelId,
+      'messages',
+      curentMessage,
+    );
+
+    return onSnapshot(docRef, (doc) => {
+      this.messageById = doc.data();
+      this.messageByIdSubject.next(this.messageById);
+    });
   }
 
   subMessageList(currentChannelId: string, type: string) {
@@ -33,7 +54,7 @@ export class MessageService {
       this.firestore,
       type,
       currentChannelId,
-      'messages'
+      'messages',
     );
     return onSnapshot(docRef, (list) => {
       this.messages = [];
@@ -48,13 +69,13 @@ export class MessageService {
     sentMessage: any,
     currentChannelId: string,
     currentUserId: string,
-    type: string
+    type: string,
   ) {
     const docRef = collection(
       this.firestore,
       type,
       currentChannelId,
-      'messages'
+      'messages',
     );
 
     let data: Message = {
@@ -63,7 +84,7 @@ export class MessageService {
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
       lastThreadReply: null,
-      reactions: null
+      reactions: null,
     };
 
     const querySnapshot = await addDoc(docRef, data);
@@ -107,6 +128,7 @@ export class MessageService {
       if (reaction.emojiNative == emoji) {
         this.handleSingleReaction(reaction, currentUser, message, channelId, i)
         this.reactionExists = true;
+        break;
         break;
       }
     }
@@ -202,9 +224,11 @@ export class MessageService {
    * @param {object} item - the new object to update the document with
    */
   async updateMessage(col: string, docId: string, item: {}) {
-    await updateDoc(this.getSingleDocRef(col, docId), item).catch(
-      (err) => { console.log(err); }
-    ).then();
+    await updateDoc(this.getSingleDocRef(col, docId), item)
+      .catch((err) => {
+        console.log(err);
+      })
+      .then();
   }
 
   /**
@@ -217,9 +241,6 @@ export class MessageService {
   getSingleDocRef(col: string, docId: string) {
     return doc(collection(this.firestore, col), docId);
   }
-
-
-
 
   emojiPickerEdit: boolean = false;
   editTextArea: string = '...';
