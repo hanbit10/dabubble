@@ -11,9 +11,6 @@ import {
 } from '@angular/fire/firestore';
 import { Message, Reaction } from '../models/message';
 import { BehaviorSubject } from 'rxjs';
-import { UserProfile } from '../models/users';
-import { UserService } from './user.service';
-
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +22,7 @@ export class MessageService {
   messages: any[] = [];
   reactionExists = false;
 
-  constructor(public userService: UserService) { }
+  constructor() { }
 
   get messages$() {
     return this.messageSubject.asObservable();
@@ -82,6 +79,8 @@ export class MessageService {
    * @param {string} channelId - the Id of the channel where the message is written
    */
   giveReaction(emoji: string, currentUser: any, message: any, channelId: string) {
+    console.log(emoji);
+    
     this.reactionExists = false;
     if (message.reactions) {
       this.checkReaction(emoji, currentUser, message, channelId)
@@ -123,9 +122,10 @@ export class MessageService {
    * @param {number} i - position of the reaction in the reaction Array
    */
   handleSingleReaction(reaction: any, currentUser: any, message: any, channelId: string, i:number) {
-    let user = reaction.users.find((user: { uid: any; }) => user.uid === currentUser.uid);
-    if (reaction.users.includes(user)) {
-      this.removeReaction(reaction, user, currentUser, message, i);
+    console.log(currentUser);
+    
+    if (reaction.users.includes(currentUser)) {
+      this.removeReaction(reaction, currentUser, message, i);
     } else {
       this.addReaction(reaction, currentUser);
     }
@@ -140,9 +140,9 @@ export class MessageService {
    * @param {any} message - the message to which the reaction is added
    * @param {number} i - position of the reaction in the reaction Array
    */
-  removeReaction(reaction: any, user: any, currentUser: any, message: any, i: number) {
+  removeReaction(reaction: any, currentUser: any, message: any, i: number) {
     reaction.count--;
-    let indexOfUser = reaction.users.indexOf(user);
+    let indexOfUser = reaction.users.indexOf(currentUser);
     
     if (indexOfUser > -1){
       reaction.users.splice(indexOfUser, 1);
@@ -218,21 +218,13 @@ export class MessageService {
     return doc(collection(this.firestore, col), docId);
   }
 
-  /**
-   * Searches through the subscribed list of users from `userService` to find a user based on its Id.
-   * Returns the current username.
-   * 
-   * @param {any} reactionUserId - the Id of the user which name should be returned
-   * @returns {string} - name of the user or `undefined` if the user is not found
-   */
-  getUserNameById(reactionUserId: any){
-    let reactionUser = {} as UserProfile;
-    let filteredUser = this.userService.users.find((user) => {
-        return user.uid === reactionUserId; 
-    });
-    if (filteredUser) {
-      reactionUser = filteredUser;
-    }
-    return reactionUser.name
+
+
+
+  emojiPickerEdit: boolean = false;
+  editTextArea: string = '...';
+  addEmoji(event: any) {
+    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
+    this.emojiPickerEdit = false;
   }
 }

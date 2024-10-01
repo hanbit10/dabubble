@@ -44,15 +44,8 @@ export class MessageRightComponent implements OnInit {
   formattedThreadTime?: string;
   allThreads: any[] = [];
 
-  emojiPickerLeft: boolean = false;
-  emojiPickerRight: boolean = false;
-
-  emojiPickerEdit: boolean = false;
-  editTextArea: string = '...';
-  addEmoji(event: any) {
-    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
-    this.emojiPickerEdit = false;
-  }
+  emojiPickerRight1: boolean = false;
+  emojiPickerRight2: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
