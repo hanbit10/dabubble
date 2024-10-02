@@ -53,6 +53,7 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   currentThreads: Message[] = [];
   messageById: Message[] = [];
   threadActive: boolean = true;
+  collectionType: string = 'chats';
   routePath: string = 'chats';
 
   constructor(

@@ -46,7 +46,6 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   formattedTime?: string;
   formattedCurrMsgTime?: string;
   formattedThreadTime?: string;
-  allThreads: any[] = [];
 
   emojiPickerRight1: boolean = false;
   emojiPickerRight2: boolean = false;

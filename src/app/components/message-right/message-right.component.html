@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      @if (allThreads.length > 0) {
+      @if (currentMessage.threadReplies > 0) {
         <div class="message-answer">
           <button
             class="message-answer-button"
@@ -110,8 +110,8 @@
             ]"
             (click)="threadService.openThread()"
           >
-            {{ allThreads.length }}
-            {{ utilityService.getAntwort(allThreads.length) }}
+            {{ currentMessage.threadReplies }}
+            {{ utilityService.getAntwort(currentMessage.threadReplies) }}
           </button>
           <span class="message-time"
             >Letzte Antwort {{ formattedThreadTime }} Uhr</span

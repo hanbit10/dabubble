@@ -29,11 +29,13 @@
         <app-message-left
           [getMessage]="thread"
           [threadActive]="threadActive"
+          [collectionType]="collectionType"
         ></app-message-left>
       } @else if (thread.sentBy == currentUserId) {
         <app-message-right
           [getMessage]="thread"
           [threadActive]="threadActive"
+          [collectionType]="collectionType"
         ></app-message-right>
       }
     }

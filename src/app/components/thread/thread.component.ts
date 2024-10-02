@@ -46,6 +46,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   currentChannel: any = {};
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
+  collectionType: string = 'channels';
   routePath: string = 'channels';
 
   constructor(
@@ -70,6 +71,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
+
       if (id && msgId) {
         this.currentChannelId = id;
         this.currentMessageId = msgId;
