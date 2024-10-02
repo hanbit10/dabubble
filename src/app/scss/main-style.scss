@@ -309,3 +309,10 @@ textarea:-webkit-autofill:focus {
   width: 100%;
   height: fit-content;
 }
+
+.alert-wrapper {
+  align-self: flex-start;
+  > span {
+    color: $rosaError;
+  }
+}
