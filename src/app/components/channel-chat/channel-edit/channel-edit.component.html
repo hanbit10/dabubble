@@ -4,7 +4,7 @@
       <div class="content-tab">
         <div class="content-left">
           <div class="tag"></div>
-          <h2>{{ channel.name }}</h2>
+          <h2>{{ currentChannel.name }}</h2>
         </div>
         <div class="card-close" (click)="close()"></div>
       </div>
@@ -18,7 +18,7 @@
             <div class="content-left mt-20">
               <div class="tag-small"></div>
               <p>
-                {{ channel.name }}
+                {{ currentChannel.name }}
               </p>
             </div>
           </div>
@@ -34,7 +34,7 @@
               <div class="tag-small"></div>
               <input
                 type="text"
-                placeholder="{{ channel.name }}"
+                placeholder="{{ currentChannel.name }}"
                 [(ngModel)]="updateChannel.name"
                 maxlength="25"
               />
@@ -50,12 +50,14 @@
               </div>
             </div>
             <pre class="channel-description mt-20">
-              {{ channel.description }}
+              {{ currentChannel.description }}
             </pre>
             <div class="content-line mt-20"></div>
             <h3 class="mt-20">Erstellt von</h3>
             <div class="channel-creator mt-20">
-              {{ channelCreatedBy.name }}
+              @if (channelCreatedBy) {
+                {{ channelCreatedBy.name }}
+              }
             </div>
           </div>
         } @else {
@@ -69,7 +71,7 @@
             <div class="input-container mt-20">
               <textarea
                 id="channel-edit-description"
-                value="{{ channel.description }}"
+                value="{{ currentChannel.description }}"
                 type="text"
                 [(ngModel)]="updateChannel.description"
               ></textarea>
@@ -77,13 +79,19 @@
             <div class="content-line mt-20"></div>
             <h3 class="mt-20">Erstellt von</h3>
             <div class="channel-creator mt-20">
-              {{ channelCreatedBy.name }}
+              @if (channelCreatedBy) {
+                {{ channelCreatedBy.name }}
+              }
             </div>
           </div>
         }
       </div>
       <div class="button-container">
-        <div class="button-primary mt-20" (click)="leaveChannel()">
+        <div
+          class="button-primary mt-20"
+          [routerLink]="['/main', currentUserId]"
+          (click)="leaveChannel()"
+        >
           Channel verlassen
         </div>
       </div>
