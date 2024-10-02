@@ -1,5 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -30,7 +29,6 @@ export class ChannelCreateComponent implements OnInit {
   currentUserId: string = '';
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
     public channelService: ChannelService,
     public utilityService: UtilityService,
