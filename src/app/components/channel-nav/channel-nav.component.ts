@@ -24,7 +24,7 @@ import { UtilityService } from '../../services/utility.service';
 })
 export class ChannelNavComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
-  public usersSubscription!: Subscription;
+  private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   allUsers: any[] = [];
   allChannels: any[] = [];
@@ -34,7 +34,7 @@ export class ChannelNavComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     public userService: UserService,
     public channelService: ChannelService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
   ) {}
   async ngOnInit() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
@@ -43,7 +43,7 @@ export class ChannelNavComponent implements OnInit {
     this.channelSubscription = this.channelService.channels$.subscribe(
       (channels) => {
         this.allChannels = channels;
-      }
+      },
     );
     this.toogleDirectMessage();
   }
@@ -66,5 +66,10 @@ export class ChannelNavComponent implements OnInit {
         });
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.usersSubscription.unsubscribe();
+    this.channelSubscription.unsubscribe();
   }
 }

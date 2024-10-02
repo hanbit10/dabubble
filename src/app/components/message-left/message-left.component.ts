@@ -27,18 +27,18 @@ export class MessageLeftComponent implements OnInit {
     this._items.next(value);
   }
   @Input() threadActive!: boolean;
+  @Input() collectionType!: string;
   get currentMessage(): Message {
     return this._items.getValue();
   }
 
   messageUser: UserProfile = {} as UserProfile;
-
-  allThreads: any[] = [];
   currentChannelId: string = '';
   currentUserId: string = '';
 
   private threadSubscription!: Subscription;
   private routeSub?: Subscription = new Subscription();
+  public routeParentSubscription?: Subscription;
   public usersSubscription!: Subscription;
   formattedCurrMsgTime?: string;
   formattedThreadTime?: string;
@@ -53,8 +53,8 @@ export class MessageLeftComponent implements OnInit {
     public channelService: ChannelService,
     public threadService: ThreadService,
     public utilityService: UtilityService,
-    public messageService: MessageService
-  ) { }
+    public messageService: MessageService,
+  ) {}
 
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -69,22 +69,27 @@ export class MessageLeftComponent implements OnInit {
         }
       });
 
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
+
     this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
-        this.allThreads = await this.threadService.getAllThreads(
-          this.currentChannelId,
-          this.currentMessage.uid,
-        );
       }
     });
 
     this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
-      this.currentMessage.sentAt!
+      this.currentMessage.sentAt!,
     );
     this.formattedThreadTime = this.utilityService.getFormattedTime(
-      this.currentMessage.lastThreadReply!
+      this.currentMessage.lastThreadReply!,
     );
   }
 
@@ -94,7 +99,12 @@ export class MessageLeftComponent implements OnInit {
   }
 
   selectEmoji(event: any, emojiPicker: any) {
-    this.messageService.giveReaction(event.emoji.native, this.userService.mainUser.uid, this.currentMessage, this.currentChannelId);
+    this.messageService.giveReaction(
+      event.emoji.native,
+      this.userService.mainUser.uid,
+      this.currentMessage,
+      this.currentChannelId,
+    );
     emojiPicker = false;
   }
 

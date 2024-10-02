@@ -35,7 +35,8 @@ export class DirectChatComponent {
   };
   otherUserId: string = '';
   currentUserId: string = '';
-  private routeSub: Subscription = new Subscription();
+  private routeSubscription: Subscription = new Subscription();
+  private routeParentSubscription?: Subscription = new Subscription();
   private messageSubscription!: Subscription;
   currentChatId: string = '';
 
@@ -44,6 +45,8 @@ export class DirectChatComponent {
     image: '',
   };
   currentMessages: Message[] = [];
+  threadActive: boolean = false;
+  collectionType: string = 'chats';
 
   constructor(
     public userService: UserService,
@@ -51,37 +54,39 @@ export class DirectChatComponent {
     public profileService: ProfileService,
     public directChatService: DirectChatService,
     public messageService: MessageService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
   ) {}
 
   async ngOnInit() {
-    this.route.params.subscribe((params) => {
+    this.routeSubscription = this.route.params.subscribe((params) => {
       this.otherUserId = params['id'];
-      this.route.parent?.paramMap.subscribe(async (paramMap) => {
-        const id = paramMap.get('id');
-        if (id) {
-          this.currentUserId = id;
+      this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+        async (paramMap) => {
+          const id = paramMap.get('id');
+          if (id) {
+            this.currentUserId = id;
 
-          const exist = this.directChatService.isExistingChat(
-            this.otherUserId,
-            this.currentUserId
-          );
-          if ((await exist) == false) {
-            this.directChatService.createNewChat(
+            const exist = this.directChatService.isExistingChat(
               this.otherUserId,
-              this.currentUserId
+              this.currentUserId,
             );
-            console.log('new chat created');
+            if ((await exist) == false) {
+              this.directChatService.createNewChat(
+                this.otherUserId,
+                this.currentUserId,
+              );
+              console.log('new chat created');
+            }
+
+            this.currentChatId = await this.directChatService.getChatId(
+              this.otherUserId,
+              this.currentUserId,
+            );
+
+            this.messageService.subMessageList(this.currentChatId, 'chats');
           }
-
-          this.currentChatId = await this.directChatService.getChatId(
-            this.otherUserId,
-            this.currentUserId
-          );
-
-          this.messageService.subMessageList(this.currentChatId, 'chats');
-        }
-      });
+        },
+      );
 
       this.usersSubscription = this.userService.users$.subscribe((users) => {
         this.allUsers = users;
@@ -101,7 +106,7 @@ export class DirectChatComponent {
             }
             return 0;
           });
-        }
+        },
       );
     });
   }
@@ -110,23 +115,26 @@ export class DirectChatComponent {
     if (messageForm.valid) {
       this.currentChatId = await this.directChatService.getChatId(
         this.otherUserId,
-        this.currentUserId
+        this.currentUserId,
       );
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChatId,
         this.currentUserId,
-        'chats'
+        'chats',
       );
     }
-  }
-
-  ngOnDestroy() {
-    this.routeSub.unsubscribe();
   }
 
   openProfile() {
     this.profileService.openProfile();
     this.profileService.profileUser = this.otherUser;
+  }
+
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
+    this.routeParentSubscription?.unsubscribe();
+    this.usersSubscription.unsubscribe();
+    this.messageSubscription.unsubscribe();
   }
 }

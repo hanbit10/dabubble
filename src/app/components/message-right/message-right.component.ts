@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -20,19 +20,22 @@ import { MessageService } from '../../services/message.service';
   templateUrl: './message-right.component.html',
   styleUrl: './message-right.component.scss',
 })
-export class MessageRightComponent implements OnInit {
+export class MessageRightComponent implements OnInit, OnDestroy {
   private _items = new BehaviorSubject<Message>({} as Message);
 
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
   @Input() threadActive!: boolean;
+  @Input() collectionType!: string;
 
   get currentMessage(): Message {
     return this._items.getValue();
   }
 
   public usersSubscription!: Subscription;
+  public routeSubscription!: Subscription;
+  public routeParentSubscription?: Subscription;
   settingIsOpen: boolean = false;
   editMessageIsOpen: boolean = false;
   allUsers: UserProfile[] = [];
@@ -43,7 +46,6 @@ export class MessageRightComponent implements OnInit {
   formattedTime?: string;
   formattedCurrMsgTime?: string;
   formattedThreadTime?: string;
-  allThreads: any[] = [];
 
   emojiPickerRight1: boolean = false;
   emojiPickerRight2: boolean = false;
@@ -51,12 +53,11 @@ export class MessageRightComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public profileService: ProfileService,
-    public channelService: ChannelService,
     public userService: UserService,
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -71,21 +72,19 @@ export class MessageRightComponent implements OnInit {
         }
       });
 
-    this.route.paramMap.subscribe(async (paramMap) => {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
+
+    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
-        this.allThreads = await this.threadService.getAllThreads(
-          this.currentChannelId,
-          this.currentMessage.uid,
-        );
-      }
-    });
-
-    this.route.parent?.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
       }
     });
 
@@ -96,7 +95,6 @@ export class MessageRightComponent implements OnInit {
       this.currentMessage.lastThreadReply!,
     );
   }
-
 
   openProfile() {
     this.profileService.openMainProfile();
@@ -124,10 +122,20 @@ export class MessageRightComponent implements OnInit {
   }
 
   selectEmoji(event: any, emojiPicker: any) {
-    this.messageService.giveReaction(event.emoji.native, this.userService.mainUser.uid, this.currentMessage, this.currentChannelId);
+    this.messageService.giveReaction(
+      event.emoji.native,
+      this.userService.mainUser.uid,
+      this.currentMessage,
+      this.currentChannelId,
+    );
     emojiPicker = false;
   }
 
+  ngOnDestroy(): void {
+    this.usersSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
+    this.routeParentSubscription?.unsubscribe;
+  }
   closeEmojiPicker() {
     this.emojiPickerRight1 = false;
     this.emojiPickerRight2 = false;

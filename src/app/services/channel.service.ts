@@ -72,6 +72,7 @@ export class ChannelService {
       list.forEach((doc) => {
         this.channels.push(doc.data());
       });
+      console.log(this.channels);
       this.channelSubject.next(this.channels);
     });
   }

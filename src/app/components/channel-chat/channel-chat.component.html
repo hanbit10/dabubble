@@ -29,18 +29,23 @@
           <app-message-left
             [getMessage]="message"
             [threadActive]="threadActive"
+            [collectionType]="collectionType"
           ></app-message-left>
         } @else if (message.sentBy == this.currentUserId) {
           <app-message-right
             [getMessage]="message"
             [threadActive]="threadActive"
+            [collectionType]="collectionType"
           ></app-message-right>
         }
       }
     }
   </section>
-  <app-send-message [currentChannelId]="currentChannelId" [currentChannel]="currentChannel" 
-  [currentUserId]="currentUserId"></app-send-message>  
+  <app-send-message
+    [currentChannelId]="currentChannelId"
+    [currentChannel]="currentChannel"
+    [currentUserId]="currentUserId"
+  ></app-send-message>
 </div>
 <app-channel-profile
   id="channel-profile"

@@ -57,11 +57,13 @@ export class MessageService {
       currentChannelId,
       'messages',
     );
+    console.log('subscribe message List', currentChannelId, type);
     return onSnapshot(docRef, (list) => {
       this.messages = [];
       list.forEach((doc) => {
         this.messages.push(doc.data());
       });
+      console.log('subscribed messages', this.messages);
       this.messageSubject.next(this.messages);
     });
   }
@@ -86,6 +88,7 @@ export class MessageService {
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
       lastThreadReply: null,
+      threadReplies: 0,
       reactions: null,
     };
 

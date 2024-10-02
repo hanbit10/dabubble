@@ -7,6 +7,7 @@ import { NewMessageComponent } from './components/new-message/new-message.compon
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
 import { ReassignPasswordCardComponent } from './components/reassign-password-card/reassign-password-card.component';
 import { ThreadComponent } from './components/thread/thread.component';
+import { ThreadChatsComponent } from './components/thread-chats/thread-chats.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +25,12 @@ export const routes: Routes = [
     path: 'main/:id',
     component: MainComponent,
     children: [
-      { path: 'users/:id', component: DirectChatComponent },
+      { path: 'chats/:id', component: DirectChatComponent },
+      {
+        path: 'chats/:id/th/:msgId',
+        component: ThreadChatsComponent,
+        outlet: 'thread',
+      },
       {
         path: 'channels/:id',
         component: ChannelChatComponent,

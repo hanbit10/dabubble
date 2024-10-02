@@ -21,33 +21,40 @@ import { UtilityService } from '../../services/utility.service';
 import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
-  selector: 'app-thread',
+  selector: 'app-thread-chats',
   standalone: true,
   imports: [FormsModule, MessageLeftComponent, MessageRightComponent],
-  templateUrl: './thread.component.html',
-  styleUrl: './thread.component.scss',
+  templateUrl: './thread-chats.component.html',
+  styleUrl: './thread-chats.component.scss',
 })
-export class ThreadComponent implements OnInit, OnDestroy {
+export class ThreadChatsComponent implements OnInit, OnDestroy {
   private threadSubscription!: Subscription;
   private messageSubscription!: Subscription;
   private userSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private routeSubscription!: Subscription;
   private routeParentSubscription?: Subscription;
+  subscriptions: Subscription[] = [
+    this.channelSubscription,
+    this.messageSubscription,
+    this.userSubscription,
+    this.threadSubscription,
+    this.routeSubscription,
+    this.routeParentSubscription!,
+  ];
+
   sentThread: any = {
     text: '',
     image: '',
   };
   currentMessageId: string = '';
-  currentChannelId: string = '';
+  currentChatId: string = '';
   currentUserId: string = '';
   currentThreads: Message[] = [];
   messageById: Message[] = [];
-  currentChannel: any = {};
-  userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
-  collectionType: string = 'channels';
-  routePath: string = 'channels';
+  collectionType: string = 'chats';
+  routePath: string = 'chats';
 
   constructor(
     public threadService: ThreadService,
@@ -71,33 +78,26 @@ export class ThreadComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
-
       if (id && msgId) {
-        this.currentChannelId = id;
         this.currentMessageId = msgId;
+        this.currentChatId = await this.directChatService.getChatId(
+          id,
+          this.currentUserId,
+        );
+        console.log('thread chat', this.currentChatId);
         this.threadService.subThreadList(
-          this.currentChannelId,
+          this.currentChatId,
           this.currentMessageId,
           this.routePath,
         );
         if (this.threadService.threadIsOpen) {
           this.messageService.subMessageList(
-            this.currentChannelId,
+            this.currentChatId,
             this.routePath,
           );
         }
-
-        this.channelService.subChannelById(this.currentChannelId);
       }
     });
-
-    this.channelSubscription = this.channelService.channelById$.subscribe(
-      (channel) => {
-        if (channel) {
-          this.currentChannel = channel;
-        }
-      },
-    );
 
     this.messageSubscription = this.messageService.messages$
       .pipe(
@@ -127,7 +127,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
     if (messageForm.valid) {
       this.threadService.sendThread(
         this.sentThread,
-        this.currentChannelId,
+        this.currentChatId,
         this.currentMessageId,
         this.currentUserId,
         this.routePath,
@@ -136,23 +136,8 @@ export class ThreadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.channelSubscription) {
-      this.channelSubscription.unsubscribe();
-    }
-    if (this.messageSubscription) {
-      this.messageSubscription.unsubscribe();
-    }
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
-    if (this.threadSubscription) {
-      this.threadSubscription.unsubscribe();
-    }
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
-    if (this.routeParentSubscription) {
-      this.routeParentSubscription.unsubscribe();
-    }
+    this.subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
   }
 }

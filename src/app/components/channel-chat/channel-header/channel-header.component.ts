@@ -1,4 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectorRef,
+  OnDestroy,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, map, Subscription, switchMap, tap } from 'rxjs';
 import { UserService } from '../../../services/user.service';
@@ -14,7 +20,7 @@ import { UtilityService } from '../../../services/utility.service';
   templateUrl: './channel-header.component.html',
   styleUrl: './channel-header.component.scss',
 })
-export class ChannelHeaderComponent implements OnInit {
+export class ChannelHeaderComponent implements OnInit, OnDestroy {
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private _items = new BehaviorSubject<Channel>({} as Channel);
@@ -32,15 +38,16 @@ export class ChannelHeaderComponent implements OnInit {
     public channelService: ChannelService,
     public utilityService: UtilityService,
     private route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
   ) {}
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.channelSubscription = this.channelService.channels$
           .pipe(
-            map((channels) => channels.find((channel) => channel.uid === id))
+            map((channels) => channels.find((channel) => channel.uid === id)),
           )
           .subscribe((currChannel) => {
             if (currChannel) {
@@ -49,9 +56,9 @@ export class ChannelHeaderComponent implements OnInit {
                 .pipe(
                   map((users) =>
                     users.filter((user) =>
-                      currChannel.usersIds.includes(user.uid)
-                    )
-                  )
+                      currChannel.usersIds.includes(user.uid),
+                    ),
+                  ),
                 )
                 .subscribe((filteredUsers) => {
                   if (filteredUsers) {
@@ -67,5 +74,9 @@ export class ChannelHeaderComponent implements OnInit {
 
   openComponent(elementID: string) {
     this.utilityService.openComponent(elementID);
+  }
+
+  ngOnDestroy(): void {
+    this.channelSubscription.unsubscribe();
   }
 }
