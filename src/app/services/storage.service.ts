@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { LoginCreateAccountService } from './login-create-account.service';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,10 @@ export class StorageService {
   storage = getStorage();
   storageRef = ref(this.storage);  
 
-  constructor(private logService: LoginCreateAccountService) {}
+  constructor(private logService: LoginCreateAccountService, private messService: MessageService) {}
 
-  uploadFile(file: File, directory: string) {    
-    uploadBytes(ref(this.storageRef, `${directory}/${file.name}`), file)
+  async uploadFile(file: File, directory: string) {    
+    await uploadBytes(ref(this.storageRef, `${directory}/${file.name}`), file)
       .then((result: any) => {
         return getDownloadURL(result.ref);
       })
@@ -27,12 +28,16 @@ export class StorageService {
       });
   }
 
+  deleteFile(file: File) {
+    deleteObject(ref(this.storage, `message_files/${file.name}`));
+  }
+
   handleURL(directory: string) {
     if (directory === 'avatars') {
       this.logService.profile.profileImage = this.downloadURL;
       console.log(this.logService.profile);
     } else {
-      // hier die URL für die anderen Dateien irgendwo speichern
+      this.messService.messageFileURL = this.downloadURL;      
     }
   }
 }

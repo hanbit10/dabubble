@@ -1,0 +1,54 @@
+<div class="frame">
+  <div class="tag-list">
+    
+  </div>
+  <textarea
+    name="message"
+    id="message"
+    [placeholder]="'#' + currentChannel.name"
+    [(ngModel)]="Message.text"
+  ></textarea>
+  <div class="attachment" *ngIf="messageFile">
+    <img src="/assets/img/icons/attach.png" alt="attach" />
+    {{ messageFile.name }}
+    <div class="icon"><img src="/assets/img/icons/material-symbols/close.svg" alt="close"
+        (click)="removeAttachment()"    
+        ></div>
+  </div>
+  <div class="tools">
+    <div>
+      <div>
+        <label for="upload">
+          <div class="icon">
+            <img
+              src="/assets/img/icons/material-symbols/add.png"
+              alt="upload"
+            />
+          </div>
+          <input
+            class="upload-input"
+            id="upload"
+            type="file"
+            accept="image/*"
+            (change)="onSelect($event)"
+          />
+        </label>
+      </div>
+      <div class="bar"></div>
+      <div class="icon">       
+        <emoji-mart class="emoji-container" *ngIf="emojiPicker"
+            (emojiSelect)="selectEmoji($event)" title="Choose your emoji"></emoji-mart>        
+        <img src="/assets/img/icons/emoji-menu.svg" alt="emoji" (click)="emojiPicker = !emojiPicker"/>
+      </div>
+      <div class="icon" (click)="showUsers()">
+        <img src="/assets/img/icons/tag-user.svg" alt="tag-user" />
+      </div>
+    </div>
+    <img
+      src="/assets/img/icons/send-message.svg"
+      alt="send-message"
+      class="send-arrow"
+      (click)="postMessage()"
+    />
+  </div>
+</div>

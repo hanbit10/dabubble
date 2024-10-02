@@ -1,4 +1,5 @@
 import { Timestamp } from '@angular/fire/firestore';
+import { UserProfile } from './users';
 
 export interface Message {
   text?: string;
@@ -13,6 +14,6 @@ export interface Message {
 
 export interface Reaction {
   emojiNative: '';
-  users: string[];
+  users: UserProfile[];
   count: number;
 }

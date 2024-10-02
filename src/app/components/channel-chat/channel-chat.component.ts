@@ -20,6 +20,7 @@ import { Message } from '../../models/message';
 import { Timestamp } from '@angular/fire/firestore';
 import { CommonModule, KeyValuePipe } from '@angular/common';
 import { UtilityService } from '../../services/utility.service';
+import { SendMessageComponent } from "../send-message/send-message.component";
 
 @Component({
   selector: 'app-channel-chat',
@@ -33,7 +34,8 @@ import { UtilityService } from '../../services/utility.service';
     MessageRightComponent,
     FormsModule,
     CommonModule,
-  ],
+    SendMessageComponent
+],
   providers: [KeyValuePipe],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',

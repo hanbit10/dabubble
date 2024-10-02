@@ -48,14 +48,8 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   formattedThreadTime?: string;
   allThreads: any[] = [];
 
-  emojiPickerLeft: boolean = false;
-  emojiPickerRight: boolean = false;
-  emojiPickerEdit: boolean = false;
-  editTextArea: string = '...';
-  addEmoji(event: any) {
-    this.editTextArea = `${this.editTextArea}${event.emoji.native}`;
-    this.emojiPickerEdit = false;
-  }
+  emojiPickerRight1: boolean = false;
+  emojiPickerRight2: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -130,8 +124,8 @@ export class MessageRightComponent implements OnInit, OnDestroy {
 
   selectEmoji(event: any, emojiPicker: any) {
     this.messageService.giveReaction(
-      event,
-      this.userService.mainUser.name,
+      event.emoji.native,
+      this.userService.mainUser.uid,
       this.currentMessage,
       this.currentChannelId,
     );
@@ -142,5 +136,9 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     this.usersSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
     this.routeParentSubscription?.unsubscribe;
+  }
+  closeEmojiPicker() {
+    this.emojiPickerRight1 = false;
+    this.emojiPickerRight2 = false;
   }
 }

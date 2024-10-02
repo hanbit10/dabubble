@@ -48,7 +48,7 @@
     color: $textGray;
 }
 
-.message-box{
+.message-box {
     @include dFlex($g: 2px);
     flex-direction: column;
 }
@@ -61,23 +61,50 @@
     @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
 }
 
-.reaction-container{
+.reaction-container {
     @include dFlex($g: 10px);
     width: 100%;
     flex-wrap: wrap;
 }
 
-.reaction{
+.reaction {
+    position: relative;
     border: 1px solid $lightPurple;
     border-radius: 20px;
     padding: 5px 10px 5px 10px;
     background-color: white;
     @include dFlex($g: 10px);
 
-    &:hover{
+    &:hover {
         cursor: pointer;
         border: 1px solid $purple2;
+
+        .reaction-hover {
+            position: absolute;
+            bottom: 32px;
+            left: 25px;
+            background-color: $purple1;
+            padding: 15px 10px 15px 10px;
+            border-radius: 30px 30px 30px 0px;
+            color: white;
+            @include dFlex($g: 5px);
+            flex-direction: column;
+            width: max-content;
+            @include font($fs: 16px, $ff: NunitoRegular);
+
+            >span {
+                text-align: center;
+            }
+        }
     }
+}
+
+.reaction-hover {
+    display: none;
+}
+
+.reaction-hover-emoji {
+    font-size: 25px;
 }
 
 .message-answer {
@@ -180,7 +207,7 @@
     }
 }
 
-.edit-message-container{
+.edit-message-container {
     width: 100%;
     margin-left: 100px;
     background-color: white;
@@ -190,17 +217,17 @@
     @include dFlex($g: 16px);
     flex-direction: column;
 
-    &:hover{
+    &:hover {
         border: 1px solid $purple2;
     }
 }
 
-.edit-message-bottom{
+.edit-message-bottom {
     width: 100%;
     @include dFlex($jc: space-between, $ai: flex-start);
 }
 
-.edit-reaction-icon{
+.edit-reaction-icon {
     border: none;
     background-color: unset;
     background-image: url('./../../assets/img/icons/material-symbols/reaction.svg');
@@ -210,11 +237,11 @@
     }
 }
 
-.edit-buttons{
+.edit-buttons {
     @include dFlex($g: 32px);
 }
 
-.input-edit-message{
+.input-edit-message {
     width: 100%;
     outline: none;
     border: none;
@@ -222,12 +249,12 @@
     @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
     resize: none;
 
-    &:focus{
+    &:focus {
         color: black;
     }
 }
 
-.emoji-container{
+.emoji-container {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -239,14 +266,15 @@
     top: 10px;
 }
 
-::ng-deep .emoji-mart-scroll{
+::ng-deep .emoji-mart-scroll {
     height: 150px;
 }
 
 ::ng-deep .emoji-mart-anchor-bar {
-        background-color: $purple3 !important;
+    background-color: $purple3 !important;
 }
 
-::ng-deep .emoji-mart-anchor-selected{
-    color: $purple3 !important; /* Die Hover-Hintergrundfarbe */
-  }
+::ng-deep .emoji-mart-anchor-selected {
+    color: $purple3 !important;
+    /* Die Hover-Hintergrundfarbe */
+}
