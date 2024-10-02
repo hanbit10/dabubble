@@ -30,7 +30,7 @@
                 Speichern
               </div>
             </div>
-            <div class="input-container mt-20">
+            <div class="input-container mt-20 mb-0">
               <div class="tag-small"></div>
               <input
                 type="text"
@@ -38,6 +38,9 @@
                 [(ngModel)]="updateChannel.name"
                 maxlength="25"
               />
+            </div>
+            <div id="alert-wrapper-edit" class="alert-wrapper">
+              <span>* Die Channel-Name existiert schon.</span>
             </div>
           </div>
         }

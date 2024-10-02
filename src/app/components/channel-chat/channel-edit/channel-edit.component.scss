@@ -76,6 +76,7 @@ h2 {
 
 .channel-info-name {
   height: 110px;
+  // min-height: fit-content;
 }
 
 .channel-info-description {
@@ -113,4 +114,8 @@ pre {
   text-align: left;
   white-space: pre-line;
   font-family: NunitoRegular, sans-serif;
+}
+
+.mb-0 {
+  margin-bottom: 0px;
 }
