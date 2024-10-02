@@ -20,7 +20,7 @@ import { Message } from '../../models/message';
 import { Timestamp } from '@angular/fire/firestore';
 import { CommonModule, KeyValuePipe } from '@angular/common';
 import { UtilityService } from '../../services/utility.service';
-import { SendMessageComponent } from "../send-message/send-message.component";
+import { SendMessageComponent } from '../send-message/send-message.component';
 
 @Component({
   selector: 'app-channel-chat',
@@ -34,8 +34,8 @@ import { SendMessageComponent } from "../send-message/send-message.component";
     MessageRightComponent,
     FormsModule,
     CommonModule,
-    SendMessageComponent
-],
+    SendMessageComponent,
+  ],
   providers: [KeyValuePipe],
   templateUrl: './channel-chat.component.html',
   styleUrl: './channel-chat.component.scss',
@@ -70,7 +70,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
 
       if (id) {
         this.currentChannelId = id;
-        console.log('this is currentChannel id', this.currentChannelId);
+        // console.log('this is currentChannel id', this.currentChannelId);
         this.messageService.subMessageList(this.currentChannelId, 'channels');
 
         this.paramsParentSubscription = this.route.parent?.paramMap.subscribe(
@@ -84,7 +84,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
 
         this.messageSubscription = this.messageService.messages$.subscribe(
           (messages) => {
-            console.log('messages', messages);
+            // console.log('messages', messages);
             this.currentMessages = messages.sort((a, b) => {
               if (a.sentAt && b.sentAt) {
                 return (
@@ -93,7 +93,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
               }
               return 0;
             });
-            console.log('sorted messages', this.currentMessages);
+            // console.log('sorted messages', this.currentMessages);
           },
         );
 
@@ -101,14 +101,14 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
           .pipe(
             filter((channels) => channels.length > 0), // Only proceed when channels is not empty
             map((channels) => {
-              console.log('Emitted Channels:', channels); // Log emitted channels
+              // console.log('Emitted Channels:', channels); // Log emitted channels
               return channels.find(
                 (channel) => channel.uid === this.currentChannelId,
               );
             }),
           )
           .subscribe((currentChannel) => {
-            console.log('Current Channel Found:', currentChannel); // Log the found channel
+            // console.log('Current Channel Found:', currentChannel); // Log the found channel
             if (currentChannel) {
               this.currentChannel = currentChannel;
             }
