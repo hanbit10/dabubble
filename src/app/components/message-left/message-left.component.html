@@ -89,7 +89,7 @@
       </div>
     </div>
 
-    @if (currentMessage.threadReplies > 0) {
+    @if (currentMessage.threadReplies > 0 && threadActive == false) {
       <div class="message-answer">
         <button
           class="message-answer-button"
