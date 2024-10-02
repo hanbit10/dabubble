@@ -39,9 +39,11 @@
                 maxlength="25"
               />
             </div>
-            <div id="alert-wrapper-edit" class="alert-wrapper">
-              <span>* Die Channel-Name existiert schon.</span>
-            </div>
+            @if (alert) {
+              <div id="alert-wrapper-edit" class="alert-wrapper">
+                <span>* Die Channel-Name existiert schon.</span>
+              </div>
+            }
           </div>
         }
         @if (!editDescription) {

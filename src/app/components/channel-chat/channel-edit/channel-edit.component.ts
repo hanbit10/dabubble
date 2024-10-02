@@ -35,6 +35,7 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
     this.routeParentSubscription!,
   ];
 
+  allChannels: Channel[] = [];
   currentChannel: Channel = {} as Channel;
   channelCreatedBy: UserProfile = {} as UserProfile;
   editName: boolean = false;
@@ -44,6 +45,7 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
     description: '',
   };
   currentUserId: string = '';
+  alert: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -88,6 +90,18 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
                 });
             }
           });
+
+        this.channelSubscription = this.channelService.channels$
+          .pipe(
+            map((channels) =>
+              channels.filter(
+                (channel) => channel.uid !== this.currentChannel.uid,
+              ),
+            ),
+          )
+          .subscribe((filteredChannels) => {
+            this.allChannels = filteredChannels;
+          });
       }
     });
   }
@@ -96,6 +110,8 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
     this.utilityService.closeComponent('channel-edit');
     this.editName = false;
     this.editDescription = false;
+    this.alert = false;
+    this.updateChannel.name = this.currentChannel.name;
   }
 
   leaveChannel() {
@@ -116,12 +132,18 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
   }
   save(type: string) {
     if (type == 'name') {
-      this.editName = false;
-      this.channelService.updateChannel(
-        this.currentChannel.uid,
-        type,
-        this.updateChannel,
-      );
+      if (!this.checkChannelName()) {
+        this.editName = true;
+        this.alert = true;
+      } else {
+        this.editName = false;
+        this.alert = false;
+        this.channelService.updateChannel(
+          this.currentChannel.uid,
+          type,
+          this.updateChannel,
+        );
+      }
     }
     if (type == 'description') {
       this.editDescription = false;
@@ -131,6 +153,18 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
         this.updateChannel,
       );
     }
+  }
+
+  checkChannelName(): boolean {
+    let check = true;
+    console.log('currentChannel', this.currentChannel.name);
+    console.log('allChannels', this.allChannels);
+    this.allChannels.forEach((channel) => {
+      if (channel.name === this.updateChannel.name) {
+        check = false;
+      }
+    });
+    return check;
   }
 
   ngOnDestroy(): void {
