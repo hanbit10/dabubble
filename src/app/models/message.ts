@@ -8,7 +8,7 @@ export interface Message {
   sentAt: Timestamp;
   uid: string;
   lastThreadReply: Timestamp | null;
-  threadReplies: number;
+  threadReplies: number; 
   reactions: Reaction[] | null;
 }
 
