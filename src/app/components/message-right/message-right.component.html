@@ -214,20 +214,18 @@
         class="input-edit-message"
         type="text"
         name="textarea"
-        [(ngModel)]="messageService.editTextArea"
+        [(ngModel)]="currentMessage.text"
       ></textarea>
       <div class="edit-message-bottom">
         <div class="emoji-container">
           <button
             class="message-icon edit-reaction-icon"
-            (click)="
-              messageService.emojiPickerEdit = !messageService.emojiPickerEdit
-            "
+            (click)="emojiPickerEdit = !emojiPickerEdit"
           ></button>
           <emoji-mart
             class="emoji-mart emoji-mart-message-right"
-            *ngIf="messageService.emojiPickerEdit"
-            (emojiSelect)="messageService.addEmoji($event)"
+            *ngIf="emojiPickerEdit"
+            (emojiSelect)="addEmoji($event, currentMessage.text!)"
             title="Choose your emoji"
           ></emoji-mart>
         </div>
@@ -240,6 +238,6 @@
       </div>
     </div>
 
-    <img src="./../../../assets/img/profile/woman2.svg" alt="profile-image" />
+    <img src="{{ messageUser.profileImage }}" alt="profile-image" />
   </section>
 }

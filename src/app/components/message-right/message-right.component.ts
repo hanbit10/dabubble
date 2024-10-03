@@ -49,6 +49,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
 
   emojiPickerRight1: boolean = false;
   emojiPickerRight2: boolean = false;
+  emojiPickerEdit: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -139,5 +140,10 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   closeEmojiPicker() {
     this.emojiPickerRight1 = false;
     this.emojiPickerRight2 = false;
+  }
+
+  addEmoji(event: any, text: string) {
+    this.currentMessage.text = `${text}${event.emoji.native}`;
+    this.emojiPickerEdit = false;
   }
 }
