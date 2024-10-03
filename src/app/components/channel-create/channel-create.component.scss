@@ -96,3 +96,12 @@
 .hidden {
   display: none;
 }
+
+.unvalid {
+  cursor: default;
+  background-color: rgb(104, 104, 104);
+
+  &:hover {
+    background-color: rgb(104, 104, 104);
+  }
+}
