@@ -1,5 +1,5 @@
 import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import {
@@ -10,7 +10,7 @@ import {
   onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
-import { Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { ChannelService } from '../../services/channel.service';
 import { UtilityService } from '../../services/utility.service';
@@ -26,8 +26,14 @@ export class ChannelNavComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
+  private routeSubscription!: Subscription;
+  subscriptions: Subscription[] = [
+    this.usersSubscription,
+    this.channelSubscription,
+  ];
   allUsers: any[] = [];
   allChannels: any[] = [];
+  currentUserId: string = '';
   filtering: boolean = true;
 
   constructor(
@@ -35,16 +41,37 @@ export class ChannelNavComponent implements OnInit {
     public userService: UserService,
     public channelService: ChannelService,
     public utilityService: UtilityService,
+    private route: ActivatedRoute,
   ) {}
   async ngOnInit() {
+    this.routeSubscription = this.route.params.subscribe((params) => {
+      const id = params['id'];
+      if (id) {
+        this.currentUserId = id;
+      }
+    });
+
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
     });
-    this.channelSubscription = this.channelService.channels$.subscribe(
-      (channels) => {
-        this.allChannels = channels;
-      },
-    );
+
+    this.channelSubscription = this.channelService.channels$
+      .pipe(
+        map((channels) =>
+          channels.filter((channel) =>
+            channel.usersIds.includes(this.currentUserId),
+          ),
+        ),
+      )
+      .subscribe((filteredChannels) => {
+        this.allChannels = [];
+        filteredChannels.forEach((channel) => {
+          if (channel) {
+            this.allChannels.push(channel);
+          }
+        });
+      });
+
     this.toogleDirectMessage();
   }
   openComponent(elementId: string) {
@@ -69,7 +96,8 @@ export class ChannelNavComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.usersSubscription.unsubscribe();
-    this.channelSubscription.unsubscribe();
+    this.subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
   }
 }
