@@ -59,6 +59,14 @@
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
+    @include dFlex($g: 4px);
+    flex-direction: column;
+}
+
+.message-image-preview{
+    max-height: 200px;
+    width: auto;
+    object-fit: cover;
 }
 
 .reaction-container {

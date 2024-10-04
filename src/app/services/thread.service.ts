@@ -98,6 +98,7 @@ export class ThreadService {
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
       messageUid: currentMessageId,
+
     };
 
     const querySnapshot = await addDoc(docRef, data);
