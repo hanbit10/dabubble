@@ -48,21 +48,28 @@
               <br />
               hat reagiert</span>
             }
-
-            @if (reaction.count == 2) {
-            <span><b>{{ userService.getUserNameById(reaction.users[0]) }} und
-                <br />
-                {{ userService.getUserNameById(reaction.users[1]) }}</b>
-              <br />
-              haben reagiert</span>
-            }
-
-            @if (reaction.count > 2) {
-            <span><b>{{ userService.getUserNameById(reaction.users[0]) }} und
-                <br />
-                {{ reaction.count - 1 }} Weitere</b>
-              haben reagiert</span>
-            }
+              @if (reaction.count == 2) {
+                <span
+                  ><b
+                    >{{ userService.getUserNameById(reaction.users[0]) }} und
+                    <br />
+                    {{ userService.getUserNameById(reaction.users[1]) }}</b
+                  >
+                  <br />
+                  haben reagiert</span
+                >
+              }
+              @if (reaction.count > 2) {
+                <span
+                  ><b
+                    >{{ userService.getUserNameById(reaction.users[0]) }} und
+                    <br />
+                    {{ reaction.count - 1 }} Weitere</b
+                  >
+                  haben reagiert</span
+                >
+              }
+            </div>
           </div>
         </div>
         }

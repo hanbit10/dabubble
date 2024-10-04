@@ -140,11 +140,18 @@
             }
           ]" (click)="threadService.openThread()"></div>
     }
-
-    <div class="message-icon settings-icon" (click)="openSettings()" (click)="$event.stopPropagation()">
-      <div [class]="settingIsOpen ? 'edit-message-button' : 'hidden'" (click)="editMessage()"
-        (click)="$event.stopPropagation()">
-        <span>Nachricht bearbeiten</span>
+      <div
+        class="message-icon settings-icon"
+        (click)="openSettings()"
+        (click)="$event.stopPropagation()"
+      >
+        <div
+          [class]="settingIsOpen ? 'edit-message-button' : 'hidden'"
+          (click)="openEditMessage()"
+          (click)="$event.stopPropagation()"
+        >
+          <span>Nachricht bearbeiten</span>
+        </div>
       </div>
     </div>
   </div>
@@ -152,27 +159,39 @@
 }
 
 @if (editMessageIsOpen) {
-<section class="message" (click)="closeSettings()">
-  <div class="edit-message-container">
-    <textarea class="input-edit-message" type="text" name="textarea"
-      [(ngModel)]="messageService.editTextArea"></textarea>
-    <div class="edit-message-bottom">
-      <div class="emoji-container">
-        <button class="message-icon edit-reaction-icon" (click)="
-              messageService.emojiPickerEdit = !messageService.emojiPickerEdit
-            "></button>
-        <emoji-mart class="emoji-mart emoji-mart-message-right" *ngIf="messageService.emojiPickerEdit"
-          (emojiSelect)="messageService.addEmoji($event)" title="Choose your emoji"></emoji-mart>
-      </div>
-      <div class="edit-buttons">
-        <button class="button-secondary" (click)="closeEditMessage()">
-          Abbrechen
-        </button>
-        <button class="button-primary">Speichern</button>
+  <section class="message" (click)="closeSettings()">
+    <div class="edit-message-container">
+      <textarea
+        class="input-edit-message"
+        type="text"
+        name="textarea"
+        [(ngModel)]="currentMessage.text"
+      ></textarea>
+      <div class="edit-message-bottom">
+        <div class="emoji-container">
+          <button
+            class="message-icon edit-reaction-icon"
+            (click)="emojiPickerEdit = !emojiPickerEdit"
+          ></button>
+          <emoji-mart
+            class="emoji-mart emoji-mart-message-right"
+            *ngIf="emojiPickerEdit"
+            (emojiSelect)="addEmoji($event, currentMessage.text!)"
+            title="Choose your emoji"
+          ></emoji-mart>
+        </div>
+        <div class="edit-buttons">
+          <button class="button-secondary" (click)="closeEditMessage()">
+            Abbrechen
+          </button>
+          <button class="button-primary" (click)="editMessage()">
+            Speichern
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <img src="./../../../assets/img/profile/woman2.svg" alt="profile-image" />
-</section>
+    <img src="{{ messageUser.profileImage }}" alt="profile-image" />
+  </section>
 }
