@@ -1,10 +1,10 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { IMAGE_CONFIG } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,9 +17,17 @@ export const appConfig: ApplicationConfig = {
         apiKey: 'AIzaSyD6OgtifkKQS_VvwVo5dBJiZvODtkVWT88',
         authDomain: 'dabubble-8ac86.firebaseapp.com',
         messagingSenderId: '337899266017',
-        measurementId: 'G-Q5C2333R0G',        
-      })
+        measurementId: 'G-Q5C2333R0G',
+      }),
     ),
-    provideFirestore(() => getFirestore()), provideAnimationsAsync(),
+    provideFirestore(() => getFirestore()),
+    provideAnimationsAsync(),
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
   ],
 };

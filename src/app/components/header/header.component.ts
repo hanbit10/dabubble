@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
@@ -16,7 +14,7 @@ import { MessageService } from '../../services/message.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatMenuModule, MatButtonModule, RouterLink, ProfileMainComponent],
+  imports: [RouterLink, ProfileMainComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
