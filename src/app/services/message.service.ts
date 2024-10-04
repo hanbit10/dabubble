@@ -35,6 +35,17 @@ export class MessageService {
     return this.messageByIdSubject.asObservable();
   }
 
+  async getAllMessages(currentId: string, type: string) {
+    const docRef = collection(this.firestore, type, currentId, 'messages');
+
+    return onSnapshot(docRef, (list) => {
+      let messages = [];
+      list.forEach((doc) => {
+        messages.push(doc.data());
+      });
+    });
+  }
+
   subMessageById(currentChannelId: string, curentMessage: string) {
     const docRef = doc(
       this.firestore,
