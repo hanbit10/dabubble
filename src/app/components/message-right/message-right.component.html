@@ -197,7 +197,7 @@
       >
         <div
           [class]="settingIsOpen ? 'edit-message-button' : 'hidden'"
-          (click)="editMessage()"
+          (click)="openEditMessage()"
           (click)="$event.stopPropagation()"
         >
           <span>Nachricht bearbeiten</span>
@@ -233,7 +233,9 @@
           <button class="button-secondary" (click)="closeEditMessage()">
             Abbrechen
           </button>
-          <button class="button-primary">Speichern</button>
+          <button class="button-primary" (click)="editMessage()">
+            Speichern
+          </button>
         </div>
       </div>
     </div>

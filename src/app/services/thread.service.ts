@@ -97,6 +97,7 @@ export class ThreadService {
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
+      messageUid: currentMessageId,
     };
 
     const querySnapshot = await addDoc(docRef, data);
@@ -114,5 +115,18 @@ export class ThreadService {
       lastThreadReply: Timestamp.fromDate(new Date()),
       threadReplies: increment(1),
     });
+  }
+
+  async editThread(editThread: any, currentId: string, type: string) {
+    const docRef = doc(
+      this.firestore,
+      type,
+      currentId,
+      'messages',
+      editThread.messageUid,
+      'threads',
+      editThread.uid,
+    );
+    await updateDoc(docRef, editThread);
   }
 }

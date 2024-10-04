@@ -96,6 +96,17 @@ export class MessageService {
     await setDoc(querySnapshot, { ...data, uid: querySnapshot.id });
   }
 
+  async editMessage(editMessage: any, currentChannelId: string, type: string) {
+    const docRef = doc(
+      this.firestore,
+      type,
+      currentChannelId,
+      'messages',
+      editMessage.uid,
+    );
+    await updateDoc(docRef, editMessage);
+  }
+
   /**
    * Updates excisting reactions or creates new ones when adding a reaction to a message.
    *

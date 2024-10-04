@@ -12,6 +12,7 @@ import { ThreadService } from '../../services/thread.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UtilityService } from '../../services/utility.service';
 import { MessageService } from '../../services/message.service';
+import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
   selector: 'app-message-right',
@@ -42,6 +43,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   messageUser: UserProfile = {} as UserProfile;
   currentChannelId: string = '';
   currentUserId: string = '';
+  currentChatId: string = '';
 
   formattedTime?: string;
   formattedCurrMsgTime?: string;
@@ -58,6 +60,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
+    public directChatService: DirectChatService,
   ) {}
 
   ngOnInit(): void {
@@ -74,7 +77,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
       });
 
     this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
-      (paramMap) => {
+      async (paramMap) => {
         const id = paramMap.get('id');
         if (id) {
           this.currentUserId = id;
@@ -84,14 +87,21 @@ export class MessageRightComponent implements OnInit, OnDestroy {
 
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
-      if (id && this.currentMessage.uid) {
+      if (id) {
         this.currentChannelId = id;
+        if (this.collectionType == 'chats') {
+          this.currentChatId = await this.directChatService.getChatId(
+            id,
+            this.currentUserId,
+          );
+        }
       }
     });
 
     this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
       this.currentMessage.sentAt!,
     );
+
     this.formattedThreadTime = this.utilityService.getFormattedTime(
       this.currentMessage.lastThreadReply!,
     );
@@ -113,13 +123,46 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     this.settingIsOpen = false;
   }
 
-  editMessage() {
+  openEditMessage() {
     this.editMessageIsOpen = true;
   }
 
   closeEditMessage() {
     this.editMessageIsOpen = false;
     this.settingIsOpen = false;
+  }
+
+  editMessage() {
+    this.editMessageIsOpen = false;
+    this.settingIsOpen = false;
+    if (this.collectionType == 'channels' && this.threadActive == false) {
+      this.messageService.editMessage(
+        this.currentMessage,
+        this.currentChannelId,
+        this.collectionType,
+      );
+    } else if (this.collectionType == 'chats' && this.threadActive == false) {
+      console.log('chats', this.currentMessage);
+      console.log(this.currentChatId);
+      console.log(this.collectionType);
+      this.messageService.editMessage(
+        this.currentMessage,
+        this.currentChatId,
+        this.collectionType,
+      );
+    } else if (this.collectionType == 'channels' && this.threadActive == true) {
+      this.threadService.editThread(
+        this.currentMessage,
+        this.currentChannelId,
+        this.collectionType,
+      );
+    } else if (this.collectionType == 'chats' && this.threadActive == true) {
+      this.threadService.editThread(
+        this.currentMessage,
+        this.currentChatId,
+        this.collectionType,
+      );
+    }
   }
 
   selectEmoji(event: any, emojiPicker: any) {
@@ -132,11 +175,6 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     emojiPicker = false;
   }
 
-  ngOnDestroy(): void {
-    this.usersSubscription.unsubscribe();
-    this.routeSubscription.unsubscribe();
-    this.routeParentSubscription?.unsubscribe;
-  }
   closeEmojiPicker() {
     this.emojiPickerRight1 = false;
     this.emojiPickerRight2 = false;
@@ -145,5 +183,11 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   addEmoji(event: any, text: string) {
     this.currentMessage.text = `${text}${event.emoji.native}`;
     this.emojiPickerEdit = false;
+  }
+
+  ngOnDestroy(): void {
+    this.usersSubscription.unsubscribe();
+    this.routeSubscription.unsubscribe();
+    this.routeParentSubscription?.unsubscribe;
   }
 }

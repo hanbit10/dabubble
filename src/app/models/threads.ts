@@ -6,4 +6,5 @@ export interface Thread {
   sentBy?: string;
   sentAt: Timestamp;
   uid: string;
+  messageUid: string;
 }
