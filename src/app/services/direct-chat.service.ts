@@ -4,19 +4,41 @@ import {
   collection,
   Firestore,
   getDocs,
+  onSnapshot,
   query,
   setDoc,
   Timestamp,
   where,
 } from '@angular/fire/firestore';
 import { DirectChat } from '../models/direct-chat';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DirectChatService {
   firestore: Firestore = inject(Firestore);
-  constructor() {}
+  private chatSubject = new BehaviorSubject<any[]>([]);
+  chats: any[] = [];
+
+  constructor() {
+    this.subChatList();
+  }
+
+  get chats$() {
+    return this.chatSubject.asObservable();
+  }
+
+  subChatList() {
+    const docRef = collection(this.firestore, 'chats');
+    return onSnapshot(docRef, (list) => {
+      this.chats = [];
+      list.forEach((doc) => {
+        this.chats.push(doc.data());
+      });
+      this.chatSubject.next(this.chats);
+    });
+  }
 
   async createNewChat(otherUserId: string, currentUserId: string) {
     let data: DirectChat = {

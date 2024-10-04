@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MatInputModule } from '@angular/material/input';
 import { LogInCardComponent } from '../../components/log-in-card/log-in-card.component';
 import { NgIf } from '@angular/common';
 import { CreateAccountCardComponent } from '../../components/create-account-card/create-account-card.component';
@@ -13,13 +12,11 @@ import { ImpressumCardComponent } from '../../components/impressum-card/impressu
 import { PolicyCardComponent } from '../../components/policy-card/policy-card.component';
 import { SendMessageComponent } from '../../components/send-message/send-message.component';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     RouterLink,
-    MatInputModule,
     LogInCardComponent,
     NgIf,
     CreateAccountCardComponent,
@@ -28,30 +25,53 @@ import { SendMessageComponent } from '../../components/send-message/send-message
     ReassignPasswordCardComponent,
     ImpressumCardComponent,
     PolicyCardComponent,
-    SendMessageComponent    
+    SendMessageComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {  
-
+export class LoginComponent {
   constructor(public logService: LoginCreateAccountService) {}
 
-  ngOnInit() {    
+  ngOnInit() {
     this.introAnimation();
   }
 
   introAnimation() {
     const timeline = gsap.timeline();
     timeline
-      .set('.typewriter', { color: 'white'})
-      .fromTo('.logocontainer', { scale: 2.5, position: 'absolute', left: '55%', top: '50%', yPercent: -50},
-        { delay: 0.5, duration: 0.2, left: '45%'})
-      .fromTo('.typewriter', { x: '-100%' }, { duration: 1, delay: 0.5, x: '0', ease: 'back.out'})                                
-      .to('.logocontainer', { duration: 1.2, delay: 0.3, left: '0', top: '0', scale: 1, yPercent: 0, position: 'relative'}) 
-    gsap.set('.typewriter', { delay: 3, color: 'black' })  
-    gsap.to('.intro-screen', { duration: 1, opacity: 0, delay: 2.7, display: 'none'})  
+      .set('.typewriter', { color: 'white' })
+      .fromTo(
+        '.logocontainer',
+        {
+          scale: 2.5,
+          position: 'absolute',
+          left: '55%',
+          top: '50%',
+          yPercent: -50,
+        },
+        { delay: 0.5, duration: 0.2, left: '45%' },
+      )
+      .fromTo(
+        '.typewriter',
+        { x: '-100%' },
+        { duration: 1, delay: 0.5, x: '0', ease: 'back.out' },
+      )
+      .to('.logocontainer', {
+        duration: 1.2,
+        delay: 0.3,
+        left: '0',
+        top: '0',
+        scale: 1,
+        yPercent: 0,
+        position: 'relative',
+      });
+    gsap.set('.typewriter', { delay: 3, color: 'black' });
+    gsap.to('.intro-screen', {
+      duration: 1,
+      opacity: 0,
+      delay: 2.7,
+      display: 'none',
+    });
   }
-
-
 }

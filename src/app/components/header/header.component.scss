@@ -1,5 +1,5 @@
-@import './../../../styles.scss';
-@import './../../scss/main-style.scss';
+@import "./../../../styles.scss";
+@import "./../../scss/main-style.scss";
 
 .container {
   width: 100vw;
@@ -22,12 +22,12 @@
   box-sizing: border-box;
   @include dFlex($jc: flex-start, $g: 16px);
 
-  >img{
+  > img {
     height: 60px;
     width: auto;
   }
 
-  >span {
+  > span {
     @include font($lh: 24px);
   }
 }
@@ -45,11 +45,11 @@
   border-radius: 42px;
   @include dFlex($jc: space-between, $g: 10px);
 
-  input[type='search']::-webkit-search-cancel-button {
+  input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
     width: 24px;
     height: 24px;
-    background-image: url('./../../../assets/img/icons/material-symbols/search-close.svg');
+    background-image: url("./../../../assets/img/icons/material-symbols/search-close.svg");
     object-fit: cover;
 
     &:hover {
@@ -82,12 +82,12 @@
   width: 100%;
   @include dFlex($jc: flex-end, $g: 12px);
 
-  >span {
+  > span {
     @include font($ff: Nunito700, $fs: 22px, $lh: 22px);
     text-align: end;
   }
 
-  >img {
+  > img {
     &:hover {
       cursor: pointer;
     }
@@ -98,7 +98,7 @@
   position: relative;
   height: 60px;
 
-  >img {
+  > img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -129,8 +129,12 @@
 }
 
 @keyframes open {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .profile-menu {
@@ -161,4 +165,8 @@
     background-color: $bgColor;
     color: $purple3;
   }
+}
+
+.result-box {
+  z-index: 900;
 }
