@@ -3,7 +3,7 @@ import { MessageService } from '../../services/message.service';
 import { FormsModule } from '@angular/forms';
 import { Channel } from '../../models/channels';
 import { StorageService } from '../../services/storage.service';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -12,7 +12,7 @@ import { LoginCreateAccountService } from '../../services/login-create-account.s
 @Component({
   selector: 'app-send-message',
   standalone: true,
-  imports: [FormsModule, NgIf, PickerModule],
+  imports: [FormsModule, NgIf, PickerModule, NgFor],
   templateUrl: './send-message.component.html',
   styleUrl: './send-message.component.scss'
 })
@@ -29,6 +29,9 @@ export class SendMessageComponent {
   emojiPicker: boolean = false;
   users: UserProfile[] = [];
   channelUsers: UserProfile[] = [];
+  filteredUsers: UserProfile[] = [];
+  selectUser: boolean = false;
+  selectChannel: boolean = false;
   channels: Channel[] = [];
   
 
@@ -36,6 +39,25 @@ export class SendMessageComponent {
 
   async ngOnInit() {
     this.users = await this.userService.getAllUsers();
+  }
+
+  onKeyUp(event: KeyboardEvent) {
+    this.showUsers();
+    const text = this.Message.text;
+
+    // Überprüfe, ob ein @-Zeichen gefolgt von einem Teil eines Benutzernamens getippt wird
+    const match = text.match(/@(\w*)$/);
+    
+    if (match) {
+      const searchTerm = match[1].toLowerCase(); // Der Teil des Namens nach dem @
+      this.filteredUsers = this.channelUsers.filter(user =>
+        user.name!.toLowerCase().startsWith(searchTerm)
+      );
+      this.selectUser = true;
+    } else {
+      this.selectUser = false;
+      this.filteredUsers = [];
+    }
   }
 
   async postMessage() {
@@ -61,7 +83,8 @@ export class SendMessageComponent {
     } 
   }
 
-  onSelect(event: any) {    
+  onSelect(event: any) {  
+    this.selectUser = false; 
     if (event.target.files[0]) {      
       this.messageFile = event.target.files[0];       
     }
@@ -80,7 +103,23 @@ export class SendMessageComponent {
     const channelIds = this.currentChannel.usersIds;
     this.channelUsers = this.users.filter( user => channelIds.includes(user.uid));
     console.log(this.channelUsers);
+    this.selectUser = !this.selectUser;    
+    this.filteredUsers = this.channelUsers;
     
+  }
+
+  insertUser(username:string | undefined) {
+    if (username) {
+      if (this.Message.text.includes('@')) {
+        this.Message.text = this.Message.text.replace(/@\w*$/, `@${username}`);
+        this.selectUser = false;
+        this.filteredUsers = [];
+      } else {
+        this.Message.text += `@${username}`;
+        this.selectUser = false;
+        this.filteredUsers = [];
+      }
+    }
   }
 
 }

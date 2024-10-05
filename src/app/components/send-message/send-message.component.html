@@ -1,15 +1,19 @@
 <div class="frame">
-  <div class="tag-list">
-    
+  <div class="tag-list" *ngIf="selectUser || selectChannel">
+    <div class="user-bucket" *ngFor="let user of filteredUsers" (click)="insertUser(user.name)">
+      <img [src]="user.profileImage" alt="profile">
+      <span>&#64; {{ user.name }}</span>
+    </div>
   </div>
   <textarea
     name="message"
     id="message"
     [placeholder]="'#' + currentChannel.name"
     [(ngModel)]="Message.text"
+    (keyup)="onKeyUp($event)"
   ></textarea>
   <div class="attachment" *ngIf="messageFile">
-    <img src="/assets/img/icons/attach.png" alt="attach" />
+    <img src="/assets/img/icons/attach.png" alt="attach"/>
     {{ messageFile.name }}
     <div class="icon"><img src="/assets/img/icons/material-symbols/close.svg" alt="close"
         (click)="removeAttachment()"    
