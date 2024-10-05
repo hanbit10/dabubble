@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { LoginCreateAccountService } from './login-create-account.service';
 import { MessageService } from './message.service';
+import { Firestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,7 @@ export class StorageService {
   downloadURL: string = '';  
   storage = getStorage();
   storageRef = ref(this.storage);  
+  firestore: Firestore = inject(Firestore);
 
   constructor(private logService: LoginCreateAccountService, private messService: MessageService) {}
 
@@ -43,5 +45,22 @@ export class StorageService {
     } else {
       this.messService.messageFileURL = this.downloadURL;      
     }
+  }
+
+  /**
+   * Extracts the file name from a given URL.
+   * 
+   * @param {string} url - The URL from which the file name should be extracted.
+   * @returns {string | null} - The extracted file name or null if the extraction fails.
+   */
+  extractFileNameFromUrl(url: string): string | null {
+    const decodedUrl = decodeURIComponent(url);
+    const parts = decodedUrl.split('/');
+    const lastPart = parts.pop();
+    
+    if (lastPart) {
+      return lastPart.split('?')[0];
+    }
+    return null;
   }
 }
