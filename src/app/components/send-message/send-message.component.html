@@ -1,8 +1,13 @@
 <div class="frame">
-  <div class="tag-list" *ngIf="selectUser || selectChannel">
+  <div class="tag-list" *ngIf="selectUser">
     <div class="user-bucket" *ngFor="let user of filteredUsers" (click)="insertUser(user.name)">
       <img [src]="user.profileImage" alt="profile">
       <span>&#64; {{ user.name }}</span>
+    </div>
+  </div>
+  <div class="tag-list" *ngIf="selectChannel">
+    <div class="user-bucket" *ngFor="let channel of filteredChannels" (click)="insertChannel(channel.name)">      
+      <span>&#35; {{ channel.name }}</span>
     </div>
   </div>
   <textarea

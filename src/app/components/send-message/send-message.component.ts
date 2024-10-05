@@ -8,6 +8,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { LoginCreateAccountService } from '../../services/login-create-account.service';
+import { ChannelService } from '../../services/channel.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-send-message',
@@ -33,23 +35,28 @@ export class SendMessageComponent {
   selectUser: boolean = false;
   selectChannel: boolean = false;
   channels: Channel[] = [];
+  filteredChannels: Channel[] = [];
   
 
-  constructor(public messService: MessageService, public storage: StorageService, private userService: UserService, private logService: LoginCreateAccountService ) {}
+  constructor(public messService: MessageService, public storage: StorageService, private userService: UserService, private logService: LoginCreateAccountService,
+    public chanService: ChannelService, public route: ActivatedRoute) {}
 
   async ngOnInit() {
-    this.users = await this.userService.getAllUsers();
+    this.users = await this.userService.getAllUsers();    
   }
 
-  onKeyUp(event: KeyboardEvent) {
-    this.showUsers();
-    const text = this.Message.text;
+  onKeyUp(event: KeyboardEvent) {    
+    const text = this.Message.text;    
+    const matchUsers = text.match(/@(\w*)$/);
+    const matchChannels = text.match(/#(\w*)$/);
+    this.matchUsers(matchUsers);
+    this.matchChannels(matchChannels);    
+  }
 
-    // Überprüfe, ob ein @-Zeichen gefolgt von einem Teil eines Benutzernamens getippt wird
-    const match = text.match(/@(\w*)$/);
-    
+  matchUsers(match:string) {
     if (match) {
-      const searchTerm = match[1].toLowerCase(); // Der Teil des Namens nach dem @
+      this.showUsers();
+      const searchTerm = match[1].toLowerCase();
       this.filteredUsers = this.channelUsers.filter(user =>
         user.name!.toLowerCase().startsWith(searchTerm)
       );
@@ -57,6 +64,20 @@ export class SendMessageComponent {
     } else {
       this.selectUser = false;
       this.filteredUsers = [];
+    }
+  }
+
+  matchChannels(match:string) {    
+    if (match) {
+      this.showChannels();
+      const searchTerm = match[1].toLowerCase(); 
+      this.filteredChannels = this.channels.filter(chan =>
+        chan.name!.toLowerCase().startsWith(searchTerm)
+      );
+      this.selectChannel = true;
+    } else {
+      this.selectChannel = false;
+      this.filteredChannels = [];
     }
   }
 
@@ -100,26 +121,47 @@ export class SendMessageComponent {
   }
 
   showUsers() {
+    this.selectUser = !this.selectUser; 
+    this.selectChannel = false;
     const channelIds = this.currentChannel.usersIds;
     this.channelUsers = this.users.filter( user => channelIds.includes(user.uid));
-    console.log(this.channelUsers);
-    this.selectUser = !this.selectUser;    
-    this.filteredUsers = this.channelUsers;
-    
+    console.log(this.channelUsers);       
+    this.filteredUsers = this.channelUsers;    
+  }
+
+  showChannels() {
+    this.selectChannel = !this.selectChannel;
+    this.selectUser = false;
+    this.channels = this.chanService.channels.filter( chan => 
+      chan.usersIds.includes(this.currentUserId)
+    )
+    this.filteredChannels = this.channels;   
   }
 
   insertUser(username:string | undefined) {
     if (username) {
-      if (this.Message.text.includes('@')) {
-        this.Message.text = this.Message.text.replace(/@\w*$/, `@${username}`);
-        this.selectUser = false;
-        this.filteredUsers = [];
+      if (this.Message.text.includes('@')) {        
+        this.Message.text = this.Message.text.replace(/@\w*$/, `@${username}`);  
+        if (!this.Message.text.includes(`@${username}`)) this.Message.text += `@${username}`;        
       } else {
-        this.Message.text += `@${username}`;
-        this.selectUser = false;
-        this.filteredUsers = [];
+        this.Message.text += `@${username}`;        
       }
-    }
+      this.selectUser = false;
+      this.filteredUsers = [];
+    }    
+  }
+
+  insertChannel(channelname:string | undefined) {
+    if (channelname) {
+      if (this.Message.text.includes('#')) {        
+        this.Message.text = this.Message.text.replace(/#\w*$/, `#${channelname}`);  
+        if (!this.Message.text.includes(`#${channelname}`)) this.Message.text += `#${channelname}`;         
+      } else {
+        this.Message.text += `#${channelname}`;        
+      }
+      this.selectChannel = false;
+      this.filteredChannels = [];
+    }    
   }
 
 }
