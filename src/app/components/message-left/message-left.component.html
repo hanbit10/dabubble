@@ -5,30 +5,50 @@
     <div class="message-user">
       <span class="message-user-name" (click)="openProfile()">{{
         messageUser.name
-        }}</span>
+      }}</span>
       <span class="message-time">{{ formattedCurrMsgTime }} Uhr</span>
     </div>
     <div class="message-box">
       <span class="message-text">
         {{ currentMessage.text }}
 
-        @if (currentMessage.image != '') {
-        <a href="{{currentMessage.image}}" target="_blank"><img class="message-image-preview" src="{{currentMessage.image}}" alt="image preview"></a>
+        @if (currentMessage.image != "") {
+          <a href="{{ currentMessage.image }}" target="_blank"
+            ><img
+              class="message-image-preview"
+              src="{{ currentMessage.image }}"
+              alt="image preview"
+          /></a>
         }
       </span>
-      <div [class]="
+      <div
+        [class]="
           currentMessage.reactions?.length === 0 ||
           currentMessage.reactions === null
             ? 'hidden'
             : 'reaction-container'
-        ">
-        <div id="emoji-container" class="emoji-container" (click)="$event.stopPropagation()">
-          <button class="message-icon reaction-icon" (click)="emojiPickerLeft1 = !emojiPickerLeft1"></button>
-          <emoji-mart class="emoji-mart emoji-mart-message-reaction" *ngIf="emojiPickerLeft1"
-            (emojiSelect)="selectEmoji($event, emojiPickerLeft1)" title="Choose your emoji"></emoji-mart>
+        "
+      >
+        <div
+          id="emoji-container"
+          class="emoji-container"
+          (click)="$event.stopPropagation()"
+        >
+          <button
+            class="message-icon reaction-icon"
+            (click)="emojiPickerLeft1 = !emojiPickerLeft1"
+          ></button>
+          <emoji-mart
+            class="emoji-mart emoji-mart-message-reaction"
+            *ngIf="emojiPickerLeft1"
+            (emojiSelect)="selectEmoji($event, emojiPickerLeft1)"
+            title="Choose your emoji"
+          ></emoji-mart>
         </div>
         @for (reaction of currentMessage.reactions; track $index) {
-        <div class="reaction" (click)="
+          <div
+            class="reaction"
+            (click)="
               messageService.handleSingleReaction(
                 reaction,
                 userService.mainUser.uid,
@@ -36,105 +56,144 @@
                 currentChannelId,
                 $index
               )
-            ">
-          <div>{{ reaction.emojiNative }}</div>
-          <span>{{ reaction.count }}</span>
+            "
+          >
+            <div>{{ reaction.emojiNative }}</div>
+            <span>{{ reaction.count }}</span>
 
-          <div class="reaction-hover">
-            <div class="reaction-hover-emoji">{{ reaction.emojiNative }}</div>
+            <div class="reaction-hover">
+              <div class="reaction-hover-emoji">{{ reaction.emojiNative }}</div>
 
-            @if (reaction.count == 1) {
-            <span><b>{{ userService.getUserNameById(reaction.users[0]) }}</b>
-              <br />
-              hat reagiert</span>
-            }
-
-            @if (reaction.count == 2) {
-            <span><b>{{ userService.getUserNameById(reaction.users[0]) }} und
-                <br />
-                {{ userService.getUserNameById(reaction.users[1]) }}</b>
-              <br />
-              haben reagiert</span>
-            }
-
-            @if (reaction.count > 2) {
-            <span><b>{{ userService.getUserNameById(reaction.users[0]) }} und
-                <br />
-                {{ reaction.count - 1 }} Weitere</b>
-              haben reagiert</span>
-            }
+              @if (reaction.count == 1) {
+                <span
+                  ><b>{{ userService.getUserNameById(reaction.users[0]) }}</b>
+                  <br />
+                  hat reagiert</span
+                >
+              }
+              @if (reaction.count == 2) {
+                <span
+                  ><b
+                    >{{ userService.getUserNameById(reaction.users[0]) }} und
+                    <br />
+                    {{ userService.getUserNameById(reaction.users[1]) }}</b
+                  >
+                  <br />
+                  haben reagiert</span
+                >
+              }
+              @if (reaction.count > 2) {
+                <span
+                  ><b
+                    >{{ userService.getUserNameById(reaction.users[0]) }} und
+                    <br />
+                    {{ reaction.count - 1 }} Weitere</b
+                  >
+                  haben reagiert</span
+                >
+              }
+            </div>
           </div>
-        </div>
         }
       </div>
     </div>
 
     @if (currentMessage.threadReplies > 0 && threadActive == false) {
-    <div class="message-answer">
-      <button class="message-answer-button" routerLinkActive="active" [routerLink]="[
+      <div class="message-answer">
+        <button
+          class="message-answer-button"
+          routerLinkActive="active"
+          [routerLink]="[
             '/main',
             currentUserId,
             {
               outlets: {
                 thread: [
-                  collectionType, 
+                  collectionType,
                   currentChannelId,
                   'th',
                   currentMessage.uid
                 ]
               }
             }
-          ]" (click)="threadService.openThread()">
-        {{ currentMessage.threadReplies }}
-        {{ utilityService.getAntwort(currentMessage.threadReplies) }}
-      </button>
-      <span class="message-time">Letzte Antwort {{ formattedThreadTime }} Uhr</span>
-    </div>
+          ]"
+          (click)="threadService.openThread()"
+        >
+          {{ currentMessage.threadReplies }}
+          {{ utilityService.getAntwort(currentMessage.threadReplies) }}
+        </button>
+        <span class="message-time"
+          >Letzte Antwort {{ formattedThreadTime }} Uhr</span
+        >
+      </div>
     }
-  </div>
 
-  <div class="message-bar">
-    <div class="message-icon emoji-icon" (click)="
-        messageService.giveReaction(
-          '✅',
-          userService.mainUser.uid,
-          currentMessage,
-          currentChannelId
-        )
-      ">
-      <img src="./../../../assets/img/icons/material-symbols/emoji-check.svg" alt="check emoji" />
-    </div>
-    <div class="message-icon emoji-icon" (click)="
-        messageService.giveReaction(
-          '🙌',
-          userService.mainUser.uid,
-          currentMessage,
-          currentChannelId
-        )
-      ">
-      <img src="./../../../assets/img/icons/material-symbols/emoji-hands.svg" alt="hands emoji" />
-    </div>
-    <div class="emoji-container" (click)="$event.stopPropagation()">
-      <button class="message-icon reaction-icon" (click)="emojiPickerLeft2 = !emojiPickerLeft2"></button>
-      <emoji-mart class="emoji-mart emoji-mart-message-left" *ngIf="emojiPickerLeft2"
-        (emojiSelect)="selectEmoji($event, emojiPickerLeft2)" title="Choose your emoji"></emoji-mart>
-    </div>
+    <div class="message-bar">
+      <div
+        class="message-icon emoji-icon"
+        (click)="
+          messageService.giveReaction(
+            '✅',
+            userService.mainUser.uid,
+            currentMessage,
+            currentChannelId
+          )
+        "
+      >
+        <img
+          src="./../../../assets/img/icons/material-symbols/emoji-check.svg"
+          alt="check emoji"
+        />
+      </div>
+      <div
+        class="message-icon emoji-icon"
+        (click)="
+          messageService.giveReaction(
+            '🙌',
+            userService.mainUser.uid,
+            currentMessage,
+            currentChannelId
+          )
+        "
+      >
+        <img
+          src="./../../../assets/img/icons/material-symbols/emoji-hands.svg"
+          alt="hands emoji"
+        />
+      </div>
+      <div class="emoji-container" (click)="$event.stopPropagation()">
+        <button
+          class="message-icon reaction-icon"
+          (click)="emojiPickerLeft2 = !emojiPickerLeft2"
+        ></button>
+        <emoji-mart
+          class="emoji-mart emoji-mart-message-left"
+          *ngIf="emojiPickerLeft2"
+          (emojiSelect)="selectEmoji($event, emojiPickerLeft2)"
+          title="Choose your emoji"
+        ></emoji-mart>
+      </div>
 
-    @if (threadActive == false) {
-    <div class="message-icon thread-icon" [routerLink]="[
-          '/main',
-          currentUserId,
-          {
-            outlets: {
-              thread: [
-                collectionType,
-                currentChannelId,
-                'th',
-                currentMessage.uid
-              ]
+      @if (threadActive == false) {
+        <div
+          class="message-icon thread-icon"
+          [routerLink]="[
+            '/main',
+            currentUserId,
+            {
+              outlets: {
+                thread: [
+                  collectionType,
+                  currentChannelId,
+                  'th',
+                  currentMessage.uid
+                ]
+              }
             }
-          }
-        ]" (click)="threadService.openThread()"></div>
-    }
+          ]"
+          (click)="threadService.openThread()"
+        ></div>
+      }
+    </div>
   </div>
 </section>

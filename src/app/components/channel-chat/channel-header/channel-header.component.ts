@@ -23,11 +23,17 @@ import { UtilityService } from '../../../services/utility.service';
 export class ChannelHeaderComponent implements OnInit, OnDestroy {
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
+  private routeSubscription!: Subscription;
   private _items = new BehaviorSubject<Channel>({} as Channel);
+
+  subscriptions: Subscription[] = [
+    this.usersSubscription,
+    this.channelSubscription,
+    this.routeSubscription,
+  ];
   @Input() set getCurrentChannel(value: Channel) {
     this._items.next(value);
   }
-
   get currentChannel(): Channel {
     return this._items.getValue();
   }
@@ -42,7 +48,7 @@ export class ChannelHeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((paramMap) => {
+    this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.channelSubscription = this.channelService.channels$
@@ -77,6 +83,8 @@ export class ChannelHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.channelSubscription.unsubscribe();
+    this.subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
   }
 }
