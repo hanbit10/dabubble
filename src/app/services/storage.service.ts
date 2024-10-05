@@ -27,9 +27,13 @@ export class StorageService {
         console.error(error);
       });
   }
-
+ 
   deleteFile(file: File) {
     deleteObject(ref(this.storage, `message_files/${file.name}`));
+  }
+
+  deleteAvatar(file: string){
+    deleteObject(ref(this.storage, `avatars/${file}`));
   }
 
   handleURL(directory: string) {

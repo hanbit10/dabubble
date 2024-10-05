@@ -22,6 +22,30 @@
     }
 }
 
+.edit-profile{
+    position: relative;
+}
+
+.edit-profile-icon{
+    background-image: url('./../../../assets/img/icons/material-symbols/edit.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    padding: 10px;
+    width: 24px;
+    height: 24px;
+    margin-inline: 80px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    &:hover{
+        cursor: pointer;
+        background-image: url('./../../../assets/img/icons/material-symbols/edit-hover.svg');
+        background-color: $bgColor;
+    }
+}
+
 form {
     width: 100%;
     @include dFlex($g: 18px);

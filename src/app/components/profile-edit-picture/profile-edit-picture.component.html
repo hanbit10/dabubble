@@ -1,0 +1,34 @@
+<section [class]="profileService.editProfilePicIsOpen? 'overlay-center' : 'hidden'" (click)="closeEdit()">
+
+    <main (click)="$event.stopPropagation()">
+        <div class="profile-head">
+            <span>Wähle deinen Avatar</span>
+            <div (click)="closeEdit()"></div>
+        </div>
+
+        <div class="main-pic-container">
+            <img [src]="src" alt="profile pic" id="main-img" />
+        </div>
+
+        <span>Aus der Liste wählen</span>
+        <div class="avatar-container">
+            <div class="avatar-pic-bucket" *ngFor="let avatar of avatars" (click)="chooseAvatar(avatar)">
+                <img src="{{ avatar }}" alt="avatar-pic" class="avatar-pic" />
+            </div>
+        </div>
+
+        <div class="own-pic-container">
+            <span>eigenes Bild verwenden</span>
+            <label for="upload">
+                <div class="button-secondary">Datei hochladen</div>
+                <input class="upload-input" id="upload" type="file" accept="image/*" (change)="onSelect($event)" />
+            </label>
+        </div>
+
+        <button class="button-primary" [disabled]="src === userService.mainUser.profileImage"
+            (click)="this.safeUserPic()">
+            Speichern
+        </button>
+    </main>
+
+</section>

@@ -10,6 +10,7 @@ export class ProfileService {
 
   profileIsOpen: boolean = false;
   mainProfileIsOpen: boolean = false;
+  editProfilePicIsOpen: boolean = false;
 
   profileUser: UserProfile = {
     address : {
