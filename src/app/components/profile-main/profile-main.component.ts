@@ -88,4 +88,8 @@ export class ProfileMainComponent implements OnInit {
       this.editProfile = false;
     }
   }
+
+  openEditPicture(){
+    this.profileService.editProfilePicIsOpen = true;
+  }
 }

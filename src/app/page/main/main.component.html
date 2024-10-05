@@ -45,4 +45,8 @@
 <app-profile-user></app-profile-user>
 }
 
+@if (profileService.editProfilePicIsOpen) {
+<app-profile-edit-picture></app-profile-edit-picture>
+}
+
 <app-channel-create id="channel-create" class="hidden"></app-channel-create>

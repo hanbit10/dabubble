@@ -47,6 +47,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: NunitoRegular, sans-serif;
@@ -71,6 +72,18 @@ p {
 
 .hidden {
   display: none !important;
+}
+
+.overlay-center {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, 0.2);
+  @include dFlex();
 }
 
 .button-primary {
