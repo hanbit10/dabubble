@@ -99,9 +99,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
                   let copyMessages = JSON.parse(
                     JSON.stringify(messages),
                   ) as any[];
-                  this.allChannelMessages = [];
+                  // this.allChannelMessages = [];
+
+                  copyMessages.forEach((message) => {
+                    const exists = this.allChannelMessages.some(
+                      (existingMessage) =>
+                        existingMessage.uid === message.uid ||
+                        existingMessage.sentAt === message.sentAt || // Use a reliable unique field
+                        message.uid == '',
+                    );
+
+                    if (!exists) {
+                      // Only push new message if it does not already exist
+                      this.allChannelMessages.push(message);
+                    }
+                  });
+
                   // Only push new message if it does not already exist
-                  this.allChannelMessages.push(copyMessages);
+
                   console.log('allChannelMessages', this.allChannelMessages);
                 },
                 error: (error) => {
@@ -129,8 +144,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 let copyMessages = JSON.parse(
                   JSON.stringify(messages),
                 ) as any[];
-                this.allChannelMessages = [];
-                this.allDirectMessages.push(copyMessages);
+                copyMessages.forEach((message) => {
+                  const exists = this.allDirectMessages.some(
+                    (existingMessage) =>
+                      existingMessage.uid === message.uid ||
+                      existingMessage.sentAt === message.sentAt ||
+                      message.uid == '',
+                    // Use a reliable unique field
+                  );
+
+                  if (!exists) {
+                    this.allDirectMessages.push(message);
+                  }
+                });
+
                 console.log('allDirectMessages', this.allDirectMessages);
               },
               error: (error) => {
@@ -140,6 +167,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
         });
       });
+  }
+
+  removeDuplicateMessages(arr: any[]) {
+    const seen = new Set();
+    return arr.filter((message) => {
+      // Check if the 'uid' exists, if not use 'text' for comparison
+      const key = message.text;
+      if (seen.has(key)) {
+        return false; // Duplicate found, filter it out
+      }
+      seen.add(key); // Add the unique key to the set
+      return true; // Keep the non-duplicate message
+    });
   }
 
   openMenu() {
@@ -183,6 +223,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         });
       } else {
         const keyword = input.toLowerCase();
+
         this.allMessages = [
           ...this.allChannelMessages,
           ...this.allDirectMessages,
