@@ -42,16 +42,14 @@
     }
   </section>
 
-  <section class="sendMessage-container">
-    <div class="sendMessage-component">
-      <form
-        id="message-form"
-        (ngSubmit)="onSubmitting(messageForm)"
-        #messageForm="ngForm"
-      >
-        <textarea name="message" id="" [(ngModel)]="sentThread.text"></textarea>
-        <button type="submit">send</button>
-      </form>
-    </div>
-  </section>
+
+  <app-send-message
+  [currentChannelId]="currentChannelId"
+  [currentChannel]="currentChannel"
+  [currentUserId]="currentUserId"
+  [currentMessageId]="currentMessageId"
+  [routePath]="routePath"
+  [threadActive]="threadActive"
+  componentId="thread"
+></app-send-message>
 </section>

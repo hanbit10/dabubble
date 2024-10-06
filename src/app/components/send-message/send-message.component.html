@@ -12,8 +12,9 @@
   </div>
   <textarea
     name="message"
-    id="message"
-    [placeholder]="'#' + currentChannel.name"
+    class="message"
+    [id]="'message' + componentId"
+    [placeholder]="createPlaceholder()"
     [(ngModel)]="Message.text"
     (keyup)="onKeyUp($event)"
   ></textarea>
@@ -27,7 +28,7 @@
   <div class="tools">
     <div>
       <div>
-        <label for="upload">
+        <label [for]="componentId">
           <div class="icon">
             <img
               src="/assets/img/icons/material-symbols/add.png"
@@ -36,7 +37,7 @@
           </div>
           <input
             class="upload-input"
-            id="upload"
+            [id]="componentId"
             type="file"
             accept="image/*"
             (change)="onSelect($event)"
@@ -57,7 +58,7 @@
       src="/assets/img/icons/send-message.svg"
       alt="send-message"
       class="send-arrow"
-      (click)="postMessage()"
+      (click)="selectMessageType()"
     />
   </div>
 </div>
