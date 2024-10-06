@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
@@ -18,13 +18,12 @@ import { MessageService } from '../../services/message.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   saveToChosen(_t11: any) {
     throw new Error('Method not implemented.');
   }
   menuOpen = false;
   profileOpen = false;
-  allUsers: UserProfile[] = [];
   currentUser: UserProfile = {
     email: '',
     active: false,
@@ -33,16 +32,26 @@ export class HeaderComponent implements OnInit {
     uid: '',
   };
   currentUserId: string = '';
+  allUsers: UserProfile[] = [];
   allChannels: Channel[] = [];
   allChats: DirectChat[] = [];
   allDirectMessages: any[] = [];
+  allChannelMessages: any[] = [];
+  allMessages: any[] = [];
 
   private routeSub: Subscription = new Subscription();
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private chatSubscription!: Subscription;
+  private directMessageSubscription!: Subscription;
+  subscriptions: Subscription[] = [
+    this.usersSubscription,
+    this.channelSubscription,
+    this.chatSubscription,
+    this.directMessageSubscription,
+  ];
   @ViewChild(ProfileMainComponent) profileMainComponent!: ProfileMainComponent;
-  contents: any;
+  contents: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -79,9 +88,26 @@ export class HeaderComponent implements OnInit {
       )
       .subscribe((filteredChannels) => {
         this.allChannels = [];
-        filteredChannels.forEach((channel) => {
-          if (channel) {
+        filteredChannels.forEach(async (channel) => {
+          if (channel && channel.uid) {
             this.allChannels.push(channel);
+            this.messageService
+              .getAllMessages(channel.uid, 'channels')
+              .subscribe({
+                next: (messages) => {
+                  // Check for duplicates before pushing
+                  let copyMessages = JSON.parse(
+                    JSON.stringify(messages),
+                  ) as any[];
+                  this.allChannelMessages = [];
+                  // Only push new message if it does not already exist
+                  this.allChannelMessages.push(copyMessages);
+                  console.log('allChannelMessages', this.allChannelMessages);
+                },
+                error: (error) => {
+                  console.error('Error fetching messages:', error);
+                },
+              });
           }
         });
       });
@@ -94,12 +120,23 @@ export class HeaderComponent implements OnInit {
       )
       .subscribe((filteredChats) => {
         this.allChats = [];
-        filteredChats.forEach((chat) => {
-          if (chat) {
+        // this.allDirectMessages = [];
+        filteredChats.forEach(async (chat) => {
+          if (chat && chat.uid) {
             this.allChats.push(chat);
-            this.allDirectMessages.push(
-              this.messageService.getAllMessages(chat.uid, 'chats'),
-            );
+            this.messageService.getAllMessages(chat.uid, 'chats').subscribe({
+              next: (messages) => {
+                let copyMessages = JSON.parse(
+                  JSON.stringify(messages),
+                ) as any[];
+                this.allChannelMessages = [];
+                this.allDirectMessages.push(copyMessages);
+                console.log('allDirectMessages', this.allDirectMessages);
+              },
+              error: (error) => {
+                console.error('Error fetching messages:', error);
+              },
+            });
           }
         });
       });
@@ -126,5 +163,43 @@ export class HeaderComponent implements OnInit {
   logoutMainUser() {
     this.currentUser.active = false;
     this.userService.updateUser(this.currentUser, this.currentUser.uid);
+  }
+
+  setUserSearchBar($event: KeyboardEvent) {
+    const inputBox = <HTMLInputElement>document.getElementById('search-input');
+    let result: any[] = [];
+    let input = inputBox.value;
+
+    if (input.length) {
+      if (input.startsWith('#')) {
+        result = this.allChannels.filter((channel) => {
+          const keyword = input.slice(1).toLowerCase(); // Remove the '#' from input for comparison
+          return channel.name?.toLowerCase().includes(keyword);
+        });
+      } else if (input.startsWith('@')) {
+        result = this.allUsers.filter((user) => {
+          const keyword = input.slice(1).toLowerCase(); // Remove the '@' from input for comparison
+          return user.name?.toLowerCase().includes(keyword);
+        });
+      } else {
+        const keyword = input.toLowerCase();
+        this.allMessages = [
+          ...this.allChannelMessages,
+          ...this.allDirectMessages,
+        ];
+        result = this.allMessages
+          .flat() // Flatten the array
+          .filter(
+            (message: any) => message.text && message.text.includes(keyword),
+          );
+      }
+    }
+    this.contents = result;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
   }
 }

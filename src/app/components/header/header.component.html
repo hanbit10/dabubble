@@ -7,9 +7,11 @@
     <section class="search-section">
       <div class="searchbar">
         <input
+          id="search-input"
           class="search-input"
           type="search"
           placeholder="Code learning durchsuchen"
+          (keyup)="setUserSearchBar($event)"
         />
         <img
           class="search-icon"
@@ -17,14 +19,19 @@
           alt="search"
         />
       </div>
-
-      <div id="result-box" class="result-box">
-        <ul>
-          @for (contents of allDirectMessages; track contents) {
-            <!-- <li (click)="saveToChosen(contents)"></li> -->
-          }
-        </ul>
-      </div>
+      @if (contents.length > 0) {
+        <div id="result-box" class="result-box">
+          <ul>
+            @for (content of contents; track contents) {
+              @if (content.name) {
+                {{ content.name }}
+              } @else if (content.text) {
+                {{ content.text }}
+              }
+            }
+          </ul>
+        </div>
+      }
     </section>
 
     <section class="profile-section">
