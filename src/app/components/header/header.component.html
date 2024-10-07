@@ -23,10 +23,18 @@
         <div id="result-box" class="result-box">
           <ul>
             @for (content of contents; track contents) {
-              @if (content.name) {
-                {{ content.name }}
-              } @else if (content.text) {
-                {{ content.text }}
+              @if (content.createdAt) {
+                <li [routerLink]="['channels', content.uid]">
+                  {{ content.name }}
+                  {{ content.uid }}
+                </li>
+              } @else if (content.email) {
+                <li [routerLink]="['chats', content.uid]">
+                  {{ content.name }}
+                  {{ content.uid }}
+                </li>
+              } @else {
+                <li>{{ content.text }}</li>
               }
             }
           </ul>
