@@ -167,6 +167,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
           }
         });
       });
+
+    document.addEventListener('click', (event) => {
+      const resultBox = document.getElementById('result-box-header');
+      if (event.target != resultBox) {
+        this.contents = [];
+      }
+    });
   }
 
   removeDuplicateMessages(arr: any[]) {

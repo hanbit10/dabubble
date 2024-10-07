@@ -12,6 +12,7 @@
           type="search"
           placeholder="Code learning durchsuchen"
           (keyup)="setUserSearchBar($event)"
+          autocomplete="off"
         />
         <img
           class="search-icon"
@@ -20,7 +21,7 @@
         />
       </div>
       @if (contents.length > 0) {
-        <div id="result-box" class="result-box">
+        <div id="result-box-header" class="result-box">
           <ul>
             @for (content of contents; track contents) {
               @if (content.createdAt) {
