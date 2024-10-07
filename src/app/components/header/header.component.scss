@@ -105,6 +105,10 @@
   }
 }
 
+.profile-img {
+  @include profileImg(40px, 40px);
+}
+
 .online-status {
   position: absolute;
   right: 0;
@@ -130,7 +134,7 @@
   justify-content: center;
 }
 
-.overlay-content{
+.overlay-content {
   max-width: 1920px;
   width: 100%;
   height: 100vh;
