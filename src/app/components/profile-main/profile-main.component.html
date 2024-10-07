@@ -1,5 +1,5 @@
 @if(!editProfile){
-<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-userProfile' : 'hidden'">
+<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-main' : 'hidden'">
     <section (click)="$event.stopPropagation()" class="profile-main">
 
         <div class="profile-head">
@@ -43,7 +43,7 @@
 
 
 @if(editProfile){
-<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-userProfile' : 'hidden'">
+<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-main' : 'hidden'">
     <section (click)="$event.stopPropagation()" class="profile-main">
         <div class="profile-head">
             <span>Dein Profil bearbeiten</span>

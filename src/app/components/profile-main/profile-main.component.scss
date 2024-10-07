@@ -2,6 +2,17 @@
 @import './../../scss/main-style.scss';
 @import './../../scss/profile-style.scss';
 
+.overlay-main{
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 9988;
+    opacity: 1;
+    transition: opacity 125ms ease-in-out;
+    @include dFlex();
+}
+
 .profile-main {
     position: absolute;
     top: 85px;

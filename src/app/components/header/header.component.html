@@ -6,22 +6,14 @@
 
     <section class="search-section">
       <div class="searchbar">
-        <input
-          class="search-input"
-          type="search"
-          placeholder="Code learning durchsuchen"
-        />
-        <img
-          class="search-icon"
-          src="./assets/img/icons/material-symbols/search-grey.svg"
-          alt="search"
-        />
+        <input class="search-input" type="search" placeholder="Code learning durchsuchen" />
+        <img class="search-icon" src="./assets/img/icons/material-symbols/search-grey.svg" alt="search" />
       </div>
 
       <div id="result-box" class="result-box">
         <ul>
           @for (contents of allDirectMessages; track contents) {
-            <!-- <li (click)="saveToChosen(contents)"></li> -->
+          <!-- <li (click)="saveToChosen(contents)"></li> -->
           }
         </ul>
       </div>
@@ -31,32 +23,22 @@
       <span>{{ currentUser.name }}</span>
       <div class="profile-pic">
         <img src="{{ currentUser.profileImage }}" alt="profile pic" />
-        <div
-          class="online-status"
-          [class]="currentUser.active ? 'active' : 'absent'"
-        ></div>
+        <div class="online-status" [class]="currentUser.active ? 'active' : 'absent'"></div>
       </div>
 
-      <img
-        (click)="openMenu()"
-        src="./assets/img/icons/material-symbols/arrow_down.svg"
-        alt="arrow down"
-      />
+      <img (click)="openMenu()" src="./assets/img/icons/material-symbols/arrow_down.svg" alt="arrow down" />
     </section>
+
+    <div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
+      <div class="overlay-content">
+        <div class="profile-menu" (click)="$event.stopPropagation()">
+          <button (click)="openProfile()" class="profile-menu-button">Profil</button>
+          <button routerLink="" (click)="logoutMainUser()" class="profile-menu-button">
+            Log out
+          </button>
+        </div>
+        <app-profile-main (click)="$event.stopPropagation()"></app-profile-main>
+      </div>
+    </div>
   </div>
 </div>
-
-<div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
-  <div class="profile-menu" (click)="$event.stopPropagation()">
-    <button (click)="openProfile()" class="profile-menu-button">Profil</button>
-    <button
-      routerLink=""
-      (click)="logoutMainUser()"
-      class="profile-menu-button"
-    >
-      Log out
-    </button>
-  </div>
-</div>
-
-<app-profile-main></app-profile-main>

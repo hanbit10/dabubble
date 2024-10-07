@@ -1,19 +1,20 @@
 <div class="main-page">
 
+
   <app-header></app-header>
 
-  <div class="navigation-bar" (click)="toggleMenu()">
-    @if (menuOpen) {
-    <div class="navbar-open-icon"></div>
-    <span class="navbar-text">Workspace-Menü schließen</span>
-    }
-    @if (!menuOpen) {
-    <div class="navbar-closed-icon"></div>
-    <span class="navbar-text">Workspace-Menü öffnen</span>
-    }
-  </div>
-
   <div class="main-container">
+
+    <div class="navigation-bar" (click)="toggleMenu()">
+      @if (menuOpen) {
+      <div class="navbar-open-icon"></div>
+      <span class="navbar-text">Workspace-Menü schließen</span>
+      }
+      @if (!menuOpen) {
+      <div class="navbar-closed-icon"></div>
+      <span class="navbar-text">Workspace-Menü öffnen</span>
+      }
+    </div>
 
     <div [class]="menuOpen? 'main-menu container' : 'hidden'">
       <div class="menu-header">

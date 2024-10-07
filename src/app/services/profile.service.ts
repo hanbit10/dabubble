@@ -56,7 +56,7 @@ export class ProfileService {
     this.mainProfileIsOpen = true;
   }
 
-  closeMainProfiel(){
+  closeMainProfile(){
     this.mainProfileIsOpen = false;
   }
 }
