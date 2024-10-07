@@ -50,20 +50,23 @@
         alt="arrow down"
       />
     </section>
+
+    <div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
+      <div class="overlay-content">
+        <div class="profile-menu" (click)="$event.stopPropagation()">
+          <button (click)="openProfile()" class="profile-menu-button">
+            Profil
+          </button>
+          <button
+            routerLink=""
+            (click)="logoutMainUser()"
+            class="profile-menu-button"
+          >
+            Log out
+          </button>
+        </div>
+        <app-profile-main (click)="$event.stopPropagation()"></app-profile-main>
+      </div>
+    </div>
   </div>
 </div>
-
-<div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
-  <div class="profile-menu" (click)="$event.stopPropagation()">
-    <button (click)="openProfile()" class="profile-menu-button">Profil</button>
-    <button
-      routerLink=""
-      (click)="logoutMainUser()"
-      class="profile-menu-button"
-    >
-      Log out
-    </button>
-  </div>
-</div>
-
-<app-profile-main></app-profile-main>

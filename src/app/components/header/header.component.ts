@@ -188,6 +188,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   closeMenu() {
     this.menuOpen = false;
+    this.profileService.closeMainProfile();
+    this.profileMainComponent.editProfile = false;
   }
 
   openProfile() {

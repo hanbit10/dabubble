@@ -94,6 +94,7 @@ export class ThreadService {
 
     let data: Thread = {
       text: sentThread.text,
+      image: sentThread.image,
       sentBy: currentUserId,
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',

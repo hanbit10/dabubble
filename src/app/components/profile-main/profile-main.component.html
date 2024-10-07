@@ -1,5 +1,5 @@
 @if(!editProfile){
-<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-userProfile' : 'hidden'">
+<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-main' : 'hidden'">
     <section (click)="$event.stopPropagation()" class="profile-main">
 
         <div class="profile-head">
@@ -43,14 +43,17 @@
 
 
 @if(editProfile){
-<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-userProfile' : 'hidden'">
+<div (click)="closeProfile()" [class]="profileService.mainProfileIsOpen? 'overlay-main' : 'hidden'">
     <section (click)="$event.stopPropagation()" class="profile-main">
         <div class="profile-head">
             <span>Dein Profil bearbeiten</span>
             <div (click)="closeEditProfile()"></div>
         </div>
 
-        <img class="profile-pic" src="{{currentUser.profileImage}}" alt="profile pic">
+        <div class="edit-profile">
+            <img class="profile-pic" src="{{currentUser.profileImage}}" alt="profile pic">
+            <div class="edit-profile-icon" (click)="openEditPicture()"></div>
+        </div>
 
         <form (ngSubmit)="safeEditProfile(contactForm)" #contactForm="ngForm">
             <div class="profile-edit-section">

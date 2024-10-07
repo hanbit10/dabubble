@@ -1,15 +1,25 @@
 <div class="frame">
-  <div class="tag-list">
-    
+  <div class="tag-list" *ngIf="selectUser">
+    <div class="user-bucket" *ngFor="let user of filteredUsers" (click)="insertUser(user.name)">
+      <img [src]="user.profileImage" alt="profile">
+      <span>&#64; {{ user.name }}</span>
+    </div>
+  </div>
+  <div class="tag-list" *ngIf="selectChannel">
+    <div class="user-bucket" *ngFor="let channel of filteredChannels" (click)="insertChannel(channel.name)">      
+      <span>&#35; {{ channel.name }}</span>
+    </div>
   </div>
   <textarea
     name="message"
-    id="message"
-    [placeholder]="'#' + currentChannel.name"
+    class="message"
+    [id]="'message' + componentId"
+    [placeholder]="createPlaceholder()"
     [(ngModel)]="Message.text"
+    (keyup)="onKeyUp($event)"
   ></textarea>
   <div class="attachment" *ngIf="messageFile">
-    <img src="/assets/img/icons/attach.png" alt="attach" />
+    <img src="/assets/img/icons/attach.png" alt="attach"/>
     {{ messageFile.name }}
     <div class="icon"><img src="/assets/img/icons/material-symbols/close.svg" alt="close"
         (click)="removeAttachment()"    
@@ -18,7 +28,7 @@
   <div class="tools">
     <div>
       <div>
-        <label for="upload">
+        <label [for]="componentId">
           <div class="icon">
             <img
               src="/assets/img/icons/material-symbols/add.png"
@@ -27,7 +37,7 @@
           </div>
           <input
             class="upload-input"
-            id="upload"
+            [id]="componentId"
             type="file"
             accept="image/*"
             (change)="onSelect($event)"
@@ -48,7 +58,7 @@
       src="/assets/img/icons/send-message.svg"
       alt="send-message"
       class="send-arrow"
-      (click)="postMessage()"
+      (click)="selectMessageType()"
     />
   </div>
 </div>

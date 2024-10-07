@@ -53,7 +53,7 @@ export class ProfileMainComponent implements OnInit {
   
 
   closeProfile() {
-    this.profileService.closeMainProfiel();
+    this.profileService.closeMainProfile();
     this.editProfile = false;
   }
 
@@ -87,5 +87,9 @@ export class ProfileMainComponent implements OnInit {
       this.newName = '';
       this.editProfile = false;
     }
+  }
+
+  openEditPicture(){
+    this.profileService.editProfilePicIsOpen = true;
   }
 }

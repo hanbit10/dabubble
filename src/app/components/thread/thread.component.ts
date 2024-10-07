@@ -19,11 +19,12 @@ import { MessageRightComponent } from '../message-right/message-right.component'
 import { Channel } from '../../models/channels';
 import { UtilityService } from '../../services/utility.service';
 import { DirectChatService } from '../../services/direct-chat.service';
+import { SendMessageComponent } from '../send-message/send-message.component';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [FormsModule, MessageLeftComponent, MessageRightComponent],
+  imports: [FormsModule, MessageLeftComponent, MessageRightComponent, SendMessageComponent],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })

@@ -2,6 +2,17 @@
 @import './../../scss/main-style.scss';
 @import './../../scss/profile-style.scss';
 
+.overlay-main{
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 9988;
+    opacity: 1;
+    transition: opacity 125ms ease-in-out;
+    @include dFlex();
+}
+
 .profile-main {
     position: absolute;
     top: 85px;
@@ -19,6 +30,30 @@
 
     >span {
         @include font($ff: Nunito700, $fs: 26px, $lh: 30px);
+    }
+}
+
+.edit-profile{
+    position: relative;
+}
+
+.edit-profile-icon{
+    background-image: url('./../../../assets/img/icons/material-symbols/edit.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    padding: 10px;
+    width: 24px;
+    height: 24px;
+    margin-inline: 80px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    &:hover{
+        cursor: pointer;
+        background-image: url('./../../../assets/img/icons/material-symbols/edit-hover.svg');
+        background-color: $bgColor;
     }
 }
 

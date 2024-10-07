@@ -9,6 +9,7 @@ import { ProfileUserComponent } from '../../components/profile-user/profile-user
 import { ThreadComponent } from '../../components/thread/thread.component';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
+import { ProfileEditPictureComponent } from '../../components/profile-edit-picture/profile-edit-picture.component';
 
 @Component({
   selector: 'app-main',
@@ -23,6 +24,7 @@ import { ThreadService } from '../../services/thread.service';
     DirectNavComponent,
     ProfileUserComponent,
     ThreadComponent,
+    ProfileEditPictureComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
