@@ -1,12 +1,25 @@
 <header class="chat-header">
   <div class="contact-container">
-    <!-- <div class="profile-pic">
-      <img src="{{ otherUser.profileImage }}" alt="profile pic" />
-      <div
-        class="online-status"
-        [class]="otherUser.active ? 'active' : 'absent'"
-      ></div>
+    <div id="input-container-new-message" class="input-container">
+      <div class="search-bar">
+        @if (selectedUsers) {
+          @for (chosed of selectedUsers; track chosed) {
+            <div class="chosed-user">
+              <!-- {{ chosed.name }} -->
+              <div class="chosed-close"></div>
+            </div>
+          }
+        }
+        @if (selectedUsers.length < 1) {
+          <input
+            type="text"
+            id="input-box-new-message"
+            (keyup)="setUserSearchBar($event)"
+            placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+            autocomplete="off"
+          />
+        }
+      </div>
     </div>
-    {{ otherUser.name }} -->
   </div>
 </header>
