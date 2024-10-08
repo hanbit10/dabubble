@@ -105,10 +105,6 @@
   }
 }
 
-.profile-img {
-  @include profileImg(40px, 40px);
-}
-
 .online-status {
   position: absolute;
   right: 0;

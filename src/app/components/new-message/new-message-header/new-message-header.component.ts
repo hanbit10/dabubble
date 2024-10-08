@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map, Subscription } from 'rxjs';
 import { ChannelService } from '../../../services/channel.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-new-message-header',
@@ -12,15 +13,19 @@ import { ChannelService } from '../../../services/channel.service';
 })
 export class NewMessageHeaderComponent implements OnInit {
   private channelSubscription!: Subscription;
+  private userSubscription!: Subscription;
   private routeParentSubscription?: Subscription;
+
   currentUserId: string = '';
   selectedUsers: [] = [];
   allChannels: any[] = [];
+  allUsers: any[] = [];
   contents: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     public channelService: ChannelService,
+    public userService: UserService,
   ) {}
   ngOnInit(): void {
     this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
@@ -44,14 +49,16 @@ export class NewMessageHeaderComponent implements OnInit {
       )
       .subscribe((filteredChannels) => {
         this.allChannels = [];
-        console.log('new message header', filteredChannels);
         filteredChannels.forEach((channel) => {
           if (channel && channel.uid) {
             this.allChannels.push(channel);
           }
         });
-        console.log('new message header', this.allChannels);
       });
+
+    this.userSubscription = this.userService.users$.subscribe((users) => {
+      this.allUsers = users;
+    });
   }
 
   setUserSearchBar($event: KeyboardEvent) {
@@ -67,9 +74,21 @@ export class NewMessageHeaderComponent implements OnInit {
           const keyword = input.slice(1).toLowerCase(); // Remove the '#' from input for comparison
           return channel.name?.toLowerCase().includes(keyword);
         });
+      } else if (input.startsWith('@')) {
+        result = this.allUsers.filter((user) => {
+          const keyword = input.slice(1).toLowerCase(); // Remove the '@' from input for comparison
+          return user.name?.toLowerCase().includes(keyword);
+        });
         console.log(result);
+      } else {
+        result = this.allUsers.filter((user) => {
+          const keyword = input.toLowerCase();
+          return user.email?.toLowerCase().includes(keyword);
+        });
       }
       this.contents = result;
+    } else {
+      this.contents = [];
     }
 
     console.log(this.contents);
