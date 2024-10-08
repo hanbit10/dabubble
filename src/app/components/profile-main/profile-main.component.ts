@@ -53,7 +53,7 @@ export class ProfileMainComponent implements OnInit {
   
 
   closeProfile() {
-    this.profileService.closeMainProfiel();
+    this.profileService.closeMainProfile();
     this.editProfile = false;
   }
 

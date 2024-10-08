@@ -3,14 +3,16 @@ import {
   addDoc,
   collection,
   doc,
+  DocumentData,
   Firestore,
+  getDocs,
   onSnapshot,
   setDoc,
   Timestamp,
   updateDoc,
 } from '@angular/fire/firestore';
 import { Message, Reaction } from '../models/message';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +26,7 @@ export class MessageService {
   messageById: any = {} as Message;
   reactionExists = false;
   messageFileURL: string = '';
+  allMessages: any[] = [];
 
   constructor() {}
 
@@ -34,15 +37,36 @@ export class MessageService {
   get messageById$() {
     return this.messageByIdSubject.asObservable();
   }
-
-  async getAllMessages(currentId: string, type: string) {
+  getAllMessages(currentId: string, type: string): Observable<any[]> {
     const docRef = collection(this.firestore, type, currentId, 'messages');
 
-    return onSnapshot(docRef, (list) => {
-      let messages = [];
-      list.forEach((doc) => {
-        messages.push(doc.data());
+    return new Observable((observer) => {
+      // Listen for changes to the messages collection
+      const unsubscribe = onSnapshot(docRef, (snapshot) => {
+        let messages: any[] = [];
+
+        snapshot.forEach((doc) => {
+          if (doc.exists()) {
+            const newMessage = doc.data();
+
+            // Check if the message with the same uid already exists in the array
+            const exists = messages.some(
+              (existingMessage) => existingMessage.uid === newMessage['uid'],
+            );
+
+            if (!exists) {
+              // Push the new message only if it does not already exist in the array
+              messages.push(newMessage);
+            }
+          }
+        });
+
+        // Emit the updated messages array to the subscriber
+        observer.next(messages);
       });
+
+      // Return a cleanup function to unsubscribe from the snapshot listener
+      return () => unsubscribe();
     });
   }
 

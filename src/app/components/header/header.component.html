@@ -7,9 +7,12 @@
     <section class="search-section">
       <div class="searchbar">
         <input
+          id="search-input"
           class="search-input"
           type="search"
-          placeholder="Code learning durchsuchen"
+          placeholder="Devspace durchsuchen"
+          (keyup)="setUserSearchBar($event)"
+          autocomplete="off"
         />
         <img
           class="search-icon"
@@ -17,14 +20,32 @@
           alt="search"
         />
       </div>
-
-      <div id="result-box" class="result-box">
-        <ul>
-          @for (contents of allDirectMessages; track contents) {
-            <!-- <li (click)="saveToChosen(contents)"></li> -->
-          }
-        </ul>
-      </div>
+      @if (contents.length > 0) {
+        <div id="result-box-header" class="result-box">
+          <ul>
+            @for (content of contents; track contents) {
+              @if (content.createdAt) {
+                <li [routerLink]="['channels', content.uid]">
+                  <div class="tag-small"></div>
+                  &nbsp;
+                  {{ content.name }}
+                </li>
+              } @else if (content.email) {
+                <li [routerLink]="['chats', content.uid]">
+                  <img
+                    src="{{ content.profileImage }}"
+                    class="profile-img"
+                    alt="profile"
+                  />
+                  &nbsp;{{ content.name }}
+                </li>
+              } @else {
+                <li>{{ content.text }}</li>
+              }
+            }
+          </ul>
+        </div>
+      }
     </section>
 
     <section class="profile-section">
@@ -43,20 +64,23 @@
         alt="arrow down"
       />
     </section>
+
+    <div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
+      <div class="overlay-content">
+        <div class="profile-menu" (click)="$event.stopPropagation()">
+          <button (click)="openProfile()" class="profile-menu-button">
+            Profil
+          </button>
+          <button
+            routerLink=""
+            (click)="logoutMainUser()"
+            class="profile-menu-button"
+          >
+            Log out
+          </button>
+        </div>
+        <app-profile-main (click)="$event.stopPropagation()"></app-profile-main>
+      </div>
+    </div>
   </div>
 </div>
-
-<div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
-  <div class="profile-menu" (click)="$event.stopPropagation()">
-    <button (click)="openProfile()" class="profile-menu-button">Profil</button>
-    <button
-      routerLink=""
-      (click)="logoutMainUser()"
-      class="profile-menu-button"
-    >
-      Log out
-    </button>
-  </div>
-</div>
-
-<app-profile-main></app-profile-main>
