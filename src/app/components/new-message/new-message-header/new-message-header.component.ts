@@ -17,7 +17,7 @@ export class NewMessageHeaderComponent implements OnInit {
   private routeParentSubscription?: Subscription;
 
   currentUserId: string = '';
-  selectedUsers: [] = [];
+  selectedElement: any[] = [];
   allChannels: any[] = [];
   allUsers: any[] = [];
   contents: any[] = [];
@@ -92,5 +92,15 @@ export class NewMessageHeaderComponent implements OnInit {
     }
 
     console.log(this.contents);
+  }
+
+  saveToChosen(content: any) {
+    const inputBox = <HTMLInputElement>(
+      document.getElementById('input-box-new-message')
+    );
+    let index = this.contents.indexOf(content);
+    this.selectedElement.push(content);
+    this.contents.splice(index, 1);
+    inputBox.value = '';
   }
 }

@@ -2,15 +2,15 @@
   <div class="contact-container">
     <div id="input-container-new-message" class="input-container">
       <div class="search-bar">
-        @if (selectedUsers) {
-          @for (chosed of selectedUsers; track chosed) {
+        @if (selectedElement) {
+          @for (chosed of selectedElement; track chosed) {
             <div class="chosed-user">
-              <!-- {{ chosed.name }} -->
+              {{ chosed.name }}
               <div class="chosed-close"></div>
             </div>
           }
         }
-        @if (selectedUsers.length < 1) {
+        @if (selectedElement.length < 1) {
           <input
             type="text"
             id="input-box-new-message"
@@ -26,13 +26,13 @@
         <ul>
           @for (content of contents; track contents) {
             @if (content.createdAt) {
-              <li>
+              <li (click)="saveToChosen(content)">
                 <div class="tag-small"></div>
                 &nbsp;
                 {{ content.name }}
               </li>
             } @else if (content.email) {
-              <li>
+              <li (click)="saveToChosen(content)">
                 <img
                   src="{{ content.profileImage }}"
                   class="profile-img"
@@ -41,7 +41,7 @@
                 &nbsp;{{ content.name }}
               </li>
             } @else {
-              <li>{{ content.text }}</li>
+              <li (click)="saveToChosen(content)">{{ content.text }}</li>
             }
           }
         </ul>
