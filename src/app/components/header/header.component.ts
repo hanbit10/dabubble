@@ -2,8 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
-import { UserProfile } from '../../models/users';
-import { filter, map, Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../models/channels';
@@ -22,23 +21,12 @@ export class HeaderComponent implements OnInit {
   saveToChosen(_t11: any) {
     throw new Error('Method not implemented.');
   }
-  menuOpen = false;
-  profileOpen = false;
-  allUsers: UserProfile[] = [];
-  currentUser: UserProfile = {
-    email: '',
-    active: false,
-    name: '',
-    password: '',
-    uid: '',
-  };
   currentUserId: string = '';
   allChannels: Channel[] = [];
   allChats: DirectChat[] = [];
   allDirectMessages: any[] = [];
 
   private routeSub: Subscription = new Subscription();
-  private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private chatSubscription!: Subscription;
   @ViewChild(ProfileMainComponent) profileMainComponent!: ProfileMainComponent;
@@ -58,16 +46,7 @@ export class HeaderComponent implements OnInit {
       this.currentUserId = params['id'];
     });
 
-    this.usersSubscription = this.userService.users$.subscribe((users) => {
-      this.allUsers = users;
-      let filteredUser = this.allUsers.find((user) => {
-        return user.uid === this.currentUserId;
-      });
-      if (filteredUser) {
-        this.currentUser = filteredUser;
-        this.userService.mainUser = filteredUser;
-      }
-    });
+    this.userService.getMainUser(this.currentUserId);
 
     this.channelSubscription = this.channelService.channels$
       .pipe(
@@ -106,11 +85,11 @@ export class HeaderComponent implements OnInit {
   }
 
   openMenu() {
-    this.menuOpen = true;
+    this.profileService.menuIsOpen = true;
   }
 
   closeMenu() {
-    this.menuOpen = false;
+    this.profileService.menuIsOpen = false;
     this.profileService.closeMainProfile();
     this.profileMainComponent.editProfile = false;
   }
@@ -119,14 +98,8 @@ export class HeaderComponent implements OnInit {
     this.profileService.openMainProfile();
   }
 
-  closeProfile() {
-    this.profileOpen = false;
-    this.profileMainComponent.editProfile = false;
-    this.profileMainComponent.closeEditProfile();
-  }
-
   logoutMainUser() {
-    this.currentUser.active = false;
-    this.userService.updateUser(this.currentUser, this.currentUser.uid);
+    this.userService.mainUser.active = false;
+    this.userService.updateUser(this.userService.mainUser, this.userService.mainUser.uid);
   }
 }

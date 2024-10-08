@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
   providedIn: 'root'
 })
 export class ProfileService {
-
+  menuIsOpen: boolean = false;
   profileIsOpen: boolean = false;
   mainProfileIsOpen: boolean = false;
   editProfilePicIsOpen: boolean = false;

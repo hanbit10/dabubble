@@ -79,7 +79,7 @@
   width: 100%;
   @include dFlex($ai: flex-start, $jc: flex-start, $g: 20px);
   flex-direction: column;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .navigation-bar {
