@@ -12,20 +12,27 @@ import { ChannelService } from '../../../services/channel.service';
 })
 export class NewMessageHeaderComponent implements OnInit {
   private channelSubscription!: Subscription;
-  private routeSubscription!: Subscription;
+  private routeParentSubscription?: Subscription;
   currentUserId: string = '';
   selectedUsers: [] = [];
   allChannels: any[] = [];
-  content: any[] = [];
+  contents: any[] = [];
 
   constructor(
-    public route: ActivatedRoute,
+    private route: ActivatedRoute,
     public channelService: ChannelService,
   ) {}
   ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      this.currentUserId = params['id'];
-    });
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const id = paramMap.get('id');
+        console.log('new message id', paramMap.get('id'));
+        if (id) {
+          this.currentUserId = id;
+          console.log('new message header', this.currentUserId);
+        }
+      },
+    );
 
     this.channelSubscription = this.channelService.channels$
       .pipe(
@@ -37,11 +44,13 @@ export class NewMessageHeaderComponent implements OnInit {
       )
       .subscribe((filteredChannels) => {
         this.allChannels = [];
+        console.log('new message header', filteredChannels);
         filteredChannels.forEach((channel) => {
           if (channel && channel.uid) {
             this.allChannels.push(channel);
           }
         });
+        console.log('new message header', this.allChannels);
       });
   }
 
@@ -52,12 +61,17 @@ export class NewMessageHeaderComponent implements OnInit {
 
     let result: any[] = [];
     let input = inputBox.value;
-    if (input.startsWith('#')) {
-      result = this.allChannels.filter((channel) => {
-        const keyword = input.slice(1).toLowerCase(); // Remove the '#' from input for comparison
-        return channel.name.toLowerCase().includes(input.toLowerCase());
-      });
+    if (input.length) {
+      if (input.startsWith('#')) {
+        result = this.allChannels.filter((channel) => {
+          const keyword = input.slice(1).toLowerCase(); // Remove the '#' from input for comparison
+          return channel.name?.toLowerCase().includes(keyword);
+        });
+        console.log(result);
+      }
+      this.contents = result;
     }
-    this.content = result;
+
+    console.log(this.contents);
   }
 }

@@ -21,5 +21,31 @@
         }
       </div>
     </div>
+    @if (contents.length > 0) {
+      <div id="result-box-header" class="result-box">
+        <ul>
+          @for (content of contents; track contents) {
+            @if (content.createdAt) {
+              <li>
+                <div class="tag-small"></div>
+                &nbsp;
+                {{ content.name }}
+              </li>
+            } @else if (content.email) {
+              <li>
+                <img
+                  src="{{ content.profileImage }}"
+                  class="profile-img"
+                  alt="profile"
+                />
+                &nbsp;{{ content.name }}
+              </li>
+            } @else {
+              <li>{{ content.text }}</li>
+            }
+          }
+        </ul>
+      </div>
+    }
   </div>
 </header>

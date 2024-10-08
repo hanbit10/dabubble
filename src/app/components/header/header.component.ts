@@ -117,7 +117,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
                   // Only push new message if it does not already exist
 
-                  console.log('allChannelMessages', this.allChannelMessages);
+                  // console.log('allChannelMessages', this.allChannelMessages);
                 },
                 error: (error) => {
                   console.error('Error fetching messages:', error);
@@ -158,7 +158,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                   }
                 });
 
-                console.log('allDirectMessages', this.allDirectMessages);
+                // console.log('allDirectMessages', this.allDirectMessages);
               },
               error: (error) => {
                 console.error('Error fetching messages:', error);
