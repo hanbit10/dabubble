@@ -49,9 +49,10 @@
 
   <app-send-message
     [currentChannelId]="currentChatId"    
-    [currentUserId]="currentUserId"
+    [currentUserId]="currentUserId"  
+    [otherUser]="otherUser.name!"  
     componentId="directmessage"
-    storageColl="chat"
+    storageColl="chats"
   ></app-send-message>
   <!-- <section class="sendMessage-container">
     <div class="sendMessage-component">

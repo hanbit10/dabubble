@@ -26,11 +26,11 @@ export class SendMessageComponent {
   @Input() currentChannelId!: string;
   @Input() currentUserId!: string;  
   @Input() currentChannel: Channel = {} as Channel;
-  @Input() currentMessageId: string = '';
-  @Input() routePath: string = '';
+  @Input() currentMessageId: string = '';  
   @Input() threadActive: boolean = false;
   @Input() componentId: string = '';
   @Input() storageColl: string = '';
+  @Input() otherUser: string = '';
   Message: any = {
     text: '',
     image: '',
@@ -55,6 +55,7 @@ export class SendMessageComponent {
   createPlaceholder() {  
     let placeHolder: string = `# ${this.currentChannel.name}`;   
     if (this.threadActive) placeHolder = 'Antworten...';
+    if (this.storageColl === 'chats') placeHolder = `Nachricht an ${this.otherUser}`;
     return placeHolder;    
   }
 
@@ -95,43 +96,36 @@ export class SendMessageComponent {
   }
 
   selectMessageType() {
-    this.threadActive ? this.postThread() : this.postMessage();    
-  }
-
-  async postMessage() {
-    const content = this.Message;
-    await this.uploadFile();
-    this.Message.image = this.messService.messageFileURL;
-    if (content.text.length || content.image.length) {
-      this.messService.sendMessage(
-        this.Message,
-        this.currentChannelId,
-        this.currentUserId,
-        'channels'
-      );
-      content.text = '';
-      content.image = '';
-      this.messageFile = null;  
-    }
-  }
-
-  async postThread() {
-    const content = this.Message;
-    await this.uploadFile();
-    this.Message.image = this.messService.messageFileURL;
-    if (content.text.length || content.image.length) {
+    if (this.threadActive) {
       this.threadService.sendThread(
         this.Message,
         this.currentChannelId,
         this.currentMessageId,
         this.currentUserId,
-        this.routePath,
+        this.storageColl
       );
-      content.text = '';
-      content.image = '';
-      this.messageFile = null;  
-    } 
+    } else {
+      this.messService.sendMessage(
+        this.Message,
+        this.currentChannelId,
+        this.currentUserId,
+        this.storageColl
+      );
+    }     
   }
+
+  async postMessage() {   
+    const content = this.Message;
+    await this.uploadFile();
+    content.image = this.messService.messageFileURL;
+    if (content.text.length || content.image.length) {
+      this.selectMessageType();        
+    }
+    content.text = '';
+    content.image = '';
+    this.messService.messageFileURL = '';
+    this.messageFile = null;
+  }  
 
   async uploadFile() {
     if (this.messageFile instanceof File) {

@@ -59,7 +59,7 @@ export class DirectChatComponent {
     public utilityService: UtilityService,
   ) {}
 
-  async ngOnInit() {
+  async ngOnInit() {    
     this.routeSubscription = this.route.params.subscribe((params) => {
       this.otherUserId = params['id'];
       this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
