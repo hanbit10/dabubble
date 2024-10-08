@@ -30,6 +30,7 @@ export class SendMessageComponent {
   @Input() routePath: string = '';
   @Input() threadActive: boolean = false;
   @Input() componentId: string = '';
+  @Input() storageColl: string = '';
   Message: any = {
     text: '',
     image: '',

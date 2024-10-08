@@ -46,7 +46,14 @@
     }
   </section>
 
-  <section class="sendMessage-container">
+
+  <app-send-message
+    [currentChannelId]="currentChatId"    
+    [currentUserId]="currentUserId"
+    componentId="directmessage"
+    storageColl="chat"
+  ></app-send-message>
+  <!-- <section class="sendMessage-container">
     <div class="sendMessage-component">
       <form
         id="message-form"
@@ -61,5 +68,5 @@
         <button type="submit">send</button>
       </form>
     </div>
-  </section>
+  </section> -->
 </section>

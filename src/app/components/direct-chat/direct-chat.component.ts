@@ -13,6 +13,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { DirectChatService } from '../../services/direct-chat.service';
 import { MessageService } from '../../services/message.service';
 import { UtilityService } from '../../services/utility.service';
+import { SendMessageComponent } from '../send-message/send-message.component';
 
 @Component({
   selector: 'app-direct-chat',
@@ -22,6 +23,7 @@ import { UtilityService } from '../../services/utility.service';
     MessageLeftComponent,
     MessageRightComponent,
     FormsModule,
+    SendMessageComponent
   ],
   templateUrl: './direct-chat.component.html',
   styleUrl: './direct-chat.component.scss',
@@ -112,11 +114,7 @@ export class DirectChatComponent {
   }
 
   async onSubmit(messageForm: NgForm) {
-    if (messageForm.valid) {
-      this.currentChatId = await this.directChatService.getChatId(
-        this.otherUserId,
-        this.currentUserId,
-      );
+    if (messageForm.valid) {      
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChatId,
