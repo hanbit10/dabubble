@@ -5,7 +5,16 @@
         @if (selectedElement) {
           @for (chosed of selectedElement; track chosed) {
             <div class="chosed-user">
-              {{ chosed.name }}
+              @if (chosed.profileImage) {
+                <img
+                  class="chosed-profile"
+                  src="{{ chosed.profileImage }}"
+                  alt=""
+                />
+              } @else {
+                <div class="tag-small"></div>
+              }
+              &nbsp;{{ chosed.name }}
               <div class="chosed-close"></div>
             </div>
           }
