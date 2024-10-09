@@ -25,10 +25,7 @@
 
 .dropdown-title {
     @include dFlex($g: 10px);
-
-    >span {
-        @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
-    }
+    @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
 }
 
 .contact-icon {
@@ -86,12 +83,12 @@
     box-sizing: border-box;
     @include font($ff: NunitoRegular, $fs: 16px, $lh: 20px);
 
-    &:hover{
+    &:hover {
         cursor: pointer;
         background-color: $bgColor;
     }
 
-    &:active{
+    &:active {
         color: $purple3;
         @include font($ff: Nunito700, $fs: 16px, $lh: 20px);
     }

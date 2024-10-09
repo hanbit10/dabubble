@@ -1,4 +1,5 @@
 @import "./../../../styles.scss";
+@import "./../../scss/responsive.scss";
 
 .main-page {
   width: 100vw;
@@ -16,6 +17,11 @@
   @include dFlex($jc: start, $ai: start);
   padding: 0 20px 20px 20px;
   box-sizing: border-box;
+}
+
+.main-chat-container{
+  container-name: main-chat-container;
+  container-type: inline-size;
 }
 
 .container {
@@ -36,7 +42,7 @@
 }
 
 .main-menu {
-  max-width: 350px;
+  max-width: 320px;
   @include dFlex($jc: flex-start, $g: 15px);
   flex-direction: column;
   padding: 32px 30px 32px 30px;
@@ -45,7 +51,7 @@
 }
 
 .menu-header {
-  width: 100%;
+  width: 260px;
   @include dFlex($jc: space-between);
 
   .menu-header-logo {
@@ -129,4 +135,6 @@
 .thread-container {
   max-width: 450px;
   margin-left: 20px;
+  container-name: thread-container;
+  container-type: inline-size;
 }

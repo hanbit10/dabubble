@@ -1,4 +1,5 @@
 @import "./../../styles.scss";
+@import "./../scss/responsive.scss";
 
 @mixin profileImg($w: 70px, $h: 70px) {
   width: $w;
@@ -272,7 +273,6 @@ textarea:-webkit-autofill:focus {
   width: 100%;
   padding-inline: 30px;
   box-sizing: border-box;
-  margin-bottom: 5px;
 
   .line {
     border: 0.5px solid $lightPurple;

@@ -1,5 +1,6 @@
 @import "./../../../styles.scss";
 @import "./../../scss/main-style.scss";
+@import "./../../scss/responsive.scss";
 
 .container {
   width: 100vw;
@@ -16,7 +17,7 @@
 }
 
 .logo-section {
-  max-width: 350px;
+  max-width: 320px;
   width: 100%;
   padding-left: 25px;
   box-sizing: border-box;
