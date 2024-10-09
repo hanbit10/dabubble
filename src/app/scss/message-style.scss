@@ -65,7 +65,7 @@
 
 .message-image-preview{
     max-height: 200px;
-    width: auto;
+    max-width: 250px;
     object-fit: cover;
 }
 
@@ -135,7 +135,7 @@
 .message-bar {
     position: absolute;
     z-index: 1;
-    top: -24px;
+    top: -35px;
     @include dFlex($g: 5px);
     padding: 3px 15px 3px 15px;
     border: 1px solid $lightPurple;

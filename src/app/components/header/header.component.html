@@ -6,17 +6,46 @@
 
     <section class="search-section">
       <div class="searchbar">
-        <input class="search-input" type="search" placeholder="Code learning durchsuchen" />
-        <img class="search-icon" src="./assets/img/icons/material-symbols/search-grey.svg" alt="search" />
+        <input
+          id="search-input"
+          class="search-input"
+          type="search"
+          placeholder="Devspace durchsuchen"
+          (keyup)="setUserSearchBar($event)"
+          autocomplete="off"
+        />
+        <img
+          class="search-icon"
+          src="./assets/img/icons/material-symbols/search-grey.svg"
+          alt="search"
+        />
       </div>
-
-      <div id="result-box" class="result-box">
-        <ul>
-          @for (contents of allDirectMessages; track contents) {
-          <!-- <li (click)="saveToChosen(contents)"></li> -->
-          }
-        </ul>
-      </div>
+      @if (contents.length > 0) {
+        <div id="result-box-header" class="result-box">
+          <ul>
+            @for (content of contents; track contents) {
+              @if (content.createdAt) {
+                <li [routerLink]="['channels', content.uid]">
+                  <div class="tag-small"></div>
+                  &nbsp;
+                  {{ content.name }}
+                </li>
+              } @else if (content.email) {
+                <li [routerLink]="['chats', content.uid]">
+                  <img
+                    src="{{ content.profileImage }}"
+                    class="profile-img"
+                    alt="profile"
+                  />
+                  &nbsp;{{ content.name }}
+                </li>
+              } @else {
+                <li>{{ content.text }}</li>
+              }
+            }
+          </ul>
+        </div>
+      }
     </section>
 
     <section class="profile-section">
@@ -26,14 +55,24 @@
         <div class="online-status" [class]="userService.mainUser.active ? 'active' : 'absent'"></div>
       </div>
 
-      <img (click)="openMenu()" src="./assets/img/icons/material-symbols/arrow_down.svg" alt="arrow down" />
+      <img
+        (click)="openMenu()"
+        src="./assets/img/icons/material-symbols/arrow_down.svg"
+        alt="arrow down"
+      />
     </section>
 
     <div (click)="closeMenu()" [class]="profileService.menuIsOpen ? 'overlay' : 'hidden'">
       <div class="overlay-content">
         <div class="profile-menu" (click)="$event.stopPropagation()">
-          <button (click)="openProfile()" class="profile-menu-button">Profil</button>
-          <button routerLink="" (click)="logoutMainUser()" class="profile-menu-button">
+          <button (click)="openProfile()" class="profile-menu-button">
+            Profil
+          </button>
+          <button
+            routerLink=""
+            (click)="logoutMainUser()"
+            class="profile-menu-button"
+          >
             Log out
           </button>
         </div>
@@ -42,4 +81,3 @@
     </div>
   </div>
 </div>
-
