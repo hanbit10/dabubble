@@ -57,7 +57,12 @@ export class NewMessageHeaderComponent implements OnInit {
       });
 
     this.userSubscription = this.userService.users$.subscribe((users) => {
-      this.allUsers = users;
+      this.allUsers = [];
+      users.forEach((user) => {
+        if (user && user.uid) {
+          this.allUsers.push(user);
+        }
+      });
     });
   }
 
@@ -98,9 +103,13 @@ export class NewMessageHeaderComponent implements OnInit {
     const inputBox = <HTMLInputElement>(
       document.getElementById('input-box-new-message')
     );
-    let index = this.contents.indexOf(content);
     this.selectedElement.push(content);
-    this.contents.splice(index, 1);
+    this.contents = [];
     inputBox.value = '';
+  }
+
+  removeFromChosen() {
+    this.selectedElement = [];
+    this.contents = [];
   }
 }
