@@ -1,5 +1,4 @@
 import { Component, inject, Inject } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,6 @@ import { DirectChatService } from '../../services/direct-chat.service';
   styleUrl: './direct-nav.component.scss',
 })
 export class DirectNavComponent {
-  firestore: Firestore = inject(Firestore);
   public usersSubscription!: Subscription;
   allUsers: UserProfile[] = [];
   dropdown: boolean = true;
@@ -23,7 +21,7 @@ export class DirectNavComponent {
   constructor(
     public userService: UserService,
     private route: ActivatedRoute,
-    public directChatService: DirectChatService
+    public directChatService: DirectChatService,
   ) {}
 
   async ngOnInit() {

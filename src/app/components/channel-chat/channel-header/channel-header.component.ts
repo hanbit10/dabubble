@@ -83,8 +83,6 @@ export class ChannelHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(
-      (subscription) => subscription && subscription.unsubscribe(),
-    );
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

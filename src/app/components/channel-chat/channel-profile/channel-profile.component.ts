@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Channel } from '../../../models/channels';
 import { UserService } from '../../../services/user.service';
@@ -12,7 +12,7 @@ import { UtilityService } from '../../../services/utility.service';
   templateUrl: './channel-profile.component.html',
   styleUrl: './channel-profile.component.scss',
 })
-export class ChannelProfileComponent implements OnInit {
+export class ChannelProfileComponent implements OnInit, OnDestroy {
   private usersSubscription!: Subscription;
   private _items = new BehaviorSubject<Channel>({} as Channel);
   @Input() set getCurrentChannel(value: Channel) {
@@ -26,8 +26,9 @@ export class ChannelProfileComponent implements OnInit {
   }
   constructor(
     public userService: UserService,
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
   ) {}
+
   ngOnInit(): void {
     this._items.subscribe((currChannel) => {
       if (currChannel) {
@@ -51,5 +52,9 @@ export class ChannelProfileComponent implements OnInit {
     channelProfile?.classList.add('hidden');
     const addUser = document.getElementById('channel-add-user');
     addUser?.classList.remove('hidden');
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.unsubscribe([this.usersSubscription]);
   }
 }

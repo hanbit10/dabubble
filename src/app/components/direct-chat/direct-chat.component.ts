@@ -1,5 +1,4 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -27,17 +26,23 @@ import { UtilityService } from '../../services/utility.service';
   styleUrl: './direct-chat.component.scss',
 })
 export class DirectChatComponent {
-  firestore: Firestore = inject(Firestore);
-  public usersSubscription!: Subscription;
+  private usersSubscription!: Subscription;
+  private messageSubscription!: Subscription;
+  private routeSubscription!: Subscription;
+  private routeParentSubscription?: Subscription;
+  subscriptions: Subscription[] = [
+    this.usersSubscription,
+    this.messageSubscription,
+    this.routeSubscription,
+    this.routeParentSubscription!,
+  ];
   allUsers: UserProfile[] = [];
   otherUser: UserProfile = {
     uid: '',
   };
   otherUserId: string = '';
   currentUserId: string = '';
-  private routeSubscription: Subscription = new Subscription();
-  private routeParentSubscription?: Subscription = new Subscription();
-  private messageSubscription!: Subscription;
+
   currentChatId: string = '';
 
   sentMessage: any = {
@@ -132,9 +137,6 @@ export class DirectChatComponent {
   }
 
   ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
-    this.routeParentSubscription?.unsubscribe();
-    this.usersSubscription.unsubscribe();
-    this.messageSubscription.unsubscribe();
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

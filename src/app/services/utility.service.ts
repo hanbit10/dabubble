@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -61,5 +62,11 @@ export class UtilityService {
     } else {
       return 'Antworten';
     }
+  }
+
+  unsubscribe(subscriptions: Subscription[]) {
+    subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
   }
 }

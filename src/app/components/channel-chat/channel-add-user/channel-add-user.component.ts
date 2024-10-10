@@ -91,9 +91,7 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.usersSubscription) {
-      this.usersSubscription.unsubscribe();
-    }
+  ngOnDestroy() {
+    this.utilityService.unsubscribe([this.usersSubscription]);
   }
 }

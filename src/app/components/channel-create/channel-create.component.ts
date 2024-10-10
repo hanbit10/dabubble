@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -15,13 +15,19 @@ import { Channel } from '../../models/channels';
   templateUrl: './channel-create.component.html',
   styleUrl: './channel-create.component.scss',
 })
-export class ChannelCreateComponent implements OnInit {
+export class ChannelCreateComponent implements OnInit, OnDestroy {
+  private usersSubscription!: Subscription;
+  private channelSubscription!: Subscription;
+  private routeSubscription!: Subscription;
+  subscriptions: Subscription[] = [
+    this.usersSubscription,
+    this.channelSubscription,
+    this.routeSubscription,
+  ];
   newChannel: any = {
     name: '',
     description: '',
   };
-  private usersSubscription!: Subscription;
-  private channelSubscription!: Subscription;
   keywords: UserProfile[] = [];
   contents: UserProfile[] = [];
   selectedUsers: UserProfile[] = [];
@@ -36,7 +42,7 @@ export class ChannelCreateComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.paramMap.subscribe((paramMap) => {
+    this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.currentUserId = id;
@@ -183,5 +189,9 @@ export class ChannelCreateComponent implements OnInit {
       channelSubmit?.classList.add('unvalid');
     }
     return this.selectedUsers.length < 1;
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

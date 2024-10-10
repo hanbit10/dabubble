@@ -30,6 +30,7 @@ export class ChannelNavComponent implements OnInit {
   subscriptions: Subscription[] = [
     this.usersSubscription,
     this.channelSubscription,
+    this.routeSubscription,
   ];
   allUsers: any[] = [];
   allChannels: any[] = [];
