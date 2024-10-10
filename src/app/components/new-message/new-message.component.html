@@ -1,1 +1,16 @@
-<p>new-message works!</p>
+<section class="message-container">
+  <app-new-message-header
+    (newItemEvent)="addItem($event)"
+  ></app-new-message-header>
+  <section class="chat-container">
+    {{ currentChannel.name }}
+    {{ currentChannel.uid }}
+  </section>
+  <app-send-message
+    [currentUserId]="currentUserId"
+    componentId="main"
+  ></app-send-message>
+
+  <input type="text" id="input-box-new-message" />
+  <button type="submit" (click)="onSubmit()">send</button>
+</section>

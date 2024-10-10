@@ -117,7 +117,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
                   // Only push new message if it does not already exist
 
-                  console.log('allChannelMessages', this.allChannelMessages);
+                  // console.log('allChannelMessages', this.allChannelMessages);
                 },
                 error: (error) => {
                   console.error('Error fetching messages:', error);
@@ -158,7 +158,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                   }
                 });
 
-                console.log('allDirectMessages', this.allDirectMessages);
+                // console.log('allDirectMessages', this.allDirectMessages);
               },
               error: (error) => {
                 console.error('Error fetching messages:', error);
@@ -173,19 +173,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (event.target != resultBox) {
         this.contents = [];
       }
-    });
-  }
-
-  removeDuplicateMessages(arr: any[]) {
-    const seen = new Set();
-    return arr.filter((message) => {
-      // Check if the 'uid' exists, if not use 'text' for comparison
-      const key = message.text;
-      if (seen.has(key)) {
-        return false; // Duplicate found, filter it out
-      }
-      seen.add(key); // Add the unique key to the set
-      return true; // Keep the non-duplicate message
     });
   }
 

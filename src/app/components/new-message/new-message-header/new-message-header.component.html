@@ -1,0 +1,60 @@
+<header class="chat-header">
+  <div class="contact-container">
+    <div id="input-container-new-message" class="input-container">
+      <div class="search-bar">
+        @if (selectedElement) {
+          @for (chosed of selectedElement; track chosed) {
+            <div class="chosed-user">
+              @if (chosed.profileImage) {
+                <img
+                  class="chosed-profile"
+                  src="{{ chosed.profileImage }}"
+                  alt=""
+                />
+              } @else {
+                <div class="tag-small"></div>
+              }
+              &nbsp;{{ chosed.name }}
+              <div class="chosed-close" (click)="removeFromChosen()"></div>
+            </div>
+          }
+        }
+        @if (selectedElement.length < 1) {
+          <input
+            type="text"
+            id="input-box-new-message"
+            (keyup)="setUserSearchBar($event)"
+            placeholder="An: #channel, oder @jemand oder E-Mail Adresse"
+            autocomplete="off"
+          />
+        }
+      </div>
+    </div>
+    @if (contents.length > 0) {
+      <div id="result-box-header" class="result-box">
+        <ul>
+          @for (content of contents; track contents) {
+            @if (content.createdAt) {
+              <li (click)="saveToChosen(content)">
+                <div class="tag-small"></div>
+                &nbsp;
+                {{ content.name }}
+              </li>
+            } @else if (content.email) {
+              <li (click)="saveToChosen(content)">
+                <img
+                  src="{{ content.profileImage }}"
+                  class="profile-img"
+                  alt="profile"
+                />
+                &nbsp;{{ content.name }}
+              </li>
+            } @else {
+              <li (click)="saveToChosen(content)">{{ content.text }}</li>
+            }
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</header>

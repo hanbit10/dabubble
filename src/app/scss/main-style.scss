@@ -316,3 +316,7 @@ textarea:-webkit-autofill:focus {
     color: $rosaError;
   }
 }
+
+.profile-img {
+  @include profileImg(40px, 40px);
+}
