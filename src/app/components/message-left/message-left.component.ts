@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileUserComponent } from '../profile-user/profile-user.component';
 import { UserService } from '../../services/user.service';
@@ -21,8 +21,18 @@ import { HostListener } from '@angular/core';
   templateUrl: './message-left.component.html',
   styleUrl: './message-left.component.scss',
 })
-export class MessageLeftComponent implements OnInit {
+export class MessageLeftComponent implements OnInit, OnDestroy {
+  private threadSubscription!: Subscription;
+  private usersSubscription!: Subscription;
+  private routeSubscription!: Subscription;
+  private routeParentSubscription?: Subscription;
   private _items = new BehaviorSubject<Message>({} as Message);
+  subscriptions: Subscription[] = [
+    this.threadSubscription,
+    this.usersSubscription,
+    this.routeSubscription,
+    this.routeParentSubscription!,
+  ];
   @Input() set getMessage(value: Message) {
     this._items.next(value);
   }
@@ -36,10 +46,6 @@ export class MessageLeftComponent implements OnInit {
   currentChannelId: string = '';
   currentUserId: string = '';
 
-  private threadSubscription!: Subscription;
-  private routeSub?: Subscription = new Subscription();
-  public routeParentSubscription?: Subscription;
-  public usersSubscription!: Subscription;
   formattedCurrMsgTime?: string;
   formattedThreadTime?: string;
 
@@ -95,7 +101,7 @@ export class MessageLeftComponent implements OnInit {
 
   openProfile() {
     if (this.messageUser.name) {
-      this.profileService.searchUser(this.messageUser.name); 
+      this.profileService.searchUser(this.messageUser.name);
     }
     this.profileService.openProfile();
   }
@@ -113,5 +119,9 @@ export class MessageLeftComponent implements OnInit {
   closeEmojiPicker() {
     this.emojiPickerLeft1 = false;
     this.emojiPickerLeft2 = false;
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

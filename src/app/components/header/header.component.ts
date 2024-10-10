@@ -10,6 +10,7 @@ import { Channel } from '../../models/channels';
 import { DirectChatService } from '../../services/direct-chat.service';
 import { DirectChat } from '../../models/direct-chat';
 import { MessageService } from '../../services/message.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-header',
@@ -39,12 +40,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   allChannelMessages: any[] = [];
   allMessages: any[] = [];
 
-  private routeSub: Subscription = new Subscription();
+  private routeSubscription!: Subscription;
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private chatSubscription!: Subscription;
   private directMessageSubscription!: Subscription;
   subscriptions: Subscription[] = [
+    this.routeSubscription,
     this.usersSubscription,
     this.channelSubscription,
     this.chatSubscription,
@@ -60,10 +62,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public profileService: ProfileService,
     public messageService: MessageService,
     public directChatService: DirectChatService,
+    public utilityService: UtilityService,
   ) {}
 
   async ngOnInit() {
-    this.routeSub = this.route.params.subscribe((params) => {
+    this.routeSubscription = this.route.params.subscribe((params) => {
       this.currentUserId = params['id'];
     });
 
@@ -235,8 +238,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(
-      (subscription) => subscription && subscription.unsubscribe(),
-    );
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }
