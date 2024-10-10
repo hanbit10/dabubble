@@ -136,8 +136,6 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(
-      (subscription) => subscription && subscription.unsubscribe(),
-    );
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }
