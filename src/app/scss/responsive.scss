@@ -9,6 +9,12 @@
 
     .content-left {
         margin-left: -6px;
+
+    }
+
+    .content-right{
+        width: 100%;
+        justify-content: space-between !important;
     }
 
     .chat-container {
@@ -40,6 +46,10 @@
     .message-image-preview {
         max-height: 150px !important;
     }
+
+    app-send-message{
+        padding-inline: 20px !important;
+    }
 }
 
 @container thread-container (max-width: 400px) {
@@ -70,6 +80,10 @@
 
     .message-image-preview {
         max-height: 150px !important;
+    }
+
+    app-send-message{
+        padding-inline: 20px !important;
     }
 }
 

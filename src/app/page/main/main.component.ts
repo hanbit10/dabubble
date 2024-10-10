@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet, RouterLink } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { ChannelNavComponent } from '../../components/channel-nav/channel-nav.component';
@@ -10,6 +10,10 @@ import { ThreadComponent } from '../../components/thread/thread.component';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { ProfileEditPictureComponent } from '../../components/profile-edit-picture/profile-edit-picture.component';
+import { UtilityService } from '../../services/utility.service';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-main',
@@ -35,10 +39,44 @@ export class MainComponent implements OnInit {
   constructor(
     public profileService: ProfileService,
     public channelService: ChannelService,
-    public threadService: ThreadService
+    public threadService: ThreadService,
+    public utilityService: UtilityService,
+    private breakPoint: BreakpointObserver
   ) {}
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.utilityService.innerWidth = event.target.innerWidth;
+    console.log(this.utilityService.innerWidth); 
 
-  ngOnInit(): void {}
+    let chat = document.getElementById('main-chat-container');
+
+    if (this.utilityService.innerWidth < 1000) {
+      if (this.threadService.threadIsOpen){
+        chat?.classList.add('hidden');
+      }else{
+        chat?.classList.remove('hidden');
+      }
+    }else{
+      chat?.classList.remove('hidden');
+    }
+  }
+
+  ngOnInit(): void {
+    this.utilityService.innerWidth = window.innerWidth;
+    let chat = document.getElementById('main-chat-container');
+
+    if (this.utilityService.innerWidth < 1000) {
+      if (this.threadService.threadIsOpen) {
+        chat?.classList.add('hidden');
+      } else {
+        chat?.classList.remove('hidden');
+      }
+    } else {
+      chat?.classList.remove('hidden');
+    }
+  }
+
 
   toggleMenu() {
     if (this.menuOpen) {

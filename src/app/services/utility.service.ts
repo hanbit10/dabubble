@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
+import { ThreadService } from './thread.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilityService {
-  constructor() {}
+  innerWidth: any;
+
+  constructor() { }
 
   closeComponent(elementID: string) {
     const element = document.getElementById(elementID);
@@ -61,5 +64,21 @@ export class UtilityService {
     } else {
       return 'Antworten';
     }
+  }
+
+  applyClass(){
+    let chat = document.getElementById('main-chat-container');
+    if (this.innerWidth < 1000) {
+        chat?.classList.add('hidden');
+      }else{
+        chat?.classList.remove('hidden');
+      } 
+  }
+
+  removeClass(){
+    let chat = document.getElementById('main-chat-container');
+    if (this.innerWidth < 1000) {
+        chat?.classList.remove('hidden');
+      }
   }
 }

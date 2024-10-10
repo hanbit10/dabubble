@@ -13,6 +13,7 @@ import {
 } from '@angular/fire/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { Thread } from '../models/threads';
+import { UtilityService } from './utility.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,9 @@ export class ThreadService {
   private threadSubject = new BehaviorSubject<any[]>([]);
   threadIsOpen: boolean = false;
   threads: any[] = [];
-  constructor() {}
+  constructor(
+    public utilityService: UtilityService
+  ) {}
 
   get threads$() {
     return this.threadSubject.asObservable();
@@ -67,10 +70,18 @@ export class ThreadService {
 
   openThread() {
     this.threadIsOpen = true;
+    if (this.threadIsOpen) {
+      this.utilityService.applyClass()
+    }else{
+      this.utilityService.applyClass
+    }
   }
 
   closeThread() {
     this.threadIsOpen = false;
+    if (!this.threadIsOpen) {
+      this.utilityService.removeClass()
+    }
   }
 
   async sendThread(
