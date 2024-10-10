@@ -14,7 +14,7 @@
   width: 100%;
   max-width: 1920px;
   height: calc(100% - 90px);
-  @include dFlex($jc: start, $ai: start);
+  @include dFlex($jc: start, $ai: start, $g: 20px);
   padding: 0 20px 20px 20px;
   box-sizing: border-box;
 }
@@ -47,7 +47,6 @@
   flex-direction: column;
   padding: 32px 30px 32px 30px;
   animation: open 200ms ease-in-out;
-  margin-right: 20px;
 }
 
 .menu-header {
@@ -133,8 +132,7 @@
 }
 
 .thread-container {
-  max-width: 450px;
-  margin-left: 20px;
+  width: 100%;
   container-name: thread-container;
   container-type: inline-size;
 }
