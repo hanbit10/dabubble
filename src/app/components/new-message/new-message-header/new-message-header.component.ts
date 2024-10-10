@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { filter, map, Subscription } from 'rxjs';
 import { ChannelService } from '../../../services/channel.service';
 import { UserService } from '../../../services/user.service';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-new-message-header',
@@ -15,6 +16,8 @@ export class NewMessageHeaderComponent implements OnInit {
   private channelSubscription!: Subscription;
   private userSubscription!: Subscription;
   private routeParentSubscription?: Subscription;
+
+  @Output() newItemEvent = new EventEmitter<string>();
 
   currentUserId: string = '';
   selectedElement: any[] = [];
@@ -104,6 +107,7 @@ export class NewMessageHeaderComponent implements OnInit {
       document.getElementById('input-box-new-message')
     );
     this.selectedElement.push(content);
+    this.newItemEvent.emit(content);
     this.contents = [];
     inputBox.value = '';
   }
