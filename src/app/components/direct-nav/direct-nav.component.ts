@@ -1,9 +1,10 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject, Inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
 import { DirectChatService } from '../../services/direct-chat.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-direct-nav',
@@ -12,20 +13,26 @@ import { DirectChatService } from '../../services/direct-chat.service';
   templateUrl: './direct-nav.component.html',
   styleUrl: './direct-nav.component.scss',
 })
-export class DirectNavComponent {
+export class DirectNavComponent implements OnInit, OnDestroy {
   public usersSubscription!: Subscription;
+  public routeSubscription!: Subscription;
+  subscriptions: Subscription[] = [
+    this.usersSubscription,
+    this.routeSubscription,
+  ];
   allUsers: UserProfile[] = [];
   dropdown: boolean = true;
   currentUserId: string = '';
   currentChatId: string = '';
   constructor(
     public userService: UserService,
+    public utilityService: UtilityService,
     private route: ActivatedRoute,
     public directChatService: DirectChatService,
   ) {}
 
   async ngOnInit() {
-    this.route.paramMap.subscribe((paramMap) => {
+    this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
         this.currentUserId = id;
@@ -38,7 +45,7 @@ export class DirectNavComponent {
     });
   }
 
-  // async createDirectMessage(otherUserId: string) {
-
-  // }
+  ngOnDestroy(): void {
+    this.utilityService.unsubscribe(this.subscriptions);
+  }
 }
