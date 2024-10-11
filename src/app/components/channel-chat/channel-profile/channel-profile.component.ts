@@ -19,25 +19,33 @@ export class ChannelProfileComponent implements OnInit, OnDestroy {
     this._items.next(value);
   }
 
-  filteredUsers: UserProfile[] = [];
-
   get currentChannel(): Channel {
     return this._items.getValue();
   }
+
+  filteredUsers: UserProfile[] = [];
   constructor(
     public userService: UserService,
     public utilityService: UtilityService,
   ) {}
 
   ngOnInit(): void {
+    this.subscribeToItems();
+  }
+
+  subscribeToItems() {
     this._items.subscribe((currChannel) => {
       if (currChannel) {
-        this.usersSubscription = this.userService.users$.subscribe((users) => {
-          if (users) {
-            this.filteredUsers = users.filter((user) => {
-              return (currChannel.usersIds || []).includes(user.uid);
-            });
-          }
+        this.getChannelUsers(currChannel);
+      }
+    });
+  }
+
+  getChannelUsers(currChannel: Channel) {
+    this.usersSubscription = this.userService.users$.subscribe((users) => {
+      if (users) {
+        this.filteredUsers = users.filter((user) => {
+          return (currChannel.usersIds || []).includes(user.uid);
         });
       }
     });
