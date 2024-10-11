@@ -6,7 +6,7 @@ import { ChannelService } from '../../services/channel.service';
 import { Subscription } from 'rxjs';
 import { UtilityService } from '../../services/utility.service';
 import { ActivatedRoute } from '@angular/router';
-import { Channel } from '../../models/channels';
+import { Channel, ChannelInfo } from '../../models/channels';
 
 @Component({
   selector: 'app-channel-create',
@@ -24,11 +24,11 @@ export class ChannelCreateComponent implements OnInit, OnDestroy {
     this.channelSubscription,
     this.routeSubscription,
   ];
-  newChannel: any = {
+  newChannel: ChannelInfo = {
     name: '',
     description: '',
   };
-  keywords: UserProfile[] = [];
+  allUsers: UserProfile[] = [];
   contents: UserProfile[] = [];
   selectedUsers: UserProfile[] = [];
   allChannels: Channel[] = [];
@@ -42,17 +42,24 @@ export class ChannelCreateComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.getCurrentUserId();
+    this.getAllUsers();
+    this.getAllChannels();
+  }
+
+  getCurrentUserId() {
     this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-      }
+      this.currentUserId = this.utilityService.getIdByParam(paramMap, 'id');
     });
+  }
 
+  getAllUsers() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
-      this.keywords = JSON.parse(JSON.stringify(users));
+      this.allUsers = this.userService.getUsers(users);
     });
+  }
 
+  getAllChannels() {
     this.channelSubscription = this.channelService.channels$.subscribe(
       (channels) => {
         this.allChannels = channels;
@@ -62,25 +69,25 @@ export class ChannelCreateComponent implements OnInit, OnDestroy {
 
   saveToChosen(content: any) {
     const inputBox = <HTMLInputElement>document.getElementById('input-box');
-    let index = this.keywords.indexOf(content);
+    let index = this.allUsers.indexOf(content);
     this.selectedUsers.push(content);
-    this.keywords.splice(index, 1);
+    this.allUsers.splice(index, 1);
     this.contents = [];
     inputBox.value = '';
   }
 
   removeFromChosen(chosed: any) {
     let index = this.selectedUsers.indexOf(chosed);
-    this.keywords.push(chosed);
+    this.allUsers.push(chosed);
     this.selectedUsers.splice(index, 1);
   }
 
   setUserSearchBar($event: KeyboardEvent) {
     const inputBox = <HTMLInputElement>document.getElementById('input-box');
-    let result: any[] = [];
+    let result: UserProfile[] = [];
     let input = inputBox.value;
     if (input.length) {
-      result = this.keywords.filter((keyword) => {
+      result = this.allUsers.filter((keyword) => {
         return keyword.name?.toLowerCase().includes(input.toLowerCase());
       });
     }
@@ -110,9 +117,7 @@ export class ChannelCreateComponent implements OnInit, OnDestroy {
     );
     const cardTitle = <HTMLElement>document.getElementById('card-title');
     cardTitle.innerText = 'Channel erstellen';
-    if (inputBox) {
-      inputBox.value = '';
-    }
+    if (inputBox) inputBox.value = '';
     channelName.value = '';
     channelDescription.value = '';
   }
@@ -144,29 +149,35 @@ export class ChannelCreateComponent implements OnInit, OnDestroy {
   }
 
   nextForm() {
+    const alertWrapper = document.getElementById('alert-wrapper');
+    if (!this.checkChannelName()) {
+      alertWrapper?.classList.remove('hidden');
+    } else if (this.checkChannelName()) {
+      this.getSecondForm();
+      this.setCard();
+      alertWrapper?.classList.add('hidden');
+    }
+  }
+
+  getSecondForm() {
     const nextForm = document.getElementById('next-form');
     const firstForm = document.getElementById('first-form');
     const secondForm = document.getElementById('second-form');
     const channelSubmit = <HTMLButtonElement>(
       document.getElementById('channel-submit')
     );
+    firstForm?.classList.add('hidden');
+    secondForm?.classList.remove('hidden');
+    nextForm?.classList.add('hidden');
+    channelSubmit.classList.remove('hidden');
+  }
+
+  setCard() {
     const cardTitle = document.getElementById('card-title');
     const cardDescription = document.getElementById('card-description');
-    const alertWrapper = document.getElementById('alert-wrapper');
-
-    if (!this.checkChannelName()) {
-      alertWrapper?.classList.remove('hidden');
-    }
-    if (this.checkChannelName()) {
-      firstForm?.classList.add('hidden');
-      secondForm?.classList.remove('hidden');
-      nextForm?.classList.add('hidden');
-      channelSubmit.classList.remove('hidden');
-      alertWrapper?.classList.add('hidden');
-      if (cardTitle && cardDescription) {
-        cardTitle.innerHTML = 'Leute hinzufügen';
-        cardDescription.innerHTML = '';
-      }
+    if (cardTitle && cardDescription) {
+      cardTitle.innerHTML = 'Leute hinzufügen';
+      cardDescription.innerHTML = '';
     }
   }
 
@@ -184,8 +195,7 @@ export class ChannelCreateComponent implements OnInit, OnDestroy {
     const channelSubmit = document.getElementById('channel-submit');
     if (this.selectedUsers.length >= 1) {
       channelSubmit?.classList.remove('unvalid');
-    }
-    if (this.selectedUsers.length < 1) {
+    } else if (this.selectedUsers.length < 1) {
       channelSubmit?.classList.add('unvalid');
     }
     return this.selectedUsers.length < 1;
