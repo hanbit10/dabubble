@@ -45,17 +45,25 @@ export class ChannelNavComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
   async ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      const id = params['id'];
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
+    this.getCurrentUserId();
+    this.getAllUsers();
+    this.getCurrentUserChannel();
+    this.toogleDirectMessage();
+  }
 
+  getCurrentUserId() {
+    this.routeSubscription = this.route.paramMap.subscribe((params) => {
+      this.currentUserId = this.utilityService.getIdByParam(params, 'id');
+    });
+  }
+
+  getAllUsers() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
     });
+  }
 
+  getCurrentUserChannel() {
     this.channelSubscription = this.channelService.channels$
       .pipe(
         map((channels) =>
@@ -65,16 +73,10 @@ export class ChannelNavComponent implements OnInit {
         ),
       )
       .subscribe((filteredChannels) => {
-        this.allChannels = [];
-        filteredChannels.forEach((channel) => {
-          if (channel) {
-            this.allChannels.push(channel);
-          }
-        });
+        this.allChannels = this.channelService.getChannels(filteredChannels);
       });
-
-    this.toogleDirectMessage();
   }
+
   openComponent(elementId: string) {
     this.utilityService.openComponent(elementId);
   }
@@ -83,17 +85,21 @@ export class ChannelNavComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       const dropdownIcon = document.getElementById('dropdown-icon');
       const dropdownBtn = document.getElementById('dropdown-btn');
-      if (dropdownBtn) {
-        dropdownBtn.addEventListener('click', (event) => {
-          if (dropdownIcon && this.filtering) {
-            dropdownIcon.classList.add('rotate-down');
-          }
-          if (dropdownIcon && !this.filtering) {
-            dropdownIcon.classList.remove('rotate-down');
-          }
-        });
+      if (dropdownBtn && dropdownIcon) {
+        this.onClick(dropdownBtn, dropdownIcon);
       }
     }
+  }
+
+  onClick(dropdownBtn: HTMLElement, dropdownIcon: HTMLElement) {
+    dropdownBtn.addEventListener('click', (event) => {
+      if (dropdownIcon && this.filtering) {
+        dropdownIcon.classList.add('rotate-down');
+      }
+      if (dropdownIcon && !this.filtering) {
+        dropdownIcon.classList.remove('rotate-down');
+      }
+    });
   }
 
   ngOnDestroy() {
