@@ -34,6 +34,7 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscribeToItems();
+    this.onClick();
   }
 
   subscribeToItems() {
@@ -47,6 +48,15 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
         });
       }
     });
+  }
+
+  onClick() {
+    document.onclick = (event) => {
+      const target = event.target as HTMLElement;
+      if (target.id !== 'result-box') {
+        this.contents = [];
+      }
+    };
   }
 
   close() {
