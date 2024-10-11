@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { ThreadService } from './thread.service';
 
 @Injectable({
   providedIn: 'root',

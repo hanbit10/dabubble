@@ -23,6 +23,7 @@ export class ThreadService {
   private threadSubject = new BehaviorSubject<any[]>([]);
   threadIsOpen: boolean = false;
   threads: any[] = [];
+
   constructor(
     public utilityService: UtilityService
   ) {}
@@ -71,16 +72,14 @@ export class ThreadService {
   openThread() {
     this.threadIsOpen = true;
     if (this.threadIsOpen) {
-      this.utilityService.applyClass()
-    }else{
-      this.utilityService.applyClass
+      this.utilityService.applyClass();
     }
   }
 
   closeThread() {
     this.threadIsOpen = false;
     if (!this.threadIsOpen) {
-      this.utilityService.removeClass()
+      this.utilityService.removeClass();
     }
   }
 
