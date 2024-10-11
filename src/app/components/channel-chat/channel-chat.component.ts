@@ -78,6 +78,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
       if (id) {
         this.currentChannelId = id;
         // console.log('this is currentChannel id', this.currentChannelId);
+
         this.messageService.subMessageList(this.currentChannelId, 'channels');
 
         this.paramsParentSubscription = this.route.parent?.paramMap.subscribe(
@@ -137,5 +138,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.utilityService.unsubscribe(this.subscriptions);
+    this.messageService.unsubscribeFromMessages();
   }
 }

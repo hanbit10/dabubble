@@ -84,7 +84,7 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
       },
     );
 
-    this.route.paramMap.subscribe(async (paramMap) => {
+    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;

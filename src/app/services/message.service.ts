@@ -21,6 +21,7 @@ export class MessageService {
   firestore: Firestore = inject(Firestore);
   private messageSubject = new BehaviorSubject<any[]>([]);
   private messageByIdSubject = new BehaviorSubject<any>({});
+  private unsubscribeMessages: (() => void) | null = null;
   currentChannelId: string = '';
   messages: any[] = [];
   messageById: any = {} as Message;
@@ -70,21 +71,6 @@ export class MessageService {
     });
   }
 
-  subMessageById(currentChannelId: string, curentMessage: string) {
-    const docRef = doc(
-      this.firestore,
-      'channels',
-      currentChannelId,
-      'messages',
-      curentMessage,
-    );
-
-    return onSnapshot(docRef, (doc) => {
-      this.messageById = doc.data();
-      this.messageByIdSubject.next(this.messageById);
-    });
-  }
-
   subMessageList(currentChannelId: string, type: string) {
     const docRef = collection(
       this.firestore,
@@ -93,7 +79,7 @@ export class MessageService {
       'messages',
     );
     console.log('subscribe message List', currentChannelId, type);
-    return onSnapshot(docRef, (list) => {
+    this.unsubscribeMessages = onSnapshot(docRef, (list) => {
       this.messages = [];
       list.forEach((doc) => {
         this.messages.push(doc.data());
@@ -101,6 +87,15 @@ export class MessageService {
       console.log('subscribed messages', this.messages);
       this.messageSubject.next(this.messages);
     });
+  }
+
+  unsubscribeFromMessages() {
+    if (this.unsubscribeMessages) {
+      this.unsubscribeMessages();
+      this.unsubscribeMessages = null;
+    } else {
+      console.log('No active subscription to unsubscribe from');
+    }
   }
 
   async sendMessage(
