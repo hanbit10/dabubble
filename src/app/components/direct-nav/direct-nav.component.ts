@@ -14,8 +14,8 @@ import { UtilityService } from '../../services/utility.service';
   styleUrl: './direct-nav.component.scss',
 })
 export class DirectNavComponent implements OnInit, OnDestroy {
-  public usersSubscription!: Subscription;
-  public routeSubscription!: Subscription;
+  private usersSubscription!: Subscription;
+  private routeSubscription!: Subscription;
   subscriptions: Subscription[] = [
     this.usersSubscription,
     this.routeSubscription,
@@ -32,14 +32,17 @@ export class DirectNavComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
-      const id = paramMap.get('id');
-      if (id) {
-        this.currentUserId = id;
-        console.log('what is this id', id);
-      }
-    });
+    this.getCurrentUserId();
+    this.getAllUsers();
+  }
 
+  getCurrentUserId() {
+    this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
+      this.currentUserId = this.utilityService.getIdByParam(paramMap, 'id');
+    });
+  }
+
+  getAllUsers() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
     });

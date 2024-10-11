@@ -65,55 +65,69 @@ export class DirectChatComponent {
   async ngOnInit() {
     this.routeSubscription = this.route.params.subscribe((params) => {
       this.otherUserId = params['id'];
-      this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
-        async (paramMap) => {
-          const id = paramMap.get('id');
-          if (id) {
-            this.currentUserId = id;
-
-            const exist = this.directChatService.isExistingChat(
-              this.otherUserId,
-              this.currentUserId,
-            );
-            if ((await exist) == false) {
-              this.directChatService.createNewChat(
-                this.otherUserId,
-                this.currentUserId,
-              );
-              console.log('new chat created');
-            }
-
-            this.currentChatId = await this.directChatService.getChatId(
-              this.otherUserId,
-              this.currentUserId,
-            );
-
-            this.messageService.subMessageList(this.currentChatId, 'chats');
-          }
-        },
-      );
-
-      this.usersSubscription = this.userService.users$.subscribe((users) => {
-        this.allUsers = users;
-        let filteredUser = this.allUsers.find((user) => {
-          return user.uid === this.otherUserId;
-        });
-        if (filteredUser) {
-          this.otherUser = filteredUser;
-        }
-      });
-
-      this.messageSubscription = this.messageService.messages$.subscribe(
-        (messages) => {
-          this.currentMessages = messages.sort((a, b) => {
-            if (a.sentAt && b.sentAt) {
-              return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-            }
-            return 0;
-          });
-        },
-      );
+      this.getChat();
+      this.getUsers();
+      this.getCurrentMessages();
     });
+  }
+
+  getChat() {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      async (paramMap) => {
+        const id = paramMap.get('id');
+        if (id) {
+          this.currentUserId = id;
+          await this.setChat();
+        }
+      },
+    );
+  }
+
+  async setChat() {
+    const chatExist = this.directChatService.isExistingChat(
+      this.otherUserId,
+      this.currentUserId,
+    );
+    await this.getNewChat(chatExist);
+    this.currentChatId = await this.directChatService.getChatId(
+      this.otherUserId,
+      this.currentUserId,
+    );
+    this.messageService.subMessageList(this.currentChatId, 'chats');
+  }
+
+  async getNewChat(chatExist: any) {
+    if ((await chatExist) == false) {
+      this.directChatService.createNewChat(
+        this.otherUserId,
+        this.currentUserId,
+      );
+    }
+  }
+
+  getUsers() {
+    this.usersSubscription = this.userService.users$.subscribe((users) => {
+      this.allUsers = users;
+      let filteredUser = this.allUsers.find((user) => {
+        return user.uid === this.otherUserId;
+      });
+      if (filteredUser) {
+        this.otherUser = filteredUser;
+      }
+    });
+  }
+
+  getCurrentMessages() {
+    this.messageSubscription = this.messageService.messages$.subscribe(
+      (messages) => {
+        this.currentMessages = messages.sort((a, b) => {
+          if (a.sentAt && b.sentAt) {
+            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
+          }
+          return 0;
+        });
+      },
+    );
   }
 
   async onSubmit(messageForm: NgForm) {
