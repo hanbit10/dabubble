@@ -58,7 +58,6 @@ export class NewMessageHeaderComponent implements OnInit {
           }
         });
       });
-
     this.userSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = [];
       users.forEach((user) => {

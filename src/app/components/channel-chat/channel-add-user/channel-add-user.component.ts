@@ -24,7 +24,7 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
   }
   filteredUsers: UserProfile[] = [];
   selectedUsers: UserProfile[] = [];
-  keywords: UserProfile[] = [];
+  allUsers: UserProfile[] = [];
   contents: UserProfile[] = [];
   constructor(
     public userService: UserService,
@@ -36,12 +36,12 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
     this._items.subscribe((currChannel) => {
       if (currChannel) {
         this.usersSubscription = this.userService.users$.subscribe((users) => {
-          if (users) {
-            this.keywords = JSON.parse(JSON.stringify(users));
-            this.filteredUsers = users.filter((user) => {
-              return (currChannel.usersIds || []).includes(user.uid);
-            });
-          }
+          this.allUsers = [];
+          users.forEach((user) => {
+            if (user && user.uid) {
+              this.allUsers.push(user);
+            }
+          });
         });
       }
     });
@@ -56,16 +56,16 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
     const inputBox = <HTMLInputElement>(
       document.getElementById('input-box-channel')
     );
-    let index = this.keywords.indexOf(content);
+    let index = this.allUsers.indexOf(content);
     this.selectedUsers.push(content);
-    this.keywords.splice(index, 1);
+    this.allUsers.splice(index, 1);
     this.contents = [];
     inputBox.value = '';
   }
 
   removeFromChosen(chosed: any) {
     let index = this.selectedUsers.indexOf(chosed);
-    this.keywords.push(chosed);
+    this.allUsers.push(chosed);
     this.selectedUsers.splice(index, 1);
   }
 
@@ -76,7 +76,7 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
     let result: any[] = [];
     let input = inputBox.value;
     if (input.length) {
-      result = this.keywords.filter((keyword) => {
+      result = this.allUsers.filter((keyword) => {
         return keyword.name?.toLowerCase().includes(input.toLowerCase());
       });
     }
