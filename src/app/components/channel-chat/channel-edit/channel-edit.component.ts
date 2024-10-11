@@ -5,7 +5,7 @@ import {
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
 import { map, Subscription } from 'rxjs';
 import { ChannelService } from '../../../services/channel.service';
 import { UserService } from '../../../services/user.service';
@@ -58,10 +58,7 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
       (paramMap) => {
-        const id = paramMap.get('id');
-        if (id) {
-          this.currentUserId = id;
-        }
+        this.currentUserId = this.utilityService.getIdByParam(paramMap, 'id');
       },
     );
 
