@@ -1,19 +1,12 @@
-import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
-import {
-  addDoc,
-  collection,
-  Firestore,
-  getDocs,
-  onSnapshot,
-  setDoc,
-} from '@angular/fire/firestore';
 import { map, Subscription } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { ChannelService } from '../../services/channel.service';
 import { UtilityService } from '../../services/utility.service';
+import { Channel } from '../../models/channels';
 
 @Component({
   selector: 'app-channel-nav',
@@ -23,7 +16,6 @@ import { UtilityService } from '../../services/utility.service';
   styleUrl: './channel-nav.component.scss',
 })
 export class ChannelNavComponent implements OnInit {
-  firestore: Firestore = inject(Firestore);
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private routeSubscription!: Subscription;
@@ -32,8 +24,8 @@ export class ChannelNavComponent implements OnInit {
     this.channelSubscription,
     this.routeSubscription,
   ];
-  allUsers: any[] = [];
-  allChannels: any[] = [];
+  allUsers: UserProfile[] = [];
+  allChannels: Channel[] = [];
   currentUserId: string = '';
   filtering: boolean = true;
 
