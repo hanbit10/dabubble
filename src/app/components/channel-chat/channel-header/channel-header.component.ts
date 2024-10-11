@@ -44,7 +44,7 @@ export class ChannelHeaderComponent implements OnInit, OnDestroy {
     public channelService: ChannelService,
     public utilityService: UtilityService,
     private route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {

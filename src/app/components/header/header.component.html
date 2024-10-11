@@ -49,13 +49,10 @@
     </section>
 
     <section class="profile-section">
-      <span>{{ currentUser.name }}</span>
+      <span>{{ userService.mainUser.name }}</span>
       <div class="profile-pic">
-        <img src="{{ currentUser.profileImage }}" alt="profile pic" />
-        <div
-          class="online-status"
-          [class]="currentUser.active ? 'active' : 'absent'"
-        ></div>
+        <img src="{{ userService.mainUser.profileImage }}" alt="profile pic" />
+        <div class="online-status" [class]="userService.mainUser.active ? 'active' : 'absent'"></div>
       </div>
 
       <img
@@ -65,7 +62,7 @@
       />
     </section>
 
-    <div (click)="closeMenu()" [class]="menuOpen ? 'overlay' : 'hidden'">
+    <div (click)="closeMenu()" [class]="profileService.menuIsOpen ? 'overlay' : 'hidden'">
       <div class="overlay-content">
         <div class="profile-menu" (click)="$event.stopPropagation()">
           <button (click)="openProfile()" class="profile-menu-button">

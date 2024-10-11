@@ -4,10 +4,6 @@
 
 section{
     justify-content: flex-start !important;
-
-    >img{
-        @include profileImg();
-    }
 }
 
 .message-bar{

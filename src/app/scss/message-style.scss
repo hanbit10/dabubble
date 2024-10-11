@@ -1,5 +1,6 @@
 @import './../../styles.scss';
 @import './../scss/main-style.scss';
+@import './../scss/responsive.scss';
 
 .message {
     position: relative;
@@ -22,6 +23,10 @@
             background-color: white;
         }
     }
+}
+
+.message-profile{
+    @include profileImg();
 }
 
 .message-info {
@@ -65,7 +70,7 @@
 
 .message-image-preview{
     max-height: 200px;
-    width: auto;
+    max-width: 100%;
     object-fit: cover;
 }
 
@@ -123,6 +128,7 @@
         border: none;
         @include font($ff: NunitoRegular, $fs: 18px, $lh: 24.55px);
         color: $purple3;
+        padding: 0;
 
         &:hover {
             cursor: pointer;
