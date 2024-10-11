@@ -11,6 +11,7 @@ import { DirectChat } from '../../models/direct-chat';
 import { MessageService } from '../../services/message.service';
 import { UtilityService } from '../../services/utility.service';
 import { Message } from '../../models/message';
+import { UserProfile } from '../../models/users';
 
 @Component({
   selector: 'app-header',
@@ -176,30 +177,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     if (input.length) {
       if (input.startsWith('#')) {
-        result = this.allChannels.filter((channel) => {
-          const keyword = input.slice(1).toLowerCase(); // Remove the '#' from input for comparison
-          return channel.name?.toLowerCase().includes(keyword);
-        });
+        result = this.filterContents(this.allChannels, input);
       } else if (input.startsWith('@')) {
-        result = this.userService.users.filter((user) => {
-          const keyword = input.slice(1).toLowerCase(); // Remove the '@' from input for comparison
-          return user.name?.toLowerCase().includes(keyword);
-        });
+        result = this.filterContents(this.userService.users, input);
       } else {
-        const keyword = input.toLowerCase();
-
-        this.allMessages = [
-          ...this.allChannelMessages,
-          ...this.allDirectMessages,
-        ];
-        result = this.allMessages
-          .flat() // Flatten the array
-          .filter(
-            (message: any) => message.text && message.text.includes(keyword),
-          );
+        result = this.filterMessages(input);
       }
     }
     this.contents = result;
+  }
+
+  filterContents(
+    contents: Channel[] | UserProfile[],
+    input: string,
+  ): Channel[] | UserProfile[] {
+    const keyword = input.slice(1).toLowerCase();
+    return contents.filter(
+      (content) => content.name?.toLowerCase().includes(keyword),
+    );
+  }
+
+  filterMessages(input: string): any[] {
+    const keyword = input.toLowerCase();
+    this.allMessages = [...this.allChannelMessages, ...this.allDirectMessages];
+    return this.allMessages
+      .flat()
+      .filter((message: any) => message.text && message.text.includes(keyword));
   }
 
   ngOnDestroy(): void {
