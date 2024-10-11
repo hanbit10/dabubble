@@ -33,11 +33,11 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscribeToItems();
+    this.subscribeToCurrentChannel();
     this.onClick();
   }
 
-  subscribeToItems() {
+  subscribeToCurrentChannel() {
     this._items.subscribe((currChannel) => {
       if (currChannel && currChannel.usersIds) {
         this.usersSubscription = this.userService.users$.subscribe((users) => {

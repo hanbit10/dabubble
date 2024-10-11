@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
-import { UserProfile } from '../models/users';
 import { ParamMap } from '@angular/router';
 
 @Injectable({
