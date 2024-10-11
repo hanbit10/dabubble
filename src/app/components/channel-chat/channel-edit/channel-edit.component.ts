@@ -1,18 +1,11 @@
-import {
-  Component,
-  Inject,
-  OnDestroy,
-  OnInit,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { map, Subscription } from 'rxjs';
 import { ChannelService } from '../../../services/channel.service';
 import { UserService } from '../../../services/user.service';
-import { Channel } from '../../../models/channels';
+import { Channel, ChannelInfo } from '../../../models/channels';
 import { UserProfile } from '../../../models/users';
 import { UtilityService } from '../../../services/utility.service';
-import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -25,6 +18,7 @@ import { FormsModule } from '@angular/forms';
 export class ChannelEditComponent implements OnInit, OnDestroy {
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
+  private allChannelSubscription!: Subscription;
   private routeSubscription!: Subscription;
   private routeParentSubscription?: Subscription;
 
@@ -32,6 +26,7 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
     this.usersSubscription,
     this.channelSubscription,
     this.routeSubscription,
+    this.allChannelSubscription,
     this.routeParentSubscription!,
   ];
 
@@ -40,70 +35,82 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
   channelCreatedBy: UserProfile = {} as UserProfile;
   editName: boolean = false;
   editDescription: boolean = false;
-  updateChannel: any = {
+  currentUserId: string = '';
+  alert: boolean = false;
+  updateChannel: ChannelInfo = {
     name: '',
     description: '',
   };
-  currentUserId: string = '';
-  alert: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     public userService: UserService,
     public channelService: ChannelService,
     public utilityService: UtilityService,
-    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   ngOnInit(): void {
-    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
-      (paramMap) => {
-        const id = paramMap.get('id');
-        if (id) {
-          this.currentUserId = id;
-        }
-      },
-    );
+    this.getCurrentUserId();
+    this.subscribeToRoute();
+    this.getChannelsWithoutCurrent();
+  }
 
+  subscribeToRoute() {
     this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
-        this.channelSubscription = this.channelService.channels$
-          .pipe(
-            map((channels) => channels.find((channel) => channel.uid === id)),
-          )
-          .subscribe((currChannel) => {
-            if (currChannel) {
-              this.currentChannel = currChannel;
-              this.updateChannel.name = currChannel.name;
-              this.updateChannel.description = currChannel.description;
-              this.usersSubscription = this.userService.users$
-                .pipe(
-                  map((users) =>
-                    users.find((user) => user.uid == currChannel.createdBy),
-                  ),
-                )
-                .subscribe((user) => {
-                  if (user) {
-                    this.channelCreatedBy = user;
-                  }
-                });
-            }
-          });
-
-        this.channelSubscription = this.channelService.channels$
-          .pipe(
-            map((channels) =>
-              channels.filter(
-                (channel) => channel.uid !== this.currentChannel.uid,
-              ),
-            ),
-          )
-          .subscribe((filteredChannels) => {
-            this.allChannels = filteredChannels;
-          });
+        this.getCurrentChannel(id);
       }
     });
+  }
+
+  getCurrentChannel(id: string) {
+    this.channelSubscription = this.channelService.channels$
+      .pipe(map((channels) => channels.find((channel) => channel.uid === id)))
+      .subscribe((currChannel) => {
+        if (currChannel) {
+          this.currentChannel = currChannel;
+          this.setUpdateChannel(currChannel);
+          this.getChannelCreatedBy(currChannel);
+        }
+      });
+  }
+
+  setUpdateChannel(currChannel: Channel) {
+    this.updateChannel.name = currChannel.name;
+    this.updateChannel.description = currChannel.description;
+  }
+
+  getChannelCreatedBy(currChannel: Channel) {
+    this.usersSubscription = this.userService.users$
+      .pipe(
+        map((users) => users.find((user) => user.uid == currChannel.createdBy)),
+      )
+      .subscribe((user) => {
+        if (user) {
+          this.channelCreatedBy = user;
+        }
+      });
+  }
+
+  getCurrentUserId() {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        this.currentUserId = this.utilityService.getIdByParam(paramMap, 'id');
+      },
+    );
+  }
+
+  getChannelsWithoutCurrent() {
+    this.allChannelSubscription = this.channelService.channels$
+      .pipe(
+        map((channels) =>
+          channels.filter((channel) => channel.uid !== this.currentChannel.uid),
+        ),
+      )
+      .subscribe((filteredChannels) => {
+        this.allChannels = filteredChannels;
+      });
   }
 
   close() {
@@ -125,40 +132,41 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
   edit(type: string) {
     if (type == 'name') {
       this.editName = true;
-    }
-    if (type == 'description') {
+    } else if (type == 'description') {
       this.editDescription = true;
     }
   }
+
   save(type: string) {
     if (type == 'name') {
-      if (!this.checkChannelName()) {
-        this.editName = true;
-        this.alert = true;
-      } else {
-        this.editName = false;
-        this.alert = false;
-        this.channelService.updateChannel(
-          this.currentChannel.uid,
-          type,
-          this.updateChannel,
-        );
-      }
-    }
-    if (type == 'description') {
+      this.updateChannelName(type);
+    } else if (type == 'description') {
       this.editDescription = false;
-      this.channelService.updateChannel(
-        this.currentChannel.uid,
-        type,
-        this.updateChannel,
-      );
+      this.updateChannelData(type);
     }
+  }
+
+  updateChannelName(type: string) {
+    if (!this.checkChannelName()) {
+      this.editName = true;
+      this.alert = true;
+    } else {
+      this.editName = false;
+      this.alert = false;
+      this.updateChannelData(type);
+    }
+  }
+
+  updateChannelData(type: string) {
+    this.channelService.updateChannel(
+      this.currentChannel.uid,
+      type,
+      this.updateChannel,
+    );
   }
 
   checkChannelName(): boolean {
     let check = true;
-    console.log('currentChannel', this.currentChannel.name);
-    console.log('allChannels', this.allChannels);
     this.allChannels.forEach((channel) => {
       if (channel.name === this.updateChannel.name) {
         check = false;
@@ -168,8 +176,6 @@ export class ChannelEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(
-      (subscription) => subscription && subscription.unsubscribe(),
-    );
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

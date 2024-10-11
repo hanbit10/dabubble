@@ -115,4 +115,14 @@ export class ChannelService {
       usersIds: arrayRemove(currentUserId),
     });
   }
+
+  getChannels(channels: Channel[]) {
+    const allChannels: Channel[] = [];
+    channels.forEach((channel) => {
+      if (channel) {
+        allChannels.push(channel);
+      }
+    });
+    return allChannels;
+  }
 }

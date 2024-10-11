@@ -43,8 +43,15 @@ import { SendMessageComponent } from '../send-message/send-message.component';
 export class ChannelChatComponent implements OnInit, OnDestroy {
   private channelSubscription!: Subscription;
   private messageSubscription!: Subscription;
-  private routeSubscription: Subscription = new Subscription();
-  private paramsParentSubscription?: Subscription = new Subscription();
+  private routeSubscription!: Subscription;
+  private paramsParentSubscription?: Subscription;
+
+  subscriptions: Subscription[] = [
+    this.channelSubscription,
+    this.messageSubscription,
+    this.routeSubscription,
+    this.paramsParentSubscription!,
+  ];
   currentChannelId: string = '';
   currentUserId: string = '';
   allChannels: any[] = [];
@@ -71,6 +78,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
       if (id) {
         this.currentChannelId = id;
         // console.log('this is currentChannel id', this.currentChannelId);
+
         this.messageService.subMessageList(this.currentChannelId, 'channels');
 
         this.paramsParentSubscription = this.route.parent?.paramMap.subscribe(
@@ -129,9 +137,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.channelSubscription.unsubscribe();
-    this.messageSubscription.unsubscribe();
-    this.routeSubscription.unsubscribe();
-    this.paramsParentSubscription?.unsubscribe();
+    this.utilityService.unsubscribe(this.subscriptions);
+    this.messageService.unsubscribeFromMessages();
   }
 }

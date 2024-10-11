@@ -2,22 +2,20 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserProfile } from '../../models/users';
 import { ProfileService } from '../../services/profile.service';
 
-
-
 @Component({
   selector: 'app-profile-user',
   standalone: true,
   imports: [],
   templateUrl: './profile-user.component.html',
-  styleUrl: './profile-user.component.scss'
+  styleUrl: './profile-user.component.scss',
 })
 export class ProfileUserComponent implements OnInit {
   user: UserProfile = {
-    uid: ''
+    uid: '',
   };
   profileIsOpen = false;
 
-  constructor(public profileService: ProfileService){}
+  constructor(public profileService: ProfileService) {}
 
   ngOnInit(): void {
     this.profileIsOpen = this.profileService.profileIsOpen;
@@ -28,7 +26,5 @@ export class ProfileUserComponent implements OnInit {
     this.profileService.closeProfile();
   }
 
-  newMessage(){
-
-  }
+  newMessage() {}
 }

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
+import { ParamMap } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +10,7 @@ export class UtilityService {
   innerWidth: any;
   mobile = false;
 
-  constructor() { }
+  constructor() {}
 
   closeComponent(elementID: string) {
     const element = document.getElementById(elementID);
@@ -66,19 +68,42 @@ export class UtilityService {
     }
   }
 
-  applyClass(){
-    let chat = document.getElementById('main-chat-container');
-    if (this.innerWidth < 1050) {
-        chat?.classList.add('hidden');
-      }else{
-        chat?.classList.remove('hidden');
-      } 
+  unsubscribe(subscriptions: Subscription[]) {
+    subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
   }
 
-  removeClass(){
+  getIdByParam(paramap: ParamMap, typeId: string) {
+    const paramId = paramap.get(typeId);
+    if (paramId) {
+      return paramId;
+    } else {
+      return '';
+    }
+  }
+  applyClass() {
     let chat = document.getElementById('main-chat-container');
     if (this.innerWidth < 1050) {
-        chat?.classList.remove('hidden');
+      chat?.classList.add('hidden');
+    } else {
+      chat?.classList.remove('hidden');
+    }
+  }
+
+  removeClass() {
+    let chat = document.getElementById('main-chat-container');
+    if (this.innerWidth < 1050) {
+      chat?.classList.remove('hidden');
+    }
+  }
+
+  sortedArray(arr: any[]): any[] {
+    return arr.sort((a, b) => {
+      if (a.sentAt && b.sentAt) {
+        return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
       }
+      return 0;
+    });
   }
 }

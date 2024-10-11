@@ -8,3 +8,8 @@ export interface Channel {
   createdBy: string;
   createdAt?: Timestamp;
 }
+
+export interface ChannelInfo {
+  name: string;
+  description: string;
+}
