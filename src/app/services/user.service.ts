@@ -177,4 +177,14 @@ export class UserService {
     let reactionUser = this.filterUserById(reactionUserId);
     return reactionUser.name;
   }
+
+  getUsers(users: UserProfile[]) {
+    const allUsers: UserProfile[] = [];
+    users.forEach((user) => {
+      if (user && user.uid) {
+        allUsers.push(user);
+      }
+    });
+    return allUsers;
+  }
 }
