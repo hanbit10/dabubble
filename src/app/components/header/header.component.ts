@@ -10,6 +10,7 @@ import { DirectChatService } from '../../services/direct-chat.service';
 import { DirectChat } from '../../models/direct-chat';
 import { MessageService } from '../../services/message.service';
 import { UtilityService } from '../../services/utility.service';
+import { Message } from '../../models/message';
 
 @Component({
   selector: 'app-header',
@@ -55,12 +56,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      this.currentUserId = params['id'];
-    });
-
+    this.getCurrentUserId();
     this.userService.getMainUser(this.currentUserId);
+    this.getChannelMessages();
+    this.getDirectMessages();
+    this.onClick();
+  }
 
+  getChannelMessages() {
     this.channelSubscription = this.channelService.channels$
       .pipe(
         map((channels) =>
@@ -74,42 +77,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         filteredChannels.forEach(async (channel) => {
           if (channel && channel.uid) {
             this.allChannels.push(channel);
-            this.messageService
-              .getAllMessages(channel.uid, 'channels')
-              .subscribe({
-                next: (messages) => {
-                  // Check for duplicates before pushing
-                  let copyMessages = JSON.parse(
-                    JSON.stringify(messages),
-                  ) as any[];
-                  // this.allChannelMessages = [];
-
-                  copyMessages.forEach((message) => {
-                    const exists = this.allChannelMessages.some(
-                      (existingMessage) =>
-                        existingMessage.uid === message.uid ||
-                        existingMessage.sentAt === message.sentAt || // Use a reliable unique field
-                        message.uid == '',
-                    );
-
-                    if (!exists) {
-                      // Only push new message if it does not already exist
-                      this.allChannelMessages.push(message);
-                    }
-                  });
-
-                  // Only push new message if it does not already exist
-
-                  // console.log('allChannelMessages', this.allChannelMessages);
-                },
-                error: (error) => {
-                  console.error('Error fetching messages:', error);
-                },
-              });
+            this.getAllMessagesByType(channel, 'channels');
           }
         });
       });
+  }
 
+  getDirectMessages() {
     this.chatSubscription = this.directChatService.chats$
       .pipe(
         map((chats) =>
@@ -118,45 +92,59 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe((filteredChats) => {
         this.allChats = [];
-        // this.allDirectMessages = [];
         filteredChats.forEach(async (chat) => {
           if (chat && chat.uid) {
             this.allChats.push(chat);
-            this.messageService.getAllMessages(chat.uid, 'chats').subscribe({
-              next: (messages) => {
-                let copyMessages = JSON.parse(
-                  JSON.stringify(messages),
-                ) as any[];
-                copyMessages.forEach((message) => {
-                  const exists = this.allDirectMessages.some(
-                    (existingMessage) =>
-                      existingMessage.uid === message.uid ||
-                      existingMessage.sentAt === message.sentAt ||
-                      message.uid == '',
-                    // Use a reliable unique field
-                  );
-
-                  if (!exists) {
-                    this.allDirectMessages.push(message);
-                  }
-                });
-
-                // console.log('allDirectMessages', this.allDirectMessages);
-              },
-              error: (error) => {
-                console.error('Error fetching messages:', error);
-              },
-            });
+            this.getAllMessagesByType(chat, 'chats');
           }
         });
       });
+  }
 
+  onClick() {
     document.addEventListener('click', (event) => {
       const resultBox = document.getElementById('result-box-header');
       if (event.target != resultBox) {
         this.contents = [];
       }
     });
+  }
+
+  getCurrentUserId() {
+    this.routeSubscription = this.route.params.subscribe((params) => {
+      this.currentUserId = params['id'];
+    });
+  }
+
+  getAllMessagesByType(model: Channel | DirectChat, type: string) {
+    this.messageService.getAllMessages(model.uid, type).subscribe({
+      next: (messages) => {
+        this.setAllMessages(messages, type);
+      },
+      error: (error) => {
+        console.error('Error fetching messages:', error);
+      },
+    });
+  }
+
+  setAllMessages(messages: Message[], type: string) {
+    const copyMessages = JSON.parse(JSON.stringify(messages)) as any[];
+    copyMessages.forEach((message) => {
+      if (!this.messageExists(message) && type === 'chats') {
+        this.allDirectMessages.push(message);
+      } else if (!this.messageExists(message) && type === 'channels') {
+        this.allChannelMessages.push(message);
+      }
+    });
+  }
+
+  messageExists(message: Message): boolean {
+    return this.allDirectMessages.some(
+      (existingMessage) =>
+        existingMessage.uid === message.uid ||
+        existingMessage.sentAt === message.sentAt ||
+        message.uid === '',
+    );
   }
 
   openMenu() {
