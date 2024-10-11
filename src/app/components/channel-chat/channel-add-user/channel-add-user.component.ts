@@ -33,14 +33,16 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.subscribeToItems();
+  }
+
+  subscribeToItems() {
     this._items.subscribe((currChannel) => {
-      if (currChannel) {
+      if (currChannel && currChannel.usersIds) {
         this.usersSubscription = this.userService.users$.subscribe((users) => {
-          this.allUsers = [];
-          users.forEach((user) => {
-            if (user && user.uid) {
-              this.allUsers.push(user);
-            }
+          this.allUsers = this.userService.getUsers(users);
+          this.filteredUsers = this.allUsers.filter((user) => {
+            return !currChannel.usersIds.includes(user.uid);
           });
         });
       }
@@ -56,16 +58,16 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
     const inputBox = <HTMLInputElement>(
       document.getElementById('input-box-channel')
     );
-    let index = this.allUsers.indexOf(content);
+    let index = this.filteredUsers.indexOf(content);
     this.selectedUsers.push(content);
-    this.allUsers.splice(index, 1);
+    this.filteredUsers.splice(index, 1);
     this.contents = [];
     inputBox.value = '';
   }
 
   removeFromChosen(chosed: any) {
     let index = this.selectedUsers.indexOf(chosed);
-    this.allUsers.push(chosed);
+    this.filteredUsers.push(chosed);
     this.selectedUsers.splice(index, 1);
   }
 
@@ -76,7 +78,7 @@ export class ChannelAddUserComponent implements OnInit, OnDestroy {
     let result: any[] = [];
     let input = inputBox.value;
     if (input.length) {
-      result = this.allUsers.filter((keyword) => {
+      result = this.filteredUsers.filter((keyword) => {
         return keyword.name?.toLowerCase().includes(input.toLowerCase());
       });
     }

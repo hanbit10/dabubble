@@ -108,18 +108,28 @@ export class UserService {
   /**
    * Searches through the subscribed list of users to find a user based on its Id.
    * Returns the current username.
-   * 
+   *
    * @param {any} reactionUserId - the Id of the user which name should be returned
    * @returns {string} - name of the user or `undefined` if the user is not found
    */
-  getUserNameById(reactionUserId: any){
+  getUserNameById(reactionUserId: any) {
     let reactionUser = {} as UserProfile;
     let filteredUser = this.users.find((user) => {
-        return user.uid === reactionUserId; 
+      return user.uid === reactionUserId;
     });
     if (filteredUser) {
       reactionUser = filteredUser;
     }
-    return reactionUser.name
+    return reactionUser.name;
+  }
+
+  getUsers(users: UserProfile[]) {
+    const allUsers: UserProfile[] = [];
+    users.forEach((user) => {
+      if (user && user.uid) {
+        allUsers.push(user);
+      }
+    });
+    return allUsers;
   }
 }
