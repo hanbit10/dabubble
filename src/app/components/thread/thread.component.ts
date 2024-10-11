@@ -75,31 +75,38 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCurrentUserId();
-    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
-      const id = paramMap.get('id');
-      const msgId = paramMap.get('msgId');
-
-      if (id && msgId) {
-        this.currentChannelId = id;
-        this.currentMessageId = msgId;
-        this.threadService.subThreadList(
-          this.currentChannelId,
-          this.currentMessageId,
-          this.routePath,
-        );
-        if (this.threadService.threadIsOpen) {
-          this.messageService.subMessageList(
-            this.currentChannelId,
-            this.routePath,
-          );
-        }
-        this.channelService.subChannelById(this.currentChannelId);
-      }
-    });
-
+    this.setThreads();
     this.getCurrentChannel();
     this.getMessageById();
     this.getCurrentThreads();
+  }
+
+  setThreads() {
+    this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
+      const id = paramMap.get('id');
+      const msgId = paramMap.get('msgId');
+      if (id && msgId) {
+        this.currentChannelId = id;
+        this.currentMessageId = msgId;
+        this.getThreads();
+        this.getMessages();
+        this.channelService.subChannelById(this.currentChannelId);
+      }
+    });
+  }
+
+  getThreads() {
+    this.threadService.subThreadList(
+      this.currentChannelId,
+      this.currentMessageId,
+      this.routePath,
+    );
+  }
+
+  getMessages() {
+    if (this.threadService.threadIsOpen) {
+      this.messageService.subMessageList(this.currentChannelId, this.routePath);
+    }
   }
 
   getCurrentThreads() {
