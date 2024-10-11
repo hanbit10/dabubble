@@ -1,4 +1,5 @@
 @import "./../../../styles.scss";
+@import "./../../scss/responsive.scss";
 
 .dropdown-btn {
   text-decoration: none;
@@ -78,10 +79,7 @@
 
 .dropdown-title {
   @include dFlex($g: 10px);
-
-  > span {
-    @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
-  }
+  @include font($ff: Nunito700, $fs: 20px, $lh: 27.28px);
 }
 
 .workspace-icon {

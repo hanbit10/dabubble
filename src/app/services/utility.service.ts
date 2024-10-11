@@ -8,6 +8,9 @@ import { ParamMap } from '@angular/router';
   providedIn: 'root',
 })
 export class UtilityService {
+  innerWidth: any;
+  mobile = false;
+
   constructor() {}
 
   closeComponent(elementID: string) {
@@ -78,6 +81,21 @@ export class UtilityService {
       return paramId;
     } else {
       return '';
+    }
+  }
+  applyClass() {
+    let chat = document.getElementById('main-chat-container');
+    if (this.innerWidth < 1050) {
+      chat?.classList.add('hidden');
+    } else {
+      chat?.classList.remove('hidden');
+    }
+  }
+
+  removeClass() {
+    let chat = document.getElementById('main-chat-container');
+    if (this.innerWidth < 1050) {
+      chat?.classList.remove('hidden');
     }
   }
 }

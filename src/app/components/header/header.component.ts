@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProfileMainComponent } from '../profile-main/profile-main.component';
 import { UserService } from '../../services/user.service';
-import { UserProfile } from '../../models/users';
-import { filter, map, Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../models/channels';
@@ -23,17 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   saveToChosen(_t11: any) {
     throw new Error('Method not implemented.');
   }
-  menuOpen = false;
-  profileOpen = false;
-  currentUser: UserProfile = {
-    email: '',
-    active: false,
-    name: '',
-    password: '',
-    uid: '',
-  };
   currentUserId: string = '';
-  allUsers: UserProfile[] = [];
   allChannels: Channel[] = [];
   allChats: DirectChat[] = [];
   allDirectMessages: any[] = [];
@@ -70,16 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.currentUserId = params['id'];
     });
 
-    this.usersSubscription = this.userService.users$.subscribe((users) => {
-      this.allUsers = users;
-      let filteredUser = this.allUsers.find((user) => {
-        return user.uid === this.currentUserId;
-      });
-      if (filteredUser) {
-        this.currentUser = filteredUser;
-        this.userService.mainUser = filteredUser;
-      }
-    });
+    this.userService.getMainUser(this.currentUserId);
 
     this.channelSubscription = this.channelService.channels$
       .pipe(
@@ -180,11 +160,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   openMenu() {
-    this.menuOpen = true;
+    this.profileService.menuIsOpen = true;
   }
 
   closeMenu() {
-    this.menuOpen = false;
+    this.profileService.menuIsOpen = false;
     this.profileService.closeMainProfile();
     this.profileMainComponent.editProfile = false;
   }
@@ -193,15 +173,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.profileService.openMainProfile();
   }
 
-  closeProfile() {
-    this.profileOpen = false;
-    this.profileMainComponent.editProfile = false;
-    this.profileMainComponent.closeEditProfile();
-  }
-
   logoutMainUser() {
-    this.currentUser.active = false;
-    this.userService.updateUser(this.currentUser, this.currentUser.uid);
+    this.userService.mainUser.active = false;
+    this.userService.updateUser(
+      this.userService.mainUser,
+      this.userService.mainUser.uid,
+    );
   }
 
   setUserSearchBar($event: KeyboardEvent) {
@@ -216,7 +193,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           return channel.name?.toLowerCase().includes(keyword);
         });
       } else if (input.startsWith('@')) {
-        result = this.allUsers.filter((user) => {
+        result = this.userService.users.filter((user) => {
           const keyword = input.slice(1).toLowerCase(); // Remove the '@' from input for comparison
           return user.name?.toLowerCase().includes(keyword);
         });

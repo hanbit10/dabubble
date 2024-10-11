@@ -114,6 +114,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   }
 
   openProfile() {
+    this.profileService.menuIsOpen = true;
     this.profileService.openMainProfile();
   }
 
