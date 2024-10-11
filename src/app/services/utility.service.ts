@@ -97,4 +97,13 @@ export class UtilityService {
       chat?.classList.remove('hidden');
     }
   }
+
+  sortedArray(arr: any[]): any[] {
+    return arr.sort((a, b) => {
+      if (a.sentAt && b.sentAt) {
+        return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
+      }
+      return 0;
+    });
+  }
 }

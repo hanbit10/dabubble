@@ -57,7 +57,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   currentUserId: string = '';
   currentThreads: Message[] = [];
   messageById: Message[] = [];
-  currentChannel: any = {};
+  currentChannel: Channel = {} as Channel;
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
   collectionType: string = 'channels';
@@ -74,14 +74,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
-      (paramMap) => {
-        const id = paramMap.get('id');
-        if (id) {
-          this.currentUserId = id;
-        }
-      },
-    );
+    this.getCurrentUserId();
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
@@ -100,19 +93,24 @@ export class ThreadComponent implements OnInit, OnDestroy {
             this.routePath,
           );
         }
-
         this.channelService.subChannelById(this.currentChannelId);
       }
     });
 
-    this.channelSubscription = this.channelService.channelById$.subscribe(
-      (channel) => {
-        if (channel) {
-          this.currentChannel = channel;
-        }
+    this.getCurrentChannel();
+    this.getMessageById();
+    this.getCurrentThreads();
+  }
+
+  getCurrentThreads() {
+    this.threadSubscription = this.threadService.threads$.subscribe(
+      (threads) => {
+        this.currentThreads = this.utilityService.sortedArray(threads);
       },
     );
+  }
 
+  getMessageById() {
     this.messageSubscription = this.messageService.messages$
       .pipe(
         map((messages) =>
@@ -124,15 +122,22 @@ export class ThreadComponent implements OnInit, OnDestroy {
           this.messageById = [currMsg];
         }
       });
+  }
 
-    this.threadSubscription = this.threadService.threads$.subscribe(
-      (threads) => {
-        this.currentThreads = threads.sort((a, b) => {
-          if (a.sentAt && b.sentAt) {
-            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-          }
-          return 0;
-        });
+  getCurrentChannel() {
+    this.channelSubscription = this.channelService.channelById$.subscribe(
+      (channel) => {
+        if (channel) {
+          this.currentChannel = channel;
+        }
+      },
+    );
+  }
+
+  getCurrentUserId() {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        this.currentUserId = this.utilityService.getIdByParam(paramMap, 'id');
       },
     );
   }

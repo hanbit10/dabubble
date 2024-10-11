@@ -113,12 +113,7 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
 
     this.threadSubscription = this.threadService.threads$.subscribe(
       (threads) => {
-        this.currentThreads = threads.sort((a, b) => {
-          if (a.sentAt && b.sentAt) {
-            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-          }
-          return 0;
-        });
+        this.currentThreads = this.utilityService.sortedArray(threads);
       },
     );
   }
