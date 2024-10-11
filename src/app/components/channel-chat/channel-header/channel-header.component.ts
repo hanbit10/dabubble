@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectorRef,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, Subscription, switchMap, tap } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { UserService } from '../../../services/user.service';
 import { UserProfile } from '../../../models/users';
 import { Channel } from '../../../models/channels';
@@ -24,58 +18,58 @@ export class ChannelHeaderComponent implements OnInit, OnDestroy {
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private routeSubscription!: Subscription;
-  private _items = new BehaviorSubject<Channel>({} as Channel);
 
   subscriptions: Subscription[] = [
     this.usersSubscription,
     this.channelSubscription,
     this.routeSubscription,
   ];
-  @Input() set getCurrentChannel(value: Channel) {
-    this._items.next(value);
-  }
-  get currentChannel(): Channel {
-    return this._items.getValue();
-  }
-  filteredUsers: UserProfile[] = [];
-  channel: Channel = {} as Channel;
+
+  channelUsers: UserProfile[] = [];
+  currentChannel: Channel = {} as Channel;
   constructor(
     public userService: UserService,
     public channelService: ChannelService,
     public utilityService: UtilityService,
     private route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
+    this.subscribeToRoute();
+  }
+
+  subscribeToRoute() {
     this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
       if (id) {
-        this.channelSubscription = this.channelService.channels$
-          .pipe(
-            map((channels) => channels.find((channel) => channel.uid === id)),
-          )
-          .subscribe((currChannel) => {
-            if (currChannel) {
-              this.channel = currChannel;
-              this.usersSubscription = this.userService.users$
-                .pipe(
-                  map((users) =>
-                    users.filter((user) =>
-                      currChannel.usersIds.includes(user.uid),
-                    ),
-                  ),
-                )
-                .subscribe((filteredUsers) => {
-                  if (filteredUsers) {
-                    this.filteredUsers = filteredUsers;
-                  }
-                  this.changeDetectorRef.detectChanges();
-                });
-            }
-          });
+        this.getCurrentChannel(id);
       }
     });
+  }
+
+  getCurrentChannel(id: string) {
+    this.channelSubscription = this.channelService.channels$
+      .pipe(map((channels) => channels.find((channel) => channel.uid === id)))
+      .subscribe((currChannel) => {
+        if (currChannel) {
+          this.currentChannel = currChannel;
+          this.getChannelUsers(currChannel);
+        }
+      });
+  }
+
+  getChannelUsers(currChannel: Channel) {
+    this.usersSubscription = this.userService.users$
+      .pipe(
+        map((users) =>
+          users.filter((user) => currChannel.usersIds.includes(user.uid)),
+        ),
+      )
+      .subscribe((filteredUsers) => {
+        if (filteredUsers) {
+          this.channelUsers = filteredUsers;
+        }
+      });
   }
 
   openComponent(elementID: string) {
