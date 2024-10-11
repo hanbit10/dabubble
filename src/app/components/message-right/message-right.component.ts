@@ -70,6 +70,13 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.getMessageUser();
+    this.getCurrentUserId();
+    this.getCurrentIds();
+    this.getTime();
+  }
+
+  getMessageUser() {
     this.usersSubscription = this.userService.users$
       .pipe(
         map((users) =>
@@ -81,7 +88,9 @@ export class MessageRightComponent implements OnInit, OnDestroy {
           this.messageUser = currUser;
         }
       });
+  }
 
+  getCurrentUserId() {
     this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
       async (paramMap) => {
         const id = paramMap.get('id');
@@ -90,7 +99,9 @@ export class MessageRightComponent implements OnInit, OnDestroy {
         }
       },
     );
+  }
 
+  getCurrentIds() {
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id) {
@@ -103,7 +114,9 @@ export class MessageRightComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
 
+  getTime() {
     this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
       this.currentMessage.sentAt!,
     );
