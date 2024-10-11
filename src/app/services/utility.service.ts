@@ -6,6 +6,7 @@ import { Timestamp } from '@angular/fire/firestore';
 })
 export class UtilityService {
   innerWidth: any;
+  mobile = false;
 
   constructor() { }
 
@@ -67,7 +68,7 @@ export class UtilityService {
 
   applyClass(){
     let chat = document.getElementById('main-chat-container');
-    if (this.innerWidth < 1000) {
+    if (this.innerWidth < 1050) {
         chat?.classList.add('hidden');
       }else{
         chat?.classList.remove('hidden');
@@ -76,7 +77,7 @@ export class UtilityService {
 
   removeClass(){
     let chat = document.getElementById('main-chat-container');
-    if (this.innerWidth < 1000) {
+    if (this.innerWidth < 1050) {
         chat?.classList.remove('hidden');
       }
   }
