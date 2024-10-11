@@ -9,6 +9,7 @@ import { Channel } from '../../models/channels';
 import { DirectChatService } from '../../services/direct-chat.service';
 import { DirectChat } from '../../models/direct-chat';
 import { MessageService } from '../../services/message.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-header',
@@ -47,6 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public profileService: ProfileService,
     public messageService: MessageService,
     public directChatService: DirectChatService,
+    public utilityService:UtilityService
   ) { }
 
   async ngOnInit() {
