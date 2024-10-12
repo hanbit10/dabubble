@@ -17,7 +17,7 @@ import { MessageRightComponent } from '../message-right/message-right.component'
 import { FormsModule, NgForm } from '@angular/forms';
 import { MessageService } from '../../services/message.service';
 import { Message } from '../../models/message';
-import { Timestamp } from '@angular/fire/firestore';
+import { sortedChanges, Timestamp } from '@angular/fire/firestore';
 import { CommonModule, KeyValuePipe } from '@angular/common';
 import { UtilityService } from '../../services/utility.service';
 import { SendMessageComponent } from '../send-message/send-message.component';
@@ -44,13 +44,12 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   private channelSubscription!: Subscription;
   private messageSubscription!: Subscription;
   private routeSubscription!: Subscription;
-  private paramsParentSubscription?: Subscription;
-
+  private routeParentSubscription?: Subscription;
   subscriptions: Subscription[] = [
     this.channelSubscription,
     this.messageSubscription,
     this.routeSubscription,
-    this.paramsParentSubscription!,
+    this.routeParentSubscription!,
   ];
   currentChannelId: string = '';
   currentUserId: string = '';
@@ -72,57 +71,56 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.getCurrentUserId();
+    this.subToMessage();
+    this.getMessages();
+    this.getCurrentChannel();
+  }
+
+  subToMessage() {
     this.routeSubscription = this.route.paramMap.subscribe((paramMap) => {
       const id = paramMap.get('id');
-
       if (id) {
         this.currentChannelId = id;
-        // console.log('this is currentChannel id', this.currentChannelId);
-
         this.messageService.subMessageList(this.currentChannelId, 'channels');
-
-        this.paramsParentSubscription = this.route.parent?.paramMap.subscribe(
-          (paramMap) => {
-            const parentId = paramMap.get('id');
-            if (parentId) {
-              this.currentUserId = parentId;
-            }
-          },
-        );
-
-        this.messageSubscription = this.messageService.messages$.subscribe(
-          (messages) => {
-            // console.log('messages', messages);
-            this.currentMessages = messages.sort((a, b) => {
-              if (a.sentAt && b.sentAt) {
-                return (
-                  a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime()
-                );
-              }
-              return 0;
-            });
-            // console.log('sorted messages', this.currentMessages);
-          },
-        );
-
-        this.channelSubscription = this.channelService.channels$
-          .pipe(
-            filter((channels) => channels.length > 0), // Only proceed when channels is not empty
-            map((channels) => {
-              // console.log('Emitted Channels:', channels); // Log emitted channels
-              return channels.find(
-                (channel) => channel.uid === this.currentChannelId,
-              );
-            }),
-          )
-          .subscribe((currentChannel) => {
-            // console.log('Current Channel Found:', currentChannel); // Log the found channel
-            if (currentChannel) {
-              this.currentChannel = currentChannel;
-            }
-          });
       }
     });
+  }
+
+  getCurrentChannel() {
+    this.channelSubscription = this.channelService.channels$
+      .pipe(
+        filter((channels) => channels.length > 0),
+        map((channels) => {
+          return channels.find(
+            (channel) => channel.uid === this.currentChannelId,
+          );
+        }),
+      )
+      .subscribe((currentChannel) => {
+        if (currentChannel) {
+          this.currentChannel = currentChannel;
+        }
+      });
+  }
+
+  getCurrentUserId() {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        const parentId = paramMap.get('id');
+        if (parentId) {
+          this.currentUserId = parentId;
+        }
+      },
+    );
+  }
+
+  getMessages() {
+    this.messageSubscription = this.messageService.messages$.subscribe(
+      (messages) => {
+        this.currentMessages = this.utilityService.sortedArray(messages);
+      },
+    );
   }
 
   onSubmit(messageForm: NgForm) {
