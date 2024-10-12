@@ -61,7 +61,7 @@ export class SendMessageComponent {
     let placeHolder: string = `# ${this.currentChannel.name}`;
     if (this.threadActive) {
       placeHolder = 'Antworten...';
-    } else if (this.storageColl === 'chats') {
+    } else if (this.storageColl === 'chats' && !this.newMessageActive) {
       placeHolder = `Nachricht an ${this.otherUser}`;
     } else if (this.newMessageActive) {
       placeHolder = `Starte eine neue Nachricht`;

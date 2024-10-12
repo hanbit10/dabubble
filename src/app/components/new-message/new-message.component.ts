@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SendMessageComponent } from '../send-message/send-message.component';
 import { NewMessageHeaderComponent } from './new-message-header/new-message-header.component';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,9 @@ import { ChannelService } from '../../services/channel.service';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { Channel } from '../../models/channels';
+import { UserProfile } from '../../models/users';
+import { DirectChatService } from '../../services/direct-chat.service';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-new-message',
@@ -14,27 +17,51 @@ import { Channel } from '../../models/channels';
   templateUrl: './new-message.component.html',
   styleUrl: './new-message.component.scss',
 })
-export class NewMessageComponent implements OnInit {
-  private routeSubscription!: Subscription;
+export class NewMessageComponent implements OnInit, OnDestroy {
+  private routeParentSubscription?: Subscription;
+  currentCollection: Channel | UserProfile = {} as Channel | UserProfile;
   currentUserId: string = '';
-  currentChannel: Channel = {} as Channel;
+  storageColl: string = '';
+  currentCollectionId: string = '';
   constructor(
     private route: ActivatedRoute,
     public channelService: ChannelService,
     public userService: UserService,
+    public directChatService: DirectChatService,
+    public utilityService: UtilityService,
   ) {}
-  ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      const id = params['id'];
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
-  }
-  onSubmit() {}
 
-  addItem(newItem: any) {
-    this.currentChannel = newItem;
-    console.log('get current channel', this.currentChannel);
+  ngOnInit(): void {
+    this.getCurrentUserId();
+  }
+
+  getCurrentUserId() {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (params) => {
+        const id = params.get('id');
+        if (id) {
+          this.currentUserId = id;
+        }
+      },
+    );
+  }
+
+  async addItem(newItem: any) {
+    this.currentCollection = newItem;
+    if (newItem.email) {
+      this.storageColl = 'chats';
+      this.currentCollectionId = await this.directChatService.getChatId(
+        newItem.uid,
+        this.currentUserId,
+      );
+    } else if (newItem.createdAt) {
+      this.storageColl = 'channels';
+      this.currentCollectionId = newItem.uid;
+    }
+    console.log('get current channel', this.currentCollection);
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.unsubscribe([this.routeParentSubscription!]);
   }
 }
