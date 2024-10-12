@@ -9,7 +9,7 @@ import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
 import { LoginCreateAccountService } from '../../services/login-create-account.service';
 import { ChannelService } from '../../services/channel.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ThreadService } from '../../services/thread.service';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
 
@@ -51,6 +51,7 @@ export class SendMessageComponent {
     private logService: LoginCreateAccountService,
     public chanService: ChannelService,
     public route: ActivatedRoute,
+    public router: Router,
     public threadService: ThreadService,
   ) {}
 
@@ -135,6 +136,14 @@ export class SendMessageComponent {
     content.image = '';
     this.messService.messageFileURL = '';
     this.messageFile = null;
+    if (this.newMessageActive) {
+      this.router.navigate([
+        '/main',
+        this.currentUserId,
+        this.storageColl,
+        this.currentChannelId,
+      ]);
+    }
   }
 
   async uploadFile() {
