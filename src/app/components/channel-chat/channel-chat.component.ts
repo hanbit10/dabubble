@@ -3,6 +3,9 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  AfterContentChecked,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
@@ -62,6 +65,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   };
   threadActive: boolean = false;
   collectionType: string = 'channels';
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
 
   constructor(
     public channelService: ChannelService,
@@ -75,6 +79,13 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.subToMessage();
     this.getMessages();
     this.getCurrentChannel();
+  }
+  ngAfterContentChecked() {
+    this.utilityService.scrollToBottom(this.messageContainer);
+  }
+
+  ngOnChanges() {
+    this.utilityService.scrollToBottom(this.messageContainer);
   }
 
   subToMessage() {

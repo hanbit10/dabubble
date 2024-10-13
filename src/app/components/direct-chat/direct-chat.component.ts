@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -22,7 +22,7 @@ import { SendMessageComponent } from '../send-message/send-message.component';
     MessageLeftComponent,
     MessageRightComponent,
     FormsModule,
-    SendMessageComponent
+    SendMessageComponent,
   ],
   templateUrl: './direct-chat.component.html',
   styleUrl: './direct-chat.component.scss',
@@ -54,6 +54,7 @@ export class DirectChatComponent {
   currentMessages: Message[] = [];
   threadActive: boolean = false;
   collectionType: string = 'chats';
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
 
   constructor(
     public userService: UserService,
@@ -64,7 +65,7 @@ export class DirectChatComponent {
     public utilityService: UtilityService,
   ) {}
 
-  async ngOnInit() {    
+  async ngOnInit() {
     this.routeSubscription = this.route.params.subscribe((params) => {
       this.otherUserId = params['id'];
       this.getChat();
@@ -128,7 +129,7 @@ export class DirectChatComponent {
   }
 
   async onSubmit(messageForm: NgForm) {
-    if (messageForm.valid) {      
+    if (messageForm.valid) {
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChatId,

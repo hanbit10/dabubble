@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { ParamMap } from '@angular/router';
@@ -105,5 +105,17 @@ export class UtilityService {
       }
       return 0;
     });
+  }
+
+  scrollToBottom(messageContainer?: ElementRef): void {
+    if (messageContainer) {
+      try {
+        messageContainer.nativeElement.scrollTop =
+          messageContainer.nativeElement.scrollHeight;
+      } catch (err) {
+        console.error('Error scrolling to bottom:', err);
+      }
+    } else {
+    }
   }
 }
