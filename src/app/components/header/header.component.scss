@@ -33,11 +33,22 @@
   }
 }
 
+.goback-icon{
+  background-image: url('./../../../assets/img/icons/material-symbols/back-arrow.svg');
+  width: 25px;
+  height: 25px;
+}
+
 .header-mobile-chat {
   @include dFlex($g: 2px);
 
   &:hover {
     cursor: pointer;
+    color: $purple3;
+
+    .goback-icon{
+      background-image: url('./../../../assets/img/icons/material-symbols/back-arrow-hover.svg');
+    }
   }
 }
 

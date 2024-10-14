@@ -19,6 +19,7 @@ import { MessageRightComponent } from '../message-right/message-right.component'
 import { UtilityService } from '../../services/utility.service';
 import { DirectChatService } from '../../services/direct-chat.service';
 import { SendMessageComponent } from '../send-message/send-message.component';
+import { Channel } from '../../models/channels';
 
 @Component({
   selector: 'app-thread',

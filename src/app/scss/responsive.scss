@@ -7,6 +7,10 @@
         align-items: start !important;
     }
 
+    .chat-header-direct {
+        height: 90px !important;
+    }
+
     .content-left {
         margin-left: -6px;
     }
@@ -144,7 +148,6 @@
         gap: 8px !important;
     }
 
-    .contact-container,
     .add-channel-dropdown {
         padding-inline: 33px !important;
     }
@@ -160,6 +163,61 @@
 }
 
 @media(max-width: 700px) {
+    .header-content{
+        height: 80px;
+        padding: 15px 16px 15px 16px !important;
+    }
+
+    .logo-section {
+        >img {
+            height: 45px !important;
+        }
+    }
+
+    .profile-pic{
+        display: flex;
+        align-items: center;
+        >img{
+            width: 50px !important;
+            height: 50px !important;
+        }
+    }
+
+    .menu-header-logo{
+        h2{
+            font-size: 20px;
+        }
+    }
+
+    .chat-header {
+        border-top-left-radius: unset !important;
+        border-top-right-radius: unset !important;
+        height: 60px !important;
+        padding: 10px 16px 10px 16px !important;
+        flex-direction: unset !important;
+        display: flex;
+        align-items: center !important;
+    }
+
+    .content-right{
+        justify-content: end !important;
+    }
+
+    .person-add{
+        margin-left: 0 !important;
+        width: 34px !important;
+        height: 34px !important;
+        background-size: 22px 22px !important;
+    }
+
+    .chat-container{
+        padding-top: 45px !important;
+    }
+
+    .message-text{
+        font-size: 17px !important;
+    }
+
     .navigation-bar {
         display: none !important;
     }
@@ -175,17 +233,29 @@
         padding: 20px !important;
     }
 
-    .chat-header {
-        border-top-left-radius: unset !important;
-        border-top-right-radius: unset !important;
-    }
-
     app-send-message{
         border-bottom-left-radius: unset !important;
         border-bottom-right-radius: unset !important;
     }
 
+    .profile-menu{
+        top: unset !important;
+        bottom: 0;
+        left: 0;
+        right: 0 !important;
+        border-radius: 30px 30px 0 0 !important;
+    }
+
     .user-profile{
         display: none !important;
+    }
+
+    main{
+        padding: 30px 20px 30px 20px !important;
+        margin-inline: 20px;
+    }
+
+    .avatar-container{
+        flex-wrap: wrap;
     }
 }
