@@ -1,7 +1,6 @@
 import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { UserProfile } from '../../models/users';
 import {
   addDoc,
   collection,
@@ -43,6 +42,7 @@ export class ChannelNavComponent implements OnInit {
     public utilityService: UtilityService,
     private route: ActivatedRoute,
   ) {}
+
   async ngOnInit() {
     this.routeSubscription = this.route.params.subscribe((params) => {
       const id = params['id'];
@@ -73,9 +73,6 @@ export class ChannelNavComponent implements OnInit {
       });
 
     this.toogleDirectMessage();
-  }
-  openComponent(elementId: string) {
-    this.utilityService.openComponent(elementId);
   }
 
   toogleDirectMessage() {

@@ -119,11 +119,11 @@
         height: auto;
     }
 
-    .profile-section{
+    .profile-section {
         max-width: 300px !important;
         width: 100% !important;
 
-        >span{
+        >span {
             font-size: 20px !important;
         }
     }
@@ -159,24 +159,33 @@
     }
 }
 
-@media(max-width: 700px){
-    .navigation-bar{
+@media(max-width: 700px) {
+    .navigation-bar {
         display: none !important;
     }
 
-    .main-container{
+    .main-container {
         padding: 0 !important;
     }
 
-    .main-menu{
+    .main-menu {
         width: 100% !important;
         max-width: unset !important;
         border-radius: unset !important;
         padding: 20px !important;
     }
 
-    .main-chat-container{
-        display: none !important;
+    .chat-header {
+        border-top-left-radius: unset !important;
+        border-top-right-radius: unset !important;
     }
 
+    app-send-message{
+        border-bottom-left-radius: unset !important;
+        border-bottom-right-radius: unset !important;
+    }
+
+    .user-profile{
+        display: none !important;
+    }
 }

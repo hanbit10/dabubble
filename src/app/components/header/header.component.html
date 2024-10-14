@@ -87,9 +87,19 @@
 @if (utilityService.mobile) {
   <div class="container">
     <div class="header-content">
-      <section class="logo-section">
-        <img src="./assets/img/logo/dabubble-logo&text.svg" alt="loco" />
-      </section>
+      @if (channelService.channelIsOpen || threadService.threadIsOpen) {
+        <div class="header-mobile-chat" (click)="closeHeaderMobile()">
+          <img src="./assets/img/icons/material-symbols/back-arrow.svg" alt="go back">
+          <div class="menu-header-logo">
+            <img src="./assets/img/logo/workspace_logo.svg" alt="logo">
+            <h2>Devspace</h2>
+          </div>
+        </div>
+      }@else {
+        <section class="logo-section">
+          <img src="./assets/img/logo/dabubble-logo&text.svg" alt="loco" />
+        </section>
+      }
   
       <section class="profile-section">
 

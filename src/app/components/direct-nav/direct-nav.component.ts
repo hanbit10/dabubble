@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
 import { UserProfile } from '../../models/users';
-import { DirectChatService } from '../../services/direct-chat.service';
+import { ChannelService } from '../../services/channel.service';
 
 @Component({
   selector: 'app-direct-nav',
@@ -23,7 +23,7 @@ export class DirectNavComponent {
   constructor(
     public userService: UserService,
     private route: ActivatedRoute,
-    public directChatService: DirectChatService
+    public channelService: ChannelService,
   ) {}
 
   async ngOnInit() {

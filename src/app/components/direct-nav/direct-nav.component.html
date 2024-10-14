@@ -15,7 +15,7 @@
 @if (dropdown) {
   <div id="dropdown-container" class="dropdown-contacts">
     @for (user of allUsers; track user) {
-      <div [routerLink]="['chats', user.uid]" class="contact-container">
+      <div [routerLink]="['chats', user.uid]" (click)="channelService.openChannel()" class="contact-container">
         <div class="profile-pic">
           <img src="{{ user.profileImage }}" alt="profile pic" />
           <div

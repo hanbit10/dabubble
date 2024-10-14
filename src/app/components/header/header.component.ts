@@ -10,6 +10,7 @@ import { DirectChatService } from '../../services/direct-chat.service';
 import { DirectChat } from '../../models/direct-chat';
 import { MessageService } from '../../services/message.service';
 import { UtilityService } from '../../services/utility.service';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-header',
@@ -48,7 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public profileService: ProfileService,
     public messageService: MessageService,
     public directChatService: DirectChatService,
-    public utilityService:UtilityService
+    public utilityService: UtilityService,
+    public threadService: ThreadService
   ) { }
 
   async ngOnInit() {
@@ -174,7 +176,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userService.mainUser.active = false;
     this.userService.updateUser(this.userService.mainUser, this.userService.mainUser.uid);
   }
-  
+
+  closeHeaderMobile() {
+    this.utilityService.menuIsOpen = true;
+    this.channelService.channelIsOpen = false;
+    this.threadService.threadIsOpen = false;
+    this.utilityService.openComponent('main-menu');
+    this.utilityService.closeComponent('main-chat-container');
+    this.utilityService.closeComponent('thread-container');
+  }
+
   setUserSearchBar($event: KeyboardEvent) {
     const inputBox = <HTMLInputElement>document.getElementById('search-input');
     let result: any[] = [];

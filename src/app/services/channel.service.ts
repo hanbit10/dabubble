@@ -18,6 +18,8 @@ import { Channel } from '../models/channels';
 
 import { UserProfile } from '../models/users';
 import { BehaviorSubject } from 'rxjs';
+import { UtilityService } from './utility.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,8 +29,9 @@ export class ChannelService {
   private channelByIdSubject = new BehaviorSubject<any>({} as Channel);
   channels: any[] = [];
   channelById: any = {} as Channel;
+  channelIsOpen: boolean = true;
 
-  constructor() {
+  constructor(public utilityService: UtilityService) {
     this.subChannelList();
   }
 
@@ -114,5 +117,17 @@ export class ChannelService {
     updateDoc(docRef, {
       usersIds: arrayRemove(currentUserId),
     });
+  }
+
+  /**
+   * Opens the channel and adjusts the layout for mobile view if necessary.
+   */
+  openChannel(){
+    this.channelIsOpen = true;
+    if (this.utilityService.mobile) {
+      this.utilityService.closeComponent('main-menu');
+      this.utilityService.menuIsOpen = false;
+      this.utilityService.openComponent('main-chat-container');
+    }
   }
 }

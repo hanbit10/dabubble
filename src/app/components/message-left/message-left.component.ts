@@ -12,7 +12,6 @@ import { Message } from '../../models/message';
 import { ThreadService } from '../../services/thread.service';
 import { UtilityService } from '../../services/utility.service';
 import { MessageService } from '../../services/message.service';
-import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-message-left',
@@ -54,7 +53,7 @@ export class MessageLeftComponent implements OnInit {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.usersSubscription = this.userService.users$
@@ -95,7 +94,7 @@ export class MessageLeftComponent implements OnInit {
 
   openProfile() {
     if (this.messageUser.name) {
-      this.profileService.searchUser(this.messageUser.name); 
+      this.profileService.searchUser(this.messageUser.name);
     }
     this.profileService.openProfile();
   }

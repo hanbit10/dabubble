@@ -6,17 +6,17 @@
   <div class="main-container">
 
     <div class="navigation-bar" (click)="toggleMenu()">
-      @if (menuOpen) {
+      @if (this.utilityService.menuIsOpen) {
       <div class="navbar-open-icon"></div>
       <span class="navbar-text">Workspace-Menü schließen</span>
       }
-      @if (!menuOpen) {
+      @if (!this.utilityService.menuIsOpen) {
       <div class="navbar-closed-icon"></div>
       <span class="navbar-text">Workspace-Menü öffnen</span>
       }
     </div>
 
-    <div [class]="menuOpen? 'main-menu container' : 'hidden'">
+    <div id="main-menu" [class]="this.utilityService.menuIsOpen? 'main-menu container' : 'hidden'">
       @if (!utilityService.mobile) {
         <div class="menu-header">
           <div class="menu-header-logo">
@@ -83,7 +83,7 @@
       <router-outlet></router-outlet>
     </div>
 
-    <div [class]="threadService.threadIsOpen? 'thread-container container' : 'hidden'">
+    <div id="thread-container" [class]="threadService.threadIsOpen? 'thread-container container' : 'hidden'">
       <router-outlet name="thread"></router-outlet>
     </div>
   </div>
