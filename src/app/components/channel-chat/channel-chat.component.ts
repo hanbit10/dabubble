@@ -72,7 +72,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     public messageService: MessageService,
     public utilityService: UtilityService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -82,20 +81,17 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.getCurrentChannel();
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      if (
-        target.classList.contains('thread-icon') ||
-        target.classList.contains('message-answer-button')
-      ) {
-        this.preventAutoScroll = true;
-      } else {
+      if (target.classList.contains('message')) {
         this.preventAutoScroll = false;
+      } else {
+        this.preventAutoScroll = true;
       }
     });
   }
 
-  async ngAfterViewChecked(): Promise<void> {
+  ngAfterViewChecked() {
     if (!this.preventAutoScroll) {
-      await this.messageContainer.nativeElement.scrollTo({
+      this.messageContainer.nativeElement.scrollTo({
         top: this.messageContainer.nativeElement.scrollHeight,
         behavior: 'smooth',
       });
@@ -104,21 +100,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
         this.preventAutoScroll = true;
       }, 1000);
     }
-  }
-
-  scrollToBottom(): Promise<void> {
-    return new Promise((resolve) => {
-      this.messageContainer.nativeElement.scrollTo({
-        top: this.messageContainer.nativeElement.scrollHeight,
-        behavior: 'smooth',
-      });
-
-      // Simulate scroll completion manually by resolving the promise after a reasonable scroll time
-      // Adjust the duration as necessary based on your animation
-      setTimeout(() => {
-        resolve();
-      }, 500); // Estimate the smooth scroll duration, this ensures it resolves only after the scroll
-    });
   }
 
   public enableAutoScroll(): void {
