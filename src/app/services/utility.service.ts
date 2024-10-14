@@ -112,6 +112,6 @@ export class UtilityService {
       if (element) {
         element.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 0);
+    }, 1000);
   }
 }

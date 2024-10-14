@@ -63,6 +63,8 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   threadActive: boolean = false;
   collectionType: string = 'channels';
   @ViewChild('endOfChat') endOfChat!: ElementRef;
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  private preventAutoScroll: boolean = false;
 
   constructor(
     public channelService: ChannelService,
@@ -76,6 +78,25 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.subToMessage();
     this.getMessages();
     this.getCurrentChannel();
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (target.classList.contains('thread-icon')) {
+        this.preventAutoScroll = true;
+      } else {
+        this.preventAutoScroll = false;
+      }
+    });
+  }
+
+  ngAfterViewChecked(): void {
+    if (!this.preventAutoScroll) {
+      this.messageContainer.nativeElement.scrollTop =
+        this.messageContainer.nativeElement.scrollHeight;
+    }
+  }
+
+  public enableAutoScroll(): void {
+    this.preventAutoScroll = false;
   }
 
   subToMessage() {
@@ -120,7 +141,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.messageService.messages$.subscribe(
       (messages) => {
         this.currentMessages = this.utilityService.sortedArray(messages);
-        this.utilityService.scrollToBottom(this.endOfChat);
       },
     );
   }
@@ -134,6 +154,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
         'channels',
       );
     }
+    this.enableAutoScroll();
   }
 
   ngOnDestroy(): void {
