@@ -22,7 +22,16 @@ import { DirectChatService } from '../../services/direct-chat.service';
   styleUrl: './message-right.component.scss',
 })
 export class MessageRightComponent implements OnInit, OnDestroy {
+  private usersSubscription!: Subscription;
+  private routeSubscription!: Subscription;
+  private routeParentSubscription?: Subscription;
   private _items = new BehaviorSubject<Message>({} as Message);
+
+  subscriptions: Subscription[] = [
+    this.usersSubscription,
+    this.routeSubscription,
+    this.routeParentSubscription!,
+  ];
 
   @Input() set getMessage(value: Message) {
     this._items.next(value);
@@ -34,9 +43,6 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     return this._items.getValue();
   }
 
-  public usersSubscription!: Subscription;
-  public routeSubscription!: Subscription;
-  public routeParentSubscription?: Subscription;
   settingIsOpen: boolean = false;
   editMessageIsOpen: boolean = false;
   allUsers: UserProfile[] = [];
@@ -64,6 +70,13 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.getMessageUser();
+    this.getCurrentUserId();
+    this.getCurrentIds();
+    this.getTime();
+  }
+
+  getMessageUser() {
     this.usersSubscription = this.userService.users$
       .pipe(
         map((users) =>
@@ -75,7 +88,9 @@ export class MessageRightComponent implements OnInit, OnDestroy {
           this.messageUser = currUser;
         }
       });
+  }
 
+  getCurrentUserId() {
     this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
       async (paramMap) => {
         const id = paramMap.get('id');
@@ -84,7 +99,9 @@ export class MessageRightComponent implements OnInit, OnDestroy {
         }
       },
     );
+  }
 
+  getCurrentIds() {
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       if (id) {
@@ -97,7 +114,9 @@ export class MessageRightComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
 
+  getTime() {
     this.formattedCurrMsgTime = this.utilityService.getFormattedTime(
       this.currentMessage.sentAt!,
     );
@@ -187,8 +206,6 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.usersSubscription.unsubscribe();
-    this.routeSubscription.unsubscribe();
-    this.routeParentSubscription?.unsubscribe;
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

@@ -23,7 +23,12 @@ import { SendMessageComponent } from '../send-message/send-message.component';
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [FormsModule, MessageLeftComponent, MessageRightComponent, SendMessageComponent],
+  imports: [
+    FormsModule,
+    MessageLeftComponent,
+    MessageRightComponent,
+    SendMessageComponent,
+  ],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
@@ -34,6 +39,14 @@ export class ThreadComponent implements OnInit, OnDestroy {
   private channelSubscription!: Subscription;
   private routeSubscription!: Subscription;
   private routeParentSubscription?: Subscription;
+  subscriptions: Subscription[] = [
+    this.channelSubscription,
+    this.messageSubscription,
+    this.userSubscription,
+    this.threadSubscription,
+    this.routeSubscription,
+    this.routeParentSubscription!,
+  ];
   sentThread: any = {
     text: '',
     image: '',
@@ -43,7 +56,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   currentUserId: string = '';
   currentThreads: Message[] = [];
   messageById: Message[] = [];
-  currentChannel: any = {};
+  currentChannel: Channel = {} as Channel;
   userById: UserProfile = {} as UserProfile;
   threadActive: boolean = true;
   collectionType: string = 'channels';
@@ -60,45 +73,50 @@ export class ThreadComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
-      (paramMap) => {
-        const id = paramMap.get('id');
-        if (id) {
-          this.currentUserId = id;
-        }
-      },
-    );
+    this.getCurrentUserId();
+    this.setThreads();
+    this.getCurrentChannel();
+    this.getMessageById();
+    this.getCurrentThreads();
+  }
+
+  setThreads() {
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
-
       if (id && msgId) {
         this.currentChannelId = id;
         this.currentMessageId = msgId;
-        this.threadService.subThreadList(
-          this.currentChannelId,
-          this.currentMessageId,
-          this.routePath,
-        );
-        if (this.threadService.threadIsOpen) {
-          this.messageService.subMessageList(
-            this.currentChannelId,
-            this.routePath,
-          );
-        }
-
+        this.getThreads();
+        this.getMessages();
         this.channelService.subChannelById(this.currentChannelId);
       }
     });
+  }
 
-    this.channelSubscription = this.channelService.channelById$.subscribe(
-      (channel) => {
-        if (channel) {
-          this.currentChannel = channel;
-        }
+  getThreads() {
+    this.threadService.subThreadList(
+      this.currentChannelId,
+      this.currentMessageId,
+      this.routePath,
+    );
+  }
+
+  getMessages() {
+    if (this.threadService.threadIsOpen) {
+      this.messageService.subMessageList(this.currentChannelId, this.routePath);
+    }
+  }
+
+  getCurrentThreads() {
+    this.threadSubscription = this.threadService.threads$.subscribe(
+      (threads) => {
+        this.currentThreads = this.utilityService.sortedArray(threads);
       },
     );
+  }
 
+  getMessageById() {
     this.messageSubscription = this.messageService.messages$
       .pipe(
         map((messages) =>
@@ -110,15 +128,22 @@ export class ThreadComponent implements OnInit, OnDestroy {
           this.messageById = [currMsg];
         }
       });
+  }
 
-    this.threadSubscription = this.threadService.threads$.subscribe(
-      (threads) => {
-        this.currentThreads = threads.sort((a, b) => {
-          if (a.sentAt && b.sentAt) {
-            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-          }
-          return 0;
-        });
+  getCurrentChannel() {
+    this.channelSubscription = this.channelService.channelById$.subscribe(
+      (channel) => {
+        if (channel) {
+          this.currentChannel = channel;
+        }
+      },
+    );
+  }
+
+  getCurrentUserId() {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        this.currentUserId = this.utilityService.getIdByParam(paramMap, 'id');
       },
     );
   }
@@ -136,23 +161,6 @@ export class ThreadComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.channelSubscription) {
-      this.channelSubscription.unsubscribe();
-    }
-    if (this.messageSubscription) {
-      this.messageSubscription.unsubscribe();
-    }
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
-    if (this.threadSubscription) {
-      this.threadSubscription.unsubscribe();
-    }
-    if (this.routeSubscription) {
-      this.routeSubscription.unsubscribe();
-    }
-    if (this.routeParentSubscription) {
-      this.routeParentSubscription.unsubscribe();
-    }
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

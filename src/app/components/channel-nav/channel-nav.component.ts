@@ -1,4 +1,4 @@
-import { Component, Inject, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import {
@@ -9,10 +9,12 @@ import {
   onSnapshot,
   setDoc,
 } from '@angular/fire/firestore';
+import { UserProfile } from '../../models/users';
 import { map, Subscription } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { ChannelService } from '../../services/channel.service';
 import { UtilityService } from '../../services/utility.service';
+import { Channel } from '../../models/channels';
 
 @Component({
   selector: 'app-channel-nav',
@@ -22,16 +24,16 @@ import { UtilityService } from '../../services/utility.service';
   styleUrl: './channel-nav.component.scss',
 })
 export class ChannelNavComponent implements OnInit {
-  firestore: Firestore = inject(Firestore);
   private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private routeSubscription!: Subscription;
   subscriptions: Subscription[] = [
     this.usersSubscription,
     this.channelSubscription,
+    this.routeSubscription,
   ];
-  allUsers: any[] = [];
-  allChannels: any[] = [];
+  allUsers: UserProfile[] = [];
+  allChannels: Channel[] = [];
   currentUserId: string = '';
   filtering: boolean = true;
 
@@ -44,17 +46,25 @@ export class ChannelNavComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      const id = params['id'];
-      if (id) {
-        this.currentUserId = id;
-      }
-    });
+    this.getCurrentUserId();
+    this.getAllUsers();
+    this.getCurrentUserChannel();
+    this.toogleDirectMessage();
+  }
 
+  getCurrentUserId() {
+    this.routeSubscription = this.route.paramMap.subscribe((params) => {
+      this.currentUserId = this.utilityService.getIdByParam(params, 'id');
+    });
+  }
+
+  getAllUsers() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
       this.allUsers = users;
     });
+  }
 
+  getCurrentUserChannel() {
     this.channelSubscription = this.channelService.channels$
       .pipe(
         map((channels) =>
@@ -64,32 +74,33 @@ export class ChannelNavComponent implements OnInit {
         ),
       )
       .subscribe((filteredChannels) => {
-        this.allChannels = [];
-        filteredChannels.forEach((channel) => {
-          if (channel) {
-            this.allChannels.push(channel);
-          }
-        });
+        this.allChannels = this.channelService.getChannels(filteredChannels);
       });
+  }
 
-    this.toogleDirectMessage();
+  openComponent(elementId: string) {
+    this.utilityService.openComponent(elementId);
   }
 
   toogleDirectMessage() {
     if (isPlatformBrowser(this.platformId)) {
       const dropdownIcon = document.getElementById('dropdown-icon');
       const dropdownBtn = document.getElementById('dropdown-btn');
-      if (dropdownBtn) {
-        dropdownBtn.addEventListener('click', (event) => {
-          if (dropdownIcon && this.filtering) {
-            dropdownIcon.classList.add('rotate-down');
-          }
-          if (dropdownIcon && !this.filtering) {
-            dropdownIcon.classList.remove('rotate-down');
-          }
-        });
+      if (dropdownBtn && dropdownIcon) {
+        this.onClick(dropdownBtn, dropdownIcon);
       }
     }
+  }
+
+  onClick(dropdownBtn: HTMLElement, dropdownIcon: HTMLElement) {
+    dropdownBtn.addEventListener('click', (event) => {
+      if (dropdownIcon && this.filtering) {
+        dropdownIcon.classList.add('rotate-down');
+      }
+      if (dropdownIcon && !this.filtering) {
+        dropdownIcon.classList.remove('rotate-down');
+      }
+    });
   }
 
   ngOnDestroy() {

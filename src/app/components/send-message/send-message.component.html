@@ -10,7 +10,7 @@
       <span>&#35; {{ channel.name }}</span>
     </div>
   </div>
-  <textarea
+  <textarea    
     name="message"
     class="message"
     [id]="'message' + componentId"
@@ -58,7 +58,7 @@
       src="/assets/img/icons/send-message.svg"
       alt="send-message"
       class="send-arrow"
-      (click)="selectMessageType()"
+      (click)="postMessage()"
     />
   </div>
 </div>

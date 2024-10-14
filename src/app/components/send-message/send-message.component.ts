@@ -1,4 +1,4 @@
-import { Component, input, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef} from '@angular/core';
 import { MessageService } from '../../services/message.service';
 import { FormsModule } from '@angular/forms';
 import { Channel } from '../../models/channels';
@@ -11,25 +11,27 @@ import { LoginCreateAccountService } from '../../services/login-create-account.s
 import { ChannelService } from '../../services/channel.service';
 import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../services/thread.service';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
 
 
 @Component({
   selector: 'app-send-message',
   standalone: true,
-  imports: [FormsModule, NgIf, PickerModule, NgFor],
+  imports: [FormsModule, NgIf, PickerModule, NgFor, AutofocusDirective],
   templateUrl: './send-message.component.html',
-  styleUrl: './send-message.component.scss',
-  encapsulation: ViewEncapsulation.Emulated
+  styleUrl: './send-message.component.scss'  
 })
+
 export class SendMessageComponent {
 
   @Input() currentChannelId!: string;
   @Input() currentUserId!: string;  
   @Input() currentChannel: Channel = {} as Channel;
-  @Input() currentMessageId: string = '';
-  @Input() routePath: string = '';
+  @Input() currentMessageId: string = '';  
   @Input() threadActive: boolean = false;
   @Input() componentId: string = '';
+  @Input() storageColl: string = '';
+  @Input() otherUser: string = '';
   Message: any = {
     text: '',
     image: '',
@@ -45,15 +47,18 @@ export class SendMessageComponent {
   filteredChannels: Channel[] = [];  
 
   constructor(public messService: MessageService, public storage: StorageService, private userService: UserService, private logService: LoginCreateAccountService,
-    public chanService: ChannelService, public route: ActivatedRoute, public threadService: ThreadService) {}
+    public chanService: ChannelService, public route: ActivatedRoute, public threadService: ThreadService) {} 
 
   async ngOnInit() {     
-    this.users = await this.userService.getAllUsers();      
+    this.users = await this.userService.getAllUsers();       
   }
-
   createPlaceholder() {  
     let placeHolder: string = `# ${this.currentChannel.name}`;   
-    if (this.threadActive) placeHolder = 'Antworten...';
+    if (this.threadActive) {
+      placeHolder = 'Antworten...';
+    } else if (this.storageColl === 'chats') {
+      placeHolder = `Nachricht an ${this.otherUser}`;
+    }
     return placeHolder;    
   }
 
@@ -66,7 +71,7 @@ export class SendMessageComponent {
   }
 
   matchUsers(match:string) {
-    if (match) {
+    if (match && this.storageColl !== 'chats') {
       this.showUsers();
       const searchTerm = match[1].toLowerCase();
       this.filteredUsers = this.channelUsers.filter(user =>
@@ -94,43 +99,36 @@ export class SendMessageComponent {
   }
 
   selectMessageType() {
-    this.threadActive ? this.postThread() : this.postMessage();    
-  }
-
-  async postMessage() {
-    const content = this.Message;
-    await this.uploadFile();
-    this.Message.image = this.messService.messageFileURL;
-    if (content.text.length || content.image.length) {
-      this.messService.sendMessage(
-        this.Message,
-        this.currentChannelId,
-        this.currentUserId,
-        'channels'
-      );
-      content.text = '';
-      content.image = '';
-      this.messageFile = null;  
-    }
-  }
-
-  async postThread() {
-    const content = this.Message;
-    await this.uploadFile();
-    this.Message.image = this.messService.messageFileURL;
-    if (content.text.length || content.image.length) {
+    if (this.threadActive) {
       this.threadService.sendThread(
         this.Message,
         this.currentChannelId,
         this.currentMessageId,
         this.currentUserId,
-        this.routePath,
+        this.storageColl
       );
-      content.text = '';
-      content.image = '';
-      this.messageFile = null;  
-    } 
+    } else {
+      this.messService.sendMessage(
+        this.Message,
+        this.currentChannelId,
+        this.currentUserId,
+        this.storageColl
+      );
+    }     
   }
+
+  async postMessage() {   
+    const content = this.Message;
+    await this.uploadFile();
+    content.image = this.messService.messageFileURL;
+    if (content.text.length || content.image.length) {
+      this.selectMessageType();        
+    }
+    content.text = '';
+    content.image = '';
+    this.messService.messageFileURL = '';
+    this.messageFile = null;
+  }  
 
   async uploadFile() {
     if (this.messageFile instanceof File) {
@@ -155,12 +153,14 @@ export class SendMessageComponent {
   }
 
   showUsers() {
-    this.selectUser = !this.selectUser; 
-    this.selectChannel = false;
-    const channelIds = this.currentChannel.usersIds;
-    this.channelUsers = this.users.filter( user => channelIds.includes(user.uid));
-    console.log(this.channelUsers);       
-    this.filteredUsers = this.channelUsers;    
+    if (this.storageColl !== 'chats') {
+      this.selectUser = !this.selectUser; 
+      this.selectChannel = false;
+      const channelIds = this.currentChannel.usersIds;
+      this.channelUsers = this.users.filter( user => channelIds.includes(user.uid));
+      console.log(this.channelUsers);       
+      this.filteredUsers = this.channelUsers;  
+    }  
   }
 
   showChannels() {

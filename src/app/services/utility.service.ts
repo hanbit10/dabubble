@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
+import { Subscription } from 'rxjs';
+import { ParamMap } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,7 @@ export class UtilityService {
   mobile = false;
   menuIsOpen: boolean = true;
 
-  constructor() { }
+  constructor() {}
 
   closeComponent(elementID: string) {
     const element = document.getElementById(elementID);
@@ -65,5 +67,29 @@ export class UtilityService {
     } else {
       return 'Antworten';
     }
+  }
+  
+  unsubscribe(subscriptions: Subscription[]) {
+    subscriptions.forEach(
+      (subscription) => subscription && subscription.unsubscribe(),
+    );
+  }
+
+  getIdByParam(paramap: ParamMap, typeId: string) {
+    const paramId = paramap.get(typeId);
+    if (paramId) {
+      return paramId;
+    } else {
+      return '';
+    }
+  }
+
+  sortedArray(arr: any[]): any[] {
+    return arr.sort((a, b) => {
+      if (a.sentAt && b.sentAt) {
+        return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
+      }
+      return 0;
+    });
   }
 }

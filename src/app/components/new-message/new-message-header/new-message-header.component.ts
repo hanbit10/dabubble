@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map, Subscription } from 'rxjs';
 import { ChannelService } from '../../../services/channel.service';
 import { UserService } from '../../../services/user.service';
 import { Output, EventEmitter } from '@angular/core';
+import { Channel } from '../../../models/channels';
+import { UserProfile } from '../../../models/users';
+import { UtilityService } from '../../../services/utility.service';
 
 @Component({
   selector: 'app-new-message-header',
@@ -12,24 +15,32 @@ import { Output, EventEmitter } from '@angular/core';
   templateUrl: './new-message-header.component.html',
   styleUrl: './new-message-header.component.scss',
 })
-export class NewMessageHeaderComponent implements OnInit {
+export class NewMessageHeaderComponent implements OnInit, OnDestroy {
   private channelSubscription!: Subscription;
   private userSubscription!: Subscription;
   private routeParentSubscription?: Subscription;
+
+  subscriptions: Subscription[] = [
+    this.channelSubscription,
+    this.userSubscription,
+    this.routeParentSubscription!,
+  ];
 
   @Output() newItemEvent = new EventEmitter<string>();
 
   currentUserId: string = '';
   selectedElement: any[] = [];
-  allChannels: any[] = [];
-  allUsers: any[] = [];
+  allChannels: Channel[] = [];
+  allUsers: UserProfile[] = [];
   contents: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     public channelService: ChannelService,
     public userService: UserService,
+    public utilityService: UtilityService,
   ) {}
+
   ngOnInit(): void {
     this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
       (paramMap) => {
@@ -59,13 +70,12 @@ export class NewMessageHeaderComponent implements OnInit {
         });
       });
 
+    this.getAllUsers();
+  }
+
+  getAllUsers() {
     this.userSubscription = this.userService.users$.subscribe((users) => {
-      this.allUsers = [];
-      users.forEach((user) => {
-        if (user && user.uid) {
-          this.allUsers.push(user);
-        }
-      });
+      this.allUsers = this.userService.getUsers(users);
     });
   }
 
@@ -115,5 +125,9 @@ export class NewMessageHeaderComponent implements OnInit {
   removeFromChosen() {
     this.selectedElement = [];
     this.contents = [];
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

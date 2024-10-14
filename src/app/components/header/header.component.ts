@@ -11,6 +11,8 @@ import { DirectChat } from '../../models/direct-chat';
 import { MessageService } from '../../services/message.service';
 import { UtilityService } from '../../services/utility.service';
 import { ThreadService } from '../../services/thread.service';
+import { Message } from '../../models/message';
+import { UserProfile } from '../../models/users';
 
 @Component({
   selector: 'app-header',
@@ -30,11 +32,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   allChannelMessages: any[] = [];
   allMessages: any[] = [];
 
-  private routeSub: Subscription = new Subscription();
+  private routeSubscription!: Subscription;
+  private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private chatSubscription!: Subscription;
   private directMessageSubscription!: Subscription;
   subscriptions: Subscription[] = [
+    this.routeSubscription,
+    this.usersSubscription,
     this.channelSubscription,
     this.chatSubscription,
     this.directMessageSubscription,
@@ -54,12 +59,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) { }
 
   async ngOnInit() {
-    this.routeSub = this.route.params.subscribe((params) => {
-      this.currentUserId = params['id'];
-    });
-
+    this.getCurrentUserId();
     this.userService.getMainUser(this.currentUserId);
+    this.getChannelMessages();
+    this.getDirectMessages();
+    this.onClick();
+  }
 
+  getChannelMessages() {
     this.channelSubscription = this.channelService.channels$
       .pipe(
         map((channels) =>
@@ -73,42 +80,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         filteredChannels.forEach(async (channel) => {
           if (channel && channel.uid) {
             this.allChannels.push(channel);
-            this.messageService
-              .getAllMessages(channel.uid, 'channels')
-              .subscribe({
-                next: (messages) => {
-                  // Check for duplicates before pushing
-                  let copyMessages = JSON.parse(
-                    JSON.stringify(messages),
-                  ) as any[];
-                  // this.allChannelMessages = [];
-
-                  copyMessages.forEach((message) => {
-                    const exists = this.allChannelMessages.some(
-                      (existingMessage) =>
-                        existingMessage.uid === message.uid ||
-                        existingMessage.sentAt === message.sentAt || // Use a reliable unique field
-                        message.uid == '',
-                    );
-
-                    if (!exists) {
-                      // Only push new message if it does not already exist
-                      this.allChannelMessages.push(message);
-                    }
-                  });
-
-                  // Only push new message if it does not already exist
-
-                  // console.log('allChannelMessages', this.allChannelMessages);
-                },
-                error: (error) => {
-                  console.error('Error fetching messages:', error);
-                },
-              });
+            this.getAllMessagesByType(channel, 'channels');
           }
         });
       });
+  }
 
+  getDirectMessages() {
     this.chatSubscription = this.directChatService.chats$
       .pipe(
         map((chats) =>
@@ -117,45 +95,59 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe((filteredChats) => {
         this.allChats = [];
-        // this.allDirectMessages = [];
         filteredChats.forEach(async (chat) => {
           if (chat && chat.uid) {
             this.allChats.push(chat);
-            this.messageService.getAllMessages(chat.uid, 'chats').subscribe({
-              next: (messages) => {
-                let copyMessages = JSON.parse(
-                  JSON.stringify(messages),
-                ) as any[];
-                copyMessages.forEach((message) => {
-                  const exists = this.allDirectMessages.some(
-                    (existingMessage) =>
-                      existingMessage.uid === message.uid ||
-                      existingMessage.sentAt === message.sentAt ||
-                      message.uid == '',
-                    // Use a reliable unique field
-                  );
-
-                  if (!exists) {
-                    this.allDirectMessages.push(message);
-                  }
-                });
-
-                // console.log('allDirectMessages', this.allDirectMessages);
-              },
-              error: (error) => {
-                console.error('Error fetching messages:', error);
-              },
-            });
+            this.getAllMessagesByType(chat, 'chats');
           }
         });
       });
+  }
 
+  onClick() {
     document.addEventListener('click', (event) => {
       const resultBox = document.getElementById('result-box-header');
       if (event.target != resultBox) {
         this.contents = [];
       }
     });
+  }
+
+  getCurrentUserId() {
+    this.routeSubscription = this.route.params.subscribe((params) => {
+      this.currentUserId = params['id'];
+    });
+  }
+
+  getAllMessagesByType(model: Channel | DirectChat, type: string) {
+    this.messageService.getAllMessages(model.uid, type).subscribe({
+      next: (messages) => {
+        this.setAllMessages(messages, type);
+      },
+      error: (error) => {
+        console.error('Error fetching messages:', error);
+      },
+    });
+  }
+
+  setAllMessages(messages: Message[], type: string) {
+    const copyMessages = JSON.parse(JSON.stringify(messages)) as any[];
+    copyMessages.forEach((message) => {
+      if (!this.messageExists(message) && type === 'chats') {
+        this.allDirectMessages.push(message);
+      } else if (!this.messageExists(message) && type === 'channels') {
+        this.allChannelMessages.push(message);
+      }
+    });
+  }
+
+  messageExists(message: Message): boolean {
+    return this.allDirectMessages.some(
+      (existingMessage) =>
+        existingMessage.uid === message.uid ||
+        existingMessage.sentAt === message.sentAt ||
+        message.uid === '',
+    );
   }
 
   openMenu() {
@@ -174,7 +166,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logoutMainUser() {
     this.userService.mainUser.active = false;
-    this.userService.updateUser(this.userService.mainUser, this.userService.mainUser.uid);
+    this.userService.updateUser(
+      this.userService.mainUser,
+      this.userService.mainUser.uid,
+    );
   }
 
   closeHeaderMobile() {
@@ -193,35 +188,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     if (input.length) {
       if (input.startsWith('#')) {
-        result = this.allChannels.filter((channel) => {
-          const keyword = input.slice(1).toLowerCase(); // Remove the '#' from input for comparison
-          return channel.name?.toLowerCase().includes(keyword);
-        });
+        result = this.filterContents(this.allChannels, input);
       } else if (input.startsWith('@')) {
-        result = this.userService.users.filter((user) => {
-          const keyword = input.slice(1).toLowerCase(); // Remove the '@' from input for comparison
-          return user.name?.toLowerCase().includes(keyword);
-        });
+        result = this.filterContents(this.userService.users, input);
       } else {
-        const keyword = input.toLowerCase();
-
-        this.allMessages = [
-          ...this.allChannelMessages,
-          ...this.allDirectMessages,
-        ];
-        result = this.allMessages
-          .flat() // Flatten the array
-          .filter(
-            (message: any) => message.text && message.text.includes(keyword),
-          );
+        result = this.filterMessages(input);
       }
     }
     this.contents = result;
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions.forEach(
-      (subscription) => subscription && subscription.unsubscribe(),
+  filterContents(
+    contents: Channel[] | UserProfile[],
+    input: string,
+  ): Channel[] | UserProfile[] {
+    const keyword = input.slice(1).toLowerCase();
+    return contents.filter(
+      (content) => content.name?.toLowerCase().includes(keyword),
     );
+  }
+
+  filterMessages(input: string): any[] {
+    const keyword = input.toLowerCase();
+    this.allMessages = [...this.allChannelMessages, ...this.allDirectMessages];
+    return this.allMessages
+      .flat()
+      .filter((message: any) => message.text && message.text.includes(keyword));
+  }
+
+  ngOnDestroy(): void {
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

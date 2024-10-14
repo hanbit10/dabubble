@@ -63,7 +63,7 @@ export class UserService {
 
   /**
    * Updates the specified user document in Firestore.
-   * 
+   *
    * @param {object} user - The user object that should be updated
    * @param {string} userId - The Id of the user that should be updated
    */
@@ -88,7 +88,7 @@ export class UserService {
 
   /**
    * Subscribes to real-time updates for a user by their ID from Firestore.
-   * 
+   *
    * @param userId - The ID of the user to subscribe to.
    * @returns - A function to unsubscribe from the Firestore snapshot listener.
    */
@@ -102,7 +102,7 @@ export class UserService {
 
   /**
    * Subscribes to the Firestore 'users' collection and updates the local user list.
-   * 
+   *
    * @returns - A function to unsubscribe from the Firestore snapshot listener.
    */
   subUsersList() {
@@ -118,7 +118,7 @@ export class UserService {
 
   /**
    * Maps the provided object to a `UserProfile`.
-   * 
+   *
    * @param obj - The user object to be mapped to a `UserProfile`. It should contain the necessary user fields.
    * @returns {UserProfile} - A `UserProfile` object with the mapped properties.
    */
@@ -139,7 +139,7 @@ export class UserService {
 
   /**
    * Filters the list of users to find a user by their ID.
-   * 
+   *
    * @param userId - the Id of the user that should be filltered
    * @returns {UserProfile} - The user object of the found user
    */
@@ -156,10 +156,10 @@ export class UserService {
   }
 
   /**
-  * Subscribes to the user stream and sets the main user based on the provided user ID.
-  * 
-  * @param mainUserId - the Id of the user that is currently logged in
-  */
+   * Subscribes to the user stream and sets the main user based on the provided user ID.
+   *
+   * @param mainUserId - the Id of the user that is currently logged in
+   */
   getMainUser(mainUserId: string) {
     this.usersSubscription = this.users$.subscribe((users) => {
       this.users = users;
@@ -169,12 +169,22 @@ export class UserService {
 
   /**
    * Searches through the list of users to find a user based on its Id and returns the name of the found user.
-   * 
+   *
    * @param {any} reactionUserId - the Id of the user which name should be returned
    * @returns {string} - name of the user or `undefined` if the user is not found
    */
   getUserNameById(reactionUserId: any) {
     let reactionUser = this.filterUserById(reactionUserId);
-    return reactionUser.name
+    return reactionUser.name;
+  }
+
+  getUsers(users: UserProfile[]) {
+    const allUsers: UserProfile[] = [];
+    users.forEach((user) => {
+      if (user && user.uid) {
+        allUsers.push(user);
+      }
+    });
+    return allUsers;
   }
 }

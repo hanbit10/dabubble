@@ -17,11 +17,12 @@ import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
 import { UtilityService } from '../../services/utility.service';
 import { DirectChatService } from '../../services/direct-chat.service';
+import { SendMessageComponent } from '../send-message/send-message.component';
 
 @Component({
   selector: 'app-thread-chats',
   standalone: true,
-  imports: [FormsModule, MessageLeftComponent, MessageRightComponent],
+  imports: [FormsModule, MessageLeftComponent, MessageRightComponent, SendMessageComponent],
   templateUrl: './thread-chats.component.html',
   styleUrl: './thread-chats.component.scss',
 })
@@ -65,14 +66,13 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
-      (paramMap) => {
-        const id = paramMap.get('id');
-        if (id) {
-          this.currentUserId = id;
-        }
-      },
-    );
+    this.getCurrentUserId();
+    this.setThreads();
+    this.getMessageById();
+    this.getCurrentThreads();
+  }
+
+  setThreads() {
     this.routeSubscription = this.route.paramMap.subscribe(async (paramMap) => {
       const id = paramMap.get('id');
       const msgId = paramMap.get('msgId');
@@ -82,21 +82,34 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
           id,
           this.currentUserId,
         );
-        console.log('thread chat', this.currentChatId);
-        this.threadService.subThreadList(
-          this.currentChatId,
-          this.currentMessageId,
-          this.routePath,
-        );
-        if (this.threadService.threadIsOpen) {
-          this.messageService.subMessageList(
-            this.currentChatId,
-            this.routePath,
-          );
-        }
+        this.getThreads();
+        this.getMessages();
       }
     });
+  }
 
+  getMessages() {
+    if (this.threadService.threadIsOpen) {
+      this.messageService.subMessageList(this.currentChatId, this.routePath);
+    }
+  }
+
+  getThreads() {
+    this.threadService.subThreadList(
+      this.currentChatId,
+      this.currentMessageId,
+      this.routePath,
+    );
+  }
+
+  getCurrentUserId() {
+    this.routeParentSubscription = this.route.parent?.paramMap.subscribe(
+      (paramMap) => {
+        this.currentUserId = this.utilityService.getIdByParam(paramMap, 'id');
+      },
+    );
+  }
+  getMessageById() {
     this.messageSubscription = this.messageService.messages$
       .pipe(
         map((messages) =>
@@ -108,15 +121,12 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
           this.messageById = [currMsg];
         }
       });
+  }
 
+  getCurrentThreads() {
     this.threadSubscription = this.threadService.threads$.subscribe(
       (threads) => {
-        this.currentThreads = threads.sort((a, b) => {
-          if (a.sentAt && b.sentAt) {
-            return a.sentAt.toDate().getTime() - b.sentAt.toDate().getTime();
-          }
-          return 0;
-        });
+        this.currentThreads = this.utilityService.sortedArray(threads);
       },
     );
   }
@@ -134,8 +144,6 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(
-      (subscription) => subscription && subscription.unsubscribe(),
-    );
+    this.utilityService.unsubscribe(this.subscriptions);
   }
 }

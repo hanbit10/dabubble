@@ -129,5 +129,14 @@ export class ChannelService {
       this.utilityService.menuIsOpen = false;
       this.utilityService.openComponent('main-chat-container');
     }
+
+  getChannels(channels: Channel[]) {
+    const allChannels: Channel[] = [];
+    channels.forEach((channel) => {
+      if (channel) {
+        allChannels.push(channel);
+      }
+    });
+    return allChannels;
   }
 }
