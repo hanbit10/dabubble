@@ -1,9 +1,7 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
-  AfterContentChecked,
   ElementRef,
   ViewChild,
 } from '@angular/core';
@@ -20,7 +18,6 @@ import { MessageRightComponent } from '../message-right/message-right.component'
 import { FormsModule, NgForm } from '@angular/forms';
 import { MessageService } from '../../services/message.service';
 import { Message } from '../../models/message';
-import { sortedChanges, Timestamp } from '@angular/fire/firestore';
 import { CommonModule, KeyValuePipe } from '@angular/common';
 import { UtilityService } from '../../services/utility.service';
 import { SendMessageComponent } from '../send-message/send-message.component';
@@ -65,7 +62,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   };
   threadActive: boolean = false;
   collectionType: string = 'channels';
-  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  @ViewChild('endOfChat') endOfChat!: ElementRef;
 
   constructor(
     public channelService: ChannelService,
@@ -79,13 +76,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.subToMessage();
     this.getMessages();
     this.getCurrentChannel();
-  }
-  ngAfterContentChecked() {
-    this.utilityService.scrollToBottom(this.messageContainer);
-  }
-
-  ngOnChanges() {
-    this.utilityService.scrollToBottom(this.messageContainer);
   }
 
   subToMessage() {
@@ -130,6 +120,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.messageService.messages$.subscribe(
       (messages) => {
         this.currentMessages = this.utilityService.sortedArray(messages);
+        this.utilityService.scrollToBottom(this.endOfChat);
       },
     );
   }

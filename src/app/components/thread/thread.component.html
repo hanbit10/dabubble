@@ -6,15 +6,13 @@
     </div>
     <div class="close-icon" (click)="threadService.closeThread()"></div>
   </header>
-
-  <section class="chat-container">
+  <section class="chat-container" #messageContainer>
     @for (message of messageById; track message) {
       <app-message-left
         [getMessage]="message"
         [threadActive]="threadActive"
       ></app-message-left>
     }
-
     <div class="date-line">
       @if (currentThreads.length > 0) {
         <span class="thread-line"
@@ -22,7 +20,6 @@
           {{ utilityService.getAntwort(currentThreads.length) }}
         </span>
       }
-
       <div class="line"></div>
     </div>
     @for (thread of currentThreads; track thread) {
@@ -40,16 +37,15 @@
         ></app-message-right>
       }
     }
+    <div #endOfChat></div>
   </section>
-
-
   <app-send-message
-  [currentChannelId]="currentChannelId"
-  [currentChannel]="currentChannel"
-  [currentUserId]="currentUserId"
-  [currentMessageId]="currentMessageId"  
-  [threadActive]="threadActive"
-  componentId="threadmessage"
-  storageColl="channels"
-></app-send-message>
+    [currentChannelId]="currentChannelId"
+    [currentChannel]="currentChannel"
+    [currentUserId]="currentUserId"
+    [currentMessageId]="currentMessageId"
+    [threadActive]="threadActive"
+    componentId="threadmessage"
+    storageColl="channels"
+  ></app-send-message>
 </section>

@@ -12,7 +12,7 @@
     </div>
   </header>
 
-  <section class="chat-container">
+  <section class="chat-container" #messageContainer>
     @if (currentMessages.length == 0) {
       <!-- <div class="no-messages">{{currentChannel.name}}</div>
         <p>Du hast diesn Channel {{formatDate(currentChannel.createdAt?.toDate())}} erstellt. Das ist der Anfang des
@@ -44,15 +44,13 @@
         }
       }
     }
+    <div #endOfChat></div>
   </section>
-
-
   <app-send-message
-    [currentChannelId]="currentChatId"    
-    [currentUserId]="currentUserId"  
-    [otherUser]="otherUser.name!"  
+    [currentChannelId]="currentChatId"
+    [currentUserId]="currentUserId"
+    [otherUser]="otherUser.name!"
     componentId="directmessage"
     storageColl="chats"
   ></app-send-message>
-  
 </section>

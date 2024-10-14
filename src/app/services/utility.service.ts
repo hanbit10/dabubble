@@ -107,15 +107,11 @@ export class UtilityService {
     });
   }
 
-  scrollToBottom(messageContainer?: ElementRef): void {
-    if (messageContainer) {
-      try {
-        messageContainer.nativeElement.scrollTop =
-          messageContainer.nativeElement.scrollHeight;
-      } catch (err) {
-        console.error('Error scrolling to bottom:', err);
+  scrollToBottom(element: ElementRef): void {
+    setTimeout(() => {
+      if (element) {
+        element.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }
-    } else {
-    }
+    }, 0);
   }
 }

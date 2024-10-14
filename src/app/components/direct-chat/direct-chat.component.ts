@@ -54,7 +54,7 @@ export class DirectChatComponent {
   currentMessages: Message[] = [];
   threadActive: boolean = false;
   collectionType: string = 'chats';
-  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  @ViewChild('endOfChat') endOfChat!: ElementRef;
 
   constructor(
     public userService: UserService,
@@ -124,6 +124,7 @@ export class DirectChatComponent {
     this.messageSubscription = this.messageService.messages$.subscribe(
       (messages) => {
         this.currentMessages = this.utilityService.sortedArray(messages);
+        this.utilityService.scrollToBottom(this.endOfChat);
       },
     );
   }
