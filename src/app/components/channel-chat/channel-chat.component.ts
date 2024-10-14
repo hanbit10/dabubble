@@ -4,6 +4,7 @@ import {
   OnInit,
   ElementRef,
   ViewChild,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
@@ -71,6 +72,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     public messageService: MessageService,
     public utilityService: UtilityService,
     private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -80,7 +82,10 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.getCurrentChannel();
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      if (target.classList.contains('thread-icon')) {
+      if (
+        target.classList.contains('thread-icon') ||
+        target.classList.contains('message-answer-button')
+      ) {
         this.preventAutoScroll = true;
       } else {
         this.preventAutoScroll = false;
@@ -88,11 +93,32 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngAfterViewChecked(): void {
+  async ngAfterViewChecked(): Promise<void> {
     if (!this.preventAutoScroll) {
-      this.messageContainer.nativeElement.scrollTop =
-        this.messageContainer.nativeElement.scrollHeight;
+      await this.messageContainer.nativeElement.scrollTo({
+        top: this.messageContainer.nativeElement.scrollHeight,
+        behavior: 'smooth',
+      });
+
+      setTimeout(() => {
+        this.preventAutoScroll = true;
+      }, 1000);
     }
+  }
+
+  scrollToBottom(): Promise<void> {
+    return new Promise((resolve) => {
+      this.messageContainer.nativeElement.scrollTo({
+        top: this.messageContainer.nativeElement.scrollHeight,
+        behavior: 'smooth',
+      });
+
+      // Simulate scroll completion manually by resolving the promise after a reasonable scroll time
+      // Adjust the duration as necessary based on your animation
+      setTimeout(() => {
+        resolve();
+      }, 500); // Estimate the smooth scroll duration, this ensures it resolves only after the scroll
+    });
   }
 
   public enableAutoScroll(): void {
