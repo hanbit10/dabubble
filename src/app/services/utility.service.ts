@@ -92,4 +92,15 @@ export class UtilityService {
       return 0;
     });
   }
+
+    /**
+   * When opening the channel this adjusts the layout for mobile view if necessary.
+   */
+  openChannel(){
+    if (this.mobile) {
+      this.closeComponent('main-menu');
+      this.menuIsOpen = false;
+      this.openComponent('main-chat-container');
+    }
+  }
 }

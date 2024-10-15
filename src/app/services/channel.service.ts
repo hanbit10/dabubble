@@ -15,7 +15,6 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { Channel } from '../models/channels';
-
 import { UserProfile } from '../models/users';
 import { BehaviorSubject } from 'rxjs';
 import { UtilityService } from './utility.service';
@@ -117,18 +116,6 @@ export class ChannelService {
     updateDoc(docRef, {
       usersIds: arrayRemove(currentUserId),
     });
-  }
-
-  /**
-   * Opens the channel and adjusts the layout for mobile view if necessary.
-   */
-  openChannel(){
-    this.channelIsOpen = true;
-    if (this.utilityService.mobile) {
-      this.utilityService.closeComponent('main-menu');
-      this.utilityService.menuIsOpen = false;
-      this.utilityService.openComponent('main-chat-container');
-    }
   }
 
   getChannels(channels: Channel[]) {

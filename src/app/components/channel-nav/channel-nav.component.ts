@@ -15,6 +15,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { ChannelService } from '../../services/channel.service';
 import { UtilityService } from '../../services/utility.service';
 import { Channel } from '../../models/channels';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-channel-nav',
@@ -43,6 +44,7 @@ export class ChannelNavComponent implements OnInit {
     public channelService: ChannelService,
     public utilityService: UtilityService,
     private route: ActivatedRoute,
+    public threadService: ThreadService
   ) {}
 
   async ngOnInit() {
@@ -107,5 +109,11 @@ export class ChannelNavComponent implements OnInit {
     this.subscriptions.forEach(
       (subscription) => subscription && subscription.unsubscribe(),
     );
+  }
+
+  openChannel(){
+    this.channelService.channelIsOpen = true;
+    this.utilityService.openChannel();
+    this.threadService.closeThread();
   }
 }

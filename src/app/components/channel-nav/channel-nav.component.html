@@ -16,7 +16,7 @@
   <div id="dropdown-container" class="dropdown-container">
     <div class="channel-container">
       @for (channel of allChannels; track channel) {
-        <div [routerLink]="['channels', channel.uid]" (click)="channelService.openChannel()" class="channel">
+        <div [routerLink]="['channels', channel.uid]" (click)="openChannel()" class="channel">
           <div class="tag"></div>
           <div class="channel-nav-name">{{ channel.name }}</div>
         </div>

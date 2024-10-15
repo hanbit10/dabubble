@@ -6,6 +6,7 @@ import { UserProfile } from '../../models/users';
 import { ChannelService } from '../../services/channel.service';
 import { DirectChatService } from '../../services/direct-chat.service';
 import { UtilityService } from '../../services/utility.service';
+import { ThreadService } from '../../services/thread.service';
 
 @Component({
   selector: 'app-direct-nav',
@@ -31,6 +32,7 @@ export class DirectNavComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public channelService: ChannelService,
     public directChatService: DirectChatService,
+    public threadService: ThreadService
   ) {}
 
   async ngOnInit() {
@@ -52,5 +54,11 @@ export class DirectNavComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.utilityService.unsubscribe(this.subscriptions);
+  }
+
+  openDirectChat(){
+    this.channelService.channelIsOpen = true;
+    this.utilityService.openChannel();
+    this.threadService.closeThread();
   }
 }
