@@ -10,6 +10,7 @@ import { DirectChatService } from '../../services/direct-chat.service';
 import { DirectChat } from '../../models/direct-chat';
 import { MessageService } from '../../services/message.service';
 import { UtilityService } from '../../services/utility.service';
+import { ThreadService } from '../../services/thread.service';
 import { Message } from '../../models/message';
 import { UserProfile } from '../../models/users';
 
@@ -54,7 +55,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public messageService: MessageService,
     public directChatService: DirectChatService,
     public utilityService: UtilityService,
-  ) {}
+    public threadService: ThreadService
+  ) { }
 
   async ngOnInit() {
     this.getCurrentUserId();
@@ -168,6 +170,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.userService.mainUser,
       this.userService.mainUser.uid,
     );
+  }
+
+  closeHeaderMobile() {
+    this.utilityService.menuIsOpen = true;
+    this.channelService.channelIsOpen = false;
+    this.threadService.threadIsOpen = false;
+    this.utilityService.openComponent('main-menu');
+    this.utilityService.closeComponent('main-chat-container');
+    this.utilityService.closeComponent('thread-container');
   }
 
   setUserSearchBar($event: KeyboardEvent) {

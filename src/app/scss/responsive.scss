@@ -1,10 +1,14 @@
 @import './../../styles.scss';
 
-@container main-chat-container (max-width: 540px) {
+@container main-chat-container (max-width: 560px) {
     .chat-header {
         flex-direction: column;
         height: 120px !important;
         align-items: start !important;
+    }
+
+    .chat-header-direct {
+        height: 90px !important;
     }
 
     .content-left {
@@ -15,14 +19,22 @@
         width: 100%;
         justify-content: space-between !important;
     }
+}
 
+@container main-chat-container (max-width: 480px) {
     .chat-container {
         padding-top: 100px !important;
+        gap: 4px !important;
+    }
+
+    .message-date{
+        margin-top: 12px;
     }
 
     .message {
         gap: 12px !important;
         padding-inline: 20px !important;
+        padding-block: 8px !important;
     }
 
     .message-profile {
@@ -51,7 +63,7 @@
     }
 }
 
-@container thread-container (max-width: 400px) {
+@container thread-container (max-width: 480px) {
     .row {
         flex-direction: column;
         align-items: flex-start !important;
@@ -119,11 +131,11 @@
         height: auto;
     }
 
-    .profile-section{
+    .profile-section {
         max-width: 300px !important;
         width: 100% !important;
 
-        >span{
+        >span {
             font-size: 20px !important;
         }
     }
@@ -144,7 +156,6 @@
         gap: 8px !important;
     }
 
-    .contact-container,
     .add-channel-dropdown {
         padding-inline: 33px !important;
     }
@@ -159,24 +170,108 @@
     }
 }
 
-@media(max-width: 700px){
-    .navigation-bar{
+@media(max-width: 700px) {
+    .header-content{
+        height: 80px;
+        padding: 15px 16px 15px 16px !important;
+    }
+
+    .logo-section {
+        >img {
+            height: 45px !important;
+        }
+    }
+
+    .profile-pic{
+        display: flex;
+        align-items: center;
+        >img{
+            width: 50px !important;
+            height: 50px !important;
+        }
+    }
+
+    .menu-header-logo{
+        h2{
+            font-size: 20px;
+        }
+    }
+
+    .chat-header {
+        border-top-left-radius: unset !important;
+        border-top-right-radius: unset !important;
+        height: 60px !important;
+        padding: 10px 16px 10px 16px !important;
+        flex-direction: unset !important;
+        display: flex;
+        align-items: center !important;
+    }
+
+    .content-right{
+        width: unset !important;
+        justify-content: end !important;
+    }
+
+    .person-add{
+        margin-left: 0 !important;
+        width: 34px !important;
+        height: 34px !important;
+        background-size: 22px 22px !important;
+    }
+
+    .chat-container{
+        padding-top: 45px !important;
+    }
+
+    .message-text{
+        font-size: 17px !important;
+    }
+
+    .navigation-bar {
         display: none !important;
     }
 
-    .main-container{
+    .main-container {
         padding: 0 !important;
     }
 
-    .main-menu{
+    .main-menu {
         width: 100% !important;
         max-width: unset !important;
         border-radius: unset !important;
         padding: 20px !important;
     }
 
-    .main-chat-container{
+    app-send-message{
+        border-bottom-left-radius: unset !important;
+        border-bottom-right-radius: unset !important;
+    }
+
+    .profile-menu{
+        top: unset !important;
+        bottom: 0;
+        left: 0;
+        right: 0 !important;
+        border-radius: 30px 30px 0 0 !important;
+    }
+
+    .user-profile{
         display: none !important;
     }
 
+    main{
+        padding: 30px 20px 30px 20px !important;
+        margin-inline: 20px;
+    }
+
+    .main-pic-container{
+        >img{
+            width: 160px !important;
+            height: 160px !important;
+        }
+    }
+
+    .avatar-container{
+        flex-wrap: wrap;
+    }
 }

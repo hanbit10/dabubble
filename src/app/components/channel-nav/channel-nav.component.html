@@ -8,7 +8,7 @@
   </div>
   <button
     class="add-channel"
-    (click)="openComponent('channel-create')"
+    (click)="utilityService.openComponent('channel-create')"
   ></button>
 </button>
 
@@ -16,14 +16,14 @@
   <div id="dropdown-container" class="dropdown-container">
     <div class="channel-container">
       @for (channel of allChannels; track channel) {
-        <div [routerLink]="['channels', channel.uid]" class="channel">
+        <div [routerLink]="['channels', channel.uid]" (click)="openChannel()" class="channel">
           <div class="tag"></div>
           <div class="channel-nav-name">{{ channel.name }}</div>
         </div>
       }
     </div>
 
-    <div (click)="openComponent('channel-create')" class="add-channel-dropdown">
+    <div (click)="utilityService.openComponent('channel-create')" class="add-channel-dropdown">
       <div class="add-circle"></div>
       Channel hinzufügen
     </div>

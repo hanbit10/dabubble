@@ -9,14 +9,6 @@ import { IMAGE_CONFIG } from '@angular/common';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideAnimationsAsync(),
-    {
-      provide: IMAGE_CONFIG,
-      useValue: {
-        disableImageSizeWarning: true,
-        disableImageLazyLoadWarning: true,
-      },
-    },
     provideFirebaseApp(() =>
       initializeApp({
         apiKey: 'AIzaSyD6OgtifkKQS_VvwVo5dBJiZvODtkVWT88',
@@ -29,5 +21,13 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideFirestore(() => getFirestore()),
+    provideAnimationsAsync(),
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true,
+      },
+    },
   ],
 };

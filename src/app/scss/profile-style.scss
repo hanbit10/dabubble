@@ -84,3 +84,52 @@
         @include font($ff: NunitoRegular, $fs: 18px, $lh: 21.6px);
     }
 }
+
+@media(max-width: 700px) {
+    .profile-user {
+        padding: 30px 20px 30px 20px !important;
+        gap: 10px !important;
+    }
+
+    .profile-pic {
+        margin-inline: 30px !important;
+        width: 160px !important;
+        height: 160px !important;
+    }
+
+    .overlay-main {
+        left: unset !important;
+        right: unset !important;
+        width: 100%;
+    }
+
+    .profile-main {
+        padding: 30px 20px 30px !important;
+        border-radius: 30px !important;
+        right: unset !important;
+        top: unset !important;
+        gap: 20px !important;
+        margin-left: 20px;
+        margin-right: 20px;
+        max-width: 580px;
+        width: calc(100% - 40px);
+        box-sizing: border-box;
+    }
+
+    .edit-profile-icon{
+        margin-inline: 10px !important;
+    }
+
+    .edit-title{
+        gap: 4px !important;
+    }
+
+    .edit-button-container{
+        flex-direction: column;
+        gap: 12px !important;
+    }
+
+    .profile-head{
+        font-size: 18px !important;
+    }
+}
