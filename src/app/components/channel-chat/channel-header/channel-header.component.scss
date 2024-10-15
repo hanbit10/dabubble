@@ -6,7 +6,7 @@
 }
 
 .content-left {
-  @include dFlex(flex-start, center, 0);
+  @include dFlex(flex-start, center, 4px);
   border-radius: 40px;
   padding: 6px 8px 6px 8px;
   cursor: pointer;

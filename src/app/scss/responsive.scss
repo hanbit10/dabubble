@@ -1,6 +1,6 @@
 @import './../../styles.scss';
 
-@container main-chat-container (max-width: 540px) {
+@container main-chat-container (max-width: 560px) {
     .chat-header {
         flex-direction: column;
         height: 120px !important;
@@ -19,14 +19,22 @@
         width: 100%;
         justify-content: space-between !important;
     }
+}
 
+@container main-chat-container (max-width: 480px) {
     .chat-container {
         padding-top: 100px !important;
+        gap: 4px !important;
+    }
+
+    .message-date{
+        margin-top: 12px;
     }
 
     .message {
         gap: 12px !important;
         padding-inline: 20px !important;
+        padding-block: 8px !important;
     }
 
     .message-profile {
@@ -55,7 +63,7 @@
     }
 }
 
-@container thread-container (max-width: 400px) {
+@container thread-container (max-width: 480px) {
     .row {
         flex-direction: column;
         align-items: flex-start !important;
@@ -200,6 +208,7 @@
     }
 
     .content-right{
+        width: unset !important;
         justify-content: end !important;
     }
 
@@ -253,6 +262,13 @@
     main{
         padding: 30px 20px 30px 20px !important;
         margin-inline: 20px;
+    }
+
+    .main-pic-container{
+        >img{
+            width: 160px !important;
+            height: 160px !important;
+        }
     }
 
     .avatar-container{
