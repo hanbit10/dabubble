@@ -78,7 +78,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.getCurrentUserId();
     this.subToMessage();
     this.getMessages();
-    this.getCurrentChannel();
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
       if (
@@ -118,6 +117,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
       if (id) {
         this.currentChannelId = id;
         this.messageService.subMessageList(this.currentChannelId, 'channels');
+        this.getCurrentChannel();
       }
     });
   }
