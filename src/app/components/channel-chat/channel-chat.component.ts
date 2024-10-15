@@ -78,20 +78,28 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.getCurrentUserId();
     this.subToMessage();
     this.getMessages();
+    this.setScrollToBottom();
+  }
+
+  setScrollToBottom() {
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      if (
-        target.classList.contains('dropdown-container') ||
-        target.classList.contains('channel-nav-name') ||
-        target.classList.contains('channel-tag') ||
-        target.classList.contains('channel') ||
-        target.id === 'channelmessage'
-      ) {
+      if (this.setScrollableElements(target)) {
         this.preventAutoScroll = false;
       } else {
         this.preventAutoScroll = true;
       }
     });
+  }
+
+  setScrollableElements(target: any) {
+    return (
+      target.classList.contains('dropdown-container') ||
+      target.classList.contains('channel-nav-name') ||
+      target.classList.contains('channel-tag') ||
+      target.classList.contains('channel') ||
+      target.id === 'channelmessage'
+    );
   }
 
   ngAfterViewChecked() {
