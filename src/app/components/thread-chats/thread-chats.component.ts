@@ -8,15 +8,13 @@ import {
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { BehaviorSubject, map, Subscription } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { Message } from '../../models/message';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../../services/message.service';
 import { UserService } from '../../services/user.service';
-import { UserProfile } from '../../models/users';
 import { MessageLeftComponent } from '../message-left/message-left.component';
 import { MessageRightComponent } from '../message-right/message-right.component';
-import { Channel } from '../../models/channels';
 import { UtilityService } from '../../services/utility.service';
 import { DirectChatService } from '../../services/direct-chat.service';
 import { SendMessageComponent } from '../send-message/send-message.component';

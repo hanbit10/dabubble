@@ -13,6 +13,7 @@
   cursor: pointer;
   outline: none;
   padding: 0;
+  padding-right: 10px;
 
   &:hover {
     color: #535af1;
@@ -162,5 +163,6 @@
 .add-circle {
   width: 24px;
   height: 24px;
+  background-repeat: no-repeat;
   background-image: url("./../../../assets/img/icons/material-symbols/add_circle.svg");
 }

@@ -12,9 +12,9 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() =>
       initializeApp({
         apiKey: 'AIzaSyBBLDiFkaligcwoZmBjASA60kC96CS6JgM',
-        authDomain: 'dabubble-81102.firebaseapp.com',
-        projectId: 'dabubble-81102',
-        storageBucket: 'dabubble-81102.appspot.com',
+        authDomain: 'dabubble-8ac86.firebaseapp.com',
+        projectId: 'dabubble-8ac86',
+        storageBucket: 'dabubble-8ac86.appspot.com',
         messagingSenderId: '191099366009',
         appId: '1:191099366009:web:35207ab505bf27692502a8',
       }),

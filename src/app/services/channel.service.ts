@@ -15,9 +15,10 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { Channel } from '../models/channels';
-
 import { UserProfile } from '../models/users';
 import { BehaviorSubject } from 'rxjs';
+import { UtilityService } from './utility.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -27,8 +28,9 @@ export class ChannelService {
   private channelByIdSubject = new BehaviorSubject<any>({} as Channel);
   channels: any[] = [];
   channelById: any = {} as Channel;
+  channelIsOpen: boolean = true;
 
-  constructor() {
+  constructor(public utilityService: UtilityService) {
     this.subChannelList();
   }
 
@@ -125,4 +127,5 @@ export class ChannelService {
     });
     return allChannels;
   }
+
 }

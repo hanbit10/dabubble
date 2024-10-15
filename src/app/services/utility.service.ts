@@ -9,6 +9,7 @@ import { ParamMap } from '@angular/router';
 export class UtilityService {
   innerWidth: any;
   mobile = false;
+  menuIsOpen: boolean = true;
 
   constructor() {}
 
@@ -67,7 +68,7 @@ export class UtilityService {
       return 'Antworten';
     }
   }
-
+  
   unsubscribe(subscriptions: Subscription[]) {
     subscriptions.forEach(
       (subscription) => subscription && subscription.unsubscribe(),
@@ -82,21 +83,6 @@ export class UtilityService {
       return '';
     }
   }
-  applyClass() {
-    let chat = document.getElementById('main-chat-container');
-    if (this.innerWidth < 1050) {
-      chat?.classList.add('hidden');
-    } else {
-      chat?.classList.remove('hidden');
-    }
-  }
-
-  removeClass() {
-    let chat = document.getElementById('main-chat-container');
-    if (this.innerWidth < 1050) {
-      chat?.classList.remove('hidden');
-    }
-  }
 
   sortedArray(arr: any[]): any[] {
     return arr.sort((a, b) => {
@@ -105,5 +91,16 @@ export class UtilityService {
       }
       return 0;
     });
+  }
+
+    /**
+   * When opening the channel this adjusts the layout for mobile view if necessary.
+   */
+  openChannel(){
+    if (this.mobile) {
+      this.closeComponent('main-menu');
+      this.menuIsOpen = false;
+      this.openComponent('main-chat-container');
+    }
   }
 }

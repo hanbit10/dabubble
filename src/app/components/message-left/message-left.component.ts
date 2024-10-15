@@ -12,7 +12,6 @@ import { Message } from '../../models/message';
 import { ThreadService } from '../../services/thread.service';
 import { UtilityService } from '../../services/utility.service';
 import { MessageService } from '../../services/message.service';
-import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-message-left',
@@ -60,7 +59,7 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getMessageUser();

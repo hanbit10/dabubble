@@ -23,13 +23,45 @@
   box-sizing: border-box;
   @include dFlex($jc: flex-start, $g: 16px);
 
-  > img {
+  >img {
     height: 60px;
     width: auto;
   }
 
-  > span {
+  >span {
     @include font($lh: 24px);
+  }
+}
+
+.goback-icon{
+  background-image: url('./../../../assets/img/icons/material-symbols/back-arrow.svg');
+  width: 25px;
+  height: 25px;
+}
+
+.header-mobile-chat {
+  @include dFlex($g: 2px);
+
+  &:hover {
+    cursor: pointer;
+    color: $purple3;
+
+    .goback-icon{
+      background-image: url('./../../../assets/img/icons/material-symbols/back-arrow-hover.svg');
+    }
+  }
+}
+
+.menu-header-logo {
+  @include dFlex($g: 10px);
+
+  >img {
+    height: 50px;
+    width: 50px;
+  }
+
+  >h2 {
+    margin: 0;
   }
 }
 
@@ -83,12 +115,12 @@
   width: 100%;
   @include dFlex($jc: flex-end, $g: 12px);
 
-  > span {
+  >span {
     @include font($ff: Nunito700, $fs: 22px, $lh: 22px);
     text-align: end;
   }
 
-  > img {
+  >img {
     &:hover {
       cursor: pointer;
     }
@@ -99,7 +131,7 @@
   position: relative;
   height: 60px;
 
-  > img {
+  >img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -142,6 +174,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
