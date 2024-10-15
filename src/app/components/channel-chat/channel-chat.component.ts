@@ -81,7 +81,13 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     this.getCurrentChannel();
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
-      if (target.classList.contains('message')) {
+      if (
+        target.classList.contains('message') ||
+        target.classList.contains('send-arrow') ||
+        target.classList.contains('dropdown-container') ||
+        target.classList.contains('channel-nav-name')
+        // target.id == 'dropdown-container' ||
+      ) {
         this.preventAutoScroll = false;
       } else {
         this.preventAutoScroll = true;
@@ -161,7 +167,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
         'channels',
       );
     }
-    this.enableAutoScroll();
   }
 
   ngOnDestroy(): void {
