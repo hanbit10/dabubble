@@ -14,6 +14,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { Thread } from '../models/threads';
 import { UtilityService } from './utility.service';
+import { ChannelService } from './channel.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class ThreadService {
   threads: any[] = [];
 
   constructor(
-    public utilityService: UtilityService
+    public utilityService: UtilityService,
+    public channelService: ChannelService
   ) {}
 
   get threads$() {
@@ -69,18 +71,25 @@ export class ThreadService {
     return threads;
   }
 
+  /**
+   * Opens the thread of a message. It checks the screen width and opens or closes the 'main-chat-container' accordingly. 
+   */
   openThread() {
     this.threadIsOpen = true;
-    if (this.threadIsOpen) {
-      this.utilityService.applyClass();
+    if (this.utilityService.innerWidth < 1050) {
+      this.utilityService.closeComponent('main-chat-container');
+    } else {
+      this.utilityService.openComponent('main-chat-container');
     }
   }
 
-  closeThread() {
+  /**
+   * Closes the thread of a message and reopens the 'main-chat-container'.
+   */
+  closeThread(){
     this.threadIsOpen = false;
-    if (!this.threadIsOpen) {
-      this.utilityService.removeClass();
-    }
+    this.utilityService.openComponent('main-chat-container');
+    this.channelService.channelIsOpen = true;
   }
 
   async sendThread(
