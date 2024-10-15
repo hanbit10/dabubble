@@ -98,7 +98,7 @@ export class UtilityService {
       if (element) {
         element.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }
-    }, 1000);
+    }, 500);
   }
   /**
    * When opening the channel this adjusts the layout for mobile view if necessary.
