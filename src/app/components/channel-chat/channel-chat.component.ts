@@ -81,11 +81,11 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
     document.addEventListener('click', (event) => {
       const target = event.target as HTMLElement;
       if (
-        target.classList.contains('message') ||
-        target.classList.contains('send-arrow') ||
         target.classList.contains('dropdown-container') ||
-        target.classList.contains('channel-nav-name')
-        // target.id == 'dropdown-container' ||
+        target.classList.contains('channel-nav-name') ||
+        target.classList.contains('channel-tag') ||
+        target.classList.contains('channel') ||
+        target.id === 'channelmessage'
       ) {
         this.preventAutoScroll = false;
       } else {
