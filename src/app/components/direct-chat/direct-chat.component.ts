@@ -54,8 +54,8 @@ export class DirectChatComponent {
   currentMessages: Message[] = [];
   threadActive: boolean = false;
   collectionType: string = 'chats';
-  @ViewChild('endOfChat') endOfChat!: ElementRef;
-
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  private preventAutoScroll: boolean = false;
   constructor(
     public userService: UserService,
     private route: ActivatedRoute,
@@ -72,6 +72,37 @@ export class DirectChatComponent {
       this.getUsers();
       this.getCurrentMessages();
     });
+    this.setScrollToBottom();
+  }
+
+  setScrollToBottom() {
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (this.setScrollableElements(target)) {
+        this.preventAutoScroll = false;
+      } else {
+        this.preventAutoScroll = true;
+      }
+    });
+  }
+
+  setScrollableElements(target: any) {
+    return (
+      target.closest('.contact-container') || target.id === 'directmessage'
+    );
+  }
+
+  ngAfterViewChecked() {
+    if (!this.preventAutoScroll) {
+      this.messageContainer.nativeElement.scrollTo({
+        top: this.messageContainer.nativeElement.scrollHeight,
+        behavior: 'smooth',
+      });
+
+      setTimeout(() => {
+        this.preventAutoScroll = true;
+      }, 1000);
+    }
   }
 
   getChat() {
@@ -124,7 +155,6 @@ export class DirectChatComponent {
     this.messageSubscription = this.messageService.messages$.subscribe(
       (messages) => {
         this.currentMessages = this.utilityService.sortedArray(messages);
-        this.utilityService.scrollToBottom(this.endOfChat);
       },
     );
   }

@@ -9,7 +9,7 @@ import {
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
 import { ActivatedRoute } from '@angular/router';
-import { concatMapTo, filter, map, Subscription } from 'rxjs';
+import { filter, map, Subscription } from 'rxjs';
 import { Channel } from '../../models/channels';
 import { ChannelProfileComponent } from './channel-profile/channel-profile.component';
 import { ChannelAddUserComponent } from './channel-add-user/channel-add-user.component';
@@ -63,7 +63,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   };
   threadActive: boolean = false;
   collectionType: string = 'channels';
-  @ViewChild('endOfChat') endOfChat!: ElementRef;
   @ViewChild('messageContainer') messageContainer!: ElementRef;
   private preventAutoScroll: boolean = false;
 
@@ -93,13 +92,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
   }
 
   setScrollableElements(target: any) {
-    return (
-      target.classList.contains('dropdown-container') ||
-      target.classList.contains('channel-nav-name') ||
-      target.classList.contains('channel-tag') ||
-      target.classList.contains('channel') ||
-      target.id === 'channelmessage'
-    );
+    return target.closest('.channel') || target.id === 'channelmessage';
   }
 
   ngAfterViewChecked() {
@@ -113,10 +106,6 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
         this.preventAutoScroll = true;
       }, 1000);
     }
-  }
-
-  public enableAutoScroll(): void {
-    this.preventAutoScroll = false;
   }
 
   subToMessage() {
