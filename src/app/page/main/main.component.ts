@@ -110,8 +110,6 @@ export class MainComponent implements OnInit {
                   let copyMessages = JSON.parse(
                     JSON.stringify(messages),
                   ) as any[];
-                  // this.allChannelMessages = [];
-
                   copyMessages.forEach((message) => {
                     const exists = this.allChannelMessages.some(
                       (existingMessage) =>
@@ -121,14 +119,9 @@ export class MainComponent implements OnInit {
                     );
 
                     if (!exists) {
-                      // Only push new message if it does not already exist
                       this.allChannelMessages.push(message);
                     }
                   });
-
-                  // Only push new message if it does not already exist
-
-                  // console.log('allChannelMessages', this.allChannelMessages);
                 },
                 error: (error) => {
                   console.error('Error fetching messages:', error);
