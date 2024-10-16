@@ -126,6 +126,7 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
       this.userService.mainUser.uid,
       this.currentMessage,
       this.currentChannelId,
+      this.collectionType,
     );
     emojiPicker = false;
   }

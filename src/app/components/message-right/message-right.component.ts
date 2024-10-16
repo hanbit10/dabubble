@@ -4,7 +4,7 @@ import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Message } from '../../models/message';
+import { Message, Reaction } from '../../models/message';
 import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -185,14 +185,57 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleReaction(reaction: Reaction, $index: number) {
+    if (this.collectionType == 'channels' && this.threadActive == false) {
+      this.messageService.handleSingleReaction(
+        reaction,
+        this.userService.mainUser.uid,
+        this.currentMessage,
+        this.currentChannelId,
+        $index,
+        this.collectionType,
+      );
+    } else if (this.collectionType == 'chats' && this.threadActive == false) {
+      this.messageService.handleSingleReaction(
+        reaction,
+        this.userService.mainUser.uid,
+        this.currentMessage,
+        this.currentChatId,
+        $index,
+        this.collectionType,
+      );
+    }
+  }
+
   selectEmoji(event: any, emojiPicker: any) {
     this.messageService.giveReaction(
       event.emoji.native,
       this.userService.mainUser.uid,
       this.currentMessage,
       this.currentChannelId,
+      this.collectionType,
     );
     emojiPicker = false;
+  }
+
+  sendEmoji(emoji: string) {
+    if (this.collectionType == 'channels' && this.threadActive == false) {
+      this.messageService.giveReaction(
+        emoji,
+        this.userService.mainUser.uid,
+        this.currentMessage,
+        this.currentChannelId,
+        this.collectionType,
+      );
+    } else if (this.collectionType == 'chats' && this.threadActive == false) {
+      this.messageService.giveReaction(
+        emoji,
+        this.userService.mainUser.uid,
+        this.currentMessage,
+        this.currentChatId,
+        this.collectionType,
+      );
+    }
   }
 
   closeEmojiPicker() {

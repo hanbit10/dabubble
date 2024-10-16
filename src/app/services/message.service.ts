@@ -150,19 +150,20 @@ export class MessageService {
     currentUser: any,
     message: any,
     channelId: string,
+    type: string,
   ) {
     console.log(emoji);
 
     this.reactionExists = false;
     if (message.reactions) {
-      this.checkReaction(emoji, currentUser, message, channelId);
+      this.checkReaction(emoji, currentUser, message, channelId, type);
       if (!this.reactionExists) {
         this.addReactionToArray(emoji, currentUser, message);
       }
     } else {
       this.createReactions(emoji, currentUser, message);
     }
-    this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
+    this.updateMessage(`${type}/${channelId}/messages`, message.uid, message);
   }
 
   /**
@@ -178,11 +179,19 @@ export class MessageService {
     currentUser: any,
     message: any,
     channelId: string,
+    type: string,
   ) {
     for (let i = 0; i < message.reactions.length; i++) {
       let reaction = message.reactions[i];
       if (reaction.emojiNative == emoji) {
-        this.handleSingleReaction(reaction, currentUser, message, channelId, i);
+        this.handleSingleReaction(
+          reaction,
+          currentUser,
+          message,
+          channelId,
+          i,
+          type,
+        );
         this.reactionExists = true;
         break;
         break;
@@ -205,6 +214,7 @@ export class MessageService {
     message: any,
     channelId: string,
     i: number,
+    type: string,
   ) {
     console.log(currentUser);
 
@@ -213,7 +223,7 @@ export class MessageService {
     } else {
       this.addReaction(reaction, currentUser);
     }
-    this.updateMessage(`channels/${channelId}/messages`, message.uid, message);
+    this.updateMessage(`${type}/${channelId}/messages`, message.uid, message);
   }
 
   /**

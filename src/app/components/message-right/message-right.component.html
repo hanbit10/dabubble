@@ -33,18 +33,7 @@
           "
         >
           @for (reaction of currentMessage.reactions; track $index) {
-            <div
-              class="reaction"
-              (click)="
-                messageService.handleSingleReaction(
-                  reaction,
-                  userService.mainUser.uid,
-                  currentMessage,
-                  currentChannelId,
-                  $index
-                )
-              "
-            >
+            <div class="reaction" (click)="handleReaction(reaction, $index)">
               <div>{{ reaction.emojiNative }}</div>
               <span>{{ reaction.count }}</span>
 
@@ -138,33 +127,13 @@
     />
 
     <div class="message-bar">
-      <div
-        class="message-icon emoji-icon"
-        (click)="
-          messageService.giveReaction(
-            '✅',
-            userService.mainUser.uid,
-            currentMessage,
-            currentChannelId
-          )
-        "
-      >
+      <div class="message-icon emoji-icon" (click)="sendEmoji('✅')">
         <img
           src="./../../../assets/img/icons/material-symbols/emoji-check.svg"
           alt="check emoji"
         />
       </div>
-      <div
-        class="message-icon emoji-icon"
-        (click)="
-          messageService.giveReaction(
-            '🙌',
-            userService.mainUser.uid,
-            currentMessage,
-            currentChannelId
-          )
-        "
-      >
+      <div class="message-icon emoji-icon" (click)="sendEmoji('🙌')">
         <img
           src="./../../../assets/img/icons/material-symbols/emoji-hands.svg"
           alt="hands emoji"
