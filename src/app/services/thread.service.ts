@@ -22,6 +22,7 @@ import { ChannelService } from './channel.service';
 export class ThreadService {
   firestore: Firestore = inject(Firestore);
   private threadSubject = new BehaviorSubject<any[]>([]);
+  private unsubscribeThreads: (() => void) | null = null;
   threadIsOpen: boolean = false;
   threads: any[] = [];
 
@@ -48,7 +49,7 @@ export class ThreadService {
       'threads',
     );
 
-    return onSnapshot(docRef, (list) => {
+    this.unsubscribeThreads = onSnapshot(docRef, (list) => {
       this.threads = [];
       list.forEach((doc) => {
         this.threads.push(doc.data());
@@ -56,6 +57,15 @@ export class ThreadService {
       console.log('subscribe thread list', this.threads);
       this.threadSubject.next(this.threads);
     });
+  }
+
+  unsubscribeFromThreads() {
+    if (this.unsubscribeThreads) {
+      this.unsubscribeThreads();
+      this.unsubscribeThreads = null;
+    } else {
+      console.log('no threads to unsubscribe from');
+    }
   }
 
   async getAllThreads(currentChannelId: string, currentMessageId: string) {

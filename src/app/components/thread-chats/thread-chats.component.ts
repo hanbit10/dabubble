@@ -104,6 +104,7 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   }
 
   getThreads() {
+    this.threadService.unsubscribeFromThreads();
     this.threadService.subThreadList(
       this.currentChatId,
       this.currentMessageId,
