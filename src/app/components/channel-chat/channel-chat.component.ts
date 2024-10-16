@@ -113,6 +113,7 @@ export class ChannelChatComponent implements OnInit, OnDestroy {
       const id = paramMap.get('id');
       if (id) {
         this.currentChannelId = id;
+        this.messageService.unsubscribeFromMessages();
         this.messageService.subMessageList(this.currentChannelId, 'channels');
         this.getCurrentChannel();
       }

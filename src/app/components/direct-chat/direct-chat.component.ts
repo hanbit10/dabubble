@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -125,6 +125,7 @@ export class DirectChatComponent {
       this.otherUserId,
       this.currentUserId,
     );
+    this.messageService.unsubscribeFromMessages();
     this.messageService.subMessageList(this.currentChatId, 'chats');
   }
 
