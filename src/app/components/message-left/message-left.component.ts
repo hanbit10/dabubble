@@ -130,13 +130,11 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
   }
   handleReaction(reaction: Reaction, $index: number) {
     if (
-      this.collectionType == 'channels' &&
-      (this.threadActive == true || this.threadActive == false)
+      this.utilityService.checkChannels(this.collectionType, this.threadActive)
     ) {
       this.setHandleReaction(reaction, $index, this.currentChannelId);
     } else if (
-      (this.collectionType == 'chats' && this.threadActive == false) ||
-      this.threadActive == true
+      this.utilityService.checkChats(this.collectionType, this.threadActive)
     ) {
       this.setHandleReaction(reaction, $index, this.currentChatId);
     }
@@ -161,13 +159,11 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
 
   sendEmoji(emoji: string) {
     if (
-      this.collectionType == 'channels' &&
-      (this.threadActive == false || this.threadActive == true)
+      this.utilityService.checkChannels(this.collectionType, this.threadActive)
     ) {
       this.setReactionEmoji(emoji, this.currentChannelId);
     } else if (
-      this.collectionType == 'chats' &&
-      (this.threadActive == false || this.threadActive == true)
+      this.utilityService.checkChats(this.collectionType, this.threadActive)
     ) {
       this.setReactionEmoji(emoji, this.currentChatId);
     }
