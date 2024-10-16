@@ -187,55 +187,44 @@ export class MessageRightComponent implements OnInit, OnDestroy {
 
   handleReaction(reaction: Reaction, $index: number) {
     if (this.collectionType == 'channels' && this.threadActive == false) {
-      this.messageService.handleSingleReaction(
-        reaction,
-        this.userService.mainUser.uid,
-        this.currentMessage,
-        this.currentChannelId,
-        $index,
-        this.collectionType,
-      );
+      this.setHandleReaction(reaction, $index, this.currentChannelId);
     } else if (this.collectionType == 'chats' && this.threadActive == false) {
-      this.messageService.handleSingleReaction(
-        reaction,
-        this.userService.mainUser.uid,
-        this.currentMessage,
-        this.currentChatId,
-        $index,
-        this.collectionType,
-      );
+      this.setHandleReaction(reaction, $index, this.currentChatId);
     }
   }
 
-  selectEmoji(event: any, emojiPicker: any) {
-    this.messageService.giveReaction(
-      event.emoji.native,
+  setHandleReaction(reaction: Reaction, $index: number, collectionId: string) {
+    this.messageService.handleSingleReaction(
+      reaction,
       this.userService.mainUser.uid,
       this.currentMessage,
-      this.currentChannelId,
+      collectionId,
+      $index,
       this.collectionType,
     );
+  }
+
+  selectEmoji(event: any, emojiPicker: boolean) {
+    this.sendEmoji(event.emoji.native);
     emojiPicker = false;
   }
 
   sendEmoji(emoji: string) {
     if (this.collectionType == 'channels' && this.threadActive == false) {
-      this.messageService.giveReaction(
-        emoji,
-        this.userService.mainUser.uid,
-        this.currentMessage,
-        this.currentChannelId,
-        this.collectionType,
-      );
+      this.setReactionEmoji(emoji, this.currentChannelId);
     } else if (this.collectionType == 'chats' && this.threadActive == false) {
-      this.messageService.giveReaction(
-        emoji,
-        this.userService.mainUser.uid,
-        this.currentMessage,
-        this.currentChatId,
-        this.collectionType,
-      );
+      this.setReactionEmoji(emoji, this.currentChatId);
     }
+  }
+
+  setReactionEmoji(emoji: string, collectionId: string) {
+    this.messageService.giveReaction(
+      emoji,
+      this.userService.mainUser.uid,
+      this.currentMessage,
+      collectionId,
+      this.collectionType,
+    );
   }
 
   closeEmojiPicker() {
