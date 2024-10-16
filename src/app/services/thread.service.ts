@@ -27,7 +27,7 @@ export class ThreadService {
 
   constructor(
     public utilityService: UtilityService,
-    public channelService: ChannelService
+    public channelService: ChannelService,
   ) {}
 
   get threads$() {
@@ -47,11 +47,13 @@ export class ThreadService {
       currentMessageId,
       'threads',
     );
+
     return onSnapshot(docRef, (list) => {
       this.threads = [];
       list.forEach((doc) => {
         this.threads.push(doc.data());
       });
+      console.log('subscribe thread list', this.threads);
       this.threadSubject.next(this.threads);
     });
   }
@@ -72,7 +74,7 @@ export class ThreadService {
   }
 
   /**
-   * Opens the thread of a message. It checks the screen width and opens or closes the 'main-chat-container' accordingly. 
+   * Opens the thread of a message. It checks the screen width and opens or closes the 'main-chat-container' accordingly.
    */
   openThread() {
     this.threadIsOpen = true;
@@ -86,7 +88,7 @@ export class ThreadService {
   /**
    * Closes the thread of a message and reopens the 'main-chat-container'.
    */
-  closeThread(){
+  closeThread() {
     this.threadIsOpen = false;
     this.utilityService.openComponent('main-chat-container');
     this.channelService.channelIsOpen = true;
@@ -118,7 +120,6 @@ export class ThreadService {
       sentAt: Timestamp.fromDate(new Date()),
       uid: '',
       messageUid: currentMessageId,
-
     };
 
     const querySnapshot = await addDoc(docRef, data);
