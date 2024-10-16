@@ -30,6 +30,7 @@ export class SendMessageComponent {
   @Input() storageColl: string = '';
   @Input() otherUser: string = '';
   @Input() newMessageActive: boolean = false;
+  @Input() otherUserId: string = '';
   Message: any = {
     text: '',
     image: '',
@@ -137,12 +138,24 @@ export class SendMessageComponent {
     this.messService.messageFileURL = '';
     this.messageFile = null;
     if (this.newMessageActive) {
-      this.router.navigate([
-        '/main',
-        this.currentUserId,
-        this.storageColl,
-        this.currentChannelId,
-      ]);
+      console.log('currentChannelId:', this.currentChannelId);
+      console.log('currentUserId:', this.currentUserId);
+      console.log('storageColl:', this.storageColl);
+      if (this.storageColl === 'chats') {
+        this.router.navigate([
+          '/main',
+          this.currentUserId,
+          this.storageColl,
+          this.otherUserId,
+        ]);
+      } else {
+        this.router.navigate([
+          '/main',
+          this.currentUserId,
+          this.storageColl,
+          this.currentChannelId,
+        ]);
+      }
     }
   }
 

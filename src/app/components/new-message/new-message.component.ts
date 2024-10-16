@@ -23,6 +23,7 @@ export class NewMessageComponent implements OnInit, OnDestroy {
   currentUserId: string = '';
   storageColl: string = '';
   currentCollectionId: string = '';
+  otherUserId: string = '';
   constructor(
     private route: ActivatedRoute,
     public channelService: ChannelService,
@@ -54,11 +55,13 @@ export class NewMessageComponent implements OnInit, OnDestroy {
         newItem.uid,
         this.currentUserId,
       );
+      this.otherUserId = newItem.uid;
+      console.log('get current id', this.currentCollectionId);
     } else if (newItem.createdAt) {
       this.storageColl = 'channels';
       this.currentCollectionId = newItem.uid;
     }
-    console.log('get current channel', this.currentCollection);
+    console.log('get current id', this.currentCollection);
   }
 
   ngOnDestroy(): void {
