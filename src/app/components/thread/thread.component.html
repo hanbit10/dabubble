@@ -6,7 +6,7 @@
     </div>
     <div class="close-icon" (click)="threadService.closeThread()"></div>
   </header>
-  <section class="chat-container" #messageContainer>
+  <section class="chat-container" #threadContainer>
     @for (message of messageById; track message) {
       <app-message-left
         [getMessage]="message"
@@ -39,7 +39,6 @@
         ></app-message-right>
       }
     }
-    <div #endOfChat></div>
   </section>
   <app-send-message
     [currentChannelId]="currentChannelId"

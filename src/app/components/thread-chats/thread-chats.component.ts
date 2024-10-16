@@ -61,7 +61,8 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   threadActive: boolean = true;
   collectionType: string = 'chats';
   routePath: string = 'chats';
-  @ViewChild('endOfChat') endOfChat!: ElementRef;
+  @ViewChild('threadContainer') threadContainer!: ElementRef;
+  private preventAutoScroll: boolean = false;
 
   constructor(
     public threadService: ThreadService,
@@ -78,6 +79,39 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
     this.setThreads();
     this.getMessageById();
     this.getCurrentThreads();
+    this.setScrollToBottom();
+  }
+
+  setScrollToBottom() {
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (this.setScrollableElements(target)) {
+        this.preventAutoScroll = false;
+      } else {
+        this.preventAutoScroll = true;
+      }
+    });
+  }
+
+  setScrollableElements(target: any) {
+    return (
+      target.closest('.message-answer-button') ||
+      target.closest('.thread-icon') ||
+      target.id === 'threadmessage'
+    );
+  }
+
+  ngAfterViewChecked() {
+    if (!this.preventAutoScroll) {
+      this.threadContainer.nativeElement.scrollTo({
+        top: this.threadContainer.nativeElement.scrollHeight,
+        behavior: 'smooth',
+      });
+
+      setTimeout(() => {
+        this.preventAutoScroll = true;
+      }, 1000);
+    }
   }
 
   setThreads() {
@@ -137,7 +171,6 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
     this.threadSubscription = this.threadService.threads$.subscribe(
       (threads) => {
         this.currentThreads = this.utilityService.sortedArray(threads);
-        this.utilityService.scrollToBottom(this.endOfChat);
       },
     );
   }
