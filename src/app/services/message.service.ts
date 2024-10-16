@@ -212,7 +212,6 @@ export class MessageService {
         );
         this.reactionExists = true;
         break;
-        break;
       }
     }
   }

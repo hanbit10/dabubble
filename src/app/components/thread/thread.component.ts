@@ -99,6 +99,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   }
 
   getThreads() {
+    this.threadService.unsubscribeFromThreads();
     this.threadService.subThreadList(
       this.currentChannelId,
       this.currentMessageId,
@@ -108,6 +109,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
   getMessages() {
     if (this.threadService.threadIsOpen) {
+      this.messageService.unsubscribeFromMessages();
       this.messageService.subMessageList(this.currentChannelId, this.routePath);
     }
   }
