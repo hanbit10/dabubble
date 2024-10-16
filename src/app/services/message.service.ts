@@ -151,19 +151,35 @@ export class MessageService {
     message: any,
     channelId: string,
     type: string,
+    threadActive: boolean,
   ) {
     console.log(emoji);
 
     this.reactionExists = false;
     if (message.reactions) {
-      this.checkReaction(emoji, currentUser, message, channelId, type);
+      this.checkReaction(
+        emoji,
+        currentUser,
+        message,
+        channelId,
+        type,
+        threadActive,
+      );
       if (!this.reactionExists) {
         this.addReactionToArray(emoji, currentUser, message);
       }
     } else {
       this.createReactions(emoji, currentUser, message);
     }
-    this.updateMessage(`${type}/${channelId}/messages`, message.uid, message);
+    if (threadActive == false) {
+      this.updateMessage(`${type}/${channelId}/messages`, message.uid, message);
+    } else {
+      this.updateMessage(
+        `${type}/${channelId}/messages/${message.messageUid}/threads`,
+        message.uid,
+        message,
+      );
+    }
   }
 
   /**
@@ -180,6 +196,7 @@ export class MessageService {
     message: any,
     channelId: string,
     type: string,
+    threadActive: boolean,
   ) {
     for (let i = 0; i < message.reactions.length; i++) {
       let reaction = message.reactions[i];
@@ -191,6 +208,7 @@ export class MessageService {
           channelId,
           i,
           type,
+          threadActive,
         );
         this.reactionExists = true;
         break;
@@ -215,6 +233,7 @@ export class MessageService {
     channelId: string,
     i: number,
     type: string,
+    threadActive: boolean,
   ) {
     console.log(currentUser);
 
@@ -223,7 +242,15 @@ export class MessageService {
     } else {
       this.addReaction(reaction, currentUser);
     }
-    this.updateMessage(`${type}/${channelId}/messages`, message.uid, message);
+    if (threadActive == false) {
+      this.updateMessage(`${type}/${channelId}/messages`, message.uid, message);
+    } else {
+      this.updateMessage(
+        `${type}/${channelId}/messages/${message.messageUid}/threads`,
+        message.uid,
+        message,
+      );
+    }
   }
 
   /**

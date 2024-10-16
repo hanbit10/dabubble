@@ -186,9 +186,15 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   }
 
   handleReaction(reaction: Reaction, $index: number) {
-    if (this.collectionType == 'channels' && this.threadActive == false) {
+    if (
+      this.collectionType == 'channels' &&
+      (this.threadActive == true || this.threadActive == false)
+    ) {
       this.setHandleReaction(reaction, $index, this.currentChannelId);
-    } else if (this.collectionType == 'chats' && this.threadActive == false) {
+    } else if (
+      (this.collectionType == 'chats' && this.threadActive == false) ||
+      this.threadActive == true
+    ) {
       this.setHandleReaction(reaction, $index, this.currentChatId);
     }
   }
@@ -201,6 +207,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
       collectionId,
       $index,
       this.collectionType,
+      this.threadActive,
     );
   }
 
@@ -210,9 +217,15 @@ export class MessageRightComponent implements OnInit, OnDestroy {
   }
 
   sendEmoji(emoji: string) {
-    if (this.collectionType == 'channels' && this.threadActive == false) {
+    if (
+      this.collectionType == 'channels' &&
+      (this.threadActive == false || this.threadActive == true)
+    ) {
       this.setReactionEmoji(emoji, this.currentChannelId);
-    } else if (this.collectionType == 'chats' && this.threadActive == false) {
+    } else if (
+      this.collectionType == 'chats' &&
+      (this.threadActive == false || this.threadActive == true)
+    ) {
       this.setReactionEmoji(emoji, this.currentChatId);
     }
   }
@@ -224,6 +237,7 @@ export class MessageRightComponent implements OnInit, OnDestroy {
       this.currentMessage,
       collectionId,
       this.collectionType,
+      this.threadActive,
     );
   }
 
