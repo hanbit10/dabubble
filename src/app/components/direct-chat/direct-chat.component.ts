@@ -44,9 +44,7 @@ export class DirectChatComponent {
   };
   otherUserId: string = '';
   currentUserId: string = '';
-
   currentChatId: string = '';
-
   sentMessage: any = {
     text: '',
     image: '',

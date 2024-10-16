@@ -14,17 +14,38 @@
 
 @if (dropdown) {
   <div id="dropdown-container" class="dropdown-contacts">
-    @for (user of allUsers; track user) {
-      <div [routerLink]="['chats', user.uid]" (click)="openDirectChat()" class="contact-container">
-        <div class="profile-pic">
-          <img src="{{ user.profileImage }}" alt="profile pic" />
-          <div
-            class="online-status"
-            [class]="user.active ? 'active' : 'absent'"
-          ></div>
+    @for (user of allUsers; track user; let i = $index) {
+      @if (i == 0) {
+        <div
+          [routerLink]="['chats', user.uid]"
+          (click)="openDirectChat()"
+          class="contact-container"
+        >
+          <div class="profile-pic">
+            <img src="{{ user.profileImage }}" alt="profile pic" />
+            <div
+              class="online-status"
+              [class]="user.active ? 'active' : 'absent'"
+            ></div>
+          </div>
+          {{ user.name }} (Du)
         </div>
-        {{ user.name }}
-      </div>
+      } @else {
+        <div
+          [routerLink]="['chats', user.uid]"
+          (click)="openDirectChat()"
+          class="contact-container"
+        >
+          <div class="profile-pic">
+            <img src="{{ user.profileImage }}" alt="profile pic" />
+            <div
+              class="online-status"
+              [class]="user.active ? 'active' : 'absent'"
+            ></div>
+          </div>
+          {{ user.name }}
+        </div>
+      }
     }
   </div>
 }

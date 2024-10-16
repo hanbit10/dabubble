@@ -17,6 +17,7 @@ import { DirectChat } from '../../models/direct-chat';
 import { Subscription, map } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { DirectChatService } from '../../services/direct-chat.service';
+import { WillkommenComponent } from '../../components/willkommen/willkommen.component';
 
 @Component({
   selector: 'app-main',
@@ -31,7 +32,8 @@ import { DirectChatService } from '../../services/direct-chat.service';
     DirectNavComponent,
     ProfileUserComponent,
     ThreadComponent,
-    ProfileEditPictureComponent
+    ProfileEditPictureComponent,
+    WillkommenComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss',
@@ -63,14 +65,14 @@ export class MainComponent implements OnInit {
     public utilityService: UtilityService,
     public userService: UserService,
     public messageService: MessageService,
-    public directChatService: DirectChatService
-  ) { }
+    public directChatService: DirectChatService,
+  ) {}
 
   /**
    * Handles the layout of the Mainpage when the window is resized.
    * It calls methods to set the visibility of the main-menu, main-chat-container and thread-container
    * for screens below 1050px and mobile-sized screens.
-   * 
+   *
    * @param {Event} event - The resize event.
    */
   @HostListener('window:resize', ['$event'])
@@ -108,8 +110,6 @@ export class MainComponent implements OnInit {
                   let copyMessages = JSON.parse(
                     JSON.stringify(messages),
                   ) as any[];
-                  // this.allChannelMessages = [];
-
                   copyMessages.forEach((message) => {
                     const exists = this.allChannelMessages.some(
                       (existingMessage) =>
@@ -119,14 +119,9 @@ export class MainComponent implements OnInit {
                     );
 
                     if (!exists) {
-                      // Only push new message if it does not already exist
                       this.allChannelMessages.push(message);
                     }
                   });
-
-                  // Only push new message if it does not already exist
-
-                  // console.log('allChannelMessages', this.allChannelMessages);
                 },
                 error: (error) => {
                   console.error('Error fetching messages:', error);
@@ -197,7 +192,7 @@ export class MainComponent implements OnInit {
   }
 
   /**
-   * Handles the visibility of the 'main-chat-container' when the screen width is below 1050px 
+   * Handles the visibility of the 'main-chat-container' when the screen width is below 1050px
    * and the thread of a message is open.
    */
   handleMainChat1050() {

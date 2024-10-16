@@ -8,6 +8,7 @@ import { ProfileUserComponent } from './components/profile-user/profile-user.com
 import { ReassignPasswordCardComponent } from './components/reassign-password-card/reassign-password-card.component';
 import { ThreadComponent } from './components/thread/thread.component';
 import { ThreadChatsComponent } from './components/thread-chats/thread-chats.component';
+import { WillkommenComponent } from './components/willkommen/willkommen.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
     path: 'main/:id',
     component: MainComponent,
     children: [
+      {
+        path: '',
+        component: WillkommenComponent,
+      },
       { path: 'chats/:id', component: DirectChatComponent },
       {
         path: 'chats/:id/th/:msgId',

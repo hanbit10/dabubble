@@ -25,6 +25,8 @@ export class DirectNavComponent implements OnInit, OnDestroy {
   allUsers: UserProfile[] = [];
   dropdown: boolean = true;
   currentUserId: string = '';
+  currentUser: UserProfile = {} as UserProfile;
+  allUsersWithoutCurrentUser: UserProfile[] = [];
   currentChatId: string = '';
   constructor(
     public userService: UserService,
@@ -32,7 +34,7 @@ export class DirectNavComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public channelService: ChannelService,
     public directChatService: DirectChatService,
-    public threadService: ThreadService
+    public threadService: ThreadService,
   ) {}
 
   async ngOnInit() {
@@ -48,7 +50,15 @@ export class DirectNavComponent implements OnInit, OnDestroy {
 
   getAllUsers() {
     this.usersSubscription = this.userService.users$.subscribe((users) => {
-      this.allUsers = users;
+      if (users && users.length > 0) {
+        this.currentUser = users.find(
+          (user) => user.uid === this.currentUserId,
+        )!;
+        this.allUsersWithoutCurrentUser = users.filter(
+          (user) => user.uid !== this.currentUserId,
+        );
+        this.allUsers = [this.currentUser, ...this.allUsersWithoutCurrentUser];
+      }
     });
   }
 
@@ -56,7 +66,7 @@ export class DirectNavComponent implements OnInit, OnDestroy {
     this.utilityService.unsubscribe(this.subscriptions);
   }
 
-  openDirectChat(){
+  openDirectChat() {
     this.channelService.channelIsOpen = true;
     this.utilityService.openChannel();
     this.threadService.closeThread();
