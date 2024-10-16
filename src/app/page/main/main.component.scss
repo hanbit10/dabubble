@@ -178,3 +178,22 @@
   container-name: thread-container;
   container-type: inline-size;
 }
+
+.btn-mobile-new-message{
+  position: absolute;
+  right: 40px;
+  bottom: 60px;
+  background-image: url('./../../../assets/img/icons/material-symbols/edit-square-white.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: $purple1;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2);
+
+  &:hover{
+    cursor: pointer;
+    background-color: $purple2;
+  }
+}

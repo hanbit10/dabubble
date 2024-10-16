@@ -240,6 +240,11 @@
         max-width: unset !important;
         border-radius: unset !important;
         padding: 20px !important;
+        height: calc(100vh - 80px) !important;
+    }
+
+    .message-container{
+        height: calc(100vh - 80px) !important;
     }
 
     app-send-message{

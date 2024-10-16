@@ -81,6 +81,10 @@
         <app-channel-nav [style]="'width: 100%'"></app-channel-nav>
         <app-direct-nav [style]="'width: 100%'"></app-direct-nav>
       </div>
+
+      @if (utilityService.mobile){
+        <div class="btn-mobile-new-message" [routerLink]="['newMessage']" (click)="openNewMessageMobile()"></div>
+      }
     </div>
 
     <div id="main-chat-container" class="main-chat-container container">

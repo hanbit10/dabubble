@@ -287,4 +287,10 @@ export class MainComponent implements OnInit {
     }
     this.contents = result;
   }
+
+  openNewMessageMobile(){
+    this.utilityService.menuIsOpen = false;
+    this.channelService.channelIsOpen = true;
+    this.utilityService.openComponent('main-chat-container');
+  }
 }
