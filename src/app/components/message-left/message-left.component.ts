@@ -36,7 +36,9 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
     this._items.next(value);
   }
   @Input() threadActive!: boolean;
+  @Input() emojiActive!: boolean;
   @Input() collectionType!: string;
+
   get currentMessage(): Message {
     return this._items.getValue();
   }
@@ -59,7 +61,7 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getMessageUser();
