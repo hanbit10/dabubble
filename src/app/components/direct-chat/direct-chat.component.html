@@ -11,13 +11,20 @@
       {{ otherUser.name }}
     </div>
   </header>
-
   <section class="chat-container" #messageContainer>
     @if (currentMessages.length == 0) {
-      <!-- <div class="no-messages">{{currentChannel.name}}</div>
-        <p>Du hast diesn Channel {{formatDate(currentChannel.createdAt?.toDate())}} erstellt. Das ist der Anfang des
-            Channels
-            # {{currentChannel.name}}</p> -->
+      <div class="no-message-container">
+        <div class="no-messages">
+          <img src="{{ otherUser.profileImage }}" class="profile-img" alt="" />
+          &nbsp;
+          {{ otherUser.name }}
+        </div>
+        <div class="no-messages-text">
+          Diese Unterhaltung findet nur zwischen
+          <div class="blue-text">&#64; {{ otherUser.name }}</div>
+          &nbsp; und dir statt.
+        </div>
+      </div>
     } @else {
       @for (message of currentMessages; track message; let i = $index) {
         @if (utilityService.shouldShowTimestamp(message) || i == 0) {
