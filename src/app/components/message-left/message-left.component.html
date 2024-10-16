@@ -124,53 +124,54 @@
         >
       </div>
     }
+    @if (emojiActive == true) {
+      <div class="message-bar">
+        <div class="message-icon emoji-icon" (click)="sendEmoji('✅')">
+          <img
+            src="./../../../assets/img/icons/material-symbols/emoji-check.svg"
+            alt="check emoji"
+          />
+        </div>
+        <div class="message-icon emoji-icon" (click)="sendEmoji('🙌')">
+          <img
+            src="./../../../assets/img/icons/material-symbols/emoji-hands.svg"
+            alt="hands emoji"
+          />
+        </div>
+        <div class="emoji-container" (click)="$event.stopPropagation()">
+          <button
+            class="message-icon reaction-icon"
+            (click)="emojiPickerLeft2 = !emojiPickerLeft2"
+          ></button>
+          <emoji-mart
+            class="emoji-mart emoji-mart-message-left"
+            *ngIf="emojiPickerLeft2"
+            (emojiSelect)="selectEmoji($event, emojiPickerLeft2)"
+            title="Choose your emoji"
+          ></emoji-mart>
+        </div>
 
-    <div class="message-bar">
-      <div class="message-icon emoji-icon" (click)="sendEmoji('✅')">
-        <img
-          src="./../../../assets/img/icons/material-symbols/emoji-check.svg"
-          alt="check emoji"
-        />
-      </div>
-      <div class="message-icon emoji-icon" (click)="sendEmoji('🙌')">
-        <img
-          src="./../../../assets/img/icons/material-symbols/emoji-hands.svg"
-          alt="hands emoji"
-        />
-      </div>
-      <div class="emoji-container" (click)="$event.stopPropagation()">
-        <button
-          class="message-icon reaction-icon"
-          (click)="emojiPickerLeft2 = !emojiPickerLeft2"
-        ></button>
-        <emoji-mart
-          class="emoji-mart emoji-mart-message-left"
-          *ngIf="emojiPickerLeft2"
-          (emojiSelect)="selectEmoji($event, emojiPickerLeft2)"
-          title="Choose your emoji"
-        ></emoji-mart>
-      </div>
-
-      @if (threadActive == false) {
-        <div
-          class="message-icon thread-icon"
-          [routerLink]="[
-            '/main',
-            currentUserId,
-            {
-              outlets: {
-                thread: [
-                  collectionType,
-                  currentChannelId,
-                  'th',
-                  currentMessage.uid
-                ]
+        @if (threadActive == false) {
+          <div
+            class="message-icon thread-icon"
+            [routerLink]="[
+              '/main',
+              currentUserId,
+              {
+                outlets: {
+                  thread: [
+                    collectionType,
+                    currentChannelId,
+                    'th',
+                    currentMessage.uid
+                  ]
+                }
               }
-            }
-          ]"
-          (click)="threadService.openThread()"
-        ></div>
-      }
-    </div>
+            ]"
+            (click)="threadService.openThread()"
+          ></div>
+        }
+      </div>
+    }
   </div>
 </section>
