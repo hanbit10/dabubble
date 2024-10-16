@@ -4,7 +4,6 @@ import {
   OnInit,
   ElementRef,
   ViewChild,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ChannelHeaderComponent } from './channel-header/channel-header.component';
