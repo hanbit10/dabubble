@@ -144,6 +144,7 @@ export class ChannelCreateComponent implements OnInit, OnDestroy {
       );
       const createChannel = document.getElementById('channel-create');
       createChannel?.classList.add('hidden');
+      this.allUsers = [...this.allUsers, ...this.selectedUsers];
       this.close();
     }
   }

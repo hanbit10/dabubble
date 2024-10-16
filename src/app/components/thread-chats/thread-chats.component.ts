@@ -1,9 +1,11 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
@@ -22,7 +24,12 @@ import { SendMessageComponent } from '../send-message/send-message.component';
 @Component({
   selector: 'app-thread-chats',
   standalone: true,
-  imports: [FormsModule, MessageLeftComponent, MessageRightComponent, SendMessageComponent],
+  imports: [
+    FormsModule,
+    MessageLeftComponent,
+    MessageRightComponent,
+    SendMessageComponent,
+  ],
   templateUrl: './thread-chats.component.html',
   styleUrl: './thread-chats.component.scss',
 })
@@ -54,6 +61,7 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
   threadActive: boolean = true;
   collectionType: string = 'chats';
   routePath: string = 'chats';
+  @ViewChild('endOfChat') endOfChat!: ElementRef;
 
   constructor(
     public threadService: ThreadService,
@@ -127,6 +135,7 @@ export class ThreadChatsComponent implements OnInit, OnDestroy {
     this.threadSubscription = this.threadService.threads$.subscribe(
       (threads) => {
         this.currentThreads = this.utilityService.sortedArray(threads);
+        this.utilityService.scrollToBottom(this.endOfChat);
       },
     );
   }

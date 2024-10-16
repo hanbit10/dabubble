@@ -1,9 +1,11 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
@@ -62,6 +64,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
   threadActive: boolean = true;
   collectionType: string = 'channels';
   routePath: string = 'channels';
+  @ViewChild('endOfChat') endOfChat!: ElementRef;
 
   constructor(
     public threadService: ThreadService,
@@ -113,6 +116,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
     this.threadSubscription = this.threadService.threads$.subscribe(
       (threads) => {
         this.currentThreads = this.utilityService.sortedArray(threads);
+        this.utilityService.scrollToBottom(this.endOfChat);
       },
     );
   }

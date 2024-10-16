@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { ParamMap } from '@angular/router';
@@ -68,7 +68,7 @@ export class UtilityService {
       return 'Antworten';
     }
   }
-  
+
   unsubscribe(subscriptions: Subscription[]) {
     subscriptions.forEach(
       (subscription) => subscription && subscription.unsubscribe(),
@@ -93,10 +93,17 @@ export class UtilityService {
     });
   }
 
-    /**
+  scrollToBottom(element: ElementRef): void {
+    setTimeout(() => {
+      if (element) {
+        element.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 500);
+  }
+  /**
    * When opening the channel this adjusts the layout for mobile view if necessary.
    */
-  openChannel(){
+  openChannel() {
     if (this.mobile) {
       this.closeComponent('main-menu');
       this.menuIsOpen = false;

@@ -2,15 +2,13 @@
   <app-new-message-header
     (newItemEvent)="addItem($event)"
   ></app-new-message-header>
-  <section class="chat-container">
-    {{ currentChannel.name }}
-    {{ currentChannel.uid }}
-  </section>
+  <section class="chat-container"></section>
   <app-send-message
     [currentUserId]="currentUserId"
+    [newMessageActive]="true"
+    [storageColl]="storageColl"
+    [currentChannelId]="currentCollectionId"
+    [otherUserId]="otherUserId"
     componentId="main"
   ></app-send-message>
-
-  <input type="text" id="input-box-new-message" />
-  <button type="submit" (click)="onSubmit()">send</button>
 </section>

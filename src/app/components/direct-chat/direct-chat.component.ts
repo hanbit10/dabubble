@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -22,7 +22,7 @@ import { SendMessageComponent } from '../send-message/send-message.component';
     MessageLeftComponent,
     MessageRightComponent,
     FormsModule,
-    SendMessageComponent
+    SendMessageComponent,
   ],
   templateUrl: './direct-chat.component.html',
   styleUrl: './direct-chat.component.scss',
@@ -54,7 +54,8 @@ export class DirectChatComponent {
   currentMessages: Message[] = [];
   threadActive: boolean = false;
   collectionType: string = 'chats';
-
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  private preventAutoScroll: boolean = false;
   constructor(
     public userService: UserService,
     private route: ActivatedRoute,
@@ -64,13 +65,44 @@ export class DirectChatComponent {
     public utilityService: UtilityService,
   ) {}
 
-  async ngOnInit() {    
+  async ngOnInit() {
     this.routeSubscription = this.route.params.subscribe((params) => {
       this.otherUserId = params['id'];
       this.getChat();
       this.getUsers();
       this.getCurrentMessages();
     });
+    this.setScrollToBottom();
+  }
+
+  setScrollToBottom() {
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      if (this.setScrollableElements(target)) {
+        this.preventAutoScroll = false;
+      } else {
+        this.preventAutoScroll = true;
+      }
+    });
+  }
+
+  setScrollableElements(target: any) {
+    return (
+      target.closest('.contact-container') || target.id === 'directmessage'
+    );
+  }
+
+  ngAfterViewChecked() {
+    if (!this.preventAutoScroll) {
+      this.messageContainer.nativeElement.scrollTo({
+        top: this.messageContainer.nativeElement.scrollHeight,
+        behavior: 'smooth',
+      });
+
+      setTimeout(() => {
+        this.preventAutoScroll = true;
+      }, 1000);
+    }
   }
 
   getChat() {
@@ -128,7 +160,7 @@ export class DirectChatComponent {
   }
 
   async onSubmit(messageForm: NgForm) {
-    if (messageForm.valid) {      
+    if (messageForm.valid) {
       this.messageService.sendMessage(
         this.sentMessage,
         this.currentChatId,

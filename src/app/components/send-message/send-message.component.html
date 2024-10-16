@@ -1,16 +1,24 @@
 <div class="frame">
   <div class="tag-list" *ngIf="selectUser">
-    <div class="user-bucket" *ngFor="let user of filteredUsers" (click)="insertUser(user.name)">
-      <img [src]="user.profileImage" alt="profile">
+    <div
+      class="user-bucket"
+      *ngFor="let user of filteredUsers"
+      (click)="insertUser(user.name)"
+    >
+      <img [src]="user.profileImage" alt="profile" />
       <span>&#64; {{ user.name }}</span>
     </div>
   </div>
   <div class="tag-list" *ngIf="selectChannel">
-    <div class="user-bucket" *ngFor="let channel of filteredChannels" (click)="insertChannel(channel.name)">      
+    <div
+      class="user-bucket"
+      *ngFor="let channel of filteredChannels"
+      (click)="insertChannel(channel.name)"
+    >
       <span>&#35; {{ channel.name }}</span>
     </div>
   </div>
-  <textarea    
+  <textarea
     name="message"
     class="message"
     [id]="'message' + componentId"
@@ -19,11 +27,15 @@
     (keyup)="onKeyUp($event)"
   ></textarea>
   <div class="attachment" *ngIf="messageFile">
-    <img src="/assets/img/icons/attach.png" alt="attach"/>
+    <img src="/assets/img/icons/attach.png" alt="attach" />
     {{ messageFile.name }}
-    <div class="icon"><img src="/assets/img/icons/material-symbols/close.svg" alt="close"
-        (click)="removeAttachment()"    
-        ></div>
+    <div class="icon">
+      <img
+        src="/assets/img/icons/material-symbols/close.svg"
+        alt="close"
+        (click)="removeAttachment()"
+      />
+    </div>
   </div>
   <div class="tools">
     <div>
@@ -45,16 +57,25 @@
         </label>
       </div>
       <div class="bar"></div>
-      <div class="icon">       
-        <emoji-mart class="emoji-container" *ngIf="emojiPicker"
-            (emojiSelect)="selectEmoji($event)" title="Choose your emoji"></emoji-mart>        
-        <img src="/assets/img/icons/emoji-menu.svg" alt="emoji" (click)="emojiPicker = !emojiPicker"/>
+      <div class="icon">
+        <emoji-mart
+          class="emoji-container"
+          *ngIf="emojiPicker"
+          (emojiSelect)="selectEmoji($event)"
+          title="Choose your emoji"
+        ></emoji-mart>
+        <img
+          src="/assets/img/icons/emoji-menu.svg"
+          alt="emoji"
+          (click)="emojiPicker = !emojiPicker"
+        />
       </div>
       <div class="icon" (click)="showUsers()">
         <img src="/assets/img/icons/tag-user.svg" alt="tag-user" />
       </div>
     </div>
     <img
+      id="{{ componentId }}"
       src="/assets/img/icons/send-message.svg"
       alt="send-message"
       class="send-arrow"

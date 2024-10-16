@@ -1,6 +1,6 @@
 <div class="message-container scrollbar">
   <app-channel-header></app-channel-header>
-  <section class="chat-container">
+  <section class="chat-container" #messageContainer>
     @if (currentMessages.length == 0) {
       <div class="no-message-container">
         <div class="no-messages">
@@ -41,6 +41,7 @@
       }
     }
   </section>
+
   <app-send-message
     [currentChannelId]="currentChannelId"
     [currentChannel]="currentChannel"
