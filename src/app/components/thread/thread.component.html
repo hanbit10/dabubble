@@ -11,6 +11,7 @@
       <app-message-left
         [getMessage]="message"
         [threadActive]="threadActive"
+        [emojiActive]="false"
       ></app-message-left>
     }
     <div class="date-line">
@@ -28,6 +29,7 @@
           [getMessage]="thread"
           [threadActive]="threadActive"
           [collectionType]="collectionType"
+          [emojiActive]="true"
         ></app-message-left>
       } @else if (thread.sentBy == currentUserId) {
         <app-message-right

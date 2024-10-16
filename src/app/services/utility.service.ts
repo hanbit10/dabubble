@@ -110,4 +110,14 @@ export class UtilityService {
       this.openComponent('main-chat-container');
     }
   }
+
+  checkChannels(type: string, threadActive: boolean) {
+    return (
+      type == 'channels' && (threadActive == true || threadActive == false)
+    );
+  }
+
+  checkChats(type: string, threadActive: boolean) {
+    return type == 'chats' && (threadActive == true || threadActive == false);
+  }
 }

@@ -4,7 +4,7 @@ import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Message } from '../../models/message';
+import { Message, Reaction } from '../../models/message';
 import { BehaviorSubject, map, Subscription } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { UserProfile } from '../../models/users';
@@ -185,14 +185,56 @@ export class MessageRightComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectEmoji(event: any, emojiPicker: any) {
-    this.messageService.giveReaction(
-      event.emoji.native,
+  handleReaction(reaction: Reaction, $index: number) {
+    if (
+      this.utilityService.checkChannels(this.collectionType, this.threadActive)
+    ) {
+      this.setHandleReaction(reaction, $index, this.currentChannelId);
+    } else if (
+      this.utilityService.checkChats(this.collectionType, this.threadActive)
+    ) {
+      this.setHandleReaction(reaction, $index, this.currentChatId);
+    }
+  }
+
+  setHandleReaction(reaction: Reaction, $index: number, collectionId: string) {
+    this.messageService.handleSingleReaction(
+      reaction,
       this.userService.mainUser.uid,
       this.currentMessage,
-      this.currentChannelId,
+      collectionId,
+      $index,
+      this.collectionType,
+      this.threadActive,
     );
+  }
+
+  selectEmoji(event: any, emojiPicker: boolean) {
+    this.sendEmoji(event.emoji.native);
     emojiPicker = false;
+  }
+
+  sendEmoji(emoji: string) {
+    if (
+      this.utilityService.checkChannels(this.collectionType, this.threadActive)
+    ) {
+      this.setReactionEmoji(emoji, this.currentChannelId);
+    } else if (
+      this.utilityService.checkChats(this.collectionType, this.threadActive)
+    ) {
+      this.setReactionEmoji(emoji, this.currentChatId);
+    }
+  }
+
+  setReactionEmoji(emoji: string, collectionId: string) {
+    this.messageService.giveReaction(
+      emoji,
+      this.userService.mainUser.uid,
+      this.currentMessage,
+      collectionId,
+      this.collectionType,
+      this.threadActive,
+    );
   }
 
   closeEmojiPicker() {

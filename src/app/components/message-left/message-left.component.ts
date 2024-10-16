@@ -8,10 +8,11 @@ import { UserProfile } from '../../models/users';
 import { ProfileService } from '../../services/profile.service';
 import { ChannelService } from '../../services/channel.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { Message } from '../../models/message';
+import { Message, Reaction } from '../../models/message';
 import { ThreadService } from '../../services/thread.service';
 import { UtilityService } from '../../services/utility.service';
 import { MessageService } from '../../services/message.service';
+import { DirectChatService } from '../../services/direct-chat.service';
 
 @Component({
   selector: 'app-message-left',
@@ -36,13 +37,16 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
     this._items.next(value);
   }
   @Input() threadActive!: boolean;
+  @Input() emojiActive!: boolean;
   @Input() collectionType!: string;
+
   get currentMessage(): Message {
     return this._items.getValue();
   }
 
   messageUser: UserProfile = {} as UserProfile;
   currentChannelId: string = '';
+  currentChatId: string = '';
   currentUserId: string = '';
 
   formattedCurrMsgTime?: string;
@@ -59,7 +63,8 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
     public threadService: ThreadService,
     public utilityService: UtilityService,
     public messageService: MessageService,
-  ) { }
+    public directChatService: DirectChatService,
+  ) {}
 
   ngOnInit(): void {
     this.getMessageUser();
@@ -98,6 +103,12 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
       const id = paramMap.get('id');
       if (id && this.currentMessage.uid) {
         this.currentChannelId = id;
+        if (this.collectionType == 'chats') {
+          this.currentChatId = await this.directChatService.getChatId(
+            id,
+            this.currentUserId,
+          );
+        }
       }
     });
   }
@@ -117,15 +128,56 @@ export class MessageLeftComponent implements OnInit, OnDestroy {
     }
     this.profileService.openProfile();
   }
+  handleReaction(reaction: Reaction, $index: number) {
+    if (
+      this.utilityService.checkChannels(this.collectionType, this.threadActive)
+    ) {
+      this.setHandleReaction(reaction, $index, this.currentChannelId);
+    } else if (
+      this.utilityService.checkChats(this.collectionType, this.threadActive)
+    ) {
+      this.setHandleReaction(reaction, $index, this.currentChatId);
+    }
+  }
 
-  selectEmoji(event: any, emojiPicker: any) {
-    this.messageService.giveReaction(
-      event.emoji.native,
+  setHandleReaction(reaction: Reaction, $index: number, collectionId: string) {
+    this.messageService.handleSingleReaction(
+      reaction,
       this.userService.mainUser.uid,
       this.currentMessage,
-      this.currentChannelId,
+      collectionId,
+      $index,
+      this.collectionType,
+      this.threadActive,
     );
+  }
+
+  selectEmoji(event: any, emojiPicker: any) {
+    this.sendEmoji(event.emoji.native);
     emojiPicker = false;
+  }
+
+  sendEmoji(emoji: string) {
+    if (
+      this.utilityService.checkChannels(this.collectionType, this.threadActive)
+    ) {
+      this.setReactionEmoji(emoji, this.currentChannelId);
+    } else if (
+      this.utilityService.checkChats(this.collectionType, this.threadActive)
+    ) {
+      this.setReactionEmoji(emoji, this.currentChatId);
+    }
+  }
+
+  setReactionEmoji(emoji: string, collectionId: string) {
+    this.messageService.giveReaction(
+      emoji,
+      this.userService.mainUser.uid,
+      this.currentMessage,
+      collectionId,
+      this.collectionType,
+      this.threadActive,
+    );
   }
 
   closeEmojiPicker() {

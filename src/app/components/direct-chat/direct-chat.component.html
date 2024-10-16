@@ -62,6 +62,7 @@
             [getMessage]="message"
             [threadActive]="threadActive"
             [collectionType]="collectionType"
+            [emojiActive]="true"
           ></app-message-left>
         } @else if (message.sentBy == this.currentUserId) {
           <app-message-right
