@@ -55,8 +55,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public messageService: MessageService,
     public directChatService: DirectChatService,
     public utilityService: UtilityService,
-    public threadService: ThreadService
-  ) { }
+    public threadService: ThreadService,
+  ) {}
 
   async ngOnInit() {
     this.getCurrentUserId();
@@ -185,7 +185,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const inputBox = <HTMLInputElement>document.getElementById('search-input');
     let result: any[] = [];
     let input = inputBox.value;
-
     if (input.length) {
       if (input.startsWith('#')) {
         result = this.filterContents(this.allChannels, input);
