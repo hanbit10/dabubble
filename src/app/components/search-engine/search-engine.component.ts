@@ -1,66 +1,56 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ProfileMainComponent } from '../profile-main/profile-main.component';
-import { UserService } from '../../services/user.service';
-import { map, Subscription } from 'rxjs';
-import { ProfileService } from '../../services/profile.service';
-import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../models/channels';
-import { DirectChatService } from '../../services/direct-chat.service';
 import { DirectChat } from '../../models/direct-chat';
-import { MessageService } from '../../services/message.service';
-import { UtilityService } from '../../services/utility.service';
+import { map, Subscription } from 'rxjs';
+import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
+import { ProfileService } from '../../services/profile.service';
+import { UtilityService } from '../../services/utility.service';
+import { UserService } from '../../services/user.service';
+import { MessageService } from '../../services/message.service';
+import { DirectChatService } from '../../services/direct-chat.service';
 import { Message } from '../../models/message';
 import { UserProfile } from '../../models/users';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-search-engine',
   standalone: true,
-  imports: [RouterLink, ProfileMainComponent],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  imports: [RouterLink],
+  templateUrl: './search-engine.component.html',
+  styleUrl: './search-engine.component.scss',
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  saveToChosen(_t11: any) {
-    throw new Error('Method not implemented.');
-  }
+export class SearchEngineComponent implements OnInit {
   currentUserId: string = '';
   allChannels: Channel[] = [];
   allChats: DirectChat[] = [];
   allDirectMessages: any[] = [];
   allChannelMessages: any[] = [];
   allMessages: any[] = [];
-
   private routeSubscription!: Subscription;
-  private usersSubscription!: Subscription;
   private channelSubscription!: Subscription;
   private chatSubscription!: Subscription;
   private directMessageSubscription!: Subscription;
   subscriptions: Subscription[] = [
-    this.routeSubscription,
-    this.usersSubscription,
     this.channelSubscription,
     this.chatSubscription,
     this.directMessageSubscription,
+    this.routeSubscription,
   ];
-  @ViewChild(ProfileMainComponent) profileMainComponent!: ProfileMainComponent;
-  contents: any[] = [];
 
+  contents: any[] = [];
   constructor(
     private route: ActivatedRoute,
-    public userService: UserService,
-    public channelService: ChannelService,
     public profileService: ProfileService,
+    public channelService: ChannelService,
+    public threadService: ThreadService,
+    public utilityService: UtilityService,
+    public userService: UserService,
     public messageService: MessageService,
     public directChatService: DirectChatService,
-    public utilityService: UtilityService,
-    public threadService: ThreadService,
   ) {}
-
-  async ngOnInit() {
+  ngOnInit(): void {
     this.getCurrentUserId();
-    this.userService.getMainUser(this.currentUserId);
     this.getChannelMessages();
     this.getDirectMessages();
     this.onClick();
@@ -104,21 +94,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
-  onClick() {
-    document.addEventListener('click', (event) => {
-      const resultBox = document.getElementById('result-box-header');
-      if (event.target != resultBox) {
-        this.contents = [];
-      }
-    });
-  }
-
-  getCurrentUserId() {
-    this.routeSubscription = this.route.params.subscribe((params) => {
-      this.currentUserId = params['id'];
-    });
-  }
-
   getAllMessagesByType(model: Channel | DirectChat, type: string) {
     this.messageService.getAllMessages(model.uid, type).subscribe({
       next: (messages) => {
@@ -150,35 +125,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  openMenu() {
-    this.profileService.menuIsOpen = true;
+  onClick() {
+    document.addEventListener('click', (event) => {
+      const resultBox = document.getElementById('result-box-header');
+      if (event.target != resultBox) {
+        this.contents = [];
+      }
+    });
   }
 
-  closeMenu() {
-    this.profileService.menuIsOpen = false;
-    this.profileService.closeMainProfile();
-    this.profileMainComponent.editProfile = false;
-  }
-
-  openProfile() {
-    this.profileService.openMainProfile();
-  }
-
-  logoutMainUser() {
-    this.userService.mainUser.active = false;
-    this.userService.updateUser(
-      this.userService.mainUser,
-      this.userService.mainUser.uid,
-    );
-  }
-
-  closeHeaderMobile() {
-    this.utilityService.menuIsOpen = true;
-    this.channelService.channelIsOpen = false;
-    this.threadService.threadIsOpen = false;
-    this.utilityService.openComponent('main-menu');
-    this.utilityService.closeComponent('main-chat-container');
-    this.utilityService.closeComponent('thread-container');
+  getCurrentUserId() {
+    this.routeSubscription = this.route.params.subscribe((params) => {
+      this.currentUserId = params['id'];
+    });
   }
 
   setUserSearchBar($event: KeyboardEvent) {
@@ -213,6 +172,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.allMessages
       .flat()
       .filter((message: any) => message.text && message.text.includes(keyword));
+  }
+
+  openDirectChat() {
+    this.channelService.channelIsOpen = true;
+    this.utilityService.openChannel();
+    this.threadService.closeThread();
+  }
+
+  openChannel() {
+    this.channelService.channelIsOpen = true;
+    this.utilityService.openChannel();
+    this.threadService.closeThread();
   }
 
   ngOnDestroy(): void {
