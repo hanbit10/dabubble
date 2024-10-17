@@ -19,13 +19,19 @@
       <ul>
         @for (content of contents; track contents) {
           @if (content.createdAt) {
-            <li [routerLink]="['channels', content.uid]">
+            <li
+              [routerLink]="['channels', content.uid]"
+              (click)="openChannel()"
+            >
               <div class="tag-small"></div>
               &nbsp;
               {{ content.name }}
             </li>
           } @else if (content.email) {
-            <li [routerLink]="['chats', content.uid]">
+            <li
+              [routerLink]="['chats', content.uid]"
+              (click)="openDirectChat()"
+            >
               <img
                 src="{{ content.profileImage }}"
                 class="profile-img"

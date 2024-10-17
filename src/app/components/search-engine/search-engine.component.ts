@@ -174,6 +174,18 @@ export class SearchEngineComponent implements OnInit {
       .filter((message: any) => message.text && message.text.includes(keyword));
   }
 
+  openDirectChat() {
+    this.channelService.channelIsOpen = true;
+    this.utilityService.openChannel();
+    this.threadService.closeThread();
+  }
+
+  openChannel() {
+    this.channelService.channelIsOpen = true;
+    this.utilityService.openChannel();
+    this.threadService.closeThread();
+  }
+
   ngOnDestroy(): void {
     this.utilityService.unsubscribe(this.subscriptions);
   }
