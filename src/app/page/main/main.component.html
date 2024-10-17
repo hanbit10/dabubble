@@ -32,7 +32,7 @@
       }
 
       @if (utilityService.mobile) {
-        <section class="search-section">
+        <!-- <section class="search-section">
           <div class="searchbar-mobile">
             <input
               id="search-input"
@@ -74,7 +74,7 @@
               </ul>
             </div>
           }
-        </section>
+        </section> -->
       }
 
       <div class="menu-nav">
@@ -82,8 +82,12 @@
         <app-direct-nav [style]="'width: 100%'"></app-direct-nav>
       </div>
 
-      @if (utilityService.mobile){
-        <div class="btn-mobile-new-message" [routerLink]="['newMessage']" (click)="openNewMessageMobile()"></div>
+      @if (utilityService.mobile) {
+        <div
+          class="btn-mobile-new-message"
+          [routerLink]="['newMessage']"
+          (click)="openNewMessageMobile()"
+        ></div>
       }
     </div>
 

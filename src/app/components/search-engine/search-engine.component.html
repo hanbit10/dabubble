@@ -1,0 +1,43 @@
+<section class="search-section">
+  <div class="searchbar-mobile">
+    <input
+      id="search-input"
+      class="search-input"
+      type="search"
+      placeholder="Geh zu..."
+      (keyup)="setUserSearchBar($event)"
+      autocomplete="off"
+    />
+    <img
+      class="search-icon"
+      src="./assets/img/icons/material-symbols/search-grey.svg"
+      alt="search"
+    />
+  </div>
+  @if (contents.length > 0) {
+    <div id="result-box-header" class="result-box">
+      <ul>
+        @for (content of contents; track contents) {
+          @if (content.createdAt) {
+            <li [routerLink]="['channels', content.uid]">
+              <div class="tag-small"></div>
+              &nbsp;
+              {{ content.name }}
+            </li>
+          } @else if (content.email) {
+            <li [routerLink]="['chats', content.uid]">
+              <img
+                src="{{ content.profileImage }}"
+                class="profile-img"
+                alt="profile"
+              />
+              &nbsp;{{ content.name }}
+            </li>
+          } @else {
+            <li>{{ content.text }}</li>
+          }
+        }
+      </ul>
+    </div>
+  }
+</section>

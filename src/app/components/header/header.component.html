@@ -4,7 +4,6 @@
       <section class="logo-section">
         <img src="./assets/img/logo/dabubble-logo&text.svg" alt="loco" />
       </section>
-  
       <section class="search-section">
         <div class="searchbar">
           <input
@@ -48,22 +47,31 @@
           </div>
         }
       </section>
-  
+
       <section class="profile-section">
         <span>{{ userService.mainUser.name }}</span>
         <div class="profile-pic">
-          <img src="{{ userService.mainUser.profileImage }}" alt="profile pic" />
-          <div class="online-status" [class]="userService.mainUser.active ? 'active' : 'absent'"></div>
+          <img
+            src="{{ userService.mainUser.profileImage }}"
+            alt="profile pic"
+          />
+          <div
+            class="online-status"
+            [class]="userService.mainUser.active ? 'active' : 'absent'"
+          ></div>
         </div>
-  
+
         <img
           (click)="openMenu()"
           src="./assets/img/icons/material-symbols/arrow_down.svg"
           alt="arrow down"
         />
       </section>
-  
-      <div (click)="closeMenu()" [class]="profileService.menuIsOpen ? 'overlay' : 'hidden'">
+
+      <div
+        (click)="closeMenu()"
+        [class]="profileService.menuIsOpen ? 'overlay' : 'hidden'"
+      >
         <div class="overlay-content">
           <div class="profile-menu" (click)="$event.stopPropagation()">
             <button (click)="openProfile()" class="profile-menu-button">
@@ -77,7 +85,9 @@
               Log out
             </button>
           </div>
-          <app-profile-main (click)="$event.stopPropagation()"></app-profile-main>
+          <app-profile-main
+            (click)="$event.stopPropagation()"
+          ></app-profile-main>
         </div>
       </div>
     </div>
@@ -91,25 +101,30 @@
         <div class="header-mobile-chat" (click)="closeHeaderMobile()">
           <div class="goback-icon"></div>
           <div class="menu-header-logo">
-            <img src="./assets/img/logo/workspace_logo.svg" alt="logo">
+            <img src="./assets/img/logo/workspace_logo.svg" alt="logo" />
             <h2>Devspace</h2>
           </div>
         </div>
-      }@else {
+      } @else {
         <section class="logo-section">
           <img src="./assets/img/logo/dabubble-logo&text.svg" alt="loco" />
         </section>
       }
-  
-      <section class="profile-section">
 
+      <section class="profile-section">
         <div class="profile-pic">
-          <img (click)="openMenu()" src="{{ userService.mainUser.profileImage }}" alt="profile pic" />
+          <img
+            (click)="openMenu()"
+            src="{{ userService.mainUser.profileImage }}"
+            alt="profile pic"
+          />
         </div>
-  
       </section>
-  
-      <div (click)="closeMenu()" [class]="profileService.menuIsOpen ? 'overlay' : 'hidden'">
+
+      <div
+        (click)="closeMenu()"
+        [class]="profileService.menuIsOpen ? 'overlay' : 'hidden'"
+      >
         <div class="overlay-content">
           <div class="profile-menu" (click)="$event.stopPropagation()">
             <button (click)="openProfile()" class="profile-menu-button">
@@ -123,7 +138,9 @@
               Log out
             </button>
           </div>
-          <app-profile-main (click)="$event.stopPropagation()"></app-profile-main>
+          <app-profile-main
+            (click)="$event.stopPropagation()"
+          ></app-profile-main>
         </div>
       </div>
     </div>
