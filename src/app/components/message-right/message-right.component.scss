@@ -40,3 +40,24 @@ section{
 .reaction-container{
     justify-content: flex-end;
 }
+
+@container main-chat-container (max-width: 560px) {
+    .message-answer{
+        align-items: flex-end !important;
+    }
+    
+    .message-user{
+        align-items: flex-end !important;
+    }
+}
+
+@container thread-container (max-width: 560px) {
+    .message-answer{
+        align-items: flex-end !important;
+    }
+    
+    .message-user{
+        align-items: flex-end !important;
+    }
+}
+
