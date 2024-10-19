@@ -36,6 +36,10 @@
         flex-direction: column;
         gap: 4px !important;
     }
+
+    ::ng-deep .emoji-mart {
+        width: 250px !important;
+    }
 }
 
 @container main-chat-container (max-width: 480px) {
@@ -102,6 +106,10 @@
     .edit-buttons{
         flex-direction: column;
         gap: 4px !important;
+    }
+
+    ::ng-deep .emoji-mart {
+        width: 250px !important;
     }
 }
 

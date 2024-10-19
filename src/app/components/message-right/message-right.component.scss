@@ -30,11 +30,11 @@ section{
 }
 
 .emoji-mart-message-right {
-    left: 30px !important;
+    left: 30px ;
 }
 
 .emoji-mart-message-reaction{
-    left: -330px !important;
+    left: -330px;
 }
 
 .reaction-container{
@@ -49,6 +49,14 @@ section{
     .message-user{
         align-items: flex-end !important;
     }
+
+    .emoji-mart-message-right{
+        left: -105px !important;
+    }
+
+    .emoji-mart-message-reaction{
+        left: -143px !important;
+    }
 }
 
 @container thread-container (max-width: 560px) {
@@ -58,6 +66,14 @@ section{
     
     .message-user{
         align-items: flex-end !important;
+    }
+
+    .emoji-mart-message-right{
+        left: -105px !important;
+    }
+
+    .emoji-mart-message-reaction{
+        left: -143px !important;
     }
 }
 

@@ -180,6 +180,7 @@
     background-color: white;
     box-shadow: 0px 6px 14px 0px rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
+    @include dFlex();
 
     &:hover {
         >span {
@@ -240,6 +241,8 @@
     @include dFlex($jc: space-between, $ai: flex-start);
 }
 
+
+
 .edit-reaction-icon {
     border: none;
     background-color: unset;
@@ -288,6 +291,5 @@
 }
 
 ::ng-deep .emoji-mart-anchor-selected {
-    color: $purple3 !important;
-    /* Die Hover-Hintergrundfarbe */
+    color: $purple3 !important; /* Die Hover-Hintergrundfarbe */
 }

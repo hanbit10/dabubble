@@ -25,13 +25,33 @@ section{
 }
 
 .emoji-mart-message-left{
-    left: -330px !important;
+    left: -330px;
 }
 
 .emoji-mart-message-reaction{
-    left: 30px !important;
+    left: 30px;
 }
 
 .reaction-container{
     justify-content: flex-start;
+}
+
+@container main-chat-container (max-width: 560px) {
+    .emoji-mart-message-left{
+        left: -150px !important;
+    }
+
+    .emoji-mart-message-reaction{
+        left: -70px !important;
+    }
+}
+
+@container thread-container (max-width: 560px) {
+    .emoji-mart-message-left{
+        left: -195px !important;
+    }
+
+    .emoji-mart-message-reaction{
+        left: -70px !important;
+    }
 }
