@@ -21,11 +21,15 @@
 }
 
 .content {
-  @include fullSizeCard(800px, fit-content, 0px, 30px, 30px, 30px);
-  @include dFlex(space-between, space-between, 0);
+  @include fullSizeCard(800px, fit-content, 30px, 30px, 30px, 30px);
+  @include dFlex(center, center, 0);
   flex-direction: column;
-  min-height: 600px;
   background-color: white;
+  margin-inline: 10px;
+
+  >div{
+    width: 100%
+  }
 }
 
 .content-left {
@@ -118,4 +122,30 @@ pre {
 
 .mb-0 {
   margin-bottom: 0px;
+}
+
+.edit-icon{
+  background-image: url(./../../../../assets/img/icons/material-symbols/edit.svg);
+  width: 20px;
+  height: 20px;
+  background-position: center;
+
+  &:hover{
+    background-image: url(./../../../../assets/img/icons/material-symbols/edit-hover.svg);
+  }
+}
+
+@container main-chat-container (max-width: 560px) {
+  .content{
+    padding: 20px !important;
+  }
+
+  h2{
+    font-size: 20px !important;
+  }
+
+  .tag{
+    width: 25px !important;
+    height: 25px !important;
+  }
 }

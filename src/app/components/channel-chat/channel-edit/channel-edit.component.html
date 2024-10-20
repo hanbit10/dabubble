@@ -10,96 +10,97 @@
       </div>
       <div>
         @if (!editName) {
-          <div class="channel-info-name show-border">
-            <div class="content-tab">
-              <h3>Channel Name</h3>
-              <div class="blue-text" (click)="edit('name')">Bearbeiten</div>
+        <div class="channel-info-name show-border">
+          <div class="content-tab">
+            <h3>Channel Name</h3>
+            <div class="blue-text" (click)="edit('name')">
+              @if (utilityService.innerWidth > 400) {
+              Bearbeiten
+              }
+
+              @if (utilityService.innerWidth <= 400) { <div class="edit-icon">
             </div>
-            <div class="content-left mt-20">
-              <div class="tag-small"></div>
-              <p>
-                {{ currentChannel.name }}
-              </p>
-            </div>
-          </div>
-        } @else {
-          <div class="channel-info-name hide-border">
-            <div class="content-tab">
-              <h3>Channel Name</h3>
-              <div class="blue-text mr-20" (click)="save('name')">
-                Speichern
-              </div>
-            </div>
-            <div class="input-container mt-20 mb-0">
-              <div class="tag-small"></div>
-              <input
-                type="text"
-                placeholder="{{ currentChannel.name }}"
-                [(ngModel)]="updateChannel.name"
-                maxlength="21"
-              />
-            </div>
-            @if (alert) {
-              <div id="alert-wrapper-edit" class="alert-wrapper">
-                <span>* Die Channel-Name existiert schon.</span>
-              </div>
             }
           </div>
-        }
-        @if (!editDescription) {
-          <div class="channel-info-description show-border">
-            <div class="content-tab">
-              <h3>Beschreibung</h3>
-              <div class="blue-text" (click)="edit('description')">
-                Bearbeiten
-              </div>
-            </div>
-            <pre class="channel-description mt-20">
-              {{ currentChannel.description }}
-            </pre>
-            <div class="content-line mt-20"></div>
-            <h3 class="mt-20">Erstellt von</h3>
-            <div class="channel-creator mt-20">
-              @if (channelCreatedBy) {
-                {{ channelCreatedBy.name }}
-              }
-            </div>
+        </div>
+        <div class="content-left mt-20">
+          <div class="tag-small"></div>
+          <p>
+            {{ currentChannel.name }}
+          </p>
+        </div>
+      </div>
+      } @else {
+      <div class="channel-info-name hide-border">
+        <div class="content-tab">
+          <h3>Channel Name</h3>
+          <div class="blue-text mr-20" (click)="save('name')">
+            Speichern
           </div>
-        } @else {
-          <div class="channel-info-description hide-border">
-            <div class="content-tab">
-              <h3>Beschreibung</h3>
-              <div class="blue-text mr-20" (click)="save('description')">
-                Speichern
-              </div>
-            </div>
-            <div class="input-container mt-20">
-              <textarea
-                id="channel-edit-description"
-                value="{{ currentChannel.description }}"
-                type="text"
-                [(ngModel)]="updateChannel.description"
-              ></textarea>
-            </div>
-            <div class="content-line mt-20"></div>
-            <h3 class="mt-20">Erstellt von</h3>
-            <div class="channel-creator mt-20">
-              @if (channelCreatedBy) {
-                {{ channelCreatedBy.name }}
-              }
-            </div>
-          </div>
+        </div>
+        <div class="input-container mt-20 mb-0">
+          <div class="tag-small"></div>
+          <input type="text" placeholder="{{ currentChannel.name }}" [(ngModel)]="updateChannel.name" maxlength="21" />
+        </div>
+        @if (alert) {
+        <div id="alert-wrapper-edit" class="alert-wrapper">
+          <span>* Die Channel-Name existiert schon.</span>
+        </div>
         }
       </div>
-      <div class="button-container">
-        <div
-          class="button-primary mt-20"
-          [routerLink]="['/main', currentUserId]"
-          (click)="leaveChannel()"
-        >
-          Channel verlassen
+      }
+      @if (!editDescription) {
+      <div class="channel-info-description show-border">
+        <div class="content-tab">
+          <h3>Beschreibung</h3>
+          <div class="blue-text" (click)="edit('description')">
+            @if (utilityService.innerWidth > 400) {
+              Bearbeiten
+              }
+
+              @if (utilityService.innerWidth <= 400) { <div class="edit-icon">
+            </div>
+            }
+          </div>
         </div>
+        <pre class="channel-description mt-20">
+              {{ currentChannel.description }}
+            </pre>
+        <div class="content-line mt-20"></div>
+        <h3 class="mt-20">Erstellt von</h3>
+        <div class="channel-creator mt-20">
+          @if (channelCreatedBy) {
+          {{ channelCreatedBy.name }}
+          }
+        </div>
+      </div>
+      } @else {
+      <div class="channel-info-description hide-border">
+        <div class="content-tab">
+          <h3>Beschreibung</h3>
+          <div class="blue-text mr-20" (click)="save('description')">
+            Speichern
+          </div>
+        </div>
+        <div class="input-container mt-20">
+          <textarea id="channel-edit-description" value="{{ currentChannel.description }}" type="text"
+            [(ngModel)]="updateChannel.description"></textarea>
+        </div>
+        <div class="content-line mt-20"></div>
+        <h3 class="mt-20">Erstellt von</h3>
+        <div class="channel-creator mt-20">
+          @if (channelCreatedBy) {
+          {{ channelCreatedBy.name }}
+          }
+        </div>
+      </div>
+      }
+    </div>
+    <div class="button-container">
+      <div class="button-primary mt-20" [routerLink]="['/main', currentUserId]" (click)="leaveChannel()">
+        Channel verlassen
       </div>
     </div>
   </div>
+</div>
 </div>

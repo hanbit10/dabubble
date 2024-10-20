@@ -77,6 +77,7 @@
 .tag {
   @include icons(30px, 30px, white);
   background-image: url("./../../assets/img/icons/material-symbols/tag.svg");
+  background-position: center
 }
 
 .tag-small {
