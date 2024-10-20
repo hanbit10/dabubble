@@ -186,7 +186,7 @@ export class MainComponent implements OnInit {
    * Sets the mobile view state based on the screen width.
    */
   setMobile() {
-    if (this.utilityService.innerWidth < 700) {
+    if (this.utilityService.innerWidth <= 700) {
       this.utilityService.mobile = true;
     } else {
       this.utilityService.mobile = false;
