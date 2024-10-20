@@ -55,18 +55,19 @@
           <h3>Beschreibung</h3>
           <div class="blue-text" (click)="edit('description')">
             @if (utilityService.innerWidth > 400) {
-              Bearbeiten
-              }
-
-              @if (utilityService.innerWidth <= 400) { <div class="edit-icon">
-            </div>
+            Bearbeiten
             }
+
+            @if (utilityService.innerWidth <= 400) { <div class="edit-icon">
           </div>
+          }
         </div>
-        <pre class="channel-description mt-20">
+      </div>
+      <pre class="channel-description mt-20">
               {{ currentChannel.description }}
             </pre>
-        <div class="content-line mt-20"></div>
+      <div class="content-line mt-20"></div>
+      <div class="responsive-container">
         <h3 class="mt-20">Erstellt von</h3>
         <div class="channel-creator mt-20">
           @if (channelCreatedBy) {
@@ -74,33 +75,34 @@
           }
         </div>
       </div>
-      } @else {
-      <div class="channel-info-description hide-border">
-        <div class="content-tab">
-          <h3>Beschreibung</h3>
-          <div class="blue-text mr-20" (click)="save('description')">
-            Speichern
-          </div>
-        </div>
-        <div class="input-container mt-20">
-          <textarea id="channel-edit-description" value="{{ currentChannel.description }}" type="text"
-            [(ngModel)]="updateChannel.description"></textarea>
-        </div>
-        <div class="content-line mt-20"></div>
-        <h3 class="mt-20">Erstellt von</h3>
-        <div class="channel-creator mt-20">
-          @if (channelCreatedBy) {
-          {{ channelCreatedBy.name }}
-          }
-        </div>
-      </div>
-      }
     </div>
-    <div class="button-container">
-      <div class="button-primary mt-20" [routerLink]="['/main', currentUserId]" (click)="leaveChannel()">
-        Channel verlassen
+    } @else {
+    <div class="channel-info-description hide-border">
+      <div class="content-tab">
+        <h3>Beschreibung</h3>
+        <div class="blue-text mr-20" (click)="save('description')">
+          Speichern
+        </div>
       </div>
+      <div class="input-container mt-20">
+        <textarea id="channel-edit-description" value="{{ currentChannel.description }}" type="text"
+          [(ngModel)]="updateChannel.description"></textarea>
+      </div>
+      <div class="content-line mt-20"></div>
+      <h3 class="mt-20">Erstellt von</h3>
+      <div class="channel-creator mt-20">
+        @if (channelCreatedBy) {
+        {{ channelCreatedBy.name }}
+        }
+      </div>
+    </div>
+    }
+  </div>
+  <div class="button-container">
+    <div class="button-primary mt-20" [routerLink]="['/main', currentUserId]" (click)="leaveChannel()">
+      Channel verlassen
     </div>
   </div>
+</div>
 </div>
 </div>

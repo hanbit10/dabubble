@@ -88,6 +88,18 @@
     .edit-message-bottom{
         flex-direction: column;
     }
+
+    .content-left {
+        >h3{
+            font-size: 18px;
+        }
+
+        >.tag{
+            width: 25px;
+            height: 25px;
+            background-size: 25px 25px;
+        }
+    }
 }
 
 @container thread-container (max-width: 560px) {

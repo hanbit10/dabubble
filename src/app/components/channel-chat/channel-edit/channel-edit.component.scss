@@ -27,7 +27,7 @@
   background-color: white;
   margin-inline: 10px;
 
-  >div{
+  >div {
     width: 100%
   }
 }
@@ -84,7 +84,7 @@ h2 {
 }
 
 .channel-info-description {
-  height: 300px;
+  height: auto;
 }
 
 .show-border {
@@ -124,28 +124,46 @@ pre {
   margin-bottom: 0px;
 }
 
-.edit-icon{
+.edit-icon {
   background-image: url(./../../../../assets/img/icons/material-symbols/edit.svg);
   width: 20px;
   height: 20px;
   background-position: center;
 
-  &:hover{
+  &:hover {
     background-image: url(./../../../../assets/img/icons/material-symbols/edit-hover.svg);
   }
 }
 
+.responsive-container {
+  display: flex;
+  flex-direction: column;
+}
+
 @container main-chat-container (max-width: 560px) {
-  .content{
+  .content {
     padding: 20px !important;
   }
 
-  h2{
+  h2 {
     font-size: 20px !important;
   }
 
-  .tag{
+  .tag {
     width: 25px !important;
     height: 25px !important;
+  }
+
+  .channel-creator {
+    font-size: 20px;
+  }
+}
+
+@container main-chat-container (max-height: 600px) {
+  .channel-info-name,
+  .channel-info-description,
+  .content-line,
+  .mt-20 {
+    margin-top: 10px;
   }
 }
