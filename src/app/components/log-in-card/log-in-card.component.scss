@@ -21,10 +21,10 @@
 }
 
 form {
-    @include dFlex($jc:space-between);
+    @include dFlex($jc:space-between, $g: 16px);
     flex-direction: column;
     max-width: 580px;
-    max-height: 1000px;
+    max-height: 800px;
     flex-grow: 1;
     > h1 {
       color: #444df2;

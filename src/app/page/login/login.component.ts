@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LogInCardComponent } from '../../components/log-in-card/log-in-card.component';
 import { NgIf } from '@angular/common';
@@ -11,6 +11,7 @@ import { gsap, SteppedEase } from 'gsap';
 import { ImpressumCardComponent } from '../../components/impressum-card/impressum-card.component';
 import { PolicyCardComponent } from '../../components/policy-card/policy-card.component';
 import { SendMessageComponent } from '../../components/send-message/send-message.component';
+import { UtilityService } from '../../services/utility.service';
 
 @Component({
   selector: 'app-login',
@@ -31,10 +32,26 @@ import { SendMessageComponent } from '../../components/send-message/send-message
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(public logService: LoginCreateAccountService) {}
+  constructor(public logService: LoginCreateAccountService, public utilityService: UtilityService) {}
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.utilityService.innerWidth = event.target.innerWidth;
+    this.setMobile();
+  }
 
   ngOnInit() {
+    this.utilityService.innerWidth = window.innerWidth;
+    this.setMobile();
     this.introAnimation();
+  }
+
+  setMobile() {
+    if (this.utilityService.innerWidth <= 700) {
+      this.utilityService.mobile = true;
+    } else {
+      this.utilityService.mobile = false;
+    }
   }
 
   introAnimation() {
