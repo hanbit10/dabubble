@@ -3,29 +3,27 @@ import { LoginCreateAccountService } from '../../services/login-create-account.s
 import { UserService } from '../../services/user.service';
 import { NgForm, FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UserProfile } from '../../models/users';
 
 @Component({
   selector: 'app-reassign-password-card',
   standalone: true,
-  imports: [FormsModule, NgIf],
+  imports: [FormsModule, NgIf, RouterModule],
   templateUrl: './reassign-password-card.component.html',
   styleUrl: './reassign-password-card.component.scss',
 })
 export class ReassignPasswordCardComponent {
-
   password: string = '';
   passwordCheck: string = '';
   passwordMatch: boolean = false;
   userId: string = '';
   timeStamp: string = '';
-  
 
   constructor(
     public logService: LoginCreateAccountService,
     private storage: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -60,7 +58,7 @@ export class ReassignPasswordCardComponent {
   }
 
   onPasswordCheck(event: any) {
-        this.password === this.passwordCheck
+    this.password === this.passwordCheck
       ? (this.passwordMatch = true)
       : (this.passwordMatch = false);
   }
