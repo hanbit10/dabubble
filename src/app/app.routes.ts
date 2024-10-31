@@ -14,14 +14,11 @@ export const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
-    children: [
-      {
-        path: 'reassignpassword/:id/:timestamp',
-        component: ReassignPasswordCardComponent,
-      },
-    ],
   },
-
+  {
+    path: 'reassignpassword',
+    component: ReassignPasswordCardComponent,
+  },
   {
     path: 'main/:id',
     component: MainComponent,
