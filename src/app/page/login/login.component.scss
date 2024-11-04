@@ -79,7 +79,8 @@ app-impressum-card {
 
 app-policy-card {
   display: flex;
-  max-width: 620px;
+  justify-content: center;
+  max-width: 700px;
   max-height: 500px;
   flex-grow: 1;
 }
@@ -167,6 +168,7 @@ main {
   color: $purple2;
   padding: 8px;
   border-radius: 25px;
+  padding: 8px;
   &:hover:not(.password) {
     cursor: pointer;
     color: $purple3;
@@ -410,7 +412,7 @@ form {
   }
 
   .hidden-button{
-    padding: 0 !important;
+    padding: 4px !important;
   }
 
   .alert-wrapper{

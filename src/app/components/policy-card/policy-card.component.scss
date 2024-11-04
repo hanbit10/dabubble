@@ -1,8 +1,33 @@
 @import "../../../styles.scss";
-
 @import "../../../app/page/login/login.component.scss";
 
 main {
     max-height: 600px;
     max-width: 620px;
+    justify-content: unset;
+}
+
+@media(max-width: 530px){
+    main{
+        padding-inline: 10px !important;
+      }
+    
+      .title-container{
+        > h1{
+          font-size: 24px !important;
+        }
+      }
+}
+
+@media(max-width: 380px){    
+      .title-container{
+        > h1{
+          font-size: 24px !important;
+          margin-top: 40px ;
+        }
+      }
+
+      .arrow-wrapper{
+        top: 0;
+      }
 }
