@@ -1,6 +1,6 @@
 @import "../../../styles.scss";
-
 @import "../../../app/page/login/login.component.scss";
+@import "../../scss/responsive.scss";
 
 
 h1 {
@@ -69,3 +69,25 @@ main {
     display: none;
 }
 
+@media(max-width: 600px) {
+    main {
+        padding: 20px !important;
+        margin-inline: 0px !important;
+    }
+    h1 {
+        font-size: 24px !important;
+        padding-left: 15px !important;
+    }
+
+    h2 {
+        font-size: 20px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .main-pic-container {
+        >img {
+            height: 100px !important;
+            width: 100px !important;
+        }
+    }
+}

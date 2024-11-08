@@ -5,7 +5,7 @@
   width: 100vw;
   height: 100vh;
   background-color: $bgColor;
-  @include dFlex($jc: flex-start);
+  @include dFlex($jc: space-between);
   flex-direction: column;
 }
 
