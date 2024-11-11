@@ -1,3 +1,5 @@
+
+
 @media(max-width: 700px){
     header{
       justify-content: center !important;
@@ -40,6 +42,15 @@
       align-self: center;
       width: 100%;
     }
+
+    .user-popup {
+      right: 20px !important;
+      padding: 10px 20px !important;
+
+      >h2 {
+        font-size: 24px !important;
+      }
+    }
   }
   
   @media(max-width: 450px){
@@ -77,6 +88,7 @@
     .login-input {
       @include font($fs: 14px, $lh: 14px);
       padding-right: 16px !important;
+      padding-left: 55px !important;
     }
   
     .alert-wrapper{

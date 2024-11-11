@@ -70,20 +70,25 @@ app-create-avatar-card {
 }
 
 app-password-mail-card,
-app-reassign-password-card,
-app-impressum-card {
+app-reassign-password-card{
   display: flex;
   max-width: 580px;
   max-height: 500px;
   flex-grow: 1;
 }
 
+app-impressum-card {
+  display: flex;
+  max-width: 580px;
+}
+
 app-policy-card {
   display: flex;
   justify-content: center;
   max-width: 700px;
-  max-height: 500px;
+  max-height: 1000px;
   flex-grow: 1;
+
 }
 
 main {
@@ -118,6 +123,7 @@ main {
 .title-container{
   position: relative;
   @include dFlex();
+  min-width: 250px;
   width: 100%;
 }
 
@@ -235,6 +241,8 @@ main {
 footer {
   display: flex;
   gap: 16px;
+  padding-bottom: 5px;
+
   > span {
     color: #797ef3;
     font-size: 18px;

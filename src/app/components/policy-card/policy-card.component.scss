@@ -2,9 +2,24 @@
 @import "../../../app/page/login/login.component.scss";
 
 main {
-    max-height: 600px;
     max-width: 620px;
+    max-height: unset;
     justify-content: unset;
+    flex-grow: unset;
+}
+
+.policy-content{
+  overflow: auto;
+  padding: 0 10px 10px 10px;
+  word-wrap: break-word;
+  
+  >p, li{
+    font-size: 14px;
+  }
+}
+
+a{
+  color: black;
 }
 
 @media(max-width: 530px){
@@ -29,5 +44,9 @@ main {
 
       .arrow-wrapper{
         top: 0;
+      }
+
+      .policy-content{
+        max-width: 300px;
       }
 }
