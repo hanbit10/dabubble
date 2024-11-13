@@ -24,7 +24,7 @@ export class PasswordMailCardComponent {
   index:number = -1;
 
   post = {
-    endPoint: 'https://example.com/sendMail.php',
+    endPoint: 'http://dabubble.joerg-habermann.de/resetPasswordMail.php',
     body: (payload: any) => JSON.stringify(payload),
     options: {
       headers: {
@@ -40,7 +40,7 @@ export class PasswordMailCardComponent {
     if (this.formIsValid(contactForm)) {
       this.getUserData();
       console.log(this.Data)
-      //this.httpPost(contactForm);
+      this.httpPost(contactForm);
     }
   }
 

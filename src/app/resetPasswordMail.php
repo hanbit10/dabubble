@@ -16,7 +16,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         $email = $params->email;
         $name = $params->name;
-        $base_url = "https://example.com/reset-password";
+        $base_url = "http://dabubble.joerg-habermann.de/reset-password";
         $id = $params->id;
         $current_time = time(); 
         $expiration_time = $current_time + (24 * 60 * 60); 
