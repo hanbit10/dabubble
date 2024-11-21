@@ -3,6 +3,8 @@ import { LoginCreateAccountService } from '../../services/login-create-account.s
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule, NgIf } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-password-mail-card',
@@ -13,7 +15,11 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class PasswordMailCardComponent {
   http = inject(HttpClient);
-  constructor(public logService: LoginCreateAccountService) {}
+  firestore: Firestore = inject(Firestore);
+  constructor(
+    public logService: LoginCreateAccountService,
+    public userService: UserService,
+  ) {}
 
   Data = {
     email: 'notyou01@hotmail.com',
@@ -23,12 +29,22 @@ export class PasswordMailCardComponent {
 
   index: number = -1;
 
-  sendMail(contactForm: NgForm) {
+  async sendMail(contactForm: NgForm) {
     contactForm.control.markAllAsTouched();
     this.index = this.logService.findUserIndex(this.Data.email);
+    const user = await this.userService.getUserByEmail(this.Data.email);
+    const ref = collection(this.firestore, 'mail');
+    let data = {
+      to: this.Data.email,
+      message: {
+        subject: 'Hello from Firebase!',
+        text: `This is a text email body. https://dabubble-340.developerakademie.net/reassignpassword/${user.uid}`,
+      },
+    };
 
     if (this.formIsValid(contactForm)) {
       console.log('Sending Data:', this.Data);
+      const querySnapshot = await addDoc(ref, data);
     } else {
       console.warn('Form is not valid');
     }
