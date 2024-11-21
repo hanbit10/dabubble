@@ -18,7 +18,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'reassignpassword',
+    path: 'reassignpassword/:id',
     component: ResetPasswordComponent,
   },
   {
