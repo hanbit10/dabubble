@@ -38,7 +38,7 @@ export class PasswordMailCardComponent {
       to: this.Data.email,
       message: {
         subject: 'Hello from Firebase!',
-        text: `This is a text email body. https://dabubble-340.developerakademie.net/reassignpassword/${user.uid}`,
+        text: `This is a text email body. https://dabubble-340.developerakademie.net/#/reassignpassword/${user.uid}`,
       },
     };
 

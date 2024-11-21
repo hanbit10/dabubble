@@ -18,7 +18,7 @@ export class ReassignPasswordCardComponent {
   passwordCheck: string = '';
   passwordMatch: boolean = false;
   userId: string = '';
-  timeStamp: string = '';
+  // timeStamp: string = '';
 
   constructor(
     public logService: LoginCreateAccountService,
@@ -28,7 +28,8 @@ export class ReassignPasswordCardComponent {
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id') || '';
-    this.timeStamp = this.route.snapshot.paramMap.get('timestamp') || '';
+    console.log('get user id', this.userId);
+    // this.timeStamp = this.route.snapshot.paramMap.get('timestamp') || '';
   }
 
   async changePassword(form: NgForm) {
