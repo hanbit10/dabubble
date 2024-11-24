@@ -19,32 +19,40 @@ export class ReassignPasswordCardComponent {
   passwordMatch: boolean = false;
   userId: string = '';
   // timeStamp: string = '';
+  currentUser: UserProfile = {} as UserProfile;
 
   constructor(
     public logService: LoginCreateAccountService,
-    private storage: UserService,
+    private userService: UserService,
     private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id') || '';
-    console.log('get user id', this.userId);
+    this.userService.users$.subscribe((users) => {
+      users.find((user) => {
+        if (user.uid === this.userId) {
+          this.password = user.password || '';
+          this.currentUser = user;
+        }
+      });
+    });
+
+    // console.log('get user id', this.userId);
     // this.timeStamp = this.route.snapshot.paramMap.get('timestamp') || '';
   }
 
   async changePassword(form: NgForm) {
-    let index = this.logService.findUserIndexId(this.userId);
-    let user = this.logService.users[index];
-
-    if (user.password?.length) {
-      user.password = this.passwordCheck;
-      this.setPassword(user);
+    console.log('user', this.currentUser);
+    if (this.currentUser.password?.length) {
+      this.currentUser.password = this.passwordCheck;
+      this.setPassword(this.currentUser);
     }
   }
 
   async setPassword(user: UserProfile) {
     try {
-      await this.storage.updateUser(user, this.userId);
+      await this.userService.updateUser(user, this.userId);
       setTimeout(() => {
         this.logService.currentState = 'log-in';
         document.body.style.overflowX = 'unset';

@@ -6,7 +6,6 @@ import { ChannelCreateComponent } from '../../components/channel-create/channel-
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
 import { ProfileService } from '../../services/profile.service';
 import { ProfileUserComponent } from '../../components/profile-user/profile-user.component';
-import { ThreadComponent } from '../../components/thread/thread.component';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { ProfileEditPictureComponent } from '../../components/profile-edit-picture/profile-edit-picture.component';
@@ -17,7 +16,6 @@ import { DirectChat } from '../../models/direct-chat';
 import { Subscription, map } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { DirectChatService } from '../../services/direct-chat.service';
-import { WillkommenComponent } from '../../components/willkommen/willkommen.component';
 import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
 
 @Component({
@@ -32,9 +30,7 @@ import { SearchEngineComponent } from '../../components/search-engine/search-eng
     ChannelCreateComponent,
     DirectNavComponent,
     ProfileUserComponent,
-    ThreadComponent,
     ProfileEditPictureComponent,
-    WillkommenComponent,
     SearchEngineComponent,
   ],
   templateUrl: './main.component.html',

@@ -18,9 +18,5 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
 
-  ngOnInit(): void {
-    this.id = this.route.snapshot.params['id'];
-    console.log(this.id);
-    this.router.navigateByUrl(`/${this.id}`);
-  }
+  ngOnInit(): void {}
 }
