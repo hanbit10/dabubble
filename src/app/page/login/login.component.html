@@ -1,52 +1,38 @@
 <div class="log-in">
-  <div class="intro-screen">    
+  <div class="intro-screen">
   </div>
-  <header>  
-    <div class="seventy">  
-      <div class="logocontainer">        
-        <img class="logo" src="/assets/img/logo/da-bubble-logo.svg" alt="logo" /> 
-        <div>              
-          <p class="typewriter">DABubble</p>     
-        </div>   
-      </div>  
-    </div>  
-    <div class="header-end">
-      <span *ngIf="logService.currentState === 'log-in'"
-        >Neu bei DABubble?</span
-      >
-      <div
-        *ngIf="logService.currentState === 'log-in'"
-        (click)="logService.currentState = 'create-account'"
-        class="hidden-button"
-      >
+  <header>
+    <div class="seventy">
+      <div class="logocontainer">
+        <img class="logo" src="/assets/img/logo/da-bubble-logo.svg" alt="logo" />
+        <div>
+          <p class="typewriter">DABubble</p>
+        </div>
+      </div>
+    </div>
+    <div [class]="utilityService.mobile ? 'hidden' : 'header-end'">
+      <span *ngIf="logService.currentState === 'log-in'">Neu bei DABubble?</span>
+      <div *ngIf="logService.currentState === 'log-in'" (click)="logService.currentState = 'create-account'"
+        class="hidden-button">
         <span>Konto erstellen</span>
       </div>
     </div>
   </header>
-  <app-log-in-card
-    *ngIf="logService.currentState === 'log-in'"
-  ></app-log-in-card>
-  <app-create-account-card
-    *ngIf="logService.currentState === 'create-account'"
-  ></app-create-account-card>
-  <app-create-avatar-card
-    *ngIf="logService.currentState === 'create-avatar'"
-  ></app-create-avatar-card>
-  <app-password-mail-card
-    *ngIf="logService.currentState === 'password-mail'"
-  ></app-password-mail-card>
-  <app-reassign-password-card
-    *ngIf="logService.currentState === 'reassign-password'"
-  ></app-reassign-password-card>
-  <app-impressum-card
-    *ngIf="logService.currentState === 'impressum'"  
-  ></app-impressum-card>
-  <app-policy-card
-    *ngIf="logService.currentState === 'policy'"  
-  ></app-policy-card>
-  <app-send-message
-    *ngIf="logService.currentState === 'send-message'"  
-  ></app-send-message>
+  <app-log-in-card *ngIf="logService.currentState === 'log-in'"></app-log-in-card>
+  <app-create-account-card *ngIf="logService.currentState === 'create-account'"></app-create-account-card>
+  <app-create-avatar-card *ngIf="logService.currentState === 'create-avatar'"></app-create-avatar-card>
+  <app-password-mail-card *ngIf="logService.currentState === 'password-mail'"></app-password-mail-card>
+  <app-reassign-password-card *ngIf="logService.currentState === 'reassign-password'"></app-reassign-password-card>
+  <app-impressum-card *ngIf="logService.currentState === 'impressum'"></app-impressum-card>
+  <app-policy-card *ngIf="logService.currentState === 'policy'"></app-policy-card>
+  <app-send-message *ngIf="logService.currentState === 'send-message'"></app-send-message>
+  <div [class]="utilityService.mobile ? 'header-end' : 'hidden'">
+    <span *ngIf="logService.currentState === 'log-in'">Neu bei DABubble?</span>
+    <div *ngIf="logService.currentState === 'log-in'" (click)="logService.currentState = 'create-account'"
+      class="hidden-button">
+      <span>Konto erstellen</span>
+    </div>
+  </div>
   <footer>
     <div class="hidden-button">
       <span (click)="logService.currentState = 'impressum'">Impressum</span>
@@ -55,5 +41,7 @@
       <span (click)="logService.currentState = 'policy'">Datenschutz</span>
     </div>
   </footer>
-  <div *ngIf="logService.userPopup" class="user-popup"><h2>{{ logService.userMessage }}</h2></div>
+  <div *ngIf="logService.userPopup" class="user-popup">
+    <h2>{{ logService.userMessage }}</h2>
+  </div>
 </div>

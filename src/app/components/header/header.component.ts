@@ -64,6 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.getChannelMessages();
     this.getDirectMessages();
     this.onClick();
+    this.profileService.menuIsOpen = false;
   }
 
   getChannelMessages() {

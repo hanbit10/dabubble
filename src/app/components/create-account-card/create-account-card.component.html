@@ -1,79 +1,51 @@
 <main>
   <form (ngSubmit)="onSubmit(contactForm)" #contactForm="ngForm">
-    <div
-      class="arrow-wrapper"
-      (click)="this.logService.currentState = 'log-in'"
-    >
-      <img src="/assets/img/icons/go-back.svg" alt="go-back" />
+
+    <div class="title-container">
+      <div class="arrow-wrapper" (click)="this.logService.currentState = 'log-in'">
+        <img src="/assets/img/icons/go-back.svg" alt="go-back" />
+      </div>
+      <h1 class="title-create-account">Konto erstellen</h1>
     </div>
-    <h1>Konto erstellen</h1>
+
     <p>
       Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues
       DABubble-Konto.
     </p>
+
     <div class="input-wrapper-container">
       <div class="input-wrapper">
         <img src="/assets/img/icons/user.svg" alt="" class="input-icon" />
-        <input
-          [(ngModel)]="this.logService.profile.name"
-          class="login-input"
-          type="text"
-          #name="ngModel"
-          name="contact-name"
-          placeholder="Vorname und Nachname"
-          required
-        />
+        <input [(ngModel)]="this.logService.profile.name" class="login-input" type="text" #name="ngModel"
+          name="contact-name" placeholder="Vorname und Nachname" required />
       </div>
       <div class="alert-wrapper">
-        <span *ngIf="name.invalid && name.touched"
-          >* Bitte gib einen Namen ein.</span
-        >
+        <span *ngIf="name.invalid && name.touched">* Bitte gib einen Namen ein.</span>
       </div>
+
       <div class="input-wrapper">
         <img src="/assets/img/icons/mail.svg" alt="" class="input-icon" />
-        <input
-          [(ngModel)]="this.logService.profile.email"
-          class="login-input"
-          type="email"
-          #mail="ngModel"
-          name="contact-mail"
-          pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
-          placeholder="beispielname@email.com"
-          required
-        />
+        <input [(ngModel)]="this.logService.profile.email" class="login-input" type="email" #mail="ngModel"
+          name="contact-mail" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+          placeholder="beispielname@email.com" required />
       </div>
       <div class="alert-wrapper">
-        <span *ngIf="mail.invalid && mail.touched"
-          >* Die E-Mail-Adresse ist leider ungültig.</span
-        >
+        <span *ngIf="mail.invalid && mail.touched">* Die E-Mail-Adresse ist leider ungültig.</span>
       </div>
+
       <div class="input-wrapper">
         <img src="/assets/img/icons/lock.svg" alt="" class="input-icon" />
-        <input
-          [(ngModel)]="this.logService.profile.password"
-          class="login-input"
-          type="password"
-          #password="ngModel"
-          name="contact-password"
-          placeholder="Passwort"
-          required
-        />
+        <input [(ngModel)]="this.logService.profile.password" class="login-input" type="password" #password="ngModel"
+          name="contact-password" placeholder="Passwort" required />
       </div>
       <div class="alert-wrapper">
-        <span *ngIf="password.invalid && password.touched"
-          >* Bitte gib ein Passwort ein.</span
-        >
+        <span *ngIf="password.invalid && password.touched">* Bitte gib ein Passwort ein.</span>
       </div>
     </div>
+
     <div class="policy-container">
       <div class="checkbox-container">
-        <input
-          [(ngModel)]="acceptPolicy"
-          type="checkbox"  
-          id="box"        
-          name="acceptPolicy"          
-          required
-        />
+        <input [(ngModel)]="acceptPolicy" type="checkbox" id="box" name="acceptPolicy" required />
         <span class="checkmark"></span>
       </div>
       <label for="box">
@@ -82,12 +54,8 @@
         <span> zu.</span>
       </label>
     </div>
-    <button
-      class="button-primary"
-      [disabled]="contactForm.invalid"
-      value="Submit"
-      type="submit"
-    >
+
+    <button class="button-primary" [disabled]="contactForm.invalid" value="Submit" type="submit">
       Weiter
     </button>
   </form>

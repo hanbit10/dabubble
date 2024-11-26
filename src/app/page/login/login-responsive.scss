@@ -1,0 +1,137 @@
+
+
+@media(max-width: 700px){
+    header{
+      justify-content: center !important;
+    }
+  
+    .log-in{
+      padding-inline: 20px !important;
+    }
+  
+    .logocontainer {
+      gap: 8px !important;
+      > img {
+        height: 56px !important;
+      }
+      >div {
+        width: 120px !important;
+        >p {
+          font-size: 20px !important;
+        }
+      }
+    }
+  
+    form {
+      > h1 {
+        font-size: 38px !important;
+      }
+    }
+  
+    .seventy {
+      min-height: 50px !important;
+    }
+  
+    .buttoncontainer{
+      flex-direction: column;
+      align-items: center;
+      gap: 8px !important;
+    }
+  
+    button {
+      align-self: center;
+      width: 100%;
+    }
+
+    .user-popup {
+      right: 20px !important;
+      padding: 10px 20px !important;
+
+      >h2 {
+        font-size: 24px !important;
+      }
+    }
+  }
+  
+  @media(max-width: 450px){
+    main{
+      padding-inline: 10px !important;
+    }
+  
+    .logocontainer {
+      > img {
+        height: 40px !important;
+      }
+      >div {
+        width: 110px !important;
+        >p {
+          font-size: 18px !important;
+        }
+      }
+    }
+  
+    form {
+      > h1 {
+        font-size: 30px !important;
+      }
+      > p {
+        font-size: 16px !important;
+      }
+    }
+  
+    .title-container{
+      > h1{
+        font-size: 24px !important;
+      }
+    }
+  
+    .login-input {
+      font-size: 14px !important;
+      line-height: 14px !important;
+      padding-right: 16px !important;
+      padding-left: 55px !important;
+    }
+  
+    .alert-wrapper{
+      >span{
+        font-size: 12px !important;
+      }
+    }
+  }
+  
+  @media(max-height: 930px){
+    .log-in{
+      padding-block: 20px !important;
+    }
+  
+    main{
+      margin-block: 10px !important; 
+    }
+  
+    form{
+      gap: 8px !important;
+    }
+  
+    .header-end{
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    footer{
+      gap: 8px !important;
+    }
+  }
+  
+  @media(max-height: 800px){
+    main{
+      padding-block: 10px !important; 
+    }
+  
+    .hidden-button{
+      padding: 4px !important;
+    }
+  
+    .alert-wrapper{
+      height: 20px !important;
+    }
+  }
