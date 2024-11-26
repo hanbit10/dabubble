@@ -21,7 +21,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $current_time = time(); 
         $expiration_time = $current_time + (24 * 60 * 60); 
         $recipient = $email; 
-        $image_url = "" //auf dem Server der Anwendung oder in dist ordner der Anwendung nach build https://your-server.com/assets/images/dabubble-logo.png"
+        $image_url = ""; 
         $reset_link = $base_url . "?id=" . urlencode($id) . "&expires=" . urlencode($expiration_time);
         $subject = "Passwort Änderung";
 

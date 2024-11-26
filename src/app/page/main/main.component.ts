@@ -6,7 +6,6 @@ import { ChannelCreateComponent } from '../../components/channel-create/channel-
 import { DirectNavComponent } from '../../components/direct-nav/direct-nav.component';
 import { ProfileService } from '../../services/profile.service';
 import { ProfileUserComponent } from '../../components/profile-user/profile-user.component';
-import { ThreadComponent } from '../../components/thread/thread.component';
 import { ChannelService } from '../../services/channel.service';
 import { ThreadService } from '../../services/thread.service';
 import { ProfileEditPictureComponent } from '../../components/profile-edit-picture/profile-edit-picture.component';
@@ -17,7 +16,6 @@ import { DirectChat } from '../../models/direct-chat';
 import { Subscription, map } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { DirectChatService } from '../../services/direct-chat.service';
-import { WillkommenComponent } from '../../components/willkommen/willkommen.component';
 import { SearchEngineComponent } from '../../components/search-engine/search-engine.component';
 
 @Component({
@@ -32,9 +30,7 @@ import { SearchEngineComponent } from '../../components/search-engine/search-eng
     ChannelCreateComponent,
     DirectNavComponent,
     ProfileUserComponent,
-    ThreadComponent,
     ProfileEditPictureComponent,
-    WillkommenComponent,
     SearchEngineComponent,
   ],
   templateUrl: './main.component.html',
@@ -90,96 +86,6 @@ export class MainComponent implements OnInit {
     this.setMobile();
     this.handleMainChat1050();
     this.handleMainChatMobile();
-
-    // this.channelSubscription = this.channelService.channels$
-    //   .pipe(
-    //     map((channels) =>
-    //       channels.filter((channel) =>
-    //         channel.usersIds.includes(this.currentUserId),
-    //       ),
-    //     ),
-    //   )
-    //   .subscribe((filteredChannels) => {
-    //     this.allChannels = [];
-    //     filteredChannels.forEach(async (channel) => {
-    //       if (channel && channel.uid) {
-    //         this.allChannels.push(channel);
-    //         this.messageService
-    //           .getAllMessages(channel.uid, 'channels')
-    //           .subscribe({
-    //             next: (messages) => {
-    //               // Check for duplicates before pushing
-    //               let copyMessages = JSON.parse(
-    //                 JSON.stringify(messages),
-    //               ) as any[];
-    //               copyMessages.forEach((message) => {
-    //                 const exists = this.allChannelMessages.some(
-    //                   (existingMessage) =>
-    //                     existingMessage.uid === message.uid ||
-    //                     existingMessage.sentAt === message.sentAt || // Use a reliable unique field
-    //                     message.uid == '',
-    //                 );
-
-    //                 if (!exists) {
-    //                   this.allChannelMessages.push(message);
-    //                 }
-    //               });
-    //             },
-    //             error: (error) => {
-    //               console.error('Error fetching messages:', error);
-    //             },
-    //           });
-    //       }
-    //     });
-    //   });
-
-    // this.chatSubscription = this.directChatService.chats$
-    //   .pipe(
-    //     map((chats) =>
-    //       chats.filter((chat) => chat.usersIds.includes(this.currentUserId)),
-    //     ),
-    //   )
-    //   .subscribe((filteredChats) => {
-    //     this.allChats = [];
-    //     // this.allDirectMessages = [];
-    //     filteredChats.forEach(async (chat) => {
-    //       if (chat && chat.uid) {
-    //         this.allChats.push(chat);
-    //         this.messageService.getAllMessages(chat.uid, 'chats').subscribe({
-    //           next: (messages) => {
-    //             let copyMessages = JSON.parse(
-    //               JSON.stringify(messages),
-    //             ) as any[];
-    //             copyMessages.forEach((message) => {
-    //               const exists = this.allDirectMessages.some(
-    //                 (existingMessage) =>
-    //                   existingMessage.uid === message.uid ||
-    //                   existingMessage.sentAt === message.sentAt ||
-    //                   message.uid == '',
-    //                 // Use a reliable unique field
-    //               );
-
-    //               if (!exists) {
-    //                 this.allDirectMessages.push(message);
-    //               }
-    //             });
-
-    //             // console.log('allDirectMessages', this.allDirectMessages);
-    //           },
-    //           error: (error) => {
-    //             console.error('Error fetching messages:', error);
-    //           },
-    //         });
-    //       }
-    //     });
-    //   });
-
-    // document.addEventListener('click', (event) => {
-    //   const resultBox = document.getElementById('result-box-header');
-    //   if (event.target != resultBox) {
-    //     this.contents = [];
-    //   }
-    // });
   }
 
   /**

@@ -9,19 +9,18 @@ import { ReassignPasswordCardComponent } from './components/reassign-password-ca
 import { ThreadComponent } from './components/thread/thread.component';
 import { ThreadChatsComponent } from './components/thread-chats/thread-chats.component';
 import { WillkommenComponent } from './components/willkommen/willkommen.component';
+import { ResetPasswordComponent } from './page/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: LoginComponent,
-    children: [
-      {
-        path: 'reassignpassword/:id/:timestamp',
-        component: ReassignPasswordCardComponent,
-      },
-    ],
+    pathMatch: 'full',
   },
-
+  {
+    path: 'reassignpassword/:id',
+    component: ResetPasswordComponent,
+  },
   {
     path: 'main/:id',
     component: MainComponent,

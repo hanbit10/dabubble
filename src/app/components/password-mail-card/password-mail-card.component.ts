@@ -1,71 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { LoginCreateAccountService } from '../../services/login-create-account.service';
 import { FormsModule, NgForm } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-password-mail-card',
   standalone: true,
-  imports: [FormsModule, NgIf, HttpClientModule],
+  imports: [FormsModule, NgIf, HttpClientModule, CommonModule],
   templateUrl: './password-mail-card.component.html',
-  styleUrl: './password-mail-card.component.scss'
+  styleUrl: './password-mail-card.component.scss',
 })
 export class PasswordMailCardComponent {
-
-  constructor(public logService: LoginCreateAccountService, private http: HttpClient) {}
+  http = inject(HttpClient);
+  firestore: Firestore = inject(Firestore);
+  constructor(
+    public logService: LoginCreateAccountService,
+    public userService: UserService,
+  ) {}
 
   Data = {
-    email: '',
-    name: '',
-    id: ''    
-  };  
-
-  index:number = -1;
-
-  post = {
-    endPoint: 'https://example.com/sendMail.php',
-    body: (payload: any) => JSON.stringify(payload),
-    options: {
-      headers: {
-        'Content-Type': 'text/plain',
-        responseType: 'text',
-      },
-    },
+    email: 'notyou01@hotmail.com',
+    name: 'Hanbit chang',
+    message: '123123',
   };
 
-  sendMail(contactForm: NgForm) {    
+  index: number = -1;
+
+  async sendMail(contactForm: NgForm) {
     contactForm.control.markAllAsTouched();
     this.index = this.logService.findUserIndex(this.Data.email);
+    const user = await this.userService.getUserByEmail(this.Data.email);
+    const ref = collection(this.firestore, 'mail');
+    let data = {
+      to: this.Data.email,
+      message: {
+        subject: 'Hello from Firebase!',
+        text: `This is a text email body. https://dabubble-340.developerakademie.net/#/reassignpassword/${user.uid}`,
+      },
+    };
+
     if (this.formIsValid(contactForm)) {
-      this.getUserData();
-      console.log(this.Data)
-      //this.httpPost(contactForm);
+      console.log('Sending Data:', this.Data);
+      const querySnapshot = await addDoc(ref, data);
+    } else {
+      console.warn('Form is not valid');
     }
   }
 
   formIsValid(contactForm: NgForm) {
     return contactForm.submitted && contactForm.form.valid && this.index !== -1;
   }
-
-  getUserData() {    
-    const user = this.logService.users[this.index];
-    this.Data.name = user.name || '';
-    this.Data.id = user.uid;
-  }
-
-  httpPost(contactForm: NgForm) {
-    this.http.post(this.post.endPoint, this.post.body(this.Data)).subscribe({
-      next: (response) => {
-        contactForm.resetForm();
-      },
-      error: (error: string) => {
-        console.error(error);
-      },
-      complete: () => {            
-        console.log('mail send');
-      },
-    });
-  }
-
 }

@@ -8,6 +8,8 @@ import {
   updateDoc,
   doc,
   onSnapshot,
+  query,
+  where,
 } from '@angular/fire/firestore';
 import { UserProfile } from '../models/users';
 import { BehaviorSubject } from 'rxjs';
@@ -186,5 +188,16 @@ export class UserService {
       }
     });
     return allUsers;
+  }
+
+  async getUserByEmail(email: string) {
+    const ref = collection(this.firestore, 'users');
+    const q = query(ref, where('email', '==', email));
+    const querySnapshot = getDocs(q);
+    let userData = {} as UserProfile;
+    (await querySnapshot).forEach((doc) => {
+      userData = doc.data() as UserProfile;
+    });
+    return userData;
   }
 }
