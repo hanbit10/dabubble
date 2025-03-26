@@ -95,11 +95,11 @@ export class LoginComponent {
   animateTypewriter(timeline: gsap.core.Timeline, left: string) {
     timeline.fromTo(
       '.typewriter',
-      { x: '-100%' },
-      { duration: 1, delay: 0.5, x: '0', ease: 'back.out' }
+      { x: '-90%' },
+      { duration: 1.5, delay: 0.5, x: '0', ease: 'back.out' }
     )
       .to('.logocontainer', {
-        duration: 1.2,
+        duration: 1.5,
         delay: 0.3,
         left: left,
         top: '0',
